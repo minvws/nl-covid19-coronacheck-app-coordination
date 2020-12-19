@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: CoronaTester App - App to backend interface
+  description: |
+    This specification describes the interface between the app and the app backend. 
+    
+  contact:
+    name: Ministerie van Volksgezondheid Welzijn en Sport coordination repository
+    url: https://github.com/minvws/nl-covid19-coronatester-app-coordination
+  license:
+    name: European Union Public License v. 1.2
+    url: https://github.com/minvws/nl-covid19-coronatester-app-coordination/blob/master/LICENSE.txt
+  version: 0.1.0
+servers:
+  - url: https://tbd.example.com/v1
+tags:
+  - name: Configs
+    description: Retrieving app config
+  - name: Etc
+    description: Etc
+paths:
+  /config:
+    get:
+      summary: Get the configuration for the app
+      description: |
+        The configuration contains all configuration items relevant to the app.  
+        This resource should be fetched when the app is started or returns from
+        the background. 
+      tags:
+        - Configs
+      responses:
+        200:
+          description: Config retrieved succesfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigResponse'
+  schemas:
+    ConfigResponse:
+      type: object
+      properties:
+        androidMinimumVersion:
+          type: integer
+          description: |
+            The minimum supported version of the Android app. The app has a build version number that is increased by 1 on each app release. Whenever the app downloads the manifest, it must compare its own version number with that of the manifest. If the version number is less than the manifest value, the user will be asked to upgrade the app from the app store.
+          format: int64
+          example: 123
+        androidMinimumVersionMessage:
+          type: string
+          description: |
+            If set, the app should not tell the user to upgrade, but display this message to the user instead. It will help us migrate from ad hoc tests to the store version.
+          example: The test is over, please download a new version from the store.
+        iOSMinimumVersion:
+          type: string
+          description: |
+             The minimum supported version of the iOS app. The app has a build version number (major.minor.patch) that is increased on each app release. Whenever the app downloads the manifest, it must 
+             compare its own version number with that of the manifest. If the version number is less than the manifest value, the user will be asked to upgrade the app from the app store. 
+          example: 1.2.0
+        iOSMinimumVersionMessage:
+          type: string
+          description: |
+            If set, the app should not tell the user to upgrade, but display this message to the user instead. It will help us migrate from ad hoc tests to the store version.
+          example: The test is over, please download a new version from the store.
+        iOSAppStoreURL:
+          type: string
+          description: If set, the upgrade dialog can link to the app store url using this link.
+          example: "https://appsto.re/...."
+          
