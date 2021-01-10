@@ -33,6 +33,7 @@ This document is work in progress and will be adjusted during the project.
   * [Vendor API](#private-api)
   * [Workers](#workers)
 - [App Considerations](#app-considerations)
+  * [Technology Choices](#technology-choices)
   * [Native vs hybrid development](#native-vs-hybrid-development)
   * [Lifecycle Management](#lifecycle-management)
 
@@ -218,6 +219,14 @@ So far we have identified 2 worker:
 * A cleanup worker that removes capacity records for the past day.
 
 # App Considerations
+
+## Technology choices
+
+* iOS app: Native Swift / MVVM based architecture. Baseline iOS 11+
+* Android app: Native Kotlin / MVVM based architecture. Baseline Android 5+
+* Core backend services: written in dotnet core, hosted in a container based environment (Docker containers)
+* BFF for apps: for now: dotnetcore (to potentially reuse some coronamelder cdn code)
+* Management CMS: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort)
 
 ## Native vs hybrid development
 
