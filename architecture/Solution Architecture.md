@@ -227,6 +227,8 @@ So far we have identified 2 worker:
 * Core backend services: written in dotnet core, hosted in a container based environment (Docker containers)
 * BFF for apps: for now: dotnetcore (to potentially reuse some coronamelder cdn code)
 * Management CMS: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort)
+* Queing and caching mechanisms: Redis (with cluster/sentinel)
+* Database: Postgresql (to be able to use built in encryption mechanisms) (TODO: Or MS SQL if we want to reuse CoronaMelder hosting?)
 
 ## Native vs hybrid development
 
