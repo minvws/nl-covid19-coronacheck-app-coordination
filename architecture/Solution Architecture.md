@@ -28,10 +28,12 @@ This document is work in progress and will be adjusted during the project.
   * [App/Device Verification](#appdevice-verification)
 - [Backend](#backend)
   * [Backend overview](#backend-overview)
+  * [Data model](#data-model)
   * [Public API](#public-api)
-  * [Private API](#private-api)
+  * [Vendor API](#private-api)
   * [Workers](#workers)
 - [App Considerations](#app-considerations)
+  * [Technology Choices](#technology-choices)
   * [Native vs hybrid development](#native-vs-hybrid-development)
   * [Lifecycle Management](#lifecycle-management)
 
@@ -73,17 +75,48 @@ All source code will be made available on the ministry's GitHub account.
 
 # High Level Architecture
 
-Todo
+## Concept
+
+For the MVP of the product we will produce an android and iOS app that have 2 main functions:
+
+1. Provide insight in test locations and their availability
+    1.1. An overview of test locations in The Netherlands. 
+    1.2. For each location: a rough indication of capacity for this morning, this afternoon, tomorrow morning, etc.
+    1.3. If possible: the locations plotted on a map so that the user can see which one is the closest.
+2. Provide the user with the result of their last test.
+    1.1. Logging in via Digid
+    1.2. Seeing the result of recent tests, including at which location they have been made.
+    
+    
+TODO / WHICH OF THESE REQUIREMENTS DO WE WANT/NEED:
+
+* The ability to provide relevant personal details to a test location upon registering for a test.
+* A token exchange where we provide user details to the GGD server (for later BCO purposes) and receive a token in return. This token can then be provided to the vendor to retrieve a subset of data to accommodate the test
+* A rating mechanism where you can see for a location how well they do / how far they are integrated.
+* Lead tracking / KPIs surrounding time between refering the user and receiving their result. 
+
+## Solution
+The following diagram depicts the high level architecture of the solution:
+
+![High Level Architecture](images/HLA.png)
 
 # Flows
 
 This chapter describes the core flow that we are following, which is derived from the requirement, UX research and various discussions with the health authority.
 
+TODO
+
 # System Landscape
 
-Todo
+TODO
 
 # Security & Privacy
+
+## Guiding principles
+
+* We provide as little data/knowledge about the user to anyone, including our own backend.
+* If we can move logic from a backend server to an app, to preserve privacy, we will do so, even if that means more work in the app and less work in the backend.
+* We try to avoid risks by relegating certain functionality to the test vendors (e.g. we prefer to link to the registration process of the vendor, rather than integrating the registration process inside the app.)
 
 ## Overview
 
@@ -117,7 +150,7 @@ We don't want to keep data around longer than necessary. Therefor we have define
 
 ### Backend cleanup
 
-Todo
+* Location capacity in the past is not useful, so the capacity tables can be cleaned up on a daily basis.
 
 ### Apps cleanup
 
@@ -152,20 +185,50 @@ This leads us to believe that when applying these checks, we introduce risks and
 
 ## Backend overview
 
-The following diagram describes the overall backend architecture.
+The following diagram describes the overall backend architecture, for now only the part that deals with test location and capacity management. Test results will follow soon.
 
-![Backend overview](images/backend_overview.png)
+![Backend overview](images/backendoverview.png)
+
+The idea is to generate a database of all locations and the capacity for the next few days, so that the apps can download the entire set. This way, we don't have to query a server for nearby locations, and we can keep location features entirely local in the app.
+
+## Data model
+
+For the datamodel of the test location and capacity we propose the following:
+
+
+![Data model](images/datamodel.png)
+
+TODO: There are some open questions in the diagram. Also note that we haven't included process-columns such as created_at, updated_at, etc.
 
 ## Public API
 
 The public API is the API that is accessible via the public internet, by the CoronaTester apps. The following diagram describes the architecture of this public API:
 
-![Public API](images/public_api.png)
 
-The definition of the Public API can be found in the [API Swagger Files](api/)
+The definition of the Public API can be found in the [API Swagger Files](api/) (TODO)
 
+## Vendor API
+
+The Vendor API is the API that vendors use to update their capacity. (TODO: is this an API, or will they upload CSVs throuh sftp, or ...)
+
+## Workers
+
+So far we have identified 2 worker:
+
+* A worker that will run twice per hour and aggregate all location metadata and capacity into a single response that apps can download.
+* A cleanup worker that removes capacity records for the past day.
 
 # App Considerations
+
+## Technology choices
+
+* iOS app: Native Swift / MVVM based architecture. Baseline iOS 11+
+* Android app: Native Kotlin / MVVM based architecture. Baseline Android 5+
+* Core backend services: written in dotnet core, hosted in a container based environment (Docker containers)
+* BFF for apps: for now: dotnetcore (to potentially reuse some coronamelder cdn code)
+* Management CMS: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort)
+* Queing and caching mechanisms: Redis (with cluster/sentinel)
+* Database: Postgresql (to be able to use built in encryption mechanisms) (TODO: Or MS SQL if we want to reuse CoronaMelder hosting?)
 
 ## Native vs hybrid development
 
