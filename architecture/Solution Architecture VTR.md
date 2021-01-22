@@ -5,7 +5,7 @@
 
 # Introduction
 
-The Dutch Ministry of Health, Welfare and Sport has commissioned a project team to experiment with the technical possibilities surrounding a 'verifiable test result' that would let indiduals proof the fact that they have recently tested negative for COVID-19. The name of the app has yet to be determined, for now we use the working title 'CoronaTester App'. This document describes the functional and technical architecture of the CoronaTester app.
+The Dutch Ministry of Health, Welfare and Sport has commissioned a project team to experiment with the technical possibilities surrounding a 'verifiable test result' that would let indiduals prove the fact that they have recently tested negative for COVID-19. The name of the app has yet to be determined, for now we use the working title 'CoronaTester App'. This document describes the functional and technical architecture of the CoronaTester app.
 
 This document describes the privacy and security risks associated with the use cases for a citizen being able to prove vaccination or the veracity of a negative test result. This is driven by the anticipated need for a COVID-19 proof of vaccination requirement both internationally. Note that there is currently no national requirement for such proof.
 
@@ -13,7 +13,7 @@ In particular, the risks and mitigations are explored for both paper-based and d
 
 This document explores the realm of possible technical implementation options and the social and legal requirements that constrain which of the technical implementations may be chosen. As such, this interplay defines the envelope within which realistic solutions are likely to fit.
 
-This document is work in progress and will be adjusted during the project. Given the nature of the project, this specification, its requirement and the solution as a whole should not be considered 'final' but a continuous work in progress. 
+This document is work in progress and will be adjusted during the project. Given the nature of the project, this specification, its requirements and the solution as a whole should not be considered 'final' but a continuous work in progress. 
 
 # Table of contents
 
@@ -87,15 +87,16 @@ We have identified the following non-functional requirements:
 
 1. The solution should be usable by a large portion of the Dutch population. 
 2. This means, among other things, that a verifiable test result is ideally not limited to people who own a smartphone. During the experiment we should explore possibilities for non-digital alternatives.
-3. For privacy reasons, a verifiable test result should be unlinkable. This means that a test result is not linkable to an actual person (while still maintaining the ability to reasonably assess that the result belongs to the person showing it).
+3. For privacy reasons, a verifiable test result should be untraceable. This means that a test result is not traceable to an actual person (while still maintaining the ability to reasonably assess that the result belongs to the person showing it).
 4. It should also be 'multi-show unlinkable'. This means that if the user shows a test result at two different locations, the verifier should not be able to derive that the 2 scans belong to the same user.
+5. The previous bullet also applies to the issuer, subsequent events should not be linkable by the issuer either.
 5. No personal details other than a test result and a limited set of credentials to bind the result to a specific person (e.g. part of birthdate, initials) should be part of the VTR.
 6. The verifiable test result should NOT imply that someone is *positive*. It implies only a *negative* result. Absence of a valid negative result could mean the user has tested positive, but could also mean the user was not tested at all. It is not relevant for a verifier to know the distinction.
 7. A verifiable test result should be time-limited, and the time limit should be remotely configurable to match epidemiological circumstances (e.g. the incubation time of the most prevalent strain of the Corona virus.)
 8. The verifiable test result should not have a history. After the result expires, it should be deleted.
 9. An end user app must not rely on an online connection during verification. Circumstances may be such that network coverage is limited and Wi-Fi is not available (e.g. a remote festival venue, or a mall with limited cell network coverage)
 10. Likewise, the verifier app must not rely on an online connection during verification either. 
-11. A connection will however be necessary to prepare the apps for verification (prior to the verification in the field).
+11. A connection may however be required to prepare the apps for verification (prior to the verification in the field).
 12. The ability must exist to disable the app if circumstances require termination of result verification (e.g. the end of the pandemic)
 13. The ability must exist to determine if the use of test verification is proportional and allowed. This should be enforced either as part of the solution, or as part of legislation.
 14. Although the nature of this project is an experiment, the solution should be build with scalability in mind, so it can be developed into a production-ready solution.
@@ -107,6 +108,7 @@ The solution should offer reasonable protection against abuse by implementing, a
 17. Protection against false result injection (a user generating proof of a negative result without an actual test),
 18. Protection against identity theft (showing the result of someone else)
 19. Protection against forgery (someone faking a negative test result and/or faking/abusing issuer signatures)
+20. Protection against reverse engineering of the protocol. In fact, the protocols are open and the code should be open souce. Security should be derived from cryptographic solidity and not rely on security by obscurity.
 
 
 # Key characteristics
@@ -121,7 +123,7 @@ For the app we follow a Privacy by Design approach. This means:
 
 ## Open Source
 
-All source code will be made available on the ministry's GitHub account.
+All source code will be made available on the Ministry's GitHub account.
 
 # High Level Architecture
 
@@ -157,15 +159,15 @@ Two core guiding principle of the solution are:
 
 ## Protocol
 
-For the solution we will adopt a protocol that is comparable in nature to the [Verifiable Credentials](https://www.w3.org/TR/vc-use-cases/) protocol by the W3 consortium. We will initially investigate the Idemix protocol, because it by design has properties such as multi-show unlinkability. The protocol could be made compatible with the W3 Verifiable Credentials implementation.
+For the solution we will adopt a protocol that is comparable in nature to the [Verifiable Credentials](https://www.w3.org/TR/vc-use-cases/) protocol by the W3 consortium. We will initially investigate the Idemix cryptographic suite, because it by design has properties such as multi-show unlinkability. The protocol could be made compatible with the W3 Verifiable Credentials implementation.
 
-We will initially not use the official 'Verifiable Presentation' data format, because we need a small enough footprint, so that the verifiable test result will fit inside a scannable QR code. (We will conduct experiments to determine scannability of QRs of various sizes on various devices in various conditions - e.g. an older Android phone in low lighting conditions with a smudged screen.)
+We will initially not use the standardized 'Verifiable Presentation' data format, because we need a small enough data/communication size, so that the verifiable test result will fit inside a scannable QR code. (We will conduct experiments to determine scannability of QRs of various sizes on various devices in various conditions - e.g. an older Android phone in low lighting conditions with a smudged screen.)
 
 ## Security vs Usability
 
 There is a trade-off between security and usability. Although we will set a minimum baseline of security that the solution must always adhere to, there are a few points where a reasonable trade-off can be made.
 
-* To have the optimal protection against pregenaration attacks, a generated test result should use a 'challenge' (nonce) received from the verifier in real time. This ensures that a QR is generated specifically for a single session and it provides the optimal set of parameters to avoid attacks. However, this will imply an extra step the user must take (e.g. enter the challenge that a verifier has provided prior to the verification scan)
+* To have the optimal protection against pregeneration attacks, a generated test result should use a 'challenge' (nonce) received from the verifier in real time. This ensures that a QR is generated specifically for a single session and it provides the optimal set of parameters to avoid attacks. However, this will imply an extra step the user must take (e.g. enter the challenge that a verifier has provided prior to the verification scan)
 * To speed up processing in access queues, verifiers might want to forego on exchanging the challenge, at the expense of some security (pregeneration becomes more feasible). Other mitigations to avoid pregeneration should be included in the solution if this variant is used. 
 
 Since the required level of protection might depend on the circumstances (e.g. an event might opt for speedy access lines at the cost of a small chance of someone providing a rogue test result, while a home for the elderly might want optimal protection of their inhabitants), the actual level is left at the discretion of the verifier, by ways of a setting in the app that indicates whether 'level 0' or 'level 1' protection is to be used. (perhaps later to be extended to even more different levels based on the results of the experiment.)
