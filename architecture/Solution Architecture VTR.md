@@ -7,6 +7,12 @@
 
 The Dutch Ministry of Health, Welfare and Sport has commissioned a project team to experiment with the technical possibilities surrounding a 'verifiable test result' that would let indiduals proof the fact that they have recently tested negative for COVID-19. The name of the app has yet to be determined, for now we use the working title 'CoronaTester App'. This document describes the functional and technical architecture of the CoronaTester app.
 
+This document describes the privacy and security risks associated with the use cases for a citizen being able to prove vaccination or the veracity of a negative test result. This is driven by the anticipated need for a COVID-19 proof of vaccination requirement both internationally. Note that there is currently no national requirement for such proof.
+
+In particular, the risks and mitigations are explored for both paper-based and digital versions of possible implementations for a proof of vaccination or negative test.
+
+This document explores the realm of possible technical implementation options and the social and legal requirements that constrain which of the technical implementations may be chosen. As such, this interplay defines the envelope within which realistic solutions are likely to fit.
+
 This document is work in progress and will be adjusted during the project. Given the nature of the project, this specification, its requirement and the solution as a whole should not be considered 'final' but a continuous work in progress. 
 
 # Table of contents
@@ -130,6 +136,14 @@ The concept for the Verifiable Test Result experiment consists of the following 
 5. A backend that the verifier app will use to receive authorization to perform scans.
 6. Backends of COVID test suppliers that will supply or verify negative test results.
 
+## Terminology
+
+Throughout this document we use a number of core concepts. To get an understanding of what's what, here is a short explanation of the most important terms:
+
+* A *verifier* is the person/entity that wants to verify test results (e.g. the owner of a venue).
+* An *agent* is the person that performs the actual verification (e.g. a bouncer at the door)
+* An *issuer* is the provider of certified test results (e.g. a health authority)
+* A *citizen* is a person who was tested and wants to enter a venue.
 
 ## Solution
 The following diagram depicts the high level architecture of the solution. The diagram can best be interpreted by starting at one of the user icons and following their actions across the system. In later versions of this document we will detail some of these flows in separate diagrams in more detail.
@@ -151,8 +165,8 @@ We will initially not use the official 'Verifiable Presentation' data format, be
 
 There is a trade-off between security and usability. Although we will set a minimum baseline of security that the solution must always adhere to, there are a few points where a reasonable trade-off can be made.
 
-* To have the optimal protection against pregenaration attacks, a generated test result should use a 'challenge' (nonce) received from the verifier in real time. This ensures that a QR is generated specifically for a single session and it provides the optimal set of parameters to avoid attacks. However, this will imply an extra step the user must take (e.g. enter the challenge that an agent has provided prior to the verification scan)
-* To speed up processing in access queues, verifiers/agents might want to forego on exchanging the challenge, at the expense of some security (pregeneration becomes more feasible). Other mitigations to avoid pregeneration should be included in the solution if this variant is used. 
+* To have the optimal protection against pregenaration attacks, a generated test result should use a 'challenge' (nonce) received from the verifier in real time. This ensures that a QR is generated specifically for a single session and it provides the optimal set of parameters to avoid attacks. However, this will imply an extra step the user must take (e.g. enter the challenge that a verifier has provided prior to the verification scan)
+* To speed up processing in access queues, verifiers might want to forego on exchanging the challenge, at the expense of some security (pregeneration becomes more feasible). Other mitigations to avoid pregeneration should be included in the solution if this variant is used. 
 
 Since the required level of protection might depend on the circumstances (e.g. an event might opt for speedy access lines at the cost of a small chance of someone providing a rogue test result, while a home for the elderly might want optimal protection of their inhabitants), the actual level is left at the discretion of the verifier, by ways of a setting in the app that indicates whether 'level 0' or 'level 1' protection is to be used. (perhaps later to be extended to even more different levels based on the results of the experiment.)
 
@@ -162,7 +176,7 @@ This chapter describes the core flow that we are following, which is derived fro
 
 ## Flow 1: Retrieving a GGD test result 
 
-The following diagram describes how the solution would retrieve a negative test result from a GGD test, and convert it to a verifiable test result.
+The following diagram describes how the solution would retrieve a **negative** test result from a GGD test (positive results are not relevant to the solution), and convert it to a verifiable test result.
 
 ![Flow - GGD Result](images/flow-ggd-result.png)
 
@@ -190,22 +204,22 @@ Todo
 
 Each part of the diagram tries to address a number of key aspects:
 
-* Source authenticity: how can we ensure that data comes from a known / trusted source
+* Source authenticity: how can we ensure that data comes from a known / trusted source.
 
-* Destination authenticity: how can we ensure that data gets sent to a known / trusted source
+* Destination authenticity: how can we ensure that data gets sent to a known / trusted source.
 
 * Data integrity: how can we ensure that the data has not been tampered with.
 
-* Data protection: how can we ensure that only authorized people can access the data
+* Data protection: how can we ensure that only authorized people can access the data.
 
 
 ## Attack Surface Minimisation
 
 We practice 'attack surface minimisation' to reduce risks. This means we pay attention to the following:
 
-* No more API calls than necessary for the operation of the app (no exposure of generic REST endpoints)
-* No more fields in input/output than necessary (calls will provide specific answers instead of generic entities)
-* Internal / machine to machine API calls separated from public / app to backend API calls
+* No more API calls than necessary for the operation of the app (no exposure of generic REST endpoints).
+* No more fields in input/output than necessary (calls will provide specific answers instead of generic entities).
+* Internal / machine to machine API calls separated from public / app to backend API calls.
 * Where possible, deliver data via push and/or queueing mechanisms between APIs instead of via pull.
 
 ## Data cleanup
@@ -277,13 +291,13 @@ So far we have identified no workers.
 
 ## Technology choices
 
-* iOS app: Native Swift / MVVM based architecture. Baseline iOS 11+
-* Android app: Native Kotlin / MVVM based architecture. Baseline Android 5+
-* Core backend services: written in dotnet core, hosted in a container based environment (Docker containers)
-* BFF for apps: PHP/Python/etc, using a commonly used framework. Or: dotnetcore (to potentially reuse some coronamelder code)
-* Any necessary web portals: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort)
-* Queing and caching mechanisms: Redis (with cluster/sentinel)
-* Database: Postgresql (to be able to use built in encryption mechanisms) (TODO: Or MS SQL if we want to reuse CoronaMelder code/tooling?)
+* iOS app: Native Swift / MVVM based architecture. Baseline iOS 11+.
+* Android app: Native Kotlin / MVVM based architecture. Baseline Android 5+.
+* Core backend services: written in dotnet core, hosted in a container based environment (Docker containers).
+* BFF for apps: PHP/Python/etc, using a commonly used framework. Or: dotnetcore (to potentially reuse some coronamelder code).
+* Any necessary web portals: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort).
+* Queing and caching mechanisms: Redis (with cluster/sentinel).
+* Database: Postgresql (to be able to use built in encryption mechanisms) (TODO: Or MS SQL if we want to reuse CoronaMelder code/tooling?).
 
 ## Native vs hybrid development
 
