@@ -17,8 +17,8 @@ In order to be able to deliver test results to the CoronaTester app, a test prov
 * The provider MUST obtain an X509 PKI certificate (e.g. PKI-O) for signing test results
 * The provider MUST CMS sign its test results and other responses using the certificate.
 * The provider MUST provide the public key of the certificate to the CoronaTester system so that signed results can be verified against the certificate.
-* The provider MAY provide an additional public key for SSL pinning against their endpoint.
-* The provider SHOULD provide a privacy statement that the app can display before handing off a token to the endpoint
+* The provider MUST provide an additional public key for SSL pinning against their endpoint.
+* The provider MUST provide a privacy statement that the app can display before handing off a token to the endpoint
 
 ## Distributing a test 'token'
 
@@ -31,19 +31,19 @@ The token should be presented in a way that the user can enter it in the app. Ma
 For manualy entry, the token should look like this:
 
 ```
-XXX-YYYYYYYYYYYY-ZZV
+XXX-YYYYYYYYYYYY-ZV
 ```
 
 Where:
 * XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaTester. It tells the app which endpoint to use, which keys etc.
 * YYYYYYYYYYYYY is a token of arbitrary length. The token should be sufficiently large to protect against brute-force attacks, while remaining short enough to be able to perform manual entry. (see the Security Guidelines later in this document for additional guidelines.)
-* ZZ is a checksum to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. (This helps avoid hits on your endpoint by presenting fake tokens. Note though that the algorithm to calculate the checksum is simplistic and not a guaranteed protection against abuse)
+* Z is a checksum (TODO: define checksum algo) to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. (This helps avoid hits on your endpoint by presenting fake tokens. Note though that the algorithm to calculate the checksum is simplistic and not a guaranteed protection against abuse)
 * V is the protocol version that tells the app how to interpret the token. It should currently always be 2. (we avoid 0 and 1 as they can be confusing characters) 
 
-The CoronaTester app lets the user type any A-Z and 0-9 characters. If the token is provided orally to the user (e.g. by phone), we recommend to only use the following subset of characters:
+The CoronaTester app lets the user type any A-Z and 0-9 characters. If the token is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
 
 ```
-TODO: 23-char subset from CM
+BCFGJLQRSTUVXYZ23456789
 ```
 
 This set is optimized to avoid confusion between visually similar characters, e.g. 0 (zero) vs O (letter), as well as orally similar sounding letters. 
@@ -148,20 +148,19 @@ When a result is available, it must look like this:
     "status": "complete",
     "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
     "testType": "pcr", // TODO: define valid range
-    "result": "negative", // can be "negative" or "notnegative"
-    "signature": "..."
+    "negativeResult": true,
+    "signature": "..." // TODO: finalize 'signature' field vs 'sign entire json and package as zip' discussion
 }
 ```
-
 
 Where:
 
 * protocolVersion indicates the version of this protocol that was used.
 * provideridentifier: the provider identifier as discussed earlier
 * status: Either "pending" or "complete"
-* sampleDate: The date/time on which the sample for the covid test was obtained. Rounded to the nearest hour to avoid linkability to test facility visits. Note that we deliberately use sampleDate and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
+* sampleDate: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits. Note that we deliberately use sampleDate and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
 * testType: The type of test that was used to obtain the result
-* result: The result of the covid test. Note that we deliberately use the term "notnegative" instead of "positive". This is for data minimisation: it is not necessary for the app to know wheter a person is positive, only negative. The status 'notnegative' could either indicate a positive test, or no test at all, etc.
+* negativeResult: The presence of a negative result of the covid test. Note that false does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know wheter a person is positive, only negative. A true value in the negativeResult field could either indicate a positive test, or no test at all, etc.
 * signature: the signatuer of the response.
 
 #### Governance and the digital signature of the test result
