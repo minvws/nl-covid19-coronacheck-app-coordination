@@ -103,7 +103,10 @@ The content.sig contains a binary PKI CMS signature; e.g. as made by
              -out content.sig -content content.json \
              -signer mycrt.crt
 
-Where mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full example in appendix 5.
+Where mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full example in 
+appendix 5.
+
+
 
 ### Returning a 'pending' state
 
@@ -150,6 +153,7 @@ When a result is available, it must look like this:
 }
 ```
 
+
 Where:
 
 * protocolVersion indicates the version of this protocol that was used.
@@ -159,6 +163,14 @@ Where:
 * testType: The type of test that was used to obtain the result
 * result: The result of the covid test. Note that we deliberately use the term "notnegative" instead of "positive". This is for data minimisation: it is not necessary for the app to know wheter a person is positive, only negative. The status 'notnegative' could either indicate a positive test, or no test at all, etc.
 * signature: the signatuer of the response.
+
+#### Governance and the digital signature of the test result
+
+Whenever a digital signature is placed - it is the signers responsibility to ensure that this signature is placed on the right data; and that they have taken appropriate steps to ensure it is not issued or distributed in error, twice or can be 'obtained' without sufficient controls.
+
+It is the responsibility of the party fetching the data to ensure that it is connected to the right system (by means of certificate pinning and PKI-O certificate checks). 
+
+And in B2B settings, the client may be required to provide a PKI-O client certificate to authenticate.
 
 ## Signing responses
 
@@ -248,7 +260,7 @@ Todo: swagger doc
         		-outform DER -out content.sig \
         		-signer "${DIR}/client.crt"
         rm -f "${DIR}/client.zip"
-        zip a "${DIR}/client.zip" content.json content.sig
+        zip ${DIR}/client.zip" content.json content.sig
 
         cd "${DIR}"
         rm -rf "${OUTDIR}"
