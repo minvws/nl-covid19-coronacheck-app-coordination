@@ -57,7 +57,6 @@ When providing the user with a QR code, the CoronaTester app can scan the token,
    "protocolVersion": "1.0",
    "providerIdentifier": "XXX",
    "token": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
-   "signature": "..."
 }
 ```
 
@@ -69,6 +68,10 @@ The test provider should provide an endpoint that allows the user to collect the
 * A result is available (complete)
 
 Both states will be detailed below.
+
+
+
+### Request
 
 The detailed specification of the endpoint is provided in appendix 3. In common CURL syntax it looks like this:
 
@@ -84,6 +87,24 @@ The call will not provide a body. The useragent will be anonimized.
 
 POST is used to aid in preventing logging/caching of the token
 
+### Reply 
+
+In all cases - the reply with be a zip file; with a JSON and a PKI-CMS signature in the files:
+
+  unzip 
+ 		content.json
+        content.sig
+
+### PKI-CMS digital signature for the resulting content.
+
+The content.sig contains a binary PKI CMS signature; e.g. as made by
+
+        openssl cms -sign -outform DER \
+             -out content.sig -content content.json \
+             -signer mycrt.crt
+
+Where mycrt.crt is a X.509 certificate as issued to the sender by PKI-O.
+
 ### Returning a 'pending' state
 
 If the token is supplied and/or entered by the user BEFORE a test result is present, the endpoint must return a 'pending' state. This indicates to the app that the result is yet to be determined, and the app should try again in the specified time frame.
@@ -97,7 +118,6 @@ The result would look like this:
     "status": "pending",
     "pollToken": "...", // optional
     "pollDelay": 300, // seconds, optional
-    "signature": "..."
 }
 ```
 
