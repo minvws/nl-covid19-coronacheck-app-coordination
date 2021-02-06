@@ -63,10 +63,10 @@ BCFGJLQRSTUVXYZ23456789
 
 This set is optimized to avoid confusion between visually similar characters, e.g. 0 (zero) vs O (letter), as well as orally similar sounding letters. 
 
-The token matches the following reegular expression pattern:
+The token matches the following regular expression pattern:
 
 ```
-^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[0-9]{1}$
+^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[2-9]{1}$
 ```
 
 ### QR tokens
@@ -77,8 +77,16 @@ When providing the token through a QR code, the CoronaTester app can scan the to
 {
    "protocolVersion": "1.0",
    "providerIdentifier": "XXX",
-   "token": "XXX-YYYYYYYYYYYY-ZV",
+   "token": "YYYYYYYYYYYYYYYY",
 }
+```
+
+[Ivo: maybe we should define a charset here too? This is the same as above but with `+`, `/` and `=` added so base64 is acceptable]
+
+The token must match the following regular expression pattern:
+
+```
+^[a-zA-Z0-9=\+\/]+$
 ```
 
 ### Token ownership verification
