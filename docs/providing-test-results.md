@@ -1,6 +1,6 @@
 # CoronaTester Prototype - Test Result Provisioning
 
-In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to be able to provide test results that the CoronaTester app could use to provide proof of negative test.
+In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaTester app will use to provide proof of negative test.
 
 ## Overview
 
@@ -13,26 +13,31 @@ The following diagram describes a high level overview of the result retrieval pr
 
 ## Requirements
 
-In order to be able to deliver test results to the CoronaTester app, a test provider needs to provide the following:
+In order to be able to deliver test results to the CoronaTester app, a test provider MUST do the following:
 
-* The provider MUST implement a mechanism to distribute a 'token' to the citizen that can be used to collect a negative result. 
-* The provider MUST provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
-* The provider MUST obtain an X509 PKI certificate (e.g. PKI-O) for signing test results
-* The provider MUST CMS sign its test results and other responses using the certificate.
-* The provider MUST provide the public key of the certificate to the CoronaTester system so that signed results can be verified against the certificate.
-* The provider MAY provide an additional public key for SSL pinning against their endpoint (if not provided, the endpoint MUST use the same certificate both for pinning and signing).
-* The provider MUST provide a privacy statement that the app can display before handing off a token to the endpoint
-* The provider SHOULD require an out of band ownership verification of the test result if the test result is handed out in an unsupervised manner (see details in next chapter).
+* Implement a mechanism to distribute a 'token' to the citizen that can be used to collect a negative result. 
+* Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
+* Obtain an x509 PKI certificate (e.g. PKI-O) for signing test results.
+* CMS sign its test results and other responses using the x509 certificate.
+* Provide the public key of the certificate to the CoronaTester system so that signed results can be verified against the certificate.
+* Provide an additional public key for SSL pinning against their endpoint.
+* Provide a privacy statement that the app can display before handing off a token to the endpoint.
+
+and can optionally:
+
+* Require an out of band ownership verification of the test result if the test result is handed out in an unsupervised manner (see details in next chapter).
 
 ## Distributing a test token
 
-Somewhere in the test process, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results. 
+Somewhere in the test process, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results.
 
-The token should be presented in a way that the user can enter it in the app. Manual text entry is provided in the CoronaTester app, however to enhance security and avoid rogue retrieval, the token should be sufficiently large; providing the user with a QR code that the CoronaTester app can scan is a good way to provide a larger token. It is possible to use both a manual token and a QR so the user can choose their desired method.
+For security reasons the token must be at least [TODO INSERT SIZE AND UNITS] long.
+
+Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided. It is of course possible to use both a manual token and a QR so the user can choose their desired method.
 
 ### Analog tokens
 
-For manualy entry, the token should look like this:
+For manual entry, the token should look like this:
 
 ```
 XXX-YYYYYYYYYYYY-ZV
@@ -41,16 +46,28 @@ XXX-YYYYYYYYYYYY-ZV
 Where:
 * XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaTester. It tells the app which endpoint to use, which keys etc.
 * YYYYYYYYYYYYY is a token of arbitrary length. The token should be sufficiently large to protect against brute-force attacks, while remaining short enough to be able to perform manual entry. (see the Security Guidelines later in this document for additional guidelines.)
-* Z is a checksum (TODO: define checksum algo) to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. (This helps avoid hits on your endpoint by presenting fake tokens. Note though that the algorithm to calculate the checksum is simplistic and not a guaranteed protection against abuse)
-* V is the token version that tells the app how to interpret the token. It should currently always be 2. (we avoid 0 and 1 as they can be confusing characters) 
+* Z is a checksum (TODO: define checksum algo) to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
+* V is the token version that tells the app how to interpret the token. It should currently always be 2.
 
-The CoronaTester app lets the user type any A-Z and 0-9 characters. If the token is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
+The CoronaTester app lets the user type any alphanumeric characters from the following set:
+
+```
+ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+```
+
+If the token is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
 
 ```
 BCFGJLQRSTUVXYZ23456789
 ```
 
 This set is optimized to avoid confusion between visually similar characters, e.g. 0 (zero) vs O (letter), as well as orally similar sounding letters. 
+
+The token matches the following regular expression pattern:
+
+```
+^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[2-9]{1}$
+```
 
 ### QR tokens
 
@@ -60,28 +77,35 @@ When providing the token through a QR code, the CoronaTester app can scan the to
 {
    "protocolVersion": "1.0",
    "providerIdentifier": "XXX",
-   "token": "YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY",
+   "token": "YYYYYYYYYYYYYYYY",
 }
+```
+
+[Ivo: maybe we should define a charset here too? This is the same as above but with `+`, `/` and `=` added so base64 is acceptable]
+
+The token must match the following regular expression pattern:
+
+```
+^[a-zA-Z0-9=\+\/]+$
 ```
 
 ### Token ownership verification
 
 If the token can be securely transfered to the user (e.g. by scanning a QR code in the test facility right after having confirmed identity, under supervision of staff), it is not necesarry to require ownership verification. In most circumstances however, ownership should be verified upon entering the test result. Ownership verification is performed by sending a 4-digit one time code to the user's phone per sms or per email, at the moment the user enters the token into the app. Although this doesn't guarantee for 100% that the result won't be passed to someone else, it now requires a deliberate act of fraud, instead of just 'handing over a voucher'. 
 
-The process of providing a one time code sent via sms/e-mail is familiar to users who have used Two Factor Authentication mechanisms. (Note: it's not called '2FA' in this specification since in true 2FA two distinct factors should be used, whereas in our case both the token and the verification code constitute 'something you have'). 
+The process of providing a one time code sent via sms/e-mail is familiar to users who have used Two Factor Authentication mechanisms. It is important to note that the scheme documented in this this specification is not a true 2FA schema. In a true 2FA schema two distinct factors should be used, whereas in our case there is only one distinct factor - both the token and the verification code constitute 'something you have'. 
 
 ## Exchanging the token for a test result
 
-Once scanned / read in the app, the CoronaTester app will try to fetch a test result.
+Once scanned / read in the app, CoronaTester will try to fetch a test result.
 
-The test provider should provide an endpoint that allows the user to collect this test result, using the token provided in the previous step. Depending on where in the process the token was supplied, and depending on when the user enters it in their app, there can be 3 distinct responses:
+The test provider should provide an endpoint that allows the user to collect this test result using the token provided in the previous step. Depending on where in the process the token was supplied, and depending on when the user enters it in their app, there can be 3 distinct responses:
 
-* A result is not yet available (the request should be tried later)
-* A result is available but requires verification (a verifiation code has been sent and should be tried again with the code)
+* A result is not yet available (the request should be retried later)
+* A result is available but requires verification (a verifiation code has been sent and should be retried with the code)
 * A result is available (the negative test result is included in the response)
 
 Both states will be detailed below.
-
 
 ### Request as received by the endpoint.
 
@@ -96,12 +120,12 @@ CURL
   https://test-provider-endpoint-base-url
 ```
 
-The call will contain a body with a verificationCode obtained from the ownership verification process (see further down on verification details). If your facility employs supervised scanning of a QR and doesn't require ownership verification, the app will omit this body. 
+The call will contain a body with a `verificationCode` obtained from the ownership verification process (see further down on verification details). If your facility employs supervised scanning of a QR and doesn't require ownership verification, the app will omit this body. 
 
-Note: The useragent will be anonimized.
+Notes:
 
-POST is used instead of GET to aid in preventing logging/caching of the token.
-
+* The useragent will be anonimized.
+* HTTP POST is used instead of a GET to aid in preventing logging/caching of the token.
 
 ### Returning a 'pending' state
 
@@ -123,19 +147,24 @@ The response body would look like this:
 
 Where: 
 
-* protocolVersion is the version of the protocol used. This helps the app interpret the QR correctly. This should currently always be 1.0
-* providerIdentifier is the 3-letter identifier or the test provider, as supplied by the CoronaTester team.
-* status: Should be "pending" or "complete" to indicate that a result is included or not.
-* pollToken: An optional token to use for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user. This is a great way to exchange a smaller, orally optimized, token that he user would have entered, by a longer token that provides more security.
-* pollDelay: An optional delay that tells the app when to check again. If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
-* signature: the CMS signature signed with the X509 certificate
+* `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should currently always be `1.0`.
+* `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaTester team.
+* `status`: Should be `pending` or `complete`, to indicate that a result is included or not.
+* `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
+* `pollDelay`: An optional delay that tells the app the minimum number of seconds to wait before checking again. If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
+* `signature`: the CMS signature signed with the X509 certificate
 
-Note that the pollDelay is not guaranteed. Foreground/background activity might influence the actual time it takes between checks, and we may add a random factor for load distribution. 
+#### Poll tokens
 
-If the request provides a new pollToken in the response, then the previous pollToken should be kept around and valid, until the new one is seen in a request once. This ensures that when a request fails to retrieve the contents of the pollToken, it can retry with the previous one. Otherwise a test result could become unretrievable.
+The API provides support for poll tokens. If the user's test result is not known the first time your API is called, you can return a new, globally unique string (the "poll token"). The user's app will present this token the next time the service is called. By providing a new unique token for every request you make it harder for the user to attempt to load their test results into multiple telephones.
 
-To protect backends, the minimum amount of time between requests is 5 minutes. Specifying a pollDelay shorter than 5 minutes will not be respected and treated as if it said 300. A longer pollDelay is of course acceptable.
+If the request provides a new pollToken in the response, then the previous `pollToken` should be kept around and valid, until the new one is seen in a request once. This ensures that when a request fails to retrieve the contents of the `pollToken`, it can retry with the previous one. Otherwise a test result could become unretrievable.
 
+#### Poll delay
+
+To protect backends, the minimum amount of time between requests is 5 minutes. Specifying a `pollDelay` shorter than 5 minutes will not be respected and treated as if it said 300. A longer `pollDelay` is of course acceptable.
+
+Please note that the `pollDelay` is not guaranteed. Foreground/background activity might influence the actual time it takes between checks, and we may add a random factor for load distribution. 
 
 ### Requesting owner verification
 
@@ -178,13 +207,17 @@ And the response should look like this:
 
 Where:
 
-* protocolVersion indicates the version of this protocol that was used.
-* providerIdentifier: the provider identifier as discussed earlier
-* status: Either "pending" or "complete"
-* sampleDate: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits. Note that we deliberately use sampleDate and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
-* testType: The type of test that was used to obtain the result
-* negativeResult: The presence of a negative result of the covid test. Note that false does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know wheter a person is positive, only negative. A true value in the negativeResult field could either indicate a positive test, or no test at all, etc.
-* signature: the signature of the response.
+* `protocolVersion` indicates the version of this protocol that was used.
+* `providerIdentifier`: the provider identifier as discussed earlier
+* `status`: Either `pending` or `complete`
+* `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits.
+* `testType`: The type of test that was used to obtain the result
+* `negativeResult`: The presence of a negative result of the covid test. `false` when a negative result is present. `true` in all other situations.
+* `signature`: the signature of the response.
+
+Notes:
+* We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
+* Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `true` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
 
 ### Response for invalid/expired tokens
 
@@ -201,7 +234,7 @@ The http response code for an invalid token should be: 401
 
 ```
 
-Note: both failed/expired tokens and missing verificationCode result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
+Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
 
 ### Error states
 
@@ -232,11 +265,13 @@ The signing looks like this:
 signature = BASE64(CMS(JSONBYTES, x509cert))
 ```
 
-The signature should use the raw json bytes from the response
+The signature must be calculated over the raw json bytes from the response stream.
 
 ### Including the signature in the response
 
-Since we sign the entire JSON body, the signature itself can't be part of the response body, to avoid signature-inception. Therefor the signature should be included as a response header named 'cms-signature'. For example, this could looke like this:
+The signature must be returned in a response header named `cms-signature`. Since the signature is calculated over the bytes contained in the response body it is impossible to include the signature itself in the body.
+
+For example, this could looke like this:
 
 ```
 HTTP/2 200 
@@ -285,7 +320,7 @@ When providing endpoints for test retrieval, along with the general best practic
 * Properly secure endpoints against DDOS attacks 
 * Properly secure endpoints against brute force attacks, for example by accepting a maximum number of attempts to provide a verificationCode
 * Do not log IP addresses for longer than necessary to perform normal opsec practices for preventing/combating abuse.
-* DO not store IP addresses alongside test results or user data.
+* Do not store IP addresses alongside test results or user data.
 
 Note that this is not an extensive list and the provider is solely responsible for their own handling of the user's data according to its privacy policy.
 
