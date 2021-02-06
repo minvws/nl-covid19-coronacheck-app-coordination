@@ -279,7 +279,7 @@ And in B2B settings, the client may be required to provide a PKI-O client certif
 When providing endpoints for test retrieval, along with the general best practices regarding web application security, the following security and privacy guidelines should be followed:
 
 * Do not include any personally identifiable data in responses.
-* The unique identifier of the test result should not be linkable to an individual citizen, pseudonymization is recommended
+* The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required
 * Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaTester app before ....)
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
 * Properly secure endpoints against DDOS attacks 
