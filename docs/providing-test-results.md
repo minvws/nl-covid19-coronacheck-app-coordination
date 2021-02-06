@@ -127,7 +127,7 @@ Where:
 * providerIdentifier is the 3-letter identifier or the test provider, as supplied by the CoronaTester team.
 * status: Should be "pending" or "complete" to indicate that a result is included or not.
 * pollToken: An optional token to use for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user. This is a great way to exchange a smaller, orally optimized, token that he user would have entered, by a longer token that provides more security.
-* pollDelay: An optional delay that tells the app when to check again. If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a regresh button, pull to refresh or similar mechanism.
+* pollDelay: An optional delay that tells the app when to check again. If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
 * signature: the CMS signature signed with the X509 certificate
 
 Note that the pollDelay is not guaranteed. Foreground/background activity might influence the actual time it takes between checks, and we may add a random factor for load distribution. 
