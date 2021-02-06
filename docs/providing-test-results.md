@@ -1,6 +1,6 @@
 # CoronaTester Prototype - Test Result Provisioning
 
-In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the step a party needs to take to be able to provide test results that the CoronaTester app could use to provide proof of negative test.
+In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to be able to provide test results that the CoronaTester app could use to provide proof of negative test.
 
 ## Overview
 
