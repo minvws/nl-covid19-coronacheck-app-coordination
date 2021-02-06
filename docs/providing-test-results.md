@@ -177,12 +177,12 @@ And the response should look like this:
 Where:
 
 * protocolVersion indicates the version of this protocol that was used.
-* provideridentifier: the provider identifier as discussed earlier
+* providerIdentifier: the provider identifier as discussed earlier
 * status: Either "pending" or "complete"
 * sampleDate: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits. Note that we deliberately use sampleDate and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
 * testType: The type of test that was used to obtain the result
 * negativeResult: The presence of a negative result of the covid test. Note that false does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know wheter a person is positive, only negative. A true value in the negativeResult field could either indicate a positive test, or no test at all, etc.
-* signature: the signatuer of the response.
+* signature: the signature of the response.
 
 
 ## Signing responses
