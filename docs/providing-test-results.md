@@ -252,7 +252,7 @@ cms-signature: dGhpcyBpcyBhIHRlc3Qgc2lnbmF0dXJlIHRoaXMgaXMgYSB0ZXN0IHNpZ25hdHVyZ
 
 ### Command line example
 
-See the appendix for more detailed example, but to try out the algorighm on the commandline, it would be:
+See appendix 1 for more detailed examples. To try out the algorighm on a Linux commandline, you could use:
 
 ```
     openssl cms -sign -outform DER \
@@ -263,7 +263,7 @@ See the appendix for more detailed example, but to try out the algorighm on the 
 
 The resulting content.sig can be base64 encoded and placed in the cms-signature header.         
 
-The mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full example in appendix 5.
+The mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full example in appendix 1.
 
 ### Governance and the digital signature of the test result
 
@@ -291,19 +291,9 @@ Note that this is not an extensive list and the provider is solely responsible f
 
 # Appendix 1: Example implementations of X509 CMS signing
 
-Todo: provide samples
+## Command line example
 
-# Appendix 2: Validating the signing output
-
-Todo: provide an endpoint which can be used to check the outputs / signatures against.
-
-# Appendix 3: OpenAPI specification of endpoint
-
-Todo: swagger doc
-
-# Appendix 4: 
-
-# Appendix 5: PKI example
+The following works on most Linux environments. Note that for this example to work on MacOS, you need an openssl binary with cms support compiled in (the default openssl shipped with macos does not include cms).
 
 
 ```
@@ -332,7 +322,7 @@ Todo: swagger doc
 		    "providerIdentifier": "XXX"
 		    "status": "pending",
 		    "pollToken": "...", 
-		    "pollDelay": 300, 
+		    "pollDelay": 300
 		}
 		EOM
 
@@ -347,4 +337,13 @@ Todo: swagger doc
     echo Generated a signature.
     exit 0
 ```
+
+# Appendix 2: Validating the signing output
+
+Todo: provide an endpoint which can be used to check the outputs / signatures against.
+
+# Appendix 3: OpenAPI specification of endpoint
+
+Todo: swagger doc
+
 

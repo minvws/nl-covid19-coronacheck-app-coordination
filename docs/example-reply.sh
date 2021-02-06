@@ -20,8 +20,8 @@ mkdir -p "${OUTDIR}"
     "protocolVersion": "1.0",
     "providerIdentifier": "XXX"
     "status": "pending",
-    "pollToken": "...", // optional
-    "pollDelay": 300, // seconds, optional
+    "pollToken": "...", 
+    "pollDelay": 300
 }
 EOM
 
