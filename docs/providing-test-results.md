@@ -28,7 +28,7 @@ In order to be able to deliver test results to the CoronaTester app, a test prov
 
 Somewhere in the test process, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results. 
 
-The token should be presented in a way that the user can enter it in the app. Manual text entry is provided in the CoronaTester app, however to enhance security and avoid rogue retrieval, the token should be sufficiently large; providing the user with a QR code that the CoronaTester app can scan is considered more secure. It is possible to use both a manual token and a QR so the user can choose their desired method.
+The token should be presented in a way that the user can enter it in the app. Manual text entry is provided in the CoronaTester app, however to enhance security and avoid rogue retrieval, the token should be sufficiently large; providing the user with a QR code that the CoronaTester app can scan is a good way to provide a larger token. It is possible to use both a manual token and a QR so the user can choose their desired method.
 
 ### Analog tokens
 
@@ -42,7 +42,7 @@ Where:
 * XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaTester. It tells the app which endpoint to use, which keys etc.
 * YYYYYYYYYYYYY is a token of arbitrary length. The token should be sufficiently large to protect against brute-force attacks, while remaining short enough to be able to perform manual entry. (see the Security Guidelines later in this document for additional guidelines.)
 * Z is a checksum (TODO: define checksum algo) to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. (This helps avoid hits on your endpoint by presenting fake tokens. Note though that the algorithm to calculate the checksum is simplistic and not a guaranteed protection against abuse)
-* V is the protocol version that tells the app how to interpret the token. It should currently always be 2. (we avoid 0 and 1 as they can be confusing characters) 
+* V is the token version that tells the app how to interpret the token. It should currently always be 2. (we avoid 0 and 1 as they can be confusing characters) 
 
 The CoronaTester app lets the user type any A-Z and 0-9 characters. If the token is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
 
@@ -100,7 +100,7 @@ The call will contain a body with a verificationCode obtained from the ownership
 
 Note: The useragent will be anonimized.
 
-POST is used to aid in preventing logging/caching of the token.
+POST is used instead of GET to aid in preventing logging/caching of the token.
 
 
 ### Returning a 'pending' state
@@ -130,7 +130,9 @@ Where:
 * pollDelay: An optional delay that tells the app when to check again. If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a regresh button, pull to refresh or similar mechanism.
 * signature: the CMS signature signed with the X509 certificate
 
-Note that the pollDelay is not guaranteed. Foreground/background activity might influence the actual time it takes between checks. 
+Note that the pollDelay is not guaranteed. Foreground/background activity might influence the actual time it takes between checks, and we may add a random factor for load distribution. 
+
+If the request provides a new pollToken in the response, then the previous pollToken should be kept around and valid, until the new one is seen in a request once. This ensures that when a request fails to retrieve the contents of the pollToken, it can retry with the previous one. Otherwise a test result could become unretrievable.
 
 To protect backends, the minimum amount of time between requests is 5 minutes. Specifying a pollDelay shorter than 5 minutes will not be respected and treated as if it said 300. A longer pollDelay is of course acceptable.
 
@@ -150,7 +152,7 @@ The response body should look like this:
     "status": "verification_required",
 }
 
-````
+```
 
 The client can then repeat the request, but include the verificationCode body.
 
@@ -184,6 +186,37 @@ Where:
 * negativeResult: The presence of a negative result of the covid test. Note that false does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know wheter a person is positive, only negative. A true value in the negativeResult field could either indicate a positive test, or no test at all, etc.
 * signature: the signature of the response.
 
+### Response for invalid/expired tokens
+
+Invalid or expired tokens should have the same response (this ensures that attempts to try tokens do not reveal whether they are invalid or expired). 
+
+The http response code for an invalid token should be: 401
+
+```javascript
+{
+    "protocolVersion": "1.0",
+    "providerIdentifier": "XXX"
+    "status": "invalid_token",
+}
+
+```
+
+Note: both failed/expired tokens and missing verificationCode result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
+
+### Error states
+
+If an error occurs on the server, a proper 50x response should be returned. If such an error occurs, the CoronaTester app will ask te user to try the request at a later time.
+
+A response body may be provided for debugging purposes, but this is optional and the app will ignore it. (TODO: or do we want to include a message that we relay to the user?)
+
+Avoid including details about your server implementation in the error body (e.g. no stack trace).
+
+```javascript
+{
+    "message": "An internal server error occured."
+}
+
+````
 
 ## Signing responses
 
