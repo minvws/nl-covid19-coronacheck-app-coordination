@@ -1,5 +1,7 @@
 # CoronaTester Prototype - Test Result Provisioning
 
+Version 1.00
+
 In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaTester app will use to provide proof of negative test.
 
 ## Overview
@@ -46,7 +48,7 @@ XXX-YYYYYYYYYYYY-ZV
 Where:
 * XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaTester. It tells the app which endpoint to use, which keys etc.
 * YYYYYYYYYYYYY is a token of arbitrary length. The token should be sufficiently large to protect against brute-force attacks, while remaining short enough to be able to perform manual entry. (see the Security Guidelines later in this document for additional guidelines.)
-* Z is a checksum (TODO: define checksum algo) to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
+* Z is a checksum to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
 * V is the token version that tells the app how to interpret the token. It should currently always be 2.
 
 The CoronaTester app lets the user type any alphanumeric characters from the following set:
@@ -68,6 +70,10 @@ The token matches the following regular expression pattern:
 ```
 ^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[2-9]{1}$
 ```
+
+The checksum is defined as the Luhn mod-N for alphanummerics; where the codepoints are as per the allowed set of characters ```BCFGJLQRSTUVXYZ23456789```; with the B assigned a 0 and the 9 the number 22.
+
+Note that the version number (2) is at the end of the string; this is an anti-pattern; but concious choise; these are to be human readable/entered strings that would look odd starting with (always the same) number. Also note that the 'XXX-' allows for a future 'Z-XXX-' or 'ZXXX-' type of start.
 
 ### QR tokens
 
@@ -151,7 +157,7 @@ Where:
 * `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaTester team.
 * `status`: Should be `pending` or `complete`, to indicate that a result is included or not.
 * `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
-* `pollDelay`: An optional delay that tells the app the minimum number of seconds to wait before checking again. If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
+* `pollDelay`: An optional delay that tells the app the minimum number of seconds to wait before checking again. When present - the callee MUST adhere to this delay (to give the origin server thundering herd control). If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
 * `signature`: the CMS signature signed with the X509 certificate
 
 #### Poll tokens
@@ -168,7 +174,7 @@ Please note that the `pollDelay` is not guaranteed. Foreground/background activi
 
 ### Requesting owner verification
 
-If the testing party wants to tighten the binding between user and test result, ownership verification should be considered when a result is available and the result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaTester app to ask for this validation number.
+If the testing party wants to tighten the binding between user and test result, ownership verification should be considered when a result is available and the result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaTester app to ask for this validation number. 
 
 To prompt the response, use HTTP responsecode: 401
 
