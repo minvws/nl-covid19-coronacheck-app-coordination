@@ -33,6 +33,7 @@ This document is work in progress and will be adjusted during the project. Given
   * [Security vs usability](#security-vs-usability)
 - [Flows](#flows)
   * [Flow 1: Retrieving a GGD test result](#flow-1--retrieving-a-ggd-test-result)
+  * [Flow 2: Retrieving a third party test result](#flow-2--retrieving-a-third-party-test-result)
 - [System Landscape](#system-landscape)
 - [Security & Privacy](#security--privacy)
   * [Overview](#overview)
