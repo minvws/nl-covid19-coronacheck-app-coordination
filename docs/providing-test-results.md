@@ -1,6 +1,6 @@
 # CoronaTester Prototype - Test Result Provisioning
 
-Version 1.00
+Version 1.1.0
 
 In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaTester app will use to provide proof of negative test.
 
@@ -158,7 +158,6 @@ Where:
 * `status`: Should be `pending` or `complete`, to indicate that a result is included or not.
 * `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
 * `pollDelay`: An optional delay that tells the app the minimum number of seconds to wait before checking again. When present - the callee MUST adhere to this delay (to give the origin server thundering herd control). If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
-* `signature`: the CMS signature signed with the X509 certificate
 
 #### Poll tokens
 
@@ -195,7 +194,7 @@ The client can then repeat the request, but include the verificationCode body.
 
 When a result is available, the http response code should be: 200
 
-And the response should look like this:
+And the payload should look like this:
 
 ```javascript
 {
@@ -206,7 +205,8 @@ And the response should look like this:
         "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
         "testType": "pcr", // TODO: define valid range
         "negativeResult": true,
-        "signature": "..." // TODO: finalize 'signature' field vs 'sign entire json and package as zip' discussion
+        "uniqueId": "1425626",
+        "checksum": 1279,
     }
 }
 ```
@@ -219,13 +219,14 @@ Where:
 * `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits.
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `false` when a negative result is present. `true` in all other situations.
-* `signature`: the signature of the response.
+* `uniqueId`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
+* `checksum`: A checksum for this test result based on the birthdate of the tested citizen. See the [checksum](#checksum) chapter.
 
 Notes:
 * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
 * Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `true` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
 
-### Response for invalid/expired tokens
+### Response payload for invalid/expired tokens
 
 Invalid or expired tokens should have the same response (this ensures that attempts to try tokens do not reveal whether they are invalid or expired). 
 
@@ -268,28 +269,53 @@ We are using a CMS algorithm because this is widely available across a large var
 The signing looks like this:
 
 ```
-signature = BASE64(CMS(JSONBYTES, x509cert))
+signature = CMS(PAYLOAD_JSONBYTES, x509cert)
 ```
 
 The signature must be calculated over the raw json bytes from the response stream.
 
 ### Including the signature in the response
 
-The signature must be returned in a response header named `cms-signature`. Since the signature is calculated over the bytes contained in the response body it is impossible to include the signature itself in the body.
+The signature and the payload must be wrapped inside a wrapper response. In earlier versions of this document we used a header to transmit the signature, but an CMS signature can exceed the maximum header size of some web servers / proxies.
 
-For example, this could looke like this:
+The wrapper contains 2 fields:
+
+* A base64 encoding of the signature, which contains the signature calculated in the previous chapter.
+* A base64 encoded version of the (exact) payload.
+
+For example, this could looks like this:
 
 ```
 HTTP/2 200 
 date: Sat, 06 Feb 2021 08:52:00 GMT
 content-type: application/json
 content-length: 145
-cms-signature: dGhpcyBpcyBhIHRlc3Qgc2lnbmF0dXJlIHRoaXMgaXMgYSB0ZXN0IHNpZ25hdHVyZSB0aGlzIGlzIGEgdGVzdCBzaWduYXR1cmU=
 {
-    "protocolVersion": 1.0,
-    // etc
+    "signature": "<base64 encoded version of the signature>",
+    "payload": "<base64 encoded version of the payload>"
 }
 ```
+
+### Signature verification
+
+The client app will perform the following actions when a signed response is received:
+
+1. Base64-decode the payload to obtain the jsonbytes of the original response.
+2. Base64-decode the signature
+3. Check if the signature is valid for the jsonbytes of the payload
+4a. If yes: parse the jsonbytes and process the result
+4b. If no: refuse to use the json data and display an error 
+
+### Checksum calculation
+
+The testresult should inlude a checksum based on the birthdate. This allows a privacy friendly way to establish that the person tested is the person showing the test proof, while not revealing the actual birthdate to the app's signer service.
+
+The checksum must be calculated according to the following formula:
+
+* TODO: finalize formula based on strftime("j", birthdate) % prime, salted with randomness or not.
+
+When loading the result into the app and/or when the verifier wants to perform additional verification, the citizen could be asked to show their birthday (e.g. by logging in with digid in the app, or showing a driver's license/student card/etc at the door). The agent will then enter the month and day of the birthdate and calculate the same checksum. If there's a match, there's reason to believe that the test certificate was issued to a person with the same birthdate
+
 
 ### Command line example
 
@@ -386,5 +412,16 @@ Todo: provide an endpoint which can be used to check the outputs / signatures ag
 # Appendix 3: OpenAPI specification of endpoint
 
 Todo: swagger doc
+
+# Changelog
+
+1.1
+
+* Changed the signature packaging to accommodate test parties that have limits on the size of http headers
+* Added unique identifier to test result (to be able to check that a test result will only be offered once to the signer service)
+
+1.0 
+
+* Initial version
 
 
