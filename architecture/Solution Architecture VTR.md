@@ -334,6 +334,13 @@ Apps run on the user’s device and updates require a review process that is not
 
 # Changelog
 
-0.2 - Updated flow diagrams, added third party test result collection. 
-0.1 - initial draft
+0.2
+
+* Replaced proxy service with a signer service 
+* Added third party test result collection. 
+* Updated flow diagrams
+
+0.1
+
+* initial draft
 
