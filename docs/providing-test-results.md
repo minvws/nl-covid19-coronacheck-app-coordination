@@ -358,56 +358,47 @@ Note that this is not an extensive list and the provider is solely responsible f
 
 # Appendix 1: Example implementations of X509 CMS signing
 
-## Command line example
+The directory 'shellscript' of https://github.com/minvws/nl-covid19-coronatester-tester-signature-demo contains a script to generate such signatures ``sign.sh``:
 
-The following works on most Linux environments. Note that for this example to work on MacOS, you need an openssl binary with cms support compiled in (the default openssl shipped with macos does not include cms).
-
-
-```
     #!/bin/sh
     set -e
-    
-    TMPDIR="${TMPDIR:-/tmp}"
-    OUTDIR="${OUTDIR:-$TMPDIR/example.$$}"
-    DIR=${PWD}
-    
-    if [ -e client.crt ]; then
-        echo Using existing client.crt demo certificate
-    else
-        echo Generating a client.crt demo certificate
-             req -new -x509 -nodes \
-        	-out client.crt -keyout client.crt \
-        	-subj /CN=Client/O=Example/C=NL 
+
+    if [ $# -gt 2 ]; then
+	    echo "Syntax: $0 [example.json [client.crt]]"
+    	exit 1
     fi
     
-    mkdir -p "${OUTDIR}"
-    (
-        cd "${OUTDIR}"
-        cat > content.json <<EOM
-		{
-	    	"protocolVersion": "1.0",
-		    "providerIdentifier": "XXX"
-		    "status": "pending",
-		    "pollToken": "...", 
-		    "pollDelay": 300
-		}
-		EOM
-
-        cat content.json | openssl cms -sign \
-        		-outform DER -out content.sig \
-        		-signer "${DIR}/client.crt"
-        
-        cd "${DIR}"
-        rm -rf "${OUTDIR}"
-    ) || exit $?
+    JSON=${1:-example.json}
+    CERT=${2:-client.crt}
     
-    echo Generated a signature.
-    exit 0
-```
+    SIG_B64=$(openssl cms -in "$JSON" -sign \
+    	-outform DER -signer "$CERT" -certfile chain.pem -binary | base64)
+
+    JSON_B64=$(base64 "$JSON")
+    cat <<EOM
+    [
+    	{
+    		"payload": "$JSON_B64",
+    		"signature": "$SIG_B64"
+    	}
+    ]
+    EOM
+
+along with the code needed to decode and verify this.
 
 # Appendix 2: Validating the signing output
 
-Todo: provide an endpoint which can be used to check the outputs / signatures against.
+The directory 'shellscript' of https://github.com/minvws/nl-covid19-coronatester-tester-signature-demo contains a script that can verify a signature and decode the json.
+
+Its typical use is
+
+      curl --silent 'https://api.FQDN.nl/something/config' | sh verify.sh        
+
+when used against a PKI-Overheid.nl certificate; or 
+
+      curl --silent 'https://api.FQDN.nl/something/config' | sh verify.sh self-signed.pem
+
+when used against a self-signed test certificate.
 
 # Appendix 3: OpenAPI specification of endpoint
 
