@@ -1,7 +1,7 @@
 # COVID-19 CoronaTester Verifiable Test Result - Solution Architecture
 
 
-**Version:** 0.1 (Work in Progress)
+**Version:** 0.2 (Work in Progress)
 
 # Introduction
 
@@ -123,7 +123,7 @@ For the app we follow a Privacy by Design approach. This means:
 
 ## Open Source
 
-All source code will be made available on the Ministry's GitHub account.
+All source code will be made available on the [Ministry's GitHub account](https://github.com/minvws).
 
 # High Level Architecture
 
@@ -178,13 +178,21 @@ This chapter describes the core flow that we are following, which is derived fro
 
 ## Flow 1: Retrieving a GGD test result 
 
-The following diagram describes how the solution would retrieve a **negative** test result from a GGD test (positive results are not relevant to the solution), and convert it to a verifiable test result.
+The following diagram describes how the solution would retrieve a **negative** test result from a GGD test (positive results are not relevant to the solution), and convert it to a verifiable test result. For GGD test results we can use a digid authentication mechanism. 
 
 ![Flow - GGD Result](images/flow-ggd-result.png)
 
-## Flow x
+## Flow 2: Retrieving a third party test result
 
-TODO.
+The following diagram describes what the flow looks like for third parties where we can't retrieve the test result via BSN/Digid check. 
+
+![Flow - Third Party Result](images/test-result-provisioning.png)
+
+In this scenario the digid login has been replaced by a token mechanism. A user might still have to login (via digid or otherwise) at the test provider, to obtain access to the necessary token.
+
+The following diagram details how this token flow works in detail. Note that the 'login on the test provider site' is just an example, as how this part of the flow works is entirely up to the test provider.
+
+![Flow - Third Party Result](images/flow-testparty-result.png)
 
 # System Landscape
 
@@ -283,7 +291,7 @@ The definition of the Public API can be found in the [API Swagger Files](api/) (
 
 ## Verifiable Results API (vrapi)
 
-The Resul API is the API that vendors should implement in order for us to get (a verification of) test results.
+The Result API is the API that vendors should implement in order for us to get (a verification of) test results. A specification of this API can be [found here](https://github.com/minvws/nl-covid19-coronatester-app-coordination/blob/main/docs/providing-test-results.md)
 
 ## Workers
 
@@ -322,3 +330,9 @@ Apps run on the user’s device and updates require a review process that is not
 * Configuration values or content that are expected to change should be retrieved from a server.
 
 * Apps should offer a ‘forced upgrade’ (i.e. if a new version is available that fixes a critical bug, it should be possible to force the user to upgrade). 
+
+# Changelog
+
+0.2 - Updated flow diagrams, added third party test result collection. 
+0.1 - initial draft
+
