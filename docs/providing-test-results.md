@@ -262,6 +262,18 @@ Avoid including details about your server implementation in the error body (e.g.
 
 The app only accepts the responses if they are signed. This chapter describes the way the endpoint should sign the responses.
 
+### Obtaining a signing certificate
+
+Signatures should be created using a certificate from the so-called PKI-O private root. General information about PKI-O certificates can be found on [the Logius website](https://logius.nl/diensten/pkioverheid/aanvragen). 
+
+To order a certificate you can make use of a TSP such as (in alphabetical order, without endorsing one over the other):
+
+* Digidentity - [link to private certificate form](https://www.digidentity.eu/nl/certificates) - Note: at Digidentity a private certificate is called an SBR certificate)
+* KPN - [link to private certificate form](https://certificaat.kpn.com/aanvragen/servercertificaten/private/)
+* QuoVadis - [link to private certificate form](https://www.quovadissupport.nl/modules/PPSC/certificate?ts=1613133082&sc_lang=nl_nl
+
+(Note: the websites are maintained by their respective owners - the links may change) 
+
 ### Signature algorithm
 
 We are using a CMS algorithm because this is widely available across a large variety of technologies. It is usable from the commandline using tools such as openssl. We may in the future provide libraries and/or off the shelf proxy containers to aid in developing an endpoint. Note however that although the CoronaTester team may provide samples or ready to use software, the provider remains solely responsible for the test results that are handed out and remain the processor in the GDPR sense.
@@ -408,6 +420,7 @@ Todo: swagger doc
 
 1.1
 
+* Added info on where to obtain a PKI-O certificate. 
 * Changed the signature packaging to accommodate test parties that have limits on the size of http headers
 * Added unique identifier to test result (to be able to check that a test result will only be offered once to the signer service)
 
