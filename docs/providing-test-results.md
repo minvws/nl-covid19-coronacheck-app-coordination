@@ -268,9 +268,9 @@ Signatures should be created using a certificate from the so-called PKI-O privat
 
 To order a certificate you can make use of a TSP such as (in alphabetical order, without endorsing one over the other):
 
-* Digidentity - [link to private certificate form](https://www.digidentity.eu/nl/certificates) - Note: at Digidentity a private certificate is called an SBR certificate)
+* Digidentity - [link to private certificate form](https://www.digidentity.eu/nl/certificates) (Note: at Digidentity a private certificate is called an SBR certificate)
 * KPN - [link to private certificate form](https://certificaat.kpn.com/aanvragen/servercertificaten/private/)
-* QuoVadis - [link to private certificate form](https://www.quovadissupport.nl/modules/PPSC/certificate?ts=1613133082&sc_lang=nl_nl
+* QuoVadis - [link to private certificate form](https://www.quovadissupport.nl/modules/PPSC/certificate?ts=1613133082&sc_lang=nl_nl)
 
 (Note: the websites are maintained by their respective owners - the links may change) 
 
