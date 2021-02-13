@@ -421,6 +421,7 @@ Todo: swagger doc
 1.1
 
 * Added info on where to obtain a PKI-O certificate. 
+* Fixed documentation where negativeResult=true seemed to mean positive. 
 * Changed the signature packaging to accommodate test parties that have limits on the size of http headers
 * Added unique identifier to test result (to be able to check that a test result will only be offered once to the signer service)
 
