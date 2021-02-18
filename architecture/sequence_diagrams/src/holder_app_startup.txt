@@ -1,0 +1,15 @@
+https://sequencediagram.org/
+
+title HolderApp Start
+
+participant HolderAPP
+participant BFF
+
+HolderAPP->BFF:Get Application Configuration\n--/config/--
+BFF->HolderAPP: Send Configuration
+HolderAPP->BFF:Get Public Keys\n--/public_keys/--
+BFF->HolderAPP: Send Public Keys
+HolderAPP->BFF:Get Test Types\n--/test_types/--
+BFF->HolderAPP: Send Test Types
+HolderAPP->BFF:Get Corona Test Provider Information\n--/config_ctp/--
+BFF->HolderAPP: Send Corona Test Provider Information

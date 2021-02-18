@@ -1,0 +1,20 @@
+https://sequencediagram.org/
+
+title Show Proof QR
+
+actor User
+participant HolderAPP
+participant VerifierAPP
+actor Verifier
+
+User->HolderAPP: Select Signed Test Result
+HolderAPP->HolderAPP: Create Proof\n--every 3 minutes--
+User->Verifier: Show Proof QR
+Verifier->VerifierAPP: Scan QR code
+VerifierAPP->VerifierAPP: Validate Proof Signature
+VerifierAPP->VerifierAPP: Validate Proof Age
+VerifierAPP->VerifierAPP: Validate Test Type
+VerifierAPP->VerifierAPP: Validate Test Date
+VerifierAPP-->VerifierAPP: Validate Birthdate Checksum
+VerifierAPP-#green>Verifier: Allow Entry
+Verifier-#green>User: Allow Entry
