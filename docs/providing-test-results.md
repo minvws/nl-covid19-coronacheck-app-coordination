@@ -268,10 +268,9 @@ The checksum must be calculated according to the following formula:
 checksum = dayOfBirth % 65
 ```
 
-dayOfBirth is the number of the day in the year, e.g. Januari 1st is 1, February 1st is 32, etc. (The year is not used in the checksum). In many programming languages the day can be calculated with sprintf("%j").
+dayOfBirth is the number of the day in the year, e.g. January 1st is 1, February 1st is 32, etc. (The year is not used in the checksum). In many programming languages the day can be calculated with sprintf("%j"), which is the input for mod 65.
 
 When loading the result into the app and/or when the verifier wants to perform additional verification, the citizen could be asked to show their birthday (e.g. by logging in with digid in the app, or showing a driver's license/student card/etc at the door). The agent will then enter the month and day of the birthdate and calculate the same checksum. If there's a match, there's reason to believe that the test certificate was issued to a person with the same birthdate
-
 
 ## Signing responses
 
