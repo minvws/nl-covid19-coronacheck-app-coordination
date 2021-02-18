@@ -28,10 +28,13 @@ BFF->BFF: Validate Test Sample Date
 BFF->BFF: Generate Hash for Test Result
 BFF->Cache: Check Hash exists
 Cache->BFF: Return Count
+BFF->Cache: Get nonce for stoken
+Cache->BFF: Return nonce
 parallel
 BFF-#red>HolderAPP: Failed to Validate Test Result
 BFF-#green>Backend: Sign Test Result (ICM)
 parallel off
+BFF->Cache: Set Test Hash +1
 Backend->BFF: Return Signed Test Result (ISM)
 BFF->HolderAPP: Return Signed Test Result (ISM)
 note over HolderAPP: Store Signed Test Result
