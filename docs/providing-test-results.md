@@ -206,7 +206,7 @@ And the payload should look like this:
         "testType": "pcr", // TODO: define valid range
         "negativeResult": true,
         "uniqueId": "1425626",
-        "checksum": 1279,
+        "checksum": 54,
     }
 }
 ```
@@ -257,6 +257,21 @@ Avoid including details about your server implementation in the error body (e.g.
 }
 
 ````
+
+## Checksum calculation
+
+The testresult should inlude a checksum based on the birthdate. This allows a privacy friendly way to establish that the person tested is the person showing the test proof, while not revealing the actual birthdate to the app's signer service.
+
+The checksum must be calculated according to the following formula:
+
+```
+checksum = dayOfBirth % 65
+```
+
+dayOfBirth is the number of the day in the year, e.g. Januari 1st is 1, February 1st is 32, etc. In many programming languages it can be calculated with sprintf("%j").
+
+When loading the result into the app and/or when the verifier wants to perform additional verification, the citizen could be asked to show their birthday (e.g. by logging in with digid in the app, or showing a driver's license/student card/etc at the door). The agent will then enter the month and day of the birthdate and calculate the same checksum. If there's a match, there's reason to believe that the test certificate was issued to a person with the same birthdate
+
 
 ## Signing responses
 
@@ -318,17 +333,6 @@ The client app will perform the following actions when a signed response is rece
 4a. If yes: parse the jsonbytes and process the result
 4b. If no: refuse to use the json data and display an error 
 
-### Checksum calculation
-
-The testresult should inlude a checksum based on the birthdate. This allows a privacy friendly way to establish that the person tested is the person showing the test proof, while not revealing the actual birthdate to the app's signer service.
-
-The checksum must be calculated according to the following formula:
-
-* TODO: finalize formula based on strftime("j", birthdate) % prime, salted with randomness or not.
-
-When loading the result into the app and/or when the verifier wants to perform additional verification, the citizen could be asked to show their birthday (e.g. by logging in with digid in the app, or showing a driver's license/student card/etc at the door). The agent will then enter the month and day of the birthdate and calculate the same checksum. If there's a match, there's reason to believe that the test certificate was issued to a person with the same birthdate
-
-
 ### Command line example
 
 See appendix 1 for more detailed examples. To try out the algorighm on a Linux commandline, you could use:
@@ -343,6 +347,10 @@ See appendix 1 for more detailed examples. To try out the algorighm on a Linux c
 The resulting content.sig can be base64 encoded and placed in the cms-signature header.         
 
 The mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full example in appendix 1.
+
+### More sample code
+
+More sample code for the signing method can be found in our [Github Sample Code repository](https://github.com/minvws/nl-covid19-coronatester-tester-signature-demo)
 
 ### Governance and the digital signature of the test result
 
