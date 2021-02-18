@@ -358,14 +358,16 @@ And in B2B settings, the client may be required to provide a PKI-O client certif
 When providing endpoints for test retrieval, along with the general best practices regarding web application security, the following security and privacy guidelines should be followed:
 
 * Do not include any personally identifiable data in responses.
-* The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required
+* The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
+* The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
 * Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaTester app before ....)
+* Verification codes should have a very limited lifetime of a few minutes. 
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
-* Properly secure endpoints against DDOS attacks 
+* Properly secure endpoints against DDOS attacks. 
 * Properly secure endpoints against brute force attacks, for example by accepting a maximum number of attempts to provide a verificationCode
 * Do not log IP addresses for longer than necessary to perform normal opsec practices for preventing/combating abuse.
 * Do not store IP addresses alongside test results or user data.
-
+ 
 Note that this is not an extensive list and the provider is solely responsible for their own handling of the user's data according to its privacy policy.
 
 # Appendix 1: Example implementations of X509 CMS signing
@@ -421,6 +423,8 @@ Todo: swagger doc
 1.1
 
 * Added info on where to obtain a PKI-O certificate. 
+* Added remark about not trusting redirects to security guidelines. 
+* Added remark about verification code validity. 
 * Fixed documentation where negativeResult=true seemed to mean positive. 
 * Changed the signature packaging to accommodate test parties that have limits on the size of http headers
 * Added unique identifier to test result (to be able to check that a test result will only be offered once to the signer service)
