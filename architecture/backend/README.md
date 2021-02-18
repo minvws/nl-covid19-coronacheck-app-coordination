@@ -10,8 +10,8 @@ Public Website              | ct_web          | [Link](https://github.com/minvws
 Backend Services            | ct_backend_pota | [Link](https://github.com/minvws/nl-covid19-coronatester-app-backend-private/)  | Makes the CL cryptograph accessable via an http-rest service.
 Backend for Frontend (BFF)  | ct_bff          | [Link](https://github.com/minvws/nl-covid19-coronatester-app-bff-private)       | Links together several services to provide a single endpoint for the Android/IOS mobile applications.
 CtCl (Camenisch-Lysyanskaya)| ctcl_issue      | [Link](https://github.com/minvws/nl-covid19-coronatester-ctcl-core-private)     | Provides multiple libraries used to access the CL cryptograph in the Backend Services and Mobile apps.
-Morrie                      | morrie          | [Link](https://github.com/91divoc-ln/morrie/)                                   | Provides a GUI to edit different facilities, test types, test validity, test locales, etc.
-Snorrie                     | snorrie         | [Link](https://github.com/91divoc-ln/snorrie/)                                  | Provides an `rest-api` and `upload service` for several apis.
+Morrie                      | morrie          | [Link](https://github.com/91divoc-ln/morrie/)                                   | Provides a GUI to edit different facilities, test types, test validity, test locales, etc in the database.
+Snorrie                     | snorrie         | [Link](https://github.com/91divoc-ln/snorrie/)                                  | Provides a `rest-api` and has an `upload service` to get/push read only data from morrie(s) database.
 Ansible (Deployment)        |                 | [Link](https://github.com/91divoc-ln/ansible/)                                  | Scripts used to deploy all services
 
 
