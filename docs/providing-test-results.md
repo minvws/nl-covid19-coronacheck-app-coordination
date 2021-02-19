@@ -429,6 +429,7 @@ Todo: swagger doc
 
 1.1
 
+* Added information on how to calculate the birthday checksum
 * Added info on where to obtain a PKI-O certificate. 
 * Added remark about not trusting redirects to security guidelines. 
 * Added remark about verification code validity. 
