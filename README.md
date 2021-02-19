@@ -1,7 +1,7 @@
-# COVID-19 CoronaTester App - Coordination and Documentation
+# COVID-19 CoronaCheck App - Coordination and Documentation
 
 ## Introduction
-This repository contains the technical documentation of the Dutch COVID-19 CoronaTester app proof of concept.
+This repository contains the technical documentation of the Dutch COVID-19 CoronaCheck app proof of concept.
 
 ## Development & Contribution process
 
