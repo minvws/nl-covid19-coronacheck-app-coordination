@@ -1,0 +1,180 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+% Copyright (c) 2020 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+% Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2&
+%
+% SPDX-License-Identifier: EUPL-1.2
+%
+% Based on RedWax.eu and KS-HiP 2001 (c) Webweaving, 2017 (c) RedWax.eu under the Apache Softewar License
+% version 1.0 or later
+%.
+
+\documentclass[11.0pt,twoside,openright]{report}
+
+\def\thisdoc{Design -- Certificate Pinning van SSL en CMS}
+\def\thisauthor{Corona Check Project, MinVWS}
+\def\version{1.04\xspace}
+
+%\def\rid{002}
+%\def\priority{Impact: Kritiek - Urgentie: Laag - Priority: P3}
+%\def\what{incident}
+
+\include{ro-stijl.tex}
+
+\begin{document}
+% \StopCensoring
+
+\maketitle
+
+\section*{Document geschiedenis}
+
+\begin{tabular}{|r|l|l|}
+\hline
+Versie & Datum & Veranderingen \\
+\hline
+\hline
+1.00 & 2021-02-017 & Concept. \\
+\hline
+1.01 & 2021-02-017 & Comments IJ verwerkt -- detail counterfeit data.\\
+\hline
+1.02 & 2021-02-017 & Comments HV verwerkt -- redirect niet toegestaan \\
+\hline
+1.03 & 2021-02-018 & Verzoek HV tot opname keyids verwerkt.  \\
+\hline
+1.04 & 2021-02-018 & Verzoek RB tot opname URL met certs.  \\
+\hline
+\end{tabular}
+
+%\setcounter{tocdepth}{0}
+%\tableofcontents
+
+\pagebreak
+\chapter{Executive Summary}
+
+De veiligheid van Corona Check App berust, onder andere, op de betrouwbaarheid van de connecties naar het backend systeem en dat van (commerciële en publieke) test providers.
+
+Een aspect hiervan is het hebben van een hoge mate van zekerheid dat de app praat met het `echte' backend of systeem waar het mee denkt te praten. En niet met een totaal ander systeem of een 'man in the middle'.
+
+Om deze reden wordt onder andere Certificaat Pinning toegepast op de Certificaat Autoriteit (in deze PKI Overheid) en de vertrouwensketen (chain) alsmede een controle lijst en verificatie van bepaalde velden.
+
+Dit document getailleerd dit ontwerp en de gedachtes erachter.
+
+\pagebreak
+\section*{Uitgangspunten}
+
+De Verifier en Holder app moeten op gezette tijden contact opnemen met een aantal backend services van de overheid. Daarnaast moet de Holder app tijdens het laden van het test resultaat contact opnemen met de server van de publieke (e.g. GGD) of private (e.g. commerciële) test provider. 
+
+Specifiek gaat het om:
+
+\begin{enumerate}
+\item	Connectie Verifier/Holder app ten behoeve van het ophalen van de basis configuratie\footnote{Welke extra gevoelig is - omdat hier zaken als geldigheid en een onomkeerbare `killswitch' in zitten}.
+\item	Connectie Verifier/Holder app met de backend API - bijvoorbeeld voor het 'inwisselen' van een test resultaat voor een C.L. getekende code.
+\item 	Connectie Holder app ten behoeve van het test certificaat.
+\end{enumerate}
+
+\section{Risico afweging / Contigency}
+
+Omdat een probleem inzake deze een  Kritiek\footnote{Treft alle gebruikers, reële kans op politieke verantwoording, reputatie schade landelijke media} incident oplevert zijn er de volgende mitigaties meegenomen in het ontwerp:
+
+\begin{enumerate}
+\item Gebruik van de PKI overheids infrastructuur welke onder Nederlandse controle is (geen afhankelijkheid van (buitenlandse) derden.
+\item Geen `\emph{harde}' pinning op het leaf certificaat - zodat in samenwerking met PKI Overheid vervangende sleutels in de door hun gecontroleerde infrastructuur gemaakt kunnen worden.
+\item Het toestaan van een (relatief onbetrouwbaar) Content Delivery Network (\textsc{cdn}) om de distributie van het configuratie zeer robuust te maken.
+\item Het toestaan van een brede reeks certificaten (van PKI Overheid) om integratie door derden makkelijk te maken (maar gecompenseerd door een striktere CN validatie).
+\end{enumerate}
+
+
+\section{Ontwerp - API}
+\label{api}
+
+Deze connecties zullen beschermd worden met Certificaat Pinning. Hierbij zal:
+
+\begin{enumerate}
+\item	Gecontroleerd worden een PKI overheid certificaat uit een specifieke, hardcoded lijst, deel uit maakt van de trust-chain.
+
+De pinning zal plaatsvinden op:
+\begin{enumerate}
+\item Staat der Nederlanden Domein Server CA 2020 CA (zie appendix \ref{keyid} op pagina \pageref{keyid} voor de keyIDs).
+\item Er is geen beperking qua diepte.
+\end{enumerate}
+\item 	Gecontroleerd worden dat de Fully Qualified Domain Hostname (\textsc{fqdn}) van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn geen wildcards toegestaan. 
+\item 	Dat de \textsc{fqdn} eindigd op coronacheck.nl (case insensitive).
+% \item	Dit geldt voor alle servers; dus bij een HTTP-redirect wordt elke server in het pad aldus gecontroleerd.
+\item HTTP-Redirects zijn \emph{niet} toegestaan.
+\end{enumerate}
+
+Deze laatste optie is strict genomen niet nodig (het betreft hier \textsc{fqdn} welke hardcoded zijn c.q. uit de configuratie komen) -- maar is toegevoegd als `backstopper' bij een partial backend compromise.
+
+\section{Ontwerp - ophalen config bestand}
+\label{config}
+
+Daarnaast zal bij het ophalen van de configuratie ook gecheckt worden dat deze ondertekend is met een geldige CMS handtekening waarvan:
+
+\begin{enumerate}
+\item	Gecontroleerd worden dat een PKI overheid certificaat, uit een specifieke, hardcoded lijst, deel uit maakt van de trust-chain.
+
+De pinning zal plaatsvinden op:
+\begin{enumerate}
+\item Stamcertificaat Staat der Nederlanden EV Root CA
+\item Er is geen beperking qua diepte.
+\end{enumerate}
+\item	Dat de commonName van het distinguishedName veld het woord 'coronacheck' (case insensitive) bevat.
+\end{enumerate}
+
+De reden voor deze extra laag van beveiliging is 1) dat dit bestand via een CDN gedistribueerd zal worden en dat 2) de configuratie een aantal extra gevoelige zaken bevat (en lang gecached kan worden) - zoals de `\emph{killswitch}'\footnote{Welke aan het eind van de covid-19 risis de app volledig, onomkeerbaar, uitschakeld.}
+
+\section{Ontwerp - ophalen andere data}
+
+Het is mogelijk dat er op basis van het configuratie bestand additionele data opgehaald moet worden (bijvoorbeeld voor de dagelijkse echtheidskenmerken).
+
+Hiervoor geld dat data welke via het CDN opgehaald wordt \emph{altijd} getekend dient te zijn - gelijk an het configuratie bestand (sectie \S\ref{config}).
+
+En dat data welke direct, bij de eigen API servers opgehaald wordt, voldoet aan de eisen uit sectie \S\ref{api} -- en dus niet getekend hoeft te worden.
+
+De reden voor dit verschil is dat de controle over het SSL certificaat in dit laatste geval geheel bij het Ministerie van VWS ligt op infrastructuur met additionele lagen van isolatie en beveiliging. Terwijl de CDN data via een gedeeld platform loopt waarbij de SSL certificaten hun private keys minder `defence in depth' hebben.
+
+\pagebreak
+\section{Ontwerp - Connecties providers}
+
+Daarnaast zal de Holder app met diverse providers contact moeten opnemen. Hiervoor geldt dat:
+
+\begin{enumerate}
+\item	Gecontroleerd worden een PKI overheid certificaat uit een specifieke, hardcoded lijst, deel uit maakt van de trust-chain.
+De pinning zal plaatsvinden op:
+\begin{enumerate}
+\item Staat der Nederlanden Root CA - G3
+\item Stamcertificaat Staat der Nederlanden EV Root CA 
+\item Staat der Nederlanden Private Root CA 
+\end{enumerate}
+\item Er is geen beperking qua diepte.
+
+\item   Dat het \textsc{fqdn} en Subject Key Identifier (2.5.29.14) paar op de lijst van geaccepteerde providers.
+\item 	Gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn geen wildcards toegestaan. 
+% \item	Dit geldt voor alle servers; dus bij een HTTP-redirect wordt elke server in het pad aldus gecontroleerd.
+\item HTTP-Redirects zijn \emph{niet} toegestaan.
+\end{enumerate}
+
+\appendix
+\chapter{Key IDs}
+\label{keyid}
+
+De huidige keys (peildatum \today) zijn:\\
+
+\begin{description}
+\item[Stamcertificaat Staat der Nederlanden EV Root CA]  Vervaldatum: December 2022 \\
+
+FE AB 00 90 98 9E 24 FC A9 CC 1A 8A FB 27 B8 BF 30 6E A8 3B \\
+
+\item[Staat der Nederlanden Root CA - G3] Vervaldatum: 3 November 2028 \\
+
+54 AD FA C7 92 57 AE CA 35 9C 2E 12 FB E4 BA 5D 20 DC 94 57 \\
+
+\item[Staat der Nederlanden Private Root CA] Vervaldatum: 14 November 2028  \\
+
+2A FD B9 2B 1E FA C3 84 87 06 DB 81 FF 86 97 75 0D EB 01 8B \\
+\end{description}
+
+Zie \url{https://cert.pkioverheid.nl/cert-pkioverheid-nl.htm} voor de certificaten zelf in diverse formaten.
+
+\end{document}
