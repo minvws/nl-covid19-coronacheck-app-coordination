@@ -205,7 +205,7 @@ And the payload should look like this:
         "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
         "testType": "pcr", // TODO: define valid range
         "negativeResult": true,
-        "uniqueId": "1425626",
+        "unique": "1425626",
         "checksum": 54,
     }
 }
@@ -219,7 +219,7 @@ Where:
 * `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits.
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
-* `uniqueId`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
+* `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
 * `checksum`: A checksum for this test result based on the birthdate of the tested citizen. See the [checksum](#checksum) chapter.
 
 Notes:
@@ -426,6 +426,8 @@ when used against a self-signed test certificate.
 Todo: swagger doc
 
 # Changelog
+1.2
+* Rename the `uniqueId` to `unique` to clearly mark it is not a database id.
 
 1.1
 
