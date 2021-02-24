@@ -12,3 +12,6 @@ This increases the chance that we might be able to use your contribution (or it 
 
 Note that all commits should be signed using a gpg key.
 
+## Documentation
+All documantation can be found in the `docs` directory.
+ - [CoronaTester Prototype - Test Result Provisioning](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/docs/providing-test-results.md)
