@@ -1,6 +1,6 @@
 # CoronaTester Prototype - Test Result Provisioning
 
-Version 1.3.0
+Version 1.2.0
 
 In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaTester app will use to provide proof of negative test.
 
@@ -435,11 +435,10 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
-1.3.0
+1.2.0
 
 * Fixed discrepancy between image and text. Added Appendix 4 with available test types.
 
-1.2
 * Rename the `uniqueId` to `unique` to clearly mark it is not a database id.
 
 1.1.0
