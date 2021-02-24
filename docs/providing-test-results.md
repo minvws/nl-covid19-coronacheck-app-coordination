@@ -17,7 +17,7 @@ The following diagram describes a high level overview of the result retrieval pr
 
 In order to be able to deliver test results to the CoronaTester app, a test provider MUST do the following:
 
-* Implement a mechanism to distribute a 'token' to the citizen that can be used to collect a negative result. 
+* Implement a mechanism to distribute a `token` in the form of a QR or `code` to the citizen that can be used to collect a negative result. 
 * Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
 * Obtain an x509 PKI certificate (e.g. PKI-O) for CMS signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
@@ -37,9 +37,9 @@ For security reasons the token must be at least 10 characters long.
 
 Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided. It is of course possible to use both a manual token and a QR so the user can choose their desired method.
 
-### Analog tokens
+### Analog Code(s)
 
-For manual entry, the token should look like this:
+For manual entry, the code consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
 
 ```
 XXX-YYYYYYYYYYYYY-ZV
@@ -49,7 +49,7 @@ Where:
 * XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaTester. It tells the app which endpoint to use, which keys etc.
 * YYYYYYYYYYYYY is a token of arbitrary length. The token should be sufficiently large to protect against brute-force attacks, while remaining short enough to be able to perform manual entry. (see the Security Guidelines later in this document for additional guidelines.)
 * Z is a checksum to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
-* V is the token version that tells the app how to interpret the token. It should currently always be 2.
+* V is the code version that tells the app how to interpret the code. It should currently always be 2.
 
 The CoronaTester app lets the user type any alphanumeric characters from the following set:
 
@@ -57,7 +57,7 @@ The CoronaTester app lets the user type any alphanumeric characters from the fol
 ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
 ```
 
-If the token is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
+If the code is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
 
 ```
 BCFGJLQRSTUVXYZ23456789
@@ -65,7 +65,7 @@ BCFGJLQRSTUVXYZ23456789
 
 This set is optimized to avoid confusion between visually similar characters, e.g. 0 (zero) vs O (letter), as well as orally similar sounding letters. 
 
-The token matches the following regular expression pattern:
+The code matches the following regular expression pattern:
 
 ```
 ^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[2-9]{1}$
@@ -75,9 +75,9 @@ The checksum is defined as the Luhn mod-N for alphanummerics; where the codepoin
 
 Note that the version number (2) is at the end of the string; this is an anti-pattern; but conscious choise; these are to be human readable/entered strings that would look odd starting with (always the same) number. Also note that the 'XXX-' allows for a future 'Z-XXX-' or 'ZXXX-' type of start.
 
-### QR tokens
+### QR Code(s)
 
-When providing the token through a QR code, the CoronaTester app can scan the token if it adheres to the following content:
+When providing the code through a QR code, the CoronaCheck App will look for the following content:
 
 ```javascript
 {
@@ -87,12 +87,10 @@ When providing the token through a QR code, the CoronaTester app can scan the to
 }
 ```
 
-[Ivo: maybe we should define a charset here too? This is the same as above but with `+`, `/` and `=` added so base64 is acceptable]
-
 The token must match the following regular expression pattern:
 
 ```
-^[a-zA-Z0-9=\+\/]+$
+^[A-Z0-9]+$
 ```
 
 ### Token ownership verification
@@ -117,7 +115,7 @@ Both states will be detailed below.
 
 The detailed specification of the endpoint is provided in appendix 3.
 
-The Authorization header will contain a Bearer token which consists of the `YYYYYYYYYYYYY` part of the Token.
+The Authorization header will contain a Bearer token which consists of the `YYYYYYYYYYYYY` part of the Code.
 
 In common CURL syntax it looks like this:
 
@@ -135,7 +133,7 @@ The call will contain a body with a `verificationCode` obtained from the ownersh
 Notes:
 
 * The useragent will be anonimized.
-* HTTP POST is used instead of a GET to aid in preventing logging/caching of the token.
+* HTTP POST is used instead of a GET to aid in preventing logging/caching of the token or code.
 
 ### Returning a 'pending' state
 
