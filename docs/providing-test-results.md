@@ -440,6 +440,9 @@ ID         | Name
 
 * Fixed discrepancy between image and text. Added Appendix 4 with available test types.
 
+1.2
+* Rename the `uniqueId` to `unique` to clearly mark it is not a database id.
+
 1.1.0
 
 * Added information on how to calculate the birthday checksum
