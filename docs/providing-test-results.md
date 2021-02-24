@@ -1,6 +1,6 @@
 # CoronaTester Prototype - Test Result Provisioning
 
-Version 1.1.0
+Version 1.3.0
 
 In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaTester app will use to provide proof of negative test.
 
@@ -436,10 +436,11 @@ ID         | Name
 775caa2149 | PCR Test (Traditional)
 
 # Changelog
-1.3
+1.3.0
+
 * Fixed discrepancy between image and text. Added Appendix 4 with available test types.
 
-1.1
+1.1.0
 
 * Added information on how to calculate the birthday checksum
 * Added info on where to obtain a PKI-O certificate. 
@@ -449,7 +450,7 @@ ID         | Name
 * Changed the signature packaging to accommodate test parties that have limits on the size of http headers
 * Added unique identifier to test result (to be able to check that a test result will only be offered once to the signer service)
 
-1.0 
+1.0.0
 
 * Initial version
 
