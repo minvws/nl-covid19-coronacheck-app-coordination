@@ -1,8 +1,8 @@
-# CoronaTester Prototype - Test Result Provisioning
+# CoronaCheck Prototype - Test Result Provisioning
 
 Version 1.2.0
 
-In the CoronaTester project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaTester app will use to provide proof of negative test.
+In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
 
 ## Overview
 
@@ -15,13 +15,13 @@ The following diagram describes a high level overview of the result retrieval pr
 
 ## Requirements
 
-In order to be able to deliver test results to the CoronaTester app, a test provider MUST do the following:
+In order to be able to deliver test results to the CoronaCheck app, a test provider MUST do the following:
 
 * Implement a mechanism to distribute a `token` in the form of a QR or `code` to the citizen that can be used to collect a negative result. 
 * Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
 * Obtain an x509 PKI certificate (e.g. PKI-O) for CMS signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
-* Provide the public key of the CMS X509 certificate to the CoronaTester system so that signed results can be verified against the certificate.
+* Provide the public key of the CMS X509 certificate to the CoronaCheck system so that signed results can be verified against the certificate.
 * Provide an additional public key for TLS/SSL pinning against their endpoint.
 * Provide a privacy statement that the app can display before handing off a token to the endpoint.
 
@@ -46,12 +46,12 @@ XXX-YYYYYYYYYYYYY-ZV
 ```
 
 Where:
-* XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaTester. It tells the app which endpoint to use, which keys etc.
+* XXX is a 3-letter identifier that is unique to the test provider and assigned by CoronaCheck. It tells the app which endpoint to use, which keys etc.
 * YYYYYYYYYYYYY is a token of arbitrary length. The token should be sufficiently large to protect against brute-force attacks, while remaining short enough to be able to perform manual entry. (see the Security Guidelines later in this document for additional guidelines.)
 * Z is a checksum to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
 * V is the code version that tells the app how to interpret the code. It should currently always be 2.
 
-The CoronaTester app lets the user type any alphanumeric characters from the following set:
+The CoronaCheck app lets the user type any alphanumeric characters from the following set:
 
 ```
 ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
@@ -101,7 +101,7 @@ The process of providing a one time code sent via sms/e-mail is familiar to user
 
 ## Exchanging the token for a test result
 
-Once scanned / read in the app, CoronaTester will try to fetch a test result.
+Once scanned / read in the app, CoronaCheck will try to fetch a test result.
 
 The test provider should provide an endpoint that allows the user to collect this test result using the token provided in the previous step. Depending on where in the process the token was supplied, and depending on when the user enters it in their app, there can be 3 distinct responses:
 
@@ -156,7 +156,7 @@ The response body would look like this:
 Where: 
 
 * `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should currently always be `1.0`.
-* `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaTester team.
+* `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaCheck team.
 * `status`: Should be `pending` or `complete` (lowercase), to indicate that a result is included or not.
 * `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
 * `pollDelay`: An optional delay that tells the app the minimum number of seconds to wait before checking again. When present - the callee MUST adhere to this delay (to give the origin server thundering herd control). If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
@@ -175,7 +175,7 @@ Please note that the `pollDelay` is not guaranteed. Foreground/background activi
 
 ### Requesting owner verification
 
-If the testing party wants to tighten the binding between user and test result, ownership verification should be considered when a result is available and the result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaTester app to ask for this validation number. 
+If the testing party wants to tighten the binding between user and test result, ownership verification should be considered when a result is available and the result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaCheck app to ask for this validation number. 
 
 To prompt the response, use HTTP response code: 401
 
@@ -247,7 +247,7 @@ Note: both failed/expired tokens and missing `verificationCode` result in a 401 
 
 ### Error states
 
-If an error occurs on the server, a proper 50x response should be returned. If such an error occurs, the CoronaTester app will ask te user to try the request at a later time.
+If an error occurs on the server, a proper 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
 
 A response body may be provided for debugging purposes, but this is optional and the app will ignore it. (TODO: or do we want to include a message that we relay to the user?)
 
@@ -292,7 +292,7 @@ To order a certificate you can make use of a TSP such as (in alphabetical order,
 
 ### Signature algorithm
 
-We are using a CMS algorithm because this is widely available across a large variety of technologies. It is usable from the commandline using tools such as openssl. We may in the future provide libraries and/or off the shelf proxy containers to aid in developing an endpoint. Note however that although the CoronaTester team may provide samples or ready to use software, the provider remains solely responsible for the test results that are handed out and remain the processor in the GDPR sense.
+We are using a CMS algorithm because this is widely available across a large variety of technologies. It is usable from the commandline using tools such as openssl. We may in the future provide libraries and/or off the shelf proxy containers to aid in developing an endpoint. Note however that although the CoronaCheck team may provide samples or ready to use software, the provider remains solely responsible for the test results that are handed out and remain the processor in the GDPR sense.
 
 The signing looks like this:
 
@@ -351,7 +351,7 @@ The mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full exam
 
 ### More sample code
 
-More sample code for the signing method can be found in our [Github Sample Code repository](https://github.com/minvws/nl-covid19-coronatester-tester-signature-demo)
+More sample code for the signing method can be found in our [Github Sample Code repository](https://github.com/minvws/nl-covid19-coronacheck-tester-signature-demo)
 
 ### Governance and the digital signature of the test result
 
@@ -369,7 +369,7 @@ When providing endpoints for test retrieval, along with the general best practic
 * Do not include any personally identifiable data in responses.
 * The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
 * The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
-* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaTester app before ....)
+* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....)
 * Verification codes should have a very limited lifetime of a few minutes. 
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
 * Properly secure endpoints against DDOS attacks. 
@@ -381,7 +381,7 @@ Note that this is not an extensive list and the provider is solely responsible f
 
 # Appendix 1: Example implementations of X509 CMS signing
 
-The directory 'shellscript' of https://github.com/minvws/nl-covid19-coronatester-tester-signature-demo contains a script to generate such signatures ``sign.sh``:
+The directory 'shellscript' of https://github.com/minvws/nl-covid19-coronacheck-tester-signature-demo contains a script to generate such signatures ``sign.sh``:
 
     #!/bin/sh
     set -e
@@ -411,7 +411,7 @@ along with the code needed to decode and verify this.
 
 # Appendix 2: Validating the signing output
 
-The directory 'shellscript' of https://github.com/minvws/nl-covid19-coronatester-tester-signature-demo contains a script that can verify a signature and decode the json.
+The directory 'shellscript' of https://github.com/minvws/nl-covid19-coronacheck-tester-signature-demo contains a script that can verify a signature and decode the json.
 
 Its typical use is
 
@@ -435,10 +435,14 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+1.2.1 
+
+* Updated app name
+
 1.2.0
 
 * Fixed discrepancy between image and text. Added Appendix 4 with available test types.
-
 * Rename the `uniqueId` to `unique` to clearly mark it is not a database id.
 
 1.1.0
