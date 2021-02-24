@@ -156,7 +156,7 @@ The following diagram depicts the high level architecture of the solution. The d
 Two core guiding principle of the solution are:
 
 * We want to avoid linkability to persons as much as possible, so the system works with tokens/vouchers instead of personally identifiable numbers (BSN) where possible.
-* We want to avoid a 'central storage' of test results. This is why we 'federate' the actual verification of test result to the original provider of the test result (issuer). In the solution we have included a central storage for suppliers that have no other way to deliver test results, but this is highly undesirable and may be dropped from the solution if test providers offer sufficient ability for federated result checks.
+* We want to avoid a 'central storage' of test results. This is why we 'federate' the actual verification of test result to the original provider of the test result (issuer). In the solution we initially included a central storage for suppliers that have no other way to deliver test results, but this was highly undesirable and has been dropped from the solution to fully support the decentralized model.
 
 ## Protocol
 
