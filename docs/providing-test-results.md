@@ -157,7 +157,7 @@ Where:
 
 * `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should currently always be `1.0`.
 * `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaTester team.
-* `status`: Should be `pending` or `complete`, to indicate that a result is included or not.
+* `status`: Should be `pending` or `complete` (lowercase), to indicate that a result is included or not.
 * `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
 * `pollDelay`: An optional delay that tells the app the minimum number of seconds to wait before checking again. When present - the callee MUST adhere to this delay (to give the origin server thundering herd control). If the test process is sufficiently predictable, this can be used to indicate to the user when their result is expected. If no pollDelay is provided the app will try again a) after 5 minutes (if the app stays in the foreground), b) if the user opens the app from the background and more than the 'pollDelay' amount of seconds has passed or c) manually by means of a refresh button, pull to refresh or similar mechanism.
 
@@ -177,7 +177,7 @@ Please note that the `pollDelay` is not guaranteed. Foreground/background activi
 
 If the testing party wants to tighten the binding between user and test result, ownership verification should be considered when a result is available and the result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaTester app to ask for this validation number. 
 
-To prompt the response, use HTTP responsecode: 401
+To prompt the response, use HTTP response code: 401
 
 The response body should look like this:
 
@@ -217,7 +217,7 @@ Where:
 
 * `protocolVersion` indicates the version of this protocol that was used.
 * `providerIdentifier`: the provider identifier as discussed earlier
-* `status`: Either `pending` or `complete`
+* `status`: Either `pending` or `complete` (lowercase)
 * `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits.
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
@@ -431,7 +431,8 @@ Todo: swagger doc
 
 ID         | Name
 -----------|--------
-775caa2149 | PCR Test (Traditional)
+pcr        | PCR Test (Traditional)
+pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
 1.3.0
