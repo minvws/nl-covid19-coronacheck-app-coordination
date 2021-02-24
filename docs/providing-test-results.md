@@ -115,7 +115,7 @@ Both states will be detailed below.
 
 The detailed specification of the endpoint is provided in appendix 3.
 
-The Authorization header will contain a Bearer token which consists of the `YYYYYYYYYYYYY` part of the Code.
+The Authorization header will contain a Bearer token which consists of the `token` (YYYYYYYYYYYYY) part of the `code`.
 
 In common CURL syntax it looks like this:
 
