@@ -26,6 +26,8 @@ Test Result | `sampleDate`          | MobileApps, BFF**   | Sample date must be 
 
 ** The BFF is responsible for blocking any invalid request to the backend where a `signed test result` is created. The checks performed in the mobile applications are for display purposes only.
 
+TODO: Add new 'verification box' that sits in between the BFF and CTCL nodes. This will (also) perform the data validation checks to ensure in-depth data validation.
+
 ## PKI Cert/Key Storage
 
 Item                        | Storage                   | Used by
