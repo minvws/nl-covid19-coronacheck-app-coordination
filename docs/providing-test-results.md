@@ -1,6 +1,6 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 1.2.2
+Version 1.3.0
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
 
@@ -21,6 +21,7 @@ In order to be able to deliver test results to the CoronaCheck app, a test provi
 * Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
 * Obtain an x509 PKI certificate (e.g. PKI-O) for CMS signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
+* Add all intermediate certificates to the CMS signature (in order to establish a trust chain).
 * Provide the public key of the CMS X509 certificate to the CoronaCheck system so that signed results can be verified against the certificate.
 * Provide an additional public key for TLS/SSL pinning against their endpoint.
 * Provide a privacy statement that the app can display before handing off a token to the endpoint.
@@ -435,6 +436,9 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+1.3.0
+* Document the addition of intermediate certificates to the signature
 
 1.2.2
 
