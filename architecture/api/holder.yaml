@@ -1,0 +1,177 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://todo/v1'
+info:
+  description: >-
+    Holder API
+  version: 0.0.1
+  title: Holder API
+paths:
+  /v1/holder/get_test_ism:
+    post:
+      summary: 'Get all (negative) test results as Issue Signature Message'
+      description: 'Get all (negative) test results as Issue Signature Message'
+      operationId: 'TODO'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProofOfTestRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProofOfTestResponse"
+  /v1/holder/nonce:
+    get:
+      summary: 'Get nonce and stoken for use in communication.'
+      description: 'Get nonce and stoken for use in communication.'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetNonceResponse"
+  /v1/holder/config:
+    get:
+      summary: 'Application Configuration'
+      description: 'Application Configuration'
+      responses:
+        200:
+          description: Success (payload `ConfigResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedResponseWrapper"
+  /v1/holder/config_ctp:
+    get:
+      summary: 'Corona test provider configuration'
+      description: 'Corona test provider configuration'
+      responses:
+        200:
+          description: Success (payload `ConfigCtpResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedResponseWrapper"
+  /v1/holder/public_keys:
+    get:
+      summary: 'Get all public keys used to create/encrypt signatures'
+      description: 'Get all public keys used to create/encrypt signatures'
+      responses:
+        200:
+          description: Success (payload `PublicKeysResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedResponseWrapper"
+  /v1/holder/test_types:
+    get:
+      summary: 'Get all test types'
+      description: 'Get all test types'
+      responses:
+        200:
+          description: Success (payload `TestTypesResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedResponseWrapper"
+externalDocs:
+  description: See AsyncAPI example
+  url: 'https://mermade.github.io/shins/asyncapi.html'
+components:
+  schemas:
+    SignedResponseWrapper:
+      type: object
+      description: Standard response wrapper
+      properties:
+        payload:
+          description: json response encoded as base64 string
+          type: string
+          nullable: false
+        signature:
+          description: CMS/PKCS#7 signature over payload bytes
+          type: string
+          nullable: false
+    ProofOfTestRequest:
+      type: object
+      properties:
+        stoken:
+          type: string
+          nullable: false
+        test:
+          type: object
+          nullable: false
+          properties:
+            payload:
+              type: string
+              nullable: false
+            signature:
+              type: string
+              nullable: false
+        ism:
+          type: object
+    ProofOfTestResponse:
+      type: object
+      properties:
+        ism:
+          $ref: "#/components/schemas/Ism"
+        attributes:
+          $ref: "#/components/schemas/IsmAttributes"
+        stoken:
+          type: string
+          nullable: false
+    Ism:
+      type: object
+      properties:
+        proof:
+          $ref: "#/components/schemas/IsmProof"
+        signature:
+          nullable: false
+    IsmProof:
+      type: object
+      properties:
+        c:
+          type: string
+        e_response:
+          type: string
+    IsmAttributes:
+      type: object
+      properties:
+        sampleTime:
+          type: string
+          nullable: false
+        testType:
+          type: string
+          nullable: false
+    GetNonceResponse:
+      type: object
+      properties:
+        nonce:
+          type: string
+        stoken:
+          type: string
+    ConfigResponse:
+      type: object
+      properties:
+        todo:
+          type: string
+    ConfigCtpResponse:
+      type: object
+      properties:
+        todo:
+          type: string
+    PublicKeysResponse:
+      type: object
+      properties:
+        todo:
+          type: string
+    TestTypesResponse:
+      type: object
+      properties:
+        todo:
+          type: string
