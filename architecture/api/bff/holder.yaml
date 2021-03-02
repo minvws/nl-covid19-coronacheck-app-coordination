@@ -11,7 +11,6 @@ paths:
     post:
       summary: 'Get all (negative) test results as Issue Signature Message'
       description: 'Get all (negative) test results as Issue Signature Message'
-      operationId: 'TODO'
       requestBody:
         required: true
         content:
@@ -80,9 +79,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SignedResponseWrapper"
-externalDocs:
-  description: See AsyncAPI example
-  url: 'https://mermade.github.io/shins/asyncapi.html'
 components:
   schemas:
     SignedResponseWrapper:
