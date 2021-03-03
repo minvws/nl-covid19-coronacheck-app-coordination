@@ -206,7 +206,7 @@ And the payload should look like this:
     "status": "complete",
     "result": {
         "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
-        "testType": "775caa2149", // See Appendix 4
+        "testType": "pcr", // See Appendix 4
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
         "checksum": 54,
