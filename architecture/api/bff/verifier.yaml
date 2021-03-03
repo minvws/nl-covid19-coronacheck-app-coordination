@@ -75,33 +75,26 @@ components:
         appDeactivated:
           type: boolean
           example: false
+        configTTL:
+          type: integer
+          example: 864000
         informationURL:
           type: string
           nullable: false
-          example: "https://coronatester.nl"
+          example: "https://coronacheck.nl"
     PublicKeysResponse:
       type: object
       properties:
-        issuers:
+        cl_keys:
           type: array
           items:
-            $ref: '#/components/schemas/PublicKey'
-        proofs:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublicKey'
-    PublicKey:
+            $ref: '#/components/schemas/ClPublicKey'
+    ClPublicKey:
       type: object
       properties:
-        ___uuid:
+        id:
           type: string
-          example: "f3cb6105-7502-4a88-9246-87a7be5f4637"
-        ___name:
-          type: string
-          example: "MVWS"
-        ___type:
-          type: string
-          example: "LibSodium"
+          example: "VWS-TEST-0"
         public_key:
           type: string
           format: byte

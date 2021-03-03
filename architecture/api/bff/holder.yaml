@@ -9,8 +9,8 @@ info:
 paths:
   /v1/holder/get_test_ism:
     post:
-      summary: 'Get (negative) test result as Issue Signature Message'
-      description: 'Get (negative) test result as Issue Signature Message'
+      summary: 'Convert Test Result into a Signed Test Result'
+      description: 'Convert Test Result into a Signed Test Result. In CL terms: Take an ICM and return ISM.'
       requestBody:
         required: true
         content:
@@ -48,8 +48,8 @@ paths:
                 $ref: "#/components/schemas/SignedResponseWrapper"
   /v1/holder/config_ctp:
     get:
-      summary: 'Corona test provider configuration'
-      description: 'Corona test provider configuration'
+      summary: 'Corona Test Provider configuration'
+      description: 'API Provides valid endpoints for the app to fetch test results from Corona Test Providers'
       responses:
         200:
           description: Success (payload `ConfigCtpResponse`)
@@ -59,11 +59,11 @@ paths:
                 $ref: "#/components/schemas/SignedResponseWrapper"
   /v1/holder/public_keys:
     get:
-      summary: '[DEPRECATED?] Get all public keys used to create/encrypt signatures'
-      description: '[DEPRECATED?] Get all public keys used to create/encrypt signatures'
+      summary: 'Get all public keys used to create CL signatures'
+      description: 'Get all public keys used to create CL signatures'
       responses:
         200:
-          description: 'DEPRECATED?'
+          description: Success (payload `PublicKeysResponse`)
           content:
             application/json:
               schema:
@@ -120,9 +120,6 @@ components:
           $ref: "#/components/schemas/Ism"
         attributes:
           $ref: "#/components/schemas/IsmAttributes"
-        stoken:
-          type: string
-          nullable: false
     Ism:
       type: object
       properties:
@@ -181,13 +178,16 @@ components:
           type: string
           nullable: false
           example: "https://apps.apple.com/nl/app/id1548269870"
+        configTTL:
+          type: int
+          example: 864000
         appDeactivated:
           type: boolean
           example: false
         informationURL:
           type: string
           nullable: false
-          example: "https://coronatester.nl"
+          example: "https://coronacheck.nl"
     ConfigCtpResponse:
       type: object
       properties:
@@ -234,5 +234,22 @@ components:
           description: Human readable test type.
         uuid:
           type: string
-          example: '775caa2149'
+          example: 'pcr'
           description: Unique identifier for the test type.
+    PublicKeysResponse:
+      type: object
+      properties:
+        cl_keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClPublicKey'
+      ClPublicKey:
+        type: object
+        properties:
+          id:
+            type: string
+            example: "VWS-TEST-0"
+          public_key:
+            type: string
+            format: byte
+            example: "s057xYcgZ1rKmdKaU25p6m0uDN6tSfgxL1aQIF1h3g="
