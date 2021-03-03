@@ -38,16 +38,19 @@ components:
         payload:
           description: json response encoded as base64 string
           type: string
+          format: byte
           nullable: false
         signature:
           description: CMS/PKCS#7 signature over payload bytes
           type: string
+          format: byte
           nullable: false
     AppConfig:
       type: object
       properties:
         androidMinimumVersion:
           type: integer
+          format: int64
           example: 1
         androidMinimumVersionMessage:
           type: string
@@ -101,5 +104,6 @@ components:
           example: "LibSodium"
         public_key:
           type: string
+          format: byte
           example: "s057xYcgZ1rKmdKaU25p6m0uDN6tSfgxL1aQIF1h3g="
           

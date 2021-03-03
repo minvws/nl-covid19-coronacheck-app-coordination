@@ -9,8 +9,8 @@ info:
 paths:
   /v1/holder/get_test_ism:
     post:
-      summary: 'Get all (negative) test results as Issue Signature Message'
-      description: 'Get all (negative) test results as Issue Signature Message'
+      summary: 'Get (negative) test result as Issue Signature Message'
+      description: 'Get (negative) test result as Issue Signature Message'
       requestBody:
         required: true
         content:
@@ -59,11 +59,11 @@ paths:
                 $ref: "#/components/schemas/SignedResponseWrapper"
   /v1/holder/public_keys:
     get:
-      summary: 'Get all public keys used to create/encrypt signatures'
-      description: 'Get all public keys used to create/encrypt signatures'
+      summary: '[DEPRECATED?] Get all public keys used to create/encrypt signatures'
+      description: '[DEPRECATED?] Get all public keys used to create/encrypt signatures'
       responses:
         200:
-          description: Success (payload `PublicKeysResponse`)
+          description: 'DEPRECATED?'
           content:
             application/json:
               schema:
@@ -88,10 +88,12 @@ components:
         payload:
           description: json response encoded as base64 string
           type: string
+          format: byte
           nullable: false
         signature:
           description: CMS/PKCS#7 signature over payload bytes
           type: string
+          format: byte
           nullable: false
     ProofOfTestRequest:
       type: object
@@ -149,25 +151,88 @@ components:
       properties:
         nonce:
           type: string
+          format: byte
         stoken:
           type: string
     ConfigResponse:
       type: object
       properties:
-        todo:
+        androidMinimumVersion:
+          type: integer
+          format: int64
+          example: 1
+        androidMinimumVersionMessage:
           type: string
+          nullable: false
+          example:  "Om de app te gebruiken heb je de laatste versie uit de store nodig."
+        playStoreURL:
+          type: string
+          nullable: false
+          example: "https://www.google.com"
+        iosMinimumVersion:
+          type: string
+          nullable: false
+          example: "1.0.0"
+        iosMinimumVersionMessage:
+          type: string
+          nullable: false
+          example: "1.0.0"
+        iosAppStoreURL:
+          type: string
+          nullable: false
+          example: "https://apps.apple.com/nl/app/id1548269870"
+        appDeactivated:
+          type: boolean
+          example: false
+        informationURL:
+          type: string
+          nullable: false
+          example: "https://coronatester.nl"
     ConfigCtpResponse:
       type: object
       properties:
-        todo:
-          type: string
-    PublicKeysResponse:
+        corona_test_providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoronaTestProvider'
+    CoronaTestProvider:
       type: object
       properties:
-        todo:
+        name:
           type: string
+          description: Market name for the test provider (will be shown to the users)
+          example: 'Fake Test Provider'
+        provider_identifier:
+          type: string
+          description: Unique idenfier for the provider
+          example: 'ABC'
+        result_url:
+          type: string
+          description: URI to the providers get_rest_results endpoint.
+          example: 'https://www.example.com/get_test_result'
+        public_key:
+          type: string
+          format: byte
+          description: SSL certificate encoded as a base64 string.
+        ssl_cert:
+          type: string
+          format: byte
+          description: SSL certificate encoded as a base64 string.
     TestTypesResponse:
       type: object
       properties:
-        todo:
+        test_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestType'
+    TestType:
+      type: object
+      properties:
+        name:
           type: string
+          example: 'PCR'
+          description: Human readable test type.
+        uuid:
+          type: string
+          example: '775caa2149'
+          description: Unique identifier for the test type.
