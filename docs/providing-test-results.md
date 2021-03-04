@@ -214,7 +214,7 @@ And the payload should look like this:
         "holder": {
 	    "firstNameInitial": "J",
 	    "lastNameInitial": "D", // Note: no middle name or Dutch 'tussenvoegsel'
-	    "birthDayOfMonth": 31,
+	    "birthDayOfMonth": 31, // Integer, no leading zero, e.g. 4
 	}
     }
 }
