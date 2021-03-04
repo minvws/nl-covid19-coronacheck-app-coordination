@@ -1,6 +1,9 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://todo/v1'
+  - url: 'https://verifier-api.dev.ccappdev.nl'
+  - url: 'https://verifier-api.test.coronacheck.nl'
+  - url: 'https://verifier-api.acc.coronacheck.nl'
+  - url: 'https://verifier-api.coronacheck.nl'
 info:
   description: >-
     Verifier API (BFF)

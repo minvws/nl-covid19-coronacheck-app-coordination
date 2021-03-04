@@ -1,6 +1,9 @@
 openapi: 3.0.0
 servers:
-  - url: 'http://todo/v1'
+  - url: 'https://holder-api.dev.ccappdev.nl'
+  - url: 'https://holder-api.test.coronacheck.nl'
+  - url: 'https://holder-api.acc.coronacheck.nl'
+  - url: 'https://holder-api.coronacheck.nl'
 info:
   description: >-
     Holder API
