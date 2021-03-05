@@ -214,7 +214,8 @@ And the payload should look like this:
         "holder": {
 	    "firstNameInitial": "J",
 	    "lastNameInitial": "D", // Note: no middle name or Dutch 'tussenvoegsel'
-	    "birthDayOfMonth": 31, // Integer, no leading zero, e.g. 4
+	    "birthDay": "31", // String (to accommodate 'X'), but no leading zero, e.g. "4"
+	    "birthMonth": "12" // String (to accommodate 'X'), but no leading zero, e.g. "4"
 	}
     }
 }
@@ -432,7 +433,7 @@ pcr-lamp   | PCR Test (LAMP)
 
 2.0.0
 
-* Replaced birthday checksum with initials/birthday day of month
+* Replaced birthday checksum with initials/birthday day/month
 
 1.3.0
 * Document the addition of intermediate certificates to the signature
