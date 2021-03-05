@@ -1,6 +1,8 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 1.3.0
+Version 2.0
+
+> :warning: This is the 2.0 version. For the 1.0 version that is currently in the field, please refer to the [1.0 version of the docs](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-1.0/docs/providing-test-results.md)
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
 
@@ -82,7 +84,7 @@ When providing the code through a QR code, the CoronaCheck App will look for the
 
 ```javascript
 {
-   "protocolVersion": "1.0",
+   "protocolVersion": "2.0",
    "providerIdentifier": "XXX",
    "token": "YYYYYYYYYYYYY",
 }
@@ -124,7 +126,7 @@ In common CURL syntax it looks like this:
 CURL
   -X POST
   -H "Authorization: Bearer YYYYYYYYYYYYY"
-  -H "CoronaCheck-Protocol-Version: 1.0"
+  -H "CoronaCheck-Protocol-Version: 2.0"
   -d { "verificationCode": "12345"}
   https://test-provider-endpoint-base-url
 ```
@@ -146,7 +148,7 @@ The response body would look like this:
 
 ```javascript
 {
-    "protocolVersion": "1.0",
+    "protocolVersion": "2.0",
     "providerIdentifier": "XXX"
     "status": "pending",
     "pollToken": "...", // optional
@@ -184,7 +186,7 @@ The response body should look like this:
 
 ```javascript
 {
-    "protocolVersion": "1.0",
+    "protocolVersion": "2.0",
     "providerIdentifier": "XXX"
     "status": "verification_required",
 }
@@ -201,7 +203,7 @@ And the payload should look like this:
 
 ```javascript
 {
-    "protocolVersion": "1.0",
+    "protocolVersion": "2.0",
     "providerIdentifier": "XXX",
     "status": "complete",
     "result": {
@@ -209,7 +211,11 @@ And the payload should look like this:
         "testType": "pcr", // See Appendix 4
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
-        "checksum": 54,
+        "holder": {
+	    "firstNameInitial": "J",
+	    "lastNameInitial": "D", // Note: no middle name or Dutch 'tussenvoegsel'
+	    "birthDayOfMonth": 31, // Integer, no leading zero, e.g. 4
+	}
     }
 }
 ```
@@ -223,7 +229,7 @@ Where:
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
-* `checksum`: A checksum for this test result based on the birthdate of the tested citizen. See the [checksum](#checksum-calculation) chapter.
+* `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity.
 
 Notes:
 * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
@@ -237,7 +243,7 @@ The http response code for an invalid token should be: 401
 
 ```javascript
 {
-    "protocolVersion": "1.0",
+    "protocolVersion": "2.0",
     "providerIdentifier": "XXX"
     "status": "invalid_token",
 }
@@ -261,19 +267,6 @@ Avoid including details about your server implementation in the error body (e.g.
 
 ````
 
-## Checksum calculation
-
-The testresult should inlude a checksum based on the birthdate. This allows a privacy friendly way to establish that the person tested is the person showing the test proof, while not revealing the actual birthdate to the app's signer service.
-
-The checksum must be calculated according to the following formula:
-
-```
-checksum = dayOfBirth % 65
-```
-
-dayOfBirth is the number of the day in the year, e.g. January 1st is 1, February 1st is 32, etc. (The year is not used in the checksum). In many programming languages the day can be calculated with sprintf("%j"), which is the input for mod 65.
-
-When loading the result into the app and/or when the verifier wants to perform additional verification, the citizen could be asked to show their birthday (e.g. by logging in with digid in the app, or showing a driver's license/student card/etc at the door). The agent will then enter the month and day of the birthdate and calculate the same checksum. If there's a match, there's reason to believe that the test certificate was issued to a person with the same birthdate
 
 ## Signing responses
 
@@ -436,6 +429,10 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+2.0.0
+
+* Replaced birthday checksum with initials/birthday day of month
 
 1.3.0
 * Document the addition of intermediate certificates to the signature
