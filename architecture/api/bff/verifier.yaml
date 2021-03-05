@@ -1,0 +1,105 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://verifier-api.dev.ccappdev.nl'
+  - url: 'https://verifier-api.test.coronacheck.nl'
+  - url: 'https://verifier-api.acc.coronacheck.nl'
+  - url: 'https://verifier-api.coronacheck.nl'
+info:
+  description: >-
+    Verifier API (BFF)
+  version: 0.0.1
+  title: Verifier API - Backend for Frontend
+paths:
+  /v1/verifier/public_keys:
+    get:
+      summary: Get all public keys used for signing
+      description: Get all public keys used for signing wrapped/signed with our wrapper. The payload is defined by [PublicKeysResponse].
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedResponseWrapper"
+  /v1/verifier/config:
+    get:
+      summary: Application configuration for the verifier.
+      description: Application configuration for the verifier wrapped/signed with our wrapper. The payload is defined by [AppConfig].
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedResponseWrapper"
+components:
+  schemas:
+    SignedResponseWrapper:
+      type: object
+      description: Standard response wrapper
+      properties:
+        payload:
+          description: json response encoded as base64 string
+          type: string
+          format: byte
+          nullable: false
+        signature:
+          description: CMS/PKCS#7 signature over payload bytes
+          type: string
+          format: byte
+          nullable: false
+    AppConfig:
+      type: object
+      properties:
+        androidMinimumVersion:
+          type: integer
+          format: int64
+          example: 1
+        androidMinimumVersionMessage:
+          type: string
+          nullable: false
+          example:  "Om de app te gebruiken heb je de laatste versie uit de store nodig."
+        playStoreURL:
+          type: string
+          nullable: false
+          example: "https://www.google.com"
+        iosMinimumVersion:
+          type: string
+          nullable: false
+          example: "1.0.0"
+        iosMinimumVersionMessage:
+          type: string
+          nullable: false
+          example: "1.0.0"
+        iosAppStoreURL:
+          type: string
+          nullable: false
+          example: "https://apps.apple.com/nl/app/id1548269870"
+        appDeactivated:
+          type: boolean
+          example: false
+        configTTL:
+          type: integer
+          example: 864000
+        informationURL:
+          type: string
+          nullable: false
+          example: "https://coronacheck.nl"
+    PublicKeysResponse:
+      type: object
+      properties:
+        cl_keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClPublicKey'
+    ClPublicKey:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "VWS-TEST-0"
+        public_key:
+          type: string
+          format: byte
+          example: "s057xYcgZ1rKmdKaU25p6m0uDN6tSfgxL1aQIF1h3g="
+          
