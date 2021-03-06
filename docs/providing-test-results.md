@@ -213,8 +213,9 @@ And the payload should look like this:
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
         "holder": {
 	    "firstNameInitial": "J",
-	    "lastNameInitial": "D", // Note: no middle name or Dutch 'tussenvoegsel'
-	    "birthDayOfMonth": 31, // Integer, no leading zero, e.g. 4
+	    "lastNameInitial": "D", // Note: no middle name/tussenvoegsel, 'van den Plank' should be "P".
+	    "birthDay": "31", // String, but no leading zero, e.g. "4"
+	    "birthMonth": "12" // String, but no leading zero, e.g. "4"
 	}
     }
 }
@@ -229,7 +230,11 @@ Where:
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
-* `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity.
+* `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity. 
+    * `firstNameInitial`: The first letter of the first name as specified on the person's ID.
+    * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial.
+    * `birthDay`: The non-zero-padded day of the month of a person's birthdate. We use a string because persons with unknown birthdays sometimes have an 'X' on their ID.
+    * `birthMonth`: The non-zero-padded month of the birthdate.
 
 Notes:
 * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
@@ -432,7 +437,7 @@ pcr-lamp   | PCR Test (LAMP)
 
 2.0.0
 
-* Replaced birthday checksum with initials/birthday day of month
+* Replaced birthday checksum with initials/birthday day/month
 
 1.3.0
 * Document the addition of intermediate certificates to the signature
