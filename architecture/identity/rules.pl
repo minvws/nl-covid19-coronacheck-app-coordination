@@ -23,8 +23,26 @@ while(my ($key, $file) = each %DATA)
 	};
 };
 
-print "Pair	best	";
-print "\tqualifying\n";
+my $N1 = int(100/$RISK_PRIVACY);
+my $N2 = int(100/$RISK_FRAUD);
+
+print <<"EOM";
+At least $N1 for a fifty fifty change that you share the data shown:
+
+RISK_PRIVACY= $RISK_PRIVACY # Percent
+
+At least $N2 people in your vicintiy for a fifty fifty chance that you can 
+borrow a phone (not quite true - as we in an 'F' there are a lot of people who
+have the same 'F' -- so perhaps we should; given more options; go light on 
+the 'F' and pick 'V' instead if roughly equal).
+
+RISK_FRAUD  = $RISK_FRAUD; # Percent - 
+
+Note:  this does not yet reflect the 'V' issue of the 'Van somethings'.
+
+EOM
+
+print "Pair	best	sans-F\t\tqualifying\n";
 
 open(FH,'pairs-2014.txt') or die $!;
 
@@ -55,13 +73,19 @@ while(<FH>) {
 	} keys %score;
 
 	my @acceptable = map { 
-		$score{$_} >=$RISK_PRIVACY && $score{$_} <=$RISK_FRAUD && $_ 
+		$score{$_} >=$RISK_PRIVACY && $score{$_} <=$RISK_FRAUD && $_ || ()
+	} @best;
+
+	my @acceptable_sans = map { 
+		$score{$_} >=$RISK_PRIVACY && $score{$_} <=$RISK_FRAUD && $_ !~ m/F/ && $_  || ()
 	} @best;
 
 	my $best = $acceptable[0];
 	$best = $best[0]."*" unless $best;
 
-	print "$pair\t$best\t";
+	my $bs = $acceptable_sans[0];
+
+	print "$pair\t$best\t$bs\t";
 	print "\t".join(" ",@acceptable)."\n";
 
 	if ($DEBUG) {
