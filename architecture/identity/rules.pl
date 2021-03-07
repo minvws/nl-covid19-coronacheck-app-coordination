@@ -36,12 +36,12 @@ while(<FH>) {
 	$score{V} =   $data->{V}->{ $1 };
 	$score{VM} =  $data->{V}->{ $1 } / 12;
 	$score{VD}=   $data->{V}->{ $1 } / 31;
-	$score{VDM} = $data->{V}->{ $1 } / 31 / 12;
+	$score{VMD} = $data->{V}->{ $1 } / 31 / 12;
 
 	$score{F} =   $data->{F}->{ $2 };
 	$score{FM} =  $data->{F}->{ $2 } / 12;
 	$score{FD} =  $data->{F}->{ $2 } / 31;
-	$score{VDM} = $data->{F}->{ $2 } / 31 / 12;
+	$score{FMD} = $data->{F}->{ $2 } / 31 / 12;
 
 	$score{VF} =  $3;
 	$score{VFD} = $3 / 31;
