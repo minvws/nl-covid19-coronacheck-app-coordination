@@ -275,7 +275,7 @@ Avoid including details about your server implementation in the error body (e.g.
 
 The initials of first name and last name should be normalized according to the following rules:
 
-* Tussenvoegsels / middle names should be ignored. E.g for van der Plank the initial is P. 
+* Tussenvoegsels / middle names should be ignored. E.g for `van Dam` the initial is D. 
 * Accents/diacritics should be removed. E.g Ö becomes O, Ã becomes A, etc.
 * If a name starts with a quotation mark, the quote should be skipped. E.g. for a person named `'Aouji` the initial is A
 * Special case: if the name starts with a quote followed by a lowercase character and a hyphen, the first uppercase letter after the hyphen should be used. E.g for `'s-Gravezande` the initial is G. 
