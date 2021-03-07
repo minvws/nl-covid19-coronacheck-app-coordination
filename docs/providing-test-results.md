@@ -212,8 +212,8 @@ And the payload should look like this:
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
         "holder": {
-	    "firstNameInitial": "J",
-	    "lastNameInitial": "D", // Note: no middle name/tussenvoegsel, 'van den Plank' should be "P".
+	    "firstNameInitial": "J", // Normalized
+	    "lastNameInitial": "D", // Normalized
 	    "birthDay": "31", // String, but no leading zero, e.g. "4"
 	    "birthMonth": "12" // String, but no leading zero, e.g. "4"
 	}
@@ -231,8 +231,8 @@ Where:
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
 * `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity. 
-    * `firstNameInitial`: The first letter of the first name as specified on the person's ID.
-    * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial.
+    * `firstNameInitial`: The first letter of the first name as specified on the person's ID. This must be (normalized)[#initial-normalization] according to a number of rules. 
+    * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial. Like the other initial, this should be normalized. 
     * `birthDay`: The non-zero-padded day of the month of a person's birthdate. We use a string because persons with unknown birthdays sometimes have an 'X' on their ID.
     * `birthMonth`: The non-zero-padded month of the birthdate.
 
@@ -271,7 +271,18 @@ Avoid including details about your server implementation in the error body (e.g.
 }
 
 ````
+## Initial normalization
 
+The initials of first name and last name should be normalized according to the following rules:
+
+* Tussenvoegsels / middle names should be ignored. E.g for van der Plank the initial is P. 
+* Accents/diacritics should be removed. E.g Ö becomes O, Ã becomes A, etc.
+* If a name starts with a quotation mark, the quote should be skipped. E.g. for a person named `'Aouji` the initial is A
+* Special case: if the name starts with a quote followed by a lowercase character and a hyphen, the first uppercase letter after the hyphen should be used. E.g for `'s-Gravezande` the initial is G. 
+* The final initial should be uppercase. 
+* After normalization the initial matches the regular expression [A-Z]
+
+Rationale: characters outside the range A-Z are easier to link to an actual person because they are more rare (some combinations of initials could point only to a small number of individuals). 
 
 ## Signing responses
 
