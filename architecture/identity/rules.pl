@@ -1,5 +1,6 @@
 #!perl
 use strict;
+my $VERSION="1.00";
 
 my @RULES = qw ( V F VM FM VD FD VF VFM VFD );
 my %DATA = ( 
@@ -27,6 +28,8 @@ my $N1 = int(100/$RISK_PRIVACY);
 my $N2 = int(100/$RISK_FRAUD);
 
 print <<"EOM";
+Version: $VERSION
+
 At least $N1 for a fifty fifty change that you share the data shown:
 
 RISK_PRIVACY= $RISK_PRIVACY # Percent
@@ -42,9 +45,10 @@ Note:  this does not yet reflect the 'V' issue of the 'Van somethings'.
 
 EOM
 
-print "Pair	best	sans-F\t\tqualifying\n";
+print "Pair	selected	best	sans-F\t\tqualifying\n";
 
 open(FH,'pairs-2014.txt') or die $!;
+my $miss;
 
 while(<FH>) { 
 	m/([A-Z])\s+([A-Z])\s+(\d+\.\d+)%/ or die "Could not parse line $.\n";
@@ -81,11 +85,18 @@ while(<FH>) {
 	} @best;
 
 	my $best = $acceptable[0];
-	$best = $best[0]."*" unless $best;
 
 	my $bs = $acceptable_sans[0];
+	my $selected = $bs;
+	$selected = $best[0] unless $selected;
 
-	print "$pair\t$best\t$bs\t";
+	if (!$best) {
+		$best = $best[0]."*";
+		$miss += $3;
+	};
+
+
+	print "$pair\t$selected\t # $best\t$bs\t";
 	print "\t".join(" ",@acceptable)."\n";
 
 	if ($DEBUG) {
@@ -94,3 +105,6 @@ while(<FH>) {
 		print "\n";
 	};
 };
+
+print "\nMiss: $miss %\n";
+
