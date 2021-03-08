@@ -1,0 +1,62 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://ctp-api.dev.ccappdev.nl'
+  - url: 'https://ctp-api.test.coronacheck.nl'
+  - url: 'https://ctp-api.acc.coronacheck.nl'
+  - url: 'https://ctp-api.coronacheck.nl'
+info:
+  description: CTP API
+  version: 0.0.1
+  title: CTP API
+paths:
+  /v1/staticproof/paper:
+    post:
+      summary: 'Convert Test Result into a QR Code'
+      description: 'Convert Test Result into a QR code.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/StaticProofPaperRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StaticProofPaperResponse"
+components:
+  schemas:
+    StaticProofPaperRequest:
+      type: object
+      properties:
+        payload:
+          description: Payload is the string representation of 'Returning a test Result' part of https://github.com/minvws/nl-covid19-coronatester-app-coordination/blob/main/docs/providing-test-results.md
+          type: string
+          format: byte
+          nullable: false
+        signature:
+          description: CMS/PKCS#7 signature over payload bytes
+          type: string
+          format: byte
+          nullable: false
+    StaticProofPaperResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          nullable: false
+          description: "Text representation of the status"
+          example: "ok"
+        error:
+          type: integer
+          example: 0
+          description: "Error code"
+        qr:
+          properties:
+            data:
+              type: string
+              nullable: false
+              description: "Raw QR code text"
+              example: "274 /:KGE .+R5TV0Z.90BD AO/9F$NS..."
