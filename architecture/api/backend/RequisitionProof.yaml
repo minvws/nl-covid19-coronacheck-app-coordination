@@ -1,0 +1,83 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://todo/v1'
+info:
+  description: >-
+    Holder API
+  version: 0.0.1
+  title: Holder API
+paths:
+  /proof/requisition:
+    post:
+      summary: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      description: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProofOfTestRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProofOfTestResponse"
+
+components:
+  schemas:
+    ProofOfTestRequest:
+      type: object
+      properties:
+        stoken:
+          type: string
+          nullable: false
+        test:
+          type: object
+          nullable: false
+          properties:
+            payload:
+              type: string
+              nullable: false
+            signature:
+              type: string
+              nullable: false
+        ism:
+          type: object
+    ProofOfTestResponse:
+      type: object
+      properties:
+        ism:
+          $ref: "#/components/schemas/Ism"
+        attributes:
+          $ref: "#/components/schemas/IsmAttributes"
+        stoken:
+          type: string
+          nullable: false
+    Ism:
+      type: object
+      properties:
+        proof:
+          $ref: "#/components/schemas/IsmProof"
+        signature:
+          nullable: false
+    IsmProof:
+      type: object
+      properties:
+        c:
+          type: string
+        e_response:
+          type: string
+    IsmAttributes:
+      type: object
+      properties:
+        sampleTime:
+          type: string
+          format: date-time
+          description: "UTC Date/time the test sample was taken, to the hour precision"
+          example: "2021-02-21T10:00:00Z"
+          nullable: false
+        testType:
+          type: string
+          nullable: false

@@ -5,6 +5,8 @@ info:
 paths:
   /proof/issue:
     post:
+      summary: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      description: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
       tags:
         - ProofOfTest
       requestBody:
@@ -21,6 +23,8 @@ paths:
                 $ref: '#/components/schemas/IssueProofResult'
   /proof/nonce:
     post:
+      summary: 'Generates a nonce which is used by the client to create the CTCL commitments'
+      description: 'Generates a nonce which is used by the client to create the CTCL commitments'
       tags:
         - ProofOfTest
       requestBody:
@@ -52,8 +56,9 @@ components:
           example: "PCR"
         sampleTime:
           type: string
-          description: "Unix time the test sample was taken, to the hour precision"
-          example: "1613566408"
+          format: date-time
+          description: "UTC Date/time the test sample was taken, to the hour precision"
+          example: "2021-02-21T10:00:00Z"
         nonce:
           type: string
           format: byte
@@ -92,6 +97,9 @@ components:
       properties:
         sampleTime:
           type: string
+          format: date-time
+          description: "UTC Date/time the test sample was taken, to the hour precision"
+          example: "2021-02-21T10:00:00Z"
           nullable: true
         testType:
           type: string
