@@ -1,3 +1,4 @@
+
 # Partial disclosure identity
 
 As stated in the security framework document; it is highly desirable that people cannot
@@ -18,24 +19,30 @@ example, the month (but not year or day) of birth.
 
 For this a tradeoff needs to be made between security and privacy
 
-* Include too much about the person in the Qr code - and they become trackable. Thus loosing security.
+* Include too much about the person in the Qr code - and they become trackable. Thus 
+loosing security.
 
-* Include too little - and it becomes easy to find someone in your immediate social circle with whom you can swap a phone.
+* Include too little - and it becomes easy to find someone in your immediate social circle
+ with whom you can swap a phone.
 
 ## Target
 
 For this effort - two competing targets are to be met.
 
-1. You need to ask several hundred people (333) in order to find someone in your social circle with a 'match'. Somewhat taking into account the fact that family names co-incide slightly more in your social circle.
+1. You need to ask several hundred people (333) in order to find someone in your social 
+circle with a 'match'. Somewhat taking into account the fact that family names co-incide 
+slightly more in your social circle.
 
 1. If a 1000 people are scanned - there should be roughly a 50/50 chance that there is at least one other person with the same 'credentials' as 
 
 
 ## Calculation
 
-On order to find the right strategy - a table with all first letters of the first name and the family name *(literally that; so the 'Van Something' and 'De Something' are under the 'V' and 'D')* and their incidence is taken.
+On order to find the right strategy - a table with all first letters of the first name and the family name and their incidence is taken.
 
-From here we try several strategies
+Note that common prefixes; such as the Dutch 'van, de, etc' are all *removed* prior to taking the first letter.
+
+From here we try several strategies:
 
 * show First initial First name (V) -- so 27 permutations. Some common (J, nearly 13% of the population), some rare (e.g. Q and X).
 * show First initial Family name (F) -- again 27 permutations

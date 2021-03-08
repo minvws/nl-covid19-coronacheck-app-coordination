@@ -1,11 +1,11 @@
 #!perl
 use strict;
-my $VERSION="1.00";
+my $VERSION="1.02";
 
 my @RULES = qw ( V F VM FM VD FD VF VFM VFD );
 my %DATA = ( 
 	'V' => 'voorletters-2014.txt', 
-	'F' => 'familieletters-2014.txt' ,
+	'F' => 'familieletters-2007.txt' ,
 	'VF' => 'pairs-2014.txt' 
 );
 
@@ -18,10 +18,14 @@ while(my ($key, $file) = each %DATA)
 {
 	open(FH,$file) or die "Could not open $file: $!\n";
 	while(<FH>) { 
-		my ($k,$v) = m/([A-Z\s+])\s+(\d+\.\d+)%/ or die "Could not parse line $. of $file\n";
+		s/\#.*//;
+		next unless $_ =~ m/\S/;
+		my ($k,$v) = m/([A-Z\s+])\s+(\d+\.\d+)%?\s*$/ 
+			or die "Could not parse line $. of $file\n";
 		$k =~ s/\s//;
 		$data->{$key}->{ $k } = $v;
 	};
+	close(FH);
 };
 
 my $N1 = int(100/$RISK_PRIVACY);

@@ -18,24 +18,30 @@ example, the month (but not year or day) of birth.
 
 For this a tradeoff needs to be made between security and privacy
 
-* Include too much about the person in the Qr code - and they become trackable. Thus loosing security.
+* Include too much about the person in the Qr code - and they become trackable. Thus 
+loosing security.
 
-* Include too little - and it becomes easy to find someone in your immediate social circle with whom you can swap a phone.
+* Include too little - and it becomes easy to find someone in your immediate social circle
+ with whom you can swap a phone.
 
 ## Target
 
 For this effort - two competing targets are to be met.
 
-1. You need to ask several hundred people (333) in order to find someone in your social circle with a 'match'. Somewhat taking into account the fact that family names co-incide slightly more in your social circle.
+1. You need to ask several hundred people (333) in order to find someone in your social 
+circle with a 'match'. Somewhat taking into account the fact that family names co-incide 
+slightly more in your social circle.
 
 1. If a 1000 people are scanned - there should be roughly a 50/50 chance that there is at least one other person with the same 'credentials' as 
 
 
 ## Calculation
 
-On order to find the right strategy - a table with all first letters of the first name and the family name *(literally that; so the 'Van Something' and 'De Something' are under the 'V' and 'D')* and their incidence is taken.
+On order to find the right strategy - a table with all first letters of the first name and the family name and their incidence is taken.
 
-From here we try several strategies
+Note that common prefixes; such as the Dutch 'van, de, etc' are all *removed* prior to taking the first letter.
+
+From here we try several strategies:
 
 * show First initial First name (V) -- so 27 permutations. Some common (J, nearly 13% of the population), some rare (e.g. Q and X).
 * show First initial Family name (F) -- again 27 permutations
@@ -65,7 +71,7 @@ So for someone called *Albert Akkersloot, Born on the 12 of March 1990* - the ru
 # Full table
 
 ```
-Version: 1.00
+Version: 1.02
 
 At least 1000 for a fifty fifty change that you share the data shown:
 
@@ -78,683 +84,681 @@ the 'F' and pick 'V' instead if roughly equal).
 
 RISK_FRAUD  = 0.3; # Percent - 
 
-Note:  this does not yet reflect the 'V' issue of the 'Van somethings'.
-
 Pair	selected	best	sans-F		qualifying
 AA	FM	 # FM			FM VF
-AB	FD	 # FD			FD VFM
-AC	FM	 # FM			FM VF
+AB	VFM	 # VFM			VFM
+AC	VF	 # VF			VF FM
 AD	FD	 # FD			FD
-AE	VF	 # VF			VF FM
+AE	FM	 # FM			FM VF
 AF	VF	 # VF			VF FM
-AG	FM	 # FM			FM
+AG	FD	 # FD			FD
 AH	FD	 # FD			FD
 AI	VD	 # VD*			
 AJ	FM	 # FM			FM VF
 AK	FD	 # FD			FD
-AL	FM	 # FM			FM FD
+AL	FD	 # FD			FD
 AM	FD	 # FD			FD
 AN	VF	 # VF			VF FM
 AO	VF	 # VF			VF FM
-AP	FM	 # FM			FM FD
-AQ	F	 # F			F
-AR	FM	 # FM			FM FD
-AS	FD	 # FD			FD
+AP	FD	 # FD			FD
+AQ	VD	 # VD*			
+AR	FD	 # FD			FD
+AS	FD	 # FD*			
 AT	FM	 # FM			FM VF
 AU	F	 # F			F
-AV	VD	 # VD*			
-AW	FD	 # FD			FD FM
+AV	FD	 # FD			FD
+AW	FD	 # FD			FD
 AX	VD	 # VD*			
 AY	F	 # F			F
-AZ	VF	 # VF			VF
+AZ	VF	 # VF			VF FM
 BA	VM	 # FM	VM		FM VM VD
-BB	VM	 # VM	VM		VM FD VD
+BB	VM	 # VM	VM		VM VD
 BC	VM	 # VM	VM		VM FM VD
-BD	VM	 # VF	VM		VF VM FD VD
+BD	VM	 # FD	VM		FD VF VM VD
 BE	VM	 # FM	VM		FM VM VD
 BF	VM	 # VM	VM		VM FM VD
-BG	VM	 # FM	VM		FM VM VF VD
-BH	VM	 # FD	VM		FD VM VF VD
+BG	VM	 # FD	VM		FD VM VF VD
+BH	VM	 # VM	VM		VM VF FD VD
 BI	VM	 # VM	VM		VM VD
 BJ	VM	 # FM	VM		FM VM VD
-BK	VM	 # FD	VM		FD VM VF VD
-BL	VM	 # VF	VM		VF VM FM FD VD
-BM	VM	 # VF	VM		VF FD VM VD
-BN	VM	 # VM	VM		VM FM VD
+BK	VM	 # VM	VM		VM FD VF VD
+BL	VM	 # FD	VM		FD VF VM VD
+BM	VM	 # FD	VM		FD VF VM VD
+BN	VM	 # FM	VM		FM VM VD
 BO	VM	 # FM	VM		FM VM VD
-BP	VM	 # VM	VM		VM FM VF FD VD
-BQ	VM	 # VM	VM		VM F VD
-BR	VM	 # VF	VM		VF VM FM FD VD
-BS	VM	 # VM	VM		VM FD VF VD
+BP	VM	 # VM	VM		VM FD VF VD
+BQ	VM	 # VM	VM		VM VD
+BR	VM	 # FD	VM		FD VF VM VD
+BS	VM	 # VM	VM		VM VF VD
 BT	VM	 # FM	VM		FM VM VD
 BU	VM	 # VM	VM		VM F VD
-BV	VM	 # VF	VM		VF VM VD
-BW	VM	 # VF	VM		VF VM FD FM VD
+BV	VM	 # VF	VM		VF FD VM VD
+BW	VM	 # VF	VM		VF FD VM VD
 BX	VM	 # VM	VM		VM VD
 BY	VM	 # F	VM		F VM VD
-BZ	VM	 # VM	VM		VM VD
+BZ	VM	 # VM	VM		VM FM VD
 CA	VD	 # FM	VD		FM VD VF
-CB	VD	 # VD	VD		VD FD
+CB	VD	 # VD	VD		VD
 CC	VD	 # VD	VD		VD FM
-CD	VD	 # VD	VD		VD VF FD
-CE	VD	 # VD	VD		VD FM VF
+CD	VD	 # VD	VD		VD FD VF
+CE	VD	 # FM	VD		FM VD VF
 CF	VD	 # VD	VD		VD FM
-CG	VD	 # VF	VD		VF VD FM
-CH	VD	 # FD	VD		FD VD
+CG	VD	 # VF	VD		VF VD FD
+CH	VD	 # VD	VD		VD FD
 CI	VD	 # VD	VD		VD
-CJ	VD	 # FM	VD		FM VD VF
-CK	VD	 # FD	VD		FD VD
-CL	VD	 # VD	VD		VD VF FM FD
-CM	VD	 # VD	VD		VD FD VF
-CN	VD	 # VD	VD		VD FM
-CO	VD	 # VD	VD		VD FM VF
-CP	VD	 # VF	VD		VF VD FM FD
-CQ	VD	 # VD	VD		VD F
-CR	VD	 # VF	VD		VF VD FM FD
-CS	VD	 # VD	VD		VD FD
-CT	VD	 # VD	VD		VD FM VF
+CJ	VD	 # VD	VD		VD FM VF
+CK	VD	 # VD	VD		VD FD
+CL	VD	 # VD	VD		VD VF FD
+CM	VD	 # FD	VD		FD VD VF
+CN	VD	 # FM	VD		FM VD
+CO	VD	 # FM	VD		FM VD VF
+CP	VD	 # VF	VD		VF VD FD
+CQ	VD	 # VD	VD		VD
+CR	VD	 # VF	VD		VF VD FD
+CS	VD	 # VD	VD		VD
+CT	VD	 # FM	VD		FM VD VF
 CU	VD	 # VD	VD		VD F
-CV	VD	 # VD	VD		VD
-CW	VD	 # VD	VD		VD VF FD FM
+CV	VD	 # FD	VD		FD VD
+CW	VD	 # FD	VD		FD VD VF
 CX	VD	 # VD	VD		VD
-CY	VD	 # F	VD		F VD
-CZ	VD	 # VD	VD		VD
+CY	VD	 # VD	VD		VD F
+CZ	VD	 # VD	VD		VD FM
 DA	VD	 # FM	VD		FM VD
-DB	VD	 # VD	VD		VD FD
+DB	VD	 # VD	VD		VD
 DC	VD	 # FM	VD		FM VD
-DD	VD	 # VF	VD		VF VD FD
+DD	VD	 # VF	VD		VF FD VD
 DE	VD	 # FM	VD		FM VD
 DF	VD	 # VD	VD		VD FM
-DG	VD	 # VF	VD		VF FM VD
-DH	VD	 # FD	VD		FD VD
+DG	VD	 # VF	VD		VF FD VD
+DH	VD	 # VD	VD		VD FD
 DI	VD	 # VD	VD		VD
 DJ	VD	 # FM	VD		FM VD VF
 DK	VD	 # FD	VD		FD VD
-DL	VD	 # VF	VD		VF FM VD FD
+DL	VD	 # VF	VD		VF FD VD
 DM	VD	 # VF	VD		VF FD VD
 DN	VD	 # FM	VD		FM VD
 DO	VD	 # FM	VD		FM VD
-DP	VD	 # VF	VD		VF FM VD FD
-DQ	VD	 # VD	VD		VD F
-DR	VD	 # VF	VD		VF VD FM FD
-DS	VD	 # FD	VD		FD VD
+DP	VD	 # VF	VD		VF FD VD
+DQ	VD	 # VD	VD		VD
+DR	VD	 # VF	VD		VF FD VD
+DS	VD	 # VD	VD		VD
 DT	VD	 # FM	VD		FM VD VF
 DU	VD	 # VD	VD		VD F
-DV	VD	 # VD	VD		VD VF
-DW	VD	 # VF	VD		VF VD FD FM
+DV	VD	 # FD	VD		FD VD VF
+DW	VD	 # VF	VD		VF FD VD
 DX	VD	 # VD	VD		VD
 DY	VD	 # F	VD		F VD
-DZ	VD	 # VD	VD		VD
+DZ	VD	 # FM	VD		FM VD
 EA	VD	 # FM	VD		FM VD VF
-EB	VD	 # VD	VD		VD FD
+EB	VD	 # VD	VD		VD
 EC	VD	 # VD	VD		VD FM
-ED	VD	 # VF	VD		VF VD FD
-EE	VD	 # VD	VD		VD FM VF
+ED	VD	 # VF	VD		VF FD VD
+EE	VD	 # FM	VD		FM VD VF
 EF	VD	 # VD	VD		VD FM
-EG	VD	 # VF	VD		VF FM VD
-EH	VD	 # FD	VD		FD VD
+EG	VD	 # VF	VD		VF VD FD
+EH	VD	 # VD	VD		VD FD
 EI	VD	 # VD	VD		VD
 EJ	VD	 # FM	VD		FM VD VF
-EK	VD	 # FD	VD		FD VD
-EL	VD	 # VF	VD		VF VD FM FD
-EM	VD	 # VD	VD		VD VF FD
-EN	VD	 # VD	VD		VD FM
-EO	VD	 # VD	VD		VD FM
-EP	VD	 # VF	VD		VF VD FM FD
-EQ	VD	 # VD	VD		VD F
-ER	VD	 # VF	VD		VF VD FM FD
-ES	VD	 # VD	VD		VD FD
-ET	VD	 # VD	VD		VD FM VF
+EK	VD	 # VD	VD		VD FD
+EL	VD	 # VF	VD		VF FD VD
+EM	VD	 # FD	VD		FD VD VF
+EN	VD	 # FM	VD		FM VD
+EO	VD	 # FM	VD		FM VD
+EP	VD	 # VF	VD		VF VD FD
+EQ	VD	 # VD	VD		VD
+ER	VD	 # VF	VD		VF VD FD
+ES	VD	 # VD	VD		VD
+ET	VD	 # FM	VD		FM VD VF
 EU	VD	 # VD	VD		VD F
-EV	VD	 # VD	VD		VD
-EW	VD	 # VD	VD		VD VF FD FM
+EV	VD	 # FD	VD		FD VD
+EW	VD	 # FD	VD		FD VD VF
 EX	VD	 # VD	VD		VD
 EY	VD	 # F	VD		F VD
-EZ	VD	 # VD	VD		VD
+EZ	VD	 # VD	VD		VD FM
 FA	VM	 # FM	VM		FM VM
-FB	VM	 # VM	VM		VM FD
+FB	VM	 # VM	VM		VM
 FC	VM	 # VM	VM		VM FM
-FD	VM	 # VM	VM		VM VF FD
-FE	VM	 # VM	VM		VM FM
+FD	VM	 # VM	VM		VM FD VF
+FE	VM	 # FM	VM		FM VM
 FF	VM	 # VM	VM		VM FM
-FG	VM	 # VM	VM		VM FM VF
-FH	VM	 # FD	VM		FD VM VF
+FG	VM	 # VM	VM		VM FD VF
+FH	VM	 # VM	VM		VM VF FD
 FI	VM	 # VM	VM		VM
-FJ	VM	 # FM	VM		FM VM
-FK	VM	 # FD	VM		FD VF VM
-FL	VM	 # VM	VM		VM VF FM FD
-FM	VM	 # VM	VM		VM VF FD
-FN	VM	 # VM	VM		VM FM
-FO	VM	 # VM	VM		VM FM
-FP	VM	 # VM	VM		VM FM VF FD
-FQ	VM	 # VM	VM		VM F
-FR	VM	 # VM	VM		VM VF FM FD
-FS	VM	 # VM	VM		VM FD VF
-FT	VM	 # VM	VM		VM FM
+FJ	VM	 # VM	VM		VM FM
+FK	VM	 # VF	VM		VF VM FD
+FL	VM	 # VM	VM		VM FD VF
+FM	VM	 # FD	VM		FD VM VF
+FN	VM	 # FM	VM		FM VM
+FO	VM	 # FM	VM		FM VM
+FP	VM	 # VM	VM		VM FD VF
+FQ	VM	 # VM	VM		VM
+FR	VM	 # VM	VM		VM FD VF
+FS	VM	 # VM	VM		VM VF
+FT	VM	 # FM	VM		FM VM
 FU	VM	 # VM	VM		VM F
-FV	VM	 # VF	VM		VF VM
-FW	VM	 # VM	VM		VM VF FD FM
+FV	VM	 # VF	VM		VF FD VM
+FW	VM	 # FD	VM		FD VM VF
 FX	VM	 # VM	VM		VM
-FY	VM	 # F	VM		F VM
-FZ	VM	 # VM	VM		VM
+FY	VM	 # VM	VM		VM F
+FZ	VM	 # VM	VM		VM FM
 GA	VD	 # FM	VD		FM VD
-GB	VD	 # VD	VD		VD FD
+GB	VD	 # VD	VD		VD
 GC	VD	 # FM	VD		FM VD
-GD	VD	 # VF	VD		VF VD FD
+GD	VD	 # VF	VD		VF FD VD
 GE	VD	 # FM	VD		FM VD
 GF	VD	 # VD	VD		VD FM
-GG	VD	 # VF	VD		VF FM VD
-GH	VD	 # FD	VD		FD VD
+GG	VD	 # VF	VD		VF FD VD
+GH	VD	 # VD	VD		VD FD
 GI	VD	 # VD	VD		VD
 GJ	VD	 # FM	VD		FM VD VF
-GK	VD	 # FD	VD		FD VD
-GL	VD	 # VF	VD		VF VD FM FD
+GK	VD	 # VD	VD		VD FD
+GL	VD	 # VF	VD		VF FD VD
 GM	VD	 # VF	VD		VF FD VD
 GN	VD	 # FM	VD		FM VD
 GO	VD	 # FM	VD		FM VD
-GP	VD	 # VF	VD		VF VD FM FD
-GQ	VD	 # VD	VD		VD F
-GR	VD	 # VF	VD		VF VD FM FD
-GS	VD	 # FD	VD		FD VD
+GP	VD	 # VF	VD		VF VD FD
+GQ	VD	 # VD	VD		VD
+GR	VD	 # VF	VD		VF FD VD
+GS	VD	 # VD	VD		VD
 GT	VD	 # FM	VD		FM VD VF
 GU	VD	 # VD	VD		VD F
-GV	VD	 # VD	VD		VD VF
-GW	VD	 # VF	VD		VF VD FD FM
+GV	VD	 # FD	VD		FD VD VF
+GW	VD	 # FD	VD		FD VF VD
 GX	VD	 # VD	VD		VD
 GY	VD	 # F	VD		F VD
-GZ	VD	 # VD	VD		VD
+GZ	VD	 # FM	VD		FM VD
 HA	VD	 # FM	VD		FM VD VF
-HB	VD	 # VD	VD		VD FD
+HB	VD	 # VD	VD		VD
 HC	VD	 # VD	VD		VD FM
-HD	VD	 # VD	VD		VD VF FD
-HE	VD	 # VD	VD		VD FM VF
+HD	VD	 # VD	VD		VD FD VF
+HE	VD	 # FM	VD		FM VD VF
 HF	VD	 # VD	VD		VD FM
-HG	VD	 # VF	VD		VF VD FM
-HH	VD	 # FD	VD		FD VD
+HG	VD	 # VF	VD		VF VD FD
+HH	VD	 # VD	VD		VD FD
 HI	VD	 # VD	VD		VD
-HJ	VD	 # FM	VD		FM VD VF
-HK	VD	 # FD	VD		FD VD
-HL	VD	 # VD	VD		VD VF FM FD
-HM	VD	 # VD	VD		VD FD VF
+HJ	VD	 # VD	VD		VD VF FM
+HK	VD	 # VD	VD		VD FD
+HL	VD	 # VD	VD		VD VF FD
+HM	VD	 # FD	VD		FD VD VF
 HN	VD	 # VD	VD		VD FM VF
-HO	VD	 # VD	VD		VD FM VF
-HP	VD	 # VF	VD		VF VD FM FD
-HQ	VD	 # VD	VD		VD F
-HR	VD	 # VF	VD		VF VD FM FD
-HS	VD	 # VD	VD		VD FD
-HT	VD	 # VD	VD		VD FM VF
+HO	VD	 # FM	VD		FM VD VF
+HP	VD	 # VF	VD		VF VD FD
+HQ	VD	 # VD	VD		VD
+HR	VD	 # VF	VD		VF VD FD
+HS	VD	 # VD	VD		VD
+HT	VD	 # FM	VD		FM VD VF
 HU	VD	 # VD	VD		VD F
-HV	VD	 # VD	VD		VD
-HW	VD	 # VD	VD		VD FD VF FM
+HV	VD	 # VD	VD		VD FD
+HW	VD	 # FD	VD		FD VD VF
 HX	VD	 # VD	VD		VD
-HY	VD	 # F	VD		F VD
-HZ	VD	 # VD	VD		VD
+HY	VD	 # VD	VD		VD F
+HZ	VD	 # VD	VD		VD FM
 IA	VM	 # FM	VM		FM VM
-IB	VM	 # VM	VM		VM VF FD
+IB	VM	 # VM	VM		VM VF
 IC	VM	 # VM	VM		VM FM
-ID	VM	 # VM	VM		VM FD
-IE	VM	 # VM	VM		VM FM
+ID	VM	 # FD	VM		FD VM
+IE	VM	 # FM	VM		FM VM
 IF	VM	 # VM	VM		VM FM
-IG	VM	 # FM	VM		FM VM
-IH	VM	 # FD	VM		FD VF VM
+IG	VM	 # VM	VM		VM FD
+IH	VM	 # VF	VM		VF VM FD
 II	VM	 # VM	VM		VM
-IJ	VM	 # FM	VM		FM VM
-IK	VM	 # FD	VM		FD VM VF
-IL	VM	 # VM	VM		VM FM FD
-IM	VM	 # VM	VM		VM FD VF
-IN	VM	 # VM	VM		VM FM
-IO	VM	 # VM	VM		VM FM
-IP	VM	 # VM	VM		VM FM FD
-IQ	VM	 # VM	VM		VM F
-IR	VM	 # VM	VM		VM FM FD
-IS	VM	 # VF	VM		VF VM FD
-IT	VM	 # VM	VM		VM FM
+IJ	VM	 # VM	VM		VM FM
+IK	VM	 # VM	VM		VM VF FD
+IL	VM	 # VM	VM		VM FD
+IM	VM	 # FD	VM		FD VM VF
+IN	VM	 # FM	VM		FM VM
+IO	VM	 # FM	VM		FM VM
+IP	VM	 # VM	VM		VM FD
+IQ	VM	 # VM	VM		VM
+IR	VM	 # VM	VM		VM FD
+IS	VM	 # VF	VM		VF VM
+IT	VM	 # FM	VM		FM VM
 IU	VM	 # VM	VM		VM F
-IV	VM	 # VM	VM		VM VF
-IW	VM	 # VM	VM		VM FD FM
+IV	VM	 # FD	VM		FD VM VF
+IW	VM	 # FD	VM		FD VM
 IX	VM	 # VM	VM		VM
-IY	VM	 # F	VM		F VM
-IZ	VM	 # VM	VM		VM
+IY	VM	 # VM	VM		VM F
+IZ	VM	 # VM	VM		VM FM
 JA	FM	 # FM			FM VF
-JB	VFM	 # VFM			VFM FD
+JB	VFM	 # VFM			VFM
 JC	VF	 # VF			VF FM
 JD	FD	 # FD			FD
 JE	FM	 # FM			FM
 JF	VF	 # VF			VF FM
-JG	FM	 # FM			FM
+JG	FD	 # FD			FD
 JH	FD	 # FD			FD VFM
 JI	VF	 # VF*			
 JJ	FM	 # FM			FM
 JK	FD	 # FD			FD
-JL	FM	 # FM			FM FD
+JL	FD	 # FD			FD
 JM	FD	 # FD			FD
 JN	FM	 # FM			FM VF
 JO	FM	 # FM			FM VF
-JP	FM	 # FM			FM FD
-JQ	F	 # F			F
-JR	FM	 # FM			FM FD
-JS	FD	 # FD			FD VFM
+JP	FD	 # FD			FD
+JQ	F	 # F*			
+JR	FD	 # FD			FD
+JS	VFM	 # VFM			VFM
 JT	FM	 # FM			FM
 JU	F	 # F			F
-JV	VFM	 # VFM*			
-JW	FD	 # FD			FD FM
+JV	FD	 # FD			FD
+JW	FD	 # FD			FD
 JX	VMD	 # VMD*			
 JY	F	 # F			F
-JZ	VF	 # VF			VF
+JZ	VF	 # VF			VF FM
 KA	VM	 # FM	VM		FM VM
-KB	VM	 # VM	VM		VM VF FD
+KB	VM	 # VM	VM		VM VF
 KC	VM	 # VM	VM		VM FM
 KD	VM	 # VM	VM		VM FD VF
-KE	VM	 # VM	VM		VM FM
+KE	VM	 # FM	VM		FM VM
 KF	VM	 # VM	VM		VM FM
-KG	VM	 # VM	VM		VM FM
-KH	VM	 # VF	VM		VF FD VM
+KG	VM	 # VM	VM		VM FD
+KH	VM	 # VF	VM		VF VM FD
 KI	VM	 # VM	VM		VM
-KJ	VM	 # FM	VM		FM VM
+KJ	VM	 # VM	VM		VM FM
 KK	VM	 # VF	VM		VF VM FD
-KL	VM	 # VM	VM		VM FM VF FD
+KL	VM	 # VM	VM		VM FD VF
 KM	VM	 # VM	VM		VM FD VF
 KN	VM	 # VM	VM		VM FM
 KO	VM	 # VM	VM		VM FM
-KP	VM	 # VM	VM		VM FM FD
-KQ	VM	 # VM	VM		VM F
-KR	VM	 # VM	VM		VM FM FD VF
-KS	VM	 # VF	VM		VF VM FD
+KP	VM	 # VM	VM		VM FD
+KQ	VM	 # VM	VM		VM
+KR	VM	 # VM	VM		VM FD VF
+KS	VM	 # VF	VM		VF VM
 KT	VM	 # VM	VM		VM FM
 KU	VM	 # VM	VM		VM F
-KV	VM	 # VM	VM		VM VF
-KW	VM	 # VM	VM		VM VF FD FM
+KV	VM	 # VM	VM		VM FD VF
+KW	VM	 # VM	VM		VM FD VF
 KX	VM	 # VM	VM		VM
-KY	VM	 # F	VM		F VM
-KZ	VM	 # VM	VM		VM
+KY	VM	 # VM	VM		VM F
+KZ	VM	 # VM	VM		VM FM
 LA	VD	 # FM	VD		FM VD VF
-LB	VD	 # VD	VD		VD FD
+LB	VD	 # VD	VD		VD
 LC	VD	 # VD	VD		VD FM
-LD	VD	 # VF	VD		VF VD FD
+LD	VD	 # VF	VD		VF FD VD
 LE	VD	 # FM	VD		FM VD VF
 LF	VD	 # VD	VD		VD FM
-LG	VD	 # VF	VD		VF FM VD
-LH	VD	 # FD	VD		FD VD
+LG	VD	 # VF	VD		VF FD VD
+LH	VD	 # VD	VD		VD FD
 LI	VD	 # VD	VD		VD
 LJ	VD	 # FM	VD		FM VF VD
-LK	VD	 # FD	VD		FD VD
-LL	VD	 # VF	VD		VF VD FM FD
+LK	VD	 # VD	VD		VD FD
+LL	VD	 # VF	VD		VF FD VD
 LM	VD	 # FD	VD		FD VD VF
-LN	VD	 # VD	VD		VD FM
-LO	VD	 # VD	VD		VD FM VF
-LP	VD	 # VF	VD		VF VD FM FD
-LQ	VD	 # VD	VD		VD F
-LR	VD	 # VF	VD		VF VD FM FD
-LS	VD	 # VD	VD		VD FD
+LN	VD	 # FM	VD		FM VD
+LO	VD	 # FM	VD		FM VD VF
+LP	VD	 # VF	VD		VF VD FD
+LQ	VD	 # VD	VD		VD
+LR	VD	 # VF	VD		VF FD VD
+LS	VD	 # VD	VD		VD
 LT	VD	 # FM	VD		FM VD VF
 LU	VD	 # VD	VD		VD F
-LV	VD	 # VD	VD		VD
-LW	VD	 # VD	VD		VD VF FD FM
+LV	VD	 # FD	VD		FD VD
+LW	VD	 # FD	VD		FD VD VF
 LX	VD	 # VD	VD		VD
 LY	VD	 # F	VD		F VD
-LZ	VD	 # VD	VD		VD
+LZ	VD	 # VD	VD		VD FM
 MA	FM	 # FM			FM
-MB	VFM	 # VFM			VFM FD
+MB	VFM	 # VFM			VFM
 MC	VF	 # VF			VF FM
 MD	FD	 # FD			FD
 ME	FM	 # FM			FM VF
 MF	VF	 # VF			VF FM
-MG	FM	 # FM			FM
+MG	FD	 # FD			FD
 MH	FD	 # FD			FD
 MI	VF	 # VF*			
 MJ	FM	 # FM			FM
 MK	FD	 # FD			FD
-ML	FM	 # FM			FM FD
+ML	FD	 # FD			FD
 MM	FD	 # FD			FD
-MN	VF	 # VF			VF FM
-MO	VF	 # VF			VF FM
-MP	FM	 # FM			FM FD
-MQ	F	 # F			F
-MR	FM	 # FM			FM FD
-MS	FD	 # FD			FD
+MN	FM	 # FM			FM VF
+MO	FM	 # FM			FM VF
+MP	FD	 # FD			FD
+MQ	F	 # F*			
+MR	FD	 # FD			FD
+MS	FD	 # FD*			
 MT	FM	 # FM			FM
 MU	F	 # F			F
-MV	VFM	 # VFM*			
-MW	FD	 # FD			FD FM
+MV	FD	 # FD			FD
+MW	FD	 # FD			FD
 MX	VMD	 # VMD*			
 MY	F	 # F			F
-MZ	VF	 # VF			VF
+MZ	VF	 # VF			VF FM
 NA	VM	 # FM	VM		FM VM
-NB	VM	 # VM	VM		VM FD
+NB	VM	 # VM	VM		VM
 NC	VM	 # VM	VM		VM FM
-ND	VM	 # VM	VM		VM VF FD
-NE	VM	 # VM	VM		VM FM
+ND	VM	 # VM	VM		VM FD VF
+NE	VM	 # FM	VM		FM VM
 NF	VM	 # VM	VM		VM FM
-NG	VM	 # VM	VM		VM FM VF
-NH	VM	 # FD	VM		FD VM VF
+NG	VM	 # VM	VM		VM FD VF
+NH	VM	 # VM	VM		VM VF FD
 NI	VM	 # VM	VM		VM
 NJ	VM	 # VM	VM		VM FM
-NK	VM	 # VM	VM		VM FD VF
-NL	VM	 # VM	VM		VM FM VF FD
-NM	VM	 # VM	VM		VM VF FD
+NK	VM	 # VM	VM		VM VF FD
+NL	VM	 # VM	VM		VM FD VF
+NM	VM	 # VM	VM		VM FD VF
 NN	VM	 # VM	VM		VM FM
 NO	VM	 # VM	VM		VM FM
-NP	VM	 # VM	VM		VM FM FD VF
-NQ	VM	 # VM	VM		VM F
-NR	VM	 # VM	VM		VM VF FM FD
-NS	VM	 # VM	VM		VM VF FD
+NP	VM	 # VM	VM		VM FD VF
+NQ	VM	 # VM	VM		VM
+NR	VM	 # VM	VM		VM FD VF
+NS	VM	 # VM	VM		VM VF
 NT	VM	 # VM	VM		VM FM
 NU	VM	 # VM	VM		VM F
-NV	VM	 # VF	VM		VF VM
-NW	VM	 # VM	VM		VM VF FD FM
+NV	VM	 # VF	VM		VF VM FD
+NW	VM	 # VM	VM		VM FD VF
 NX	VM	 # VM	VM		VM
-NY	VM	 # F	VM		F VM
-NZ	VM	 # VM	VM		VM
+NY	VM	 # VM	VM		VM F
+NZ	VM	 # VM	VM		VM FM
 OA	FM	 # FM			FM
-OB	FD	 # FD			FD
+OB	VF	 # VF*			
 OC	FM	 # FM			FM
 OD	FD	 # FD			FD
 OE	FM	 # FM			FM
 OF	FM	 # FM			FM
-OG	FM	 # FM			FM
+OG	FD	 # FD			FD
 OH	FD	 # FD			FD
-OI	FM	 # FM*			
+OI	VM	 # VM*			
 OJ	FM	 # FM			FM
 OK	FD	 # FD			FD
-OL	FM	 # FM			FM FD
+OL	FD	 # FD			FD
 OM	FD	 # FD			FD
 ON	FM	 # FM			FM
 OO	FM	 # FM			FM
-OP	FM	 # FM			FM FD
-OQ	F	 # F			F
-OR	FM	 # FM			FM FD
-OS	FD	 # FD			FD
+OP	FD	 # FD			FD
+OQ	F	 # F*			
+OR	FD	 # FD			FD
+OS	FD	 # FD*			
 OT	FM	 # FM			FM
 OU	F	 # F			F
-OV	FMD	 # FMD*			
-OW	FD	 # FD			FD FM
+OV	FD	 # FD			FD
+OW	FD	 # FD			FD
 OX	VM	 # VM*			
 OY	F	 # F			F
-OZ	FM	 # FM*			
+OZ	FM	 # FM			FM
 PA	VD	 # FM	VD		FM VD
-PB	VD	 # VD	VD		VD FD
+PB	VD	 # VD	VD		VD
 PC	VD	 # FM	VD		FM VD
-PD	VD	 # VF	VD		VF VD FD
+PD	VD	 # VF	VD		VF FD VD
 PE	VD	 # FM	VD		FM VD
 PF	VD	 # VD	VD		VD FM
-PG	VD	 # VF	VD		VF FM VD
-PH	VD	 # FD	VD		FD VD
+PG	VD	 # VF	VD		VF FD VD
+PH	VD	 # VD	VD		VD FD
 PI	VD	 # VD	VD		VD
 PJ	VD	 # FM	VD		FM VD VF
 PK	VD	 # FD	VD		FD VD
-PL	VD	 # VF	VD		VF FM VD FD
+PL	VD	 # VF	VD		VF FD VD
 PM	VD	 # VF	VD		VF FD VD
 PN	VD	 # FM	VD		FM VD
 PO	VD	 # FM	VD		FM VD
-PP	VD	 # VF	VD		VF FM VD FD
-PQ	VD	 # VD	VD		VD F
-PR	VD	 # VF	VD		VF VD FM FD
-PS	VD	 # FD	VD		FD VD
+PP	VD	 # VF	VD		VF VD FD
+PQ	VD	 # VD	VD		VD
+PR	VD	 # VF	VD		VF FD VD
+PS	VD	 # VD	VD		VD
 PT	VD	 # FM	VD		FM VD VF
 PU	VD	 # VD	VD		VD F
-PV	VD	 # VD	VD		VD
-PW	VD	 # VF	VD		VF VD FD FM
+PV	VD	 # FD	VD		FD VD
+PW	VD	 # VF	VD		VF FD VD
 PX	VD	 # VD	VD		VD
 PY	VD	 # F	VD		F VD
-PZ	VD	 # VD	VD		VD
+PZ	VD	 # FM	VD		FM VD
 QA	V	 # FM	V		FM V
-QB	V	 # FD	V		FD V
+QB	V	 # V	V		V
 QC	V	 # FM	V		FM V
 QD	V	 # FD	V		FD V
 QE	V	 # FM	V		FM V
 QF	V	 # FM	V		FM V
-QG	V	 # FM	V		FM V
+QG	V	 # FD	V		FD V
 QH	V	 # FD	V		FD V
 QI	V	 # V	V		V
 QJ	V	 # FM	V		FM V
 QK	V	 # FD	V		FD V
-QL	V	 # FM	V		FM FD V
+QL	V	 # FD	V		FD V
 QM	V	 # FD	V		FD V
 QN	V	 # FM	V		FM V
 QO	V	 # FM	V		FM V
-QP	V	 # FM	V		FM FD V
-QQ	V	 # V	V		V F
-QR	V	 # FM	V		FM FD V
-QS	V	 # FD	V		FD V
+QP	V	 # FD	V		FD V
+QQ	V	 # V	V		V
+QR	V	 # FD	V		FD V
+QS	V	 # V	V		V
 QT	V	 # FM	V		FM V
 QU	V	 # F	V		F V
-QV	V	 # V	V		V
-QW	V	 # FD	V		FD FM V
+QV	V	 # FD	V		FD V
+QW	V	 # FD	V		FD V
 QX	V	 # V	V		V
 QY	V	 # F	V		F V
-QZ	V	 # V	V		V
+QZ	V	 # FM	V		FM V
 RA	VD	 # FM	VD		FM VD VF
-RB	VD	 # VD	VD		VD FD
+RB	VD	 # VD	VD		VD
 RC	VD	 # VD	VD		VD FM
 RD	VD	 # VD	VD		VD FD VF
-RE	VD	 # VD	VD		VD FM VF
+RE	VD	 # FM	VD		FM VD VF
 RF	VD	 # VD	VD		VD FM
-RG	VD	 # VD	VD		VD FM VF
-RH	VD	 # FD	VD		FD VD
+RG	VD	 # VD	VD		VD VF FD
+RH	VD	 # VD	VD		VD FD
 RI	VD	 # VD	VD		VD
 RJ	VD	 # VF	VD		VF VD FM
 RK	VD	 # VD	VD		VD FD
-RL	VD	 # VD	VD		VD FM VF FD
+RL	VD	 # VD	VD		VD FD VF
 RM	VD	 # VD	VD		VD FD
 RN	VD	 # VD	VD		VD FM VF
 RO	VD	 # VD	VD		VD FM VF
-RP	VD	 # VD	VD		VD VF FM FD
-RQ	VD	 # VD	VD		VD F
-RR	VD	 # VD	VD		VD VF FM FD
-RS	VD	 # VD	VD		VD FD
-RT	VD	 # VD	VD		VD VF FM
+RP	VD	 # VD	VD		VD VF FD
+RQ	VD	 # VD	VD		VD
+RR	VD	 # VD	VD		VD FD VF
+RS	VD	 # VD	VD		VD
+RT	VD	 # VD	VD		VD FM VF
 RU	VD	 # VD	VD		VD F
-RV	VD	 # VD	VD		VD
-RW	VD	 # VD	VD		VD FD FM
+RV	VD	 # VD	VD		VD FD
+RW	VD	 # VD	VD		VD FD
 RX	VD	 # VD	VD		VD
-RY	VD	 # F	VD		F VD
-RZ	VD	 # VD	VD		VD
+RY	VD	 # VD	VD		VD F
+RZ	VD	 # VD	VD		VD FM
 SA	VD	 # FM	VD		FM VF VD
-SB	VD	 # VD	VD		VD FD
+SB	VD	 # VD	VD		VD
 SC	VD	 # VD	VD		VD FM
-SD	VD	 # VD	VD		VD VF FD
-SE	VD	 # VD	VD		VD FM VF
+SD	VD	 # VD	VD		VD FD VF
+SE	VD	 # FM	VD		FM VD VF
 SF	VD	 # VD	VD		VD FM
-SG	VD	 # VD	VD		VD VF FM
-SH	VD	 # FD	VD		FD VD
+SG	VD	 # VD	VD		VD VF FD
+SH	VD	 # VD	VD		VD FD
 SI	VD	 # VD	VD		VD
-SJ	VD	 # FM	VD		FM VD VF
-SK	VD	 # FD	VD		FD VD
-SL	VD	 # VD	VD		VD VF FM FD
-SM	VD	 # VD	VD		VD FD VF
+SJ	VD	 # VD	VD		VD VF FM
+SK	VD	 # VD	VD		VD FD
+SL	VD	 # VD	VD		VD FD VF
+SM	VD	 # FD	VD		FD VD VF
 SN	VD	 # VD	VD		VD FM VF
-SO	VD	 # VD	VD		VD FM VF
-SP	VD	 # VF	VD		VF VD FM FD
-SQ	VD	 # VD	VD		VD F
-SR	VD	 # VD	VD		VD VF FM FD
-SS	VD	 # VD	VD		VD FD
-ST	VD	 # VD	VD		VD VF FM
+SO	VD	 # FM	VD		FM VD VF
+SP	VD	 # VF	VD		VF VD FD
+SQ	VD	 # VD	VD		VD
+SR	VD	 # VD	VD		VD VF FD
+SS	VD	 # VD	VD		VD
+ST	VD	 # FM	VD		FM VD VF
 SU	VD	 # VD	VD		VD F
-SV	VD	 # VD	VD		VD
-SW	VD	 # VD	VD		VD FD VF FM
+SV	VD	 # VD	VD		VD FD
+SW	VD	 # FD	VD		FD VD VF
 SX	VD	 # VD	VD		VD
-SY	VD	 # F	VD		F VD
-SZ	VD	 # VD	VD		VD
+SY	VD	 # VD	VD		VD F
+SZ	VD	 # VD	VD		VD FM
 TA	VD	 # FM	VD		FM VD VM
-TB	VD	 # VD	VD		VD VM FD
+TB	VD	 # VD	VD		VD VM
 TC	VD	 # FM	VD		FM VD VM
 TD	VD	 # VF	VD		VF FD VD VM
 TE	VD	 # FM	VD		FM VD VM
-TF	VD	 # VD	VD		VD VM FM
-TG	VD	 # FM	VD		FM VF VD VM
+TF	VD	 # VD	VD		VD FM VM
+TG	VD	 # VF	VD		VF FD VD VM
 TH	VD	 # FD	VD		FD VD VM
 TI	VD	 # VD	VD		VD VM
 TJ	VD	 # FM	VD		FM VF VD VM
 TK	VD	 # FD	VD		FD VD VM VF
-TL	VD	 # VF	VD		VF FM VD VM FD
+TL	VD	 # VF	VD		VF FD VD VM
 TM	VD	 # VF	VD		VF FD VD VM
 TN	VD	 # FM	VD		FM VD VM
 TO	VD	 # FM	VD		FM VD VM
-TP	VD	 # VF	VD		VF FM VD VM FD
-TQ	VD	 # VD	VD		VD VM F
-TR	VD	 # VF	VD		VF FM VD FD VM
-TS	VD	 # FD	VD		FD VD VM
+TP	VD	 # VF	VD		VF FD VD VM
+TQ	VD	 # VD	VD		VD VM
+TR	VD	 # VF	VD		VF FD VD VM
+TS	VD	 # VD	VD		VD VM
 TT	VD	 # FM	VD		FM VD VM
 TU	VD	 # VD	VD		VD VM F
-TV	VD	 # VF	VD		VF VD VM
-TW	VD	 # VF	VD		VF FD VD VM FM
+TV	VD	 # FD	VD		FD VF VD VM
+TW	VD	 # VF	VD		VF FD VD VM
 TX	VD	 # VD	VD		VD VM
 TY	VD	 # F	VD		F VD VM
-TZ	VD	 # VD	VD		VD VM
+TZ	VD	 # FM	VD		FM VD VM
 UA	V	 # FM	V		FM V
-UB	V	 # FD	V		FD V
+UB	V	 # V	V		V
 UC	V	 # FM	V		FM V
 UD	V	 # FD	V		FD V
 UE	V	 # FM	V		FM V
 UF	V	 # FM	V		FM V
-UG	V	 # FM	V		FM V
+UG	V	 # FD	V		FD V
 UH	V	 # FD	V		FD V
 UI	V	 # V	V		V
 UJ	V	 # FM	V		FM V
 UK	V	 # FD	V		FD V
-UL	V	 # FM	V		FM FD V
+UL	V	 # FD	V		FD V
 UM	V	 # FD	V		FD V
 UN	V	 # FM	V		FM V
 UO	V	 # FM	V		FM V
-UP	V	 # FM	V		FM FD V
-UQ	V	 # F	V		F V
-UR	V	 # FM	V		FM FD V
-US	V	 # FD	V		FD V
+UP	V	 # FD	V		FD V
+UQ	V	 # V	V		V
+UR	V	 # FD	V		FD V
+US	V	 # V	V		V
 UT	V	 # FM	V		FM V
 UU	V	 # F	V		F V
-UV	V	 # V	V		V
-UW	V	 # FD	V		FD FM V
+UV	V	 # FD	V		FD V
+UW	V	 # FD	V		FD V
 UY	V	 # F	V		F V
-UZ	V	 # V	V		V
+UZ	V	 # FM	V		FM V
 VA	FM	 # FM			FM
-VB	FD	 # FD			FD
+VB	VF	 # VF*			
 VC	FM	 # FM			FM
 VD	FD	 # FD			FD
 VE	FM	 # FM			FM
 VF	FM	 # FM			FM
-VG	FM	 # FM			FM
+VG	FD	 # FD			FD
 VH	FD	 # FD			FD
 VI	VM	 # VM*			
 VJ	FM	 # FM			FM
 VK	FD	 # FD			FD
-VL	FM	 # FM			FM FD
+VL	FD	 # FD			FD
 VM	FD	 # FD			FD
 VN	FM	 # FM			FM
 VO	FM	 # FM			FM
-VP	FM	 # FM			FM FD
-VQ	F	 # F			F
-VR	FM	 # FM			FM FD
-VS	FD	 # FD			FD
+VP	FD	 # FD			FD
+VQ	F	 # F*			
+VR	FD	 # FD			FD
+VS	FD	 # FD*			
 VT	FM	 # FM			FM
 VU	F	 # F			F
-VV	FMD	 # FMD*			
-VW	FD	 # FD			FD FM
+VV	FD	 # FD			FD
+VW	FD	 # FD			FD
 VX	VM	 # VM*			
 VY	F	 # F			F
-VZ	FM	 # FM*			
+VZ	FM	 # FM			FM
 WA	VM	 # FM	VM		FM VM VD
-WB	VM	 # VM	VM		VM VD FD
+WB	VM	 # VM	VM		VM VD
 WC	VM	 # FM	VM		FM VM VD
-WD	VM	 # VF	VM		VF VM FD VD
+WD	VM	 # VF	VM		VF FD VM VD
 WE	VM	 # FM	VM		FM VM VD
-WF	VM	 # VM	VM		VM VD FM
-WG	VM	 # FM	VM		FM VF VM VD
-WH	VM	 # FD	VM		FD VM VD VF
+WF	VM	 # VM	VM		VM FM VD
+WG	VM	 # VF	VM		VF FD VM VD
+WH	VM	 # VM	VM		VM FD VD VF
 WI	VM	 # VM	VM		VM VD
 WJ	VM	 # FM	VM		FM VM VD VF
 WK	VM	 # FD	VM		FD VF VM VD
-WL	VM	 # VF	VM		VF FM VM VD FD
-WM	VM	 # VF	VM		VF FD VM VD
+WL	VM	 # VF	VM		VF FD VM VD
+WM	VM	 # FD	VM		FD VF VM VD
 WN	VM	 # FM	VM		FM VM VD
 WO	VM	 # FM	VM		FM VM VD
-WP	VM	 # FM	VM		FM VF VM VD FD
-WQ	VM	 # VM	VM		VM VD F
-WR	VM	 # VF	VM		VF FM VM VD FD
-WS	VM	 # FD	VM		FD VM VD
+WP	VM	 # VF	VM		VF FD VM VD
+WQ	VM	 # VM	VM		VM VD
+WR	VM	 # VF	VM		VF FD VM VD
+WS	VM	 # VM	VM		VM VD
 WT	VM	 # FM	VM		FM VM VD
 WU	VM	 # VM	VM		VM VD F
-WV	VM	 # VF	VM		VF VM VD
-WW	VM	 # VF	VM		VF VM FD VD FM
+WV	VM	 # FD	VM		FD VF VM VD
+WW	VM	 # VF	VM		VF FD VM VD
 WX	VM	 # VM	VM		VM VD
 WY	VM	 # F	VM		F VM VD
-WZ	VM	 # VM	VM		VM VD
+WZ	VM	 # FM	VM		FM VM VD
 XA	V	 # FM	V		FM V
-XB	V	 # FD	V		FD V
+XB	V	 # V	V		V
 XC	V	 # FM	V		FM V
 XD	V	 # FD	V		FD V
 XE	V	 # FM	V		FM V
 XF	V	 # FM	V		FM V
-XG	V	 # FM	V		FM V
+XG	V	 # FD	V		FD V
 XH	V	 # FD	V		FD V
 XI	V	 # V	V		V
 XJ	V	 # FM	V		FM V
 XK	V	 # FD	V		FD V
-XL	V	 # FM	V		FM FD V
+XL	V	 # FD	V		FD V
 XM	V	 # FD	V		FD V
 XN	V	 # FM	V		FM V
 XO	V	 # FM	V		FM V
-XP	V	 # FM	V		FM FD V
-XQ	V	 # V	V		V F
-XR	V	 # FM	V		FM FD V
-XS	V	 # FD	V		FD V
+XP	V	 # FD	V		FD V
+XQ	V	 # V	V		V
+XR	V	 # FD	V		FD V
+XS	V	 # V	V		V
 XT	V	 # FM	V		FM V
 XU	V	 # F	V		F V
-XV	V	 # V	V		V
-XW	V	 # FD	V		FD FM V
+XV	V	 # FD	V		FD V
+XW	V	 # FD	V		FD V
 XX	V	 # V	V		V
 XY	V	 # F	V		F V
-XZ	V	 # V	V		V
+XZ	V	 # FM	V		FM V
 YA	FM	 # FM			FM
-YB	VF	 # VF			VF FD
+YB	VF	 # VF			VF
 YC	FM	 # FM			FM
 YD	FD	 # FD			FD
 YE	FM	 # FM			FM
 YF	FM	 # FM			FM
-YG	FM	 # FM			FM
+YG	FD	 # FD			FD
 YH	FD	 # FD			FD
 YI	VM	 # VM*			
 YJ	FM	 # FM			FM
 YK	FD	 # FD			FD
-YL	FM	 # FM			FM FD
+YL	FD	 # FD			FD
 YM	FD	 # FD			FD
 YN	FM	 # FM			FM
 YO	FM	 # FM			FM
-YP	FM	 # FM			FM FD
-YQ	F	 # F			F
-YR	FM	 # FM			FM FD
-YS	FD	 # FD			FD
+YP	FD	 # FD			FD
+YQ	F	 # F*			
+YR	FD	 # FD			FD
+YS	FD	 # FD*			
 YT	FM	 # FM			FM
 YU	F	 # F			F
-YV	VM	 # VM*			
-YW	FD	 # FD			FD FM
+YV	FD	 # FD			FD
+YW	FD	 # FD			FD
 YX	VM	 # VM*			
 YY	F	 # F			F
-YZ	FM	 # FM*			
+YZ	FM	 # FM			FM
 ZA	V	 # FM	V		FM V
-ZB	V	 # FD	V		FD V
+ZB	V	 # V	V		V
 ZC	V	 # FM	V		FM V
 ZD	V	 # FD	V		FD V
 ZE	V	 # FM	V		FM V
 ZF	V	 # FM	V		FM V
-ZG	V	 # FM	V		FM V
+ZG	V	 # FD	V		FD V
 ZH	V	 # FD	V		FD V
 ZI	V	 # V	V		V
 ZJ	V	 # FM	V		FM V
 ZK	V	 # FD	V		FD V
-ZL	V	 # FM	V		FM FD V
+ZL	V	 # FD	V		FD V
 ZM	V	 # FD	V		FD V
 ZN	V	 # FM	V		FM V
 ZO	V	 # FM	V		FM V
-ZP	V	 # FM	V		FM FD V
-ZQ	V	 # V	V		V F
-ZR	V	 # FM	V		FM FD V
-ZS	V	 # FD	V		FD V
+ZP	V	 # FD	V		FD V
+ZQ	V	 # V	V		V
+ZR	V	 # FD	V		FD V
+ZS	V	 # V	V		V
 ZT	V	 # FM	V		FM V
 ZU	V	 # F	V		F V
-ZV	V	 # V	V		V
-ZW	V	 # FD	V		FD FM V
+ZV	V	 # FD	V		FD V
+ZW	V	 # FD	V		FD V
 ZX	V	 # V	V		V
 ZY	V	 # F	V		F V
-ZZ	V	 # V	V		V
+ZZ	V	 # FM	V		FM V
 
-Miss: 2.89406794356518 %
+Miss: 2.49952043273157 %
