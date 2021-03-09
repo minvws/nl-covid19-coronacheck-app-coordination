@@ -25,6 +25,14 @@ loosing security.
 * Include too little - and it becomes easy to find someone in your immediate social circle
  with whom you can swap a phone.
 
+Note that the vaccination, test or recvery data also contains an issue/expery/time indication. These also
+introduce a level of entropy (e.g. if the test cert is 48 hours valid - and the time granualrity is
+2 hours -- then an additional 24 permutations are to be added (assuming 24x7 issuing, propalby less)).
+
+These permutations affect the privacy -within- the validity horizon of the certificate. While the other 
+data is expescially relevant for identifcatin across certificates. So it is crucial for long lived
+certificates to keep these numbers low; less so for very short lived certificates.
+
 ## Target
 
 For this effort - two competing targets are to be met.
