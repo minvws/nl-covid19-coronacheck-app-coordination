@@ -21,6 +21,7 @@ In order to be able to deliver test results to the CoronaTester app, a test prov
 * Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
 * Obtain an x509 PKI certificate (e.g. PKI-O) for signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
+* The signature should use an appropritate signature algorithm and padding; conformant to the current, in-force SOG-IS (https://www.sogis.eu/uk/supporting_doc_en.html) standard.
 * Provide the public key of the certificate to the CoronaTester system so that signed results can be verified against the certificate.
 * Provide an additional public key for SSL pinning against their endpoint.
 * Provide a privacy statement that the app can display before handing off a token to the endpoint.
@@ -264,6 +265,8 @@ The app only accepts the responses if they are signed. This chapter describes th
 ### Signature algorithm
 
 We are using a CMS algorithm because this is widely available across a large variety of technologies. It is usable from the commandline using tools such as openssl. We may in the future provide libraries and/or off the shelf proxy containers to aid in developing an endpoint. Note however that although the CoronaTester team may provide samples or ready to use software, the provider remains solely responsible for the test results that are handed out and remain the processor in the GDPR sense.
+
+The signature should use an appropritate signature algorithm and padding; conformant to the current, in-force SOG-IS (https://www.sogis.eu/uk/supporting_doc_en.html) standard. Note specifically that the default padding in OpenSSL (PCSK#1.5) is not considered secure.
 
 The signing looks like this:
 
