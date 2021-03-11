@@ -43,7 +43,7 @@ components:
             signature:
               type: string
               nullable: false
-        ism:
+        icm:
           type: object
     ProofOfTestResponse:
       type: object
