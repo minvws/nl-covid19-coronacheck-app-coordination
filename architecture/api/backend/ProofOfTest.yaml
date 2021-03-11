@@ -3,9 +3,9 @@ servers:
   - url: 'http://todo/v1'
 info:
   description: >-
-    Holder API
+    Proof of Test API
   version: 0.0.1
-  title: Holder API
+  title: Proof of Test API
 paths:
   /proof/requisition:
     post:
