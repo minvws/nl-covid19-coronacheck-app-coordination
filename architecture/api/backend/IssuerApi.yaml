@@ -1,6 +1,6 @@
 openapi: 3.0.1
 info:
-  title: ProofOfTestAPI
+  title: IssuerAPI
   version: v1
 paths:
   /proof/issue:
