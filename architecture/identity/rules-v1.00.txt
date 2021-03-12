@@ -1,0 +1,689 @@
+At least 1000 for a fifty fifty change that you share the data shown:
+
+RISK_PRIVACY= 0.1; # Percent
+
+At least 333 people in your vicintiy for a fifty fifty chance that you can 
+borrow a phone (not quite true - as we in an 'F' there are a lot of people who
+have the same 'F' -- so perhaps we should; given more options; go light on 
+the 'F' and pick 'V' instead if roughly equal).
+
+RISK_FRAUD  = 0.3; # Percent - 
+
+Note:  this does not yet reflect the 'V' issue of the 'Van somethings'.
+
+Pair	best		qualifying
+AA	FM		FM VF          
+AB	FD		FD VFM          
+AC	FM		FM VF          
+AD	FD		FD           
+AE	VF		VF FM          
+AF	VF		VF FM          
+AG	FM		FM           
+AH	FD		FD           
+AI	VD*		           
+AJ	FM		FM VF          
+AK	FD		FD           
+AL	FM		FM FD          
+AM	FD		FD           
+AN	VF		VF FM          
+AO	VF		VF FM          
+AP	FM		FM FD          
+AQ	F		F           
+AR	FM		FM FD          
+AS	FD		FD           
+AT	FM		FM VF          
+AU	F		F           
+AV	VD*		           
+AW	FD		FD FM          
+AX	VD*		           
+AY	F		F           
+AZ	VF		VF           
+BA	FM		FM VM VD         
+BB	VM		VM FD VD         
+BC	FM		FM VM VD         
+BD	VF		VF VM FD VD        
+BE	FM		FM VM VD         
+BF	VM		VM FM VD         
+BG	FM		FM VM VF VD        
+BH	FD		FD VM VF VD        
+BI	VM		VM VD          
+BJ	FM		FM VM VD         
+BK	FD		FD VM VF VD        
+BL	VF		VF VM FM FD VD       
+BM	VF		VF FD VM VD        
+BN	VM		VM FM VD         
+BO	VM		VM FM VD         
+BP	VM		VM FM VF FD VD       
+BQ	VM		VM VD F         
+BR	VF		VF VM FM FD VD       
+BS	VM		VM FD VF VD        
+BT	FM		FM VM VD         
+BU	VM		VM F VD         
+BV	VF		VF VM VD         
+BW	VF		VF VM FD FM VD       
+BX	VM		VM VD          
+BY	F		F VM VD         
+BZ	VM		VM VD          
+CA	FM		FM VD VF         
+CB	VD		VD FD          
+CC	VD		VD FM          
+CD	VD		VD VF FD         
+CE	VD		VD FM VF         
+CF	VD		VD FM          
+CG	VF		VF VD FM         
+CH	FD		FD VD          
+CI	VD		VD           
+CJ	FM		FM VD VF         
+CK	FD		FD VD          
+CL	VD		VD VF FM FD        
+CM	VD		VD FD VF         
+CN	VD		VD FM          
+CO	VD		VD FM VF         
+CP	VF		VF VD FM FD        
+CQ	VD		VD F          
+CR	VF		VF VD FM FD        
+CS	VD		VD FD          
+CT	VD		VD FM VF         
+CU	VD		VD F          
+CV	VD		VD           
+CW	VD		VD VF FD FM        
+CX	VD		VD           
+CY	F		F VD          
+CZ	VD		VD           
+DA	FM		FM VD          
+DB	VD		VD FD          
+DC	FM		FM VD          
+DD	VF		VF VD FD         
+DE	FM		FM VD          
+DF	VD		VD FM          
+DG	VF		VF FM VD         
+DH	FD		FD VD          
+DI	VD		VD           
+DJ	FM		FM VD VF         
+DK	FD		FD VD          
+DL	VF		VF FM VD FD        
+DM	VF		VF FD VD         
+DN	FM		FM VD          
+DO	FM		FM VD          
+DP	VF		VF FM VD FD        
+DQ	VD		VD F          
+DR	VF		VF VD FM FD        
+DS	FD		FD VD          
+DT	FM		FM VD VF         
+DU	VD		VD F          
+DV	VD		VD VF          
+DW	VF		VF VD FD FM        
+DX	VD		VD           
+DY	F		F VD          
+DZ	VD		VD           
+EA	FM		FM VD VF         
+EB	VD		VD FD          
+EC	VD		VD FM          
+ED	VF		VF VD FD         
+EE	VD		VD FM VF         
+EF	VD		VD FM          
+EG	VF		VF FM VD         
+EH	FD		FD VD          
+EI	VD		VD           
+EJ	FM		FM VD VF         
+EK	FD		FD VD          
+EL	VF		VF VD FM FD        
+EM	VD		VD VF FD         
+EN	VD		VD FM          
+EO	VD		VD FM          
+EP	VF		VF VD FM FD        
+EQ	VD		VD F          
+ER	VF		VF VD FM FD        
+ES	VD		VD FD          
+ET	VD		VD FM VF         
+EU	VD		VD F          
+EV	VD		VD           
+EW	VD		VD VF FD FM        
+EX	VD		VD           
+EY	F		F VD          
+EZ	VD		VD           
+FA	FM		FM VM          
+FB	VM		VM FD          
+FC	VM		VM FM          
+FD	VM		VM VF FD         
+FE	VM		VM FM          
+FF	VM		VM FM          
+FG	VM		VM FM VF         
+FH	FD		FD VM VF         
+FI	VM		VM           
+FJ	FM		FM VM          
+FK	FD		FD VF VM         
+FL	VM		VM VF FM FD        
+FM	VM		VM VF FD         
+FN	VM		VM FM          
+FO	VM		VM FM          
+FP	VM		VM FM VF FD        
+FQ	VM		VM F          
+FR	VM		VM VF FM FD        
+FS	VM		VM FD VF         
+FT	VM		VM FM          
+FU	VM		VM F          
+FV	VF		VF VM          
+FW	VM		VM VF FD FM        
+FX	VM		VM           
+FY	F		F VM          
+FZ	VM		VM           
+GA	FM		FM VD          
+GB	VD		VD FD          
+GC	FM		FM VD          
+GD	VF		VF VD FD         
+GE	FM		FM VD          
+GF	VD		VD FM          
+GG	VF		VF FM VD         
+GH	FD		FD VD          
+GI	VD		VD           
+GJ	FM		FM VD VF         
+GK	FD		FD VD          
+GL	VF		VF VD FM FD        
+GM	VF		VF FD VD         
+GN	FM		FM VD          
+GO	FM		FM VD          
+GP	VF		VF VD FM FD        
+GQ	VD		VD F          
+GR	VF		VF VD FM FD        
+GS	FD		FD VD          
+GT	FM		FM VD VF         
+GU	VD		VD F          
+GV	VD		VD VF          
+GW	VF		VF VD FD FM        
+GX	VD		VD           
+GY	F		F VD          
+GZ	VD		VD           
+HA	FM		FM VD VF         
+HB	VD		VD FD          
+HC	VD		VD FM          
+HD	VD		VD VF FD         
+HE	VD		VD FM VF         
+HF	VD		VD FM          
+HG	VF		VF VD FM         
+HH	FD		FD VD          
+HI	VD		VD           
+HJ	FM		FM VD VF         
+HK	FD		FD VD          
+HL	VD		VD VF FM FD        
+HM	VD		VD FD VF         
+HN	VD		VD FM VF         
+HO	VD		VD FM VF         
+HP	VF		VF VD FM FD        
+HQ	VD		VD F          
+HR	VF		VF VD FM FD        
+HS	VD		VD FD          
+HT	VD		VD FM VF         
+HU	VD		VD F          
+HV	VD		VD           
+HW	VD		VD FD VF FM        
+HX	VD		VD           
+HY	F		F VD          
+HZ	VD		VD           
+IA	FM		FM VM          
+IB	VM		VM VF FD         
+IC	VM		VM FM          
+ID	VM		VM FD          
+IE	VM		VM FM          
+IF	VM		VM FM          
+IG	FM		FM VM          
+IH	FD		FD VF VM         
+II	VM		VM           
+IJ	FM		FM VM          
+IK	FD		FD VM VF         
+IL	VM		VM FM FD         
+IM	VM		VM FD VF         
+IN	VM		VM FM          
+IO	VM		VM FM          
+IP	VM		VM FM FD         
+IQ	VM		VM F          
+IR	VM		VM FM FD         
+IS	VF		VF VM FD         
+IT	VM		VM FM          
+IU	VM		VM F          
+IV	VM		VM VF          
+IW	VM		VM FD FM         
+IX	VM		VM           
+IY	F		F VM          
+IZ	VM		VM           
+JA	FM		FM VF          
+JB	VFM		VFM FD          
+JC	VF		VF FM          
+JD	FD		FD           
+JE	FM		FM           
+JF	VF		VF FM          
+JG	FM		FM           
+JH	FD		FD VFM          
+JI	VF*		           
+JJ	FM		FM           
+JK	FD		FD           
+JL	FM		FM FD          
+JM	FD		FD           
+JN	FM		FM VF          
+JO	FM		FM VF          
+JP	FM		FM FD          
+JQ	F		F           
+JR	FM		FM FD          
+JS	FD		FD VFM          
+JT	FM		FM           
+JU	F		F           
+JV	VFM*		           
+JW	FD		FD FM          
+JX	VMD*		           
+JY	F		F           
+JZ	VF		VF           
+KA	FM		FM VM          
+KB	VM		VM VF FD         
+KC	VM		VM FM          
+KD	VM		VM FD VF         
+KE	VM		VM FM          
+KF	VM		VM FM          
+KG	VM		VM FM          
+KH	VF		VF FD VM         
+KI	VM		VM           
+KJ	FM		FM VM          
+KK	VF		VF VM FD         
+KL	VM		VM FM VF FD        
+KM	VM		VM FD VF         
+KN	VM		VM FM          
+KO	VM		VM FM          
+KP	VM		VM FM FD         
+KQ	VM		VM F          
+KR	VM		VM FM FD VF        
+KS	VF		VF VM FD         
+KT	VM		VM FM          
+KU	VM		VM F          
+KV	VM		VM VF          
+KW	VM		VM VF FD FM        
+KX	VM		VM           
+KY	F		F VM          
+KZ	VM		VM           
+LA	FM		FM VD VF         
+LB	VD		VD FD          
+LC	VD		VD FM          
+LD	VF		VF VD FD         
+LE	FM		FM VD VF         
+LF	VD		VD FM          
+LG	VF		VF FM VD         
+LH	FD		FD VD          
+LI	VD		VD           
+LJ	FM		FM VF VD         
+LK	FD		FD VD          
+LL	VF		VF VD FM FD        
+LM	FD		FD VD VF         
+LN	VD		VD FM          
+LO	VD		VD FM VF         
+LP	VF		VF VD FM FD        
+LQ	VD		VD F          
+LR	VF		VF VD FM FD        
+LS	VD		VD FD          
+LT	FM		FM VD VF         
+LU	VD		VD F          
+LV	VD		VD           
+LW	VD		VD VF FD FM        
+LX	VD		VD           
+LY	F		F VD          
+LZ	VD		VD           
+MA	FM		FM           
+MB	VFM		VFM FD          
+MC	VF		VF FM          
+MD	FD		FD           
+ME	FM		FM VF          
+MF	VF		VF FM          
+MG	FM		FM           
+MH	FD		FD           
+MI	VF*		           
+MJ	FM		FM           
+MK	FD		FD           
+ML	FM		FM FD          
+MM	FD		FD           
+MN	VF		VF FM          
+MO	VF		VF FM          
+MP	FM		FM FD          
+MQ	F		F           
+MR	FM		FM FD          
+MS	FD		FD           
+MT	FM		FM           
+MU	F		F           
+MV	VFM*		           
+MW	FD		FD FM          
+MX	VMD*		           
+MY	F		F           
+MZ	VF		VF           
+NA	FM		FM VM          
+NB	VM		VM FD          
+NC	VM		VM FM          
+ND	VM		VM VF FD         
+NE	VM		VM FM          
+NF	VM		VM FM          
+NG	VM		VM FM VF         
+NH	FD		FD VM VF         
+NI	VM		VM           
+NJ	VM		VM FM          
+NK	VM		VM FD VF         
+NL	VM		VM FM VF FD        
+NM	VM		VM VF FD         
+NN	VM		VM FM          
+NO	VM		VM FM          
+NP	VM		VM FM FD VF        
+NQ	VM		VM F          
+NR	VM		VM VF FM FD        
+NS	VM		VM VF FD         
+NT	VM		VM FM          
+NU	VM		VM F          
+NV	VF		VF VM          
+NW	VM		VM VF FD FM        
+NX	VM		VM           
+NY	F		F VM          
+NZ	VM		VM           
+OA	FM		FM           
+OB	FD		FD           
+OC	FM		FM           
+OD	FD		FD           
+OE	FM		FM           
+OF	FM		FM           
+OG	FM		FM           
+OH	FD		FD           
+OI	VM*		           
+OJ	FM		FM           
+OK	FD		FD           
+OL	FM		FM FD          
+OM	FD		FD           
+ON	FM		FM           
+OO	FM		FM           
+OP	FM		FM FD          
+OQ	F		F           
+OR	FM		FM FD          
+OS	FD		FD           
+OT	FM		FM           
+OU	F		F           
+OV	FMD*		           
+OW	FD		FD FM          
+OX	VM*		           
+OY	F		F           
+OZ	FM*		           
+PA	FM		FM VD          
+PB	VD		VD FD          
+PC	FM		FM VD          
+PD	VF		VF VD FD         
+PE	FM		FM VD          
+PF	VD		VD FM          
+PG	VF		VF FM VD         
+PH	FD		FD VD          
+PI	VD		VD           
+PJ	FM		FM VD VF         
+PK	FD		FD VD          
+PL	VF		VF FM VD FD        
+PM	VF		VF FD VD         
+PN	FM		FM VD          
+PO	FM		FM VD          
+PP	VF		VF FM VD FD        
+PQ	VD		VD F          
+PR	VF		VF VD FM FD        
+PS	FD		FD VD          
+PT	FM		FM VD VF         
+PU	VD		VD F          
+PV	VD		VD           
+PW	VF		VF VD FD FM        
+PX	VD		VD           
+PY	F		F VD          
+PZ	VD		VD           
+QA	FM		FM V          
+QB	FD		FD V          
+QC	FM		FM V          
+QD	FD		FD V          
+QE	FM		FM V          
+QF	FM		FM V          
+QG	FM		FM V          
+QH	FD		FD V          
+QI	V		V           
+QJ	FM		FM V          
+QK	FD		FD V          
+QL	FM		FM FD V         
+QM	FD		FD V          
+QN	FM		FM V          
+QO	FM		FM V          
+QP	FM		FM FD V         
+QQ	V		V F          
+QR	FM		FM FD V         
+QS	FD		FD V          
+QT	FM		FM V          
+QU	F		F V          
+QV	V		V           
+QW	FD		FD FM V         
+QX	V		V           
+QY	F		F V          
+QZ	V		V           
+RA	FM		FM VD VF         
+RB	VD		VD FD          
+RC	VD		VD FM          
+RD	VD		VD FD VF         
+RE	VD		VD FM VF         
+RF	VD		VD FM          
+RG	VD		VD FM VF         
+RH	FD		FD VD          
+RI	VD		VD           
+RJ	VF		VF VD FM         
+RK	VD		VD FD          
+RL	VD		VD FM VF FD        
+RM	VD		VD FD          
+RN	VD		VD FM VF         
+RO	VD		VD FM VF         
+RP	VD		VD VF FM FD        
+RQ	VD		VD F          
+RR	VD		VD VF FM FD        
+RS	VD		VD FD          
+RT	VD		VD VF FM         
+RU	VD		VD F          
+RV	VD		VD           
+RW	VD		VD FD FM         
+RX	VD		VD           
+RY	F		F VD          
+RZ	VD		VD           
+SA	FM		FM VF VD         
+SB	VD		VD FD          
+SC	VD		VD FM          
+SD	VD		VD VF FD         
+SE	VD		VD FM VF         
+SF	VD		VD FM          
+SG	VD		VD VF FM         
+SH	FD		FD VD          
+SI	VD		VD           
+SJ	FM		FM VD VF         
+SK	FD		FD VD          
+SL	VD		VD VF FM FD        
+SM	VD		VD FD VF         
+SN	VD		VD FM VF         
+SO	VD		VD FM VF         
+SP	VF		VF VD FM FD        
+SQ	VD		VD F          
+SR	VD		VD VF FM FD        
+SS	VD		VD FD          
+ST	VD		VD VF FM         
+SU	VD		VD F          
+SV	VD		VD           
+SW	VD		VD FD VF FM        
+SX	VD		VD           
+SY	F		F VD          
+SZ	VD		VD           
+TA	FM		FM VD VM         
+TB	VD		VD VM FD         
+TC	FM		FM VD VM         
+TD	VF		VF FD VD VM        
+TE	FM		FM VD VM         
+TF	VD		VD FM VM         
+TG	FM		FM VF VD VM        
+TH	FD		FD VD VM         
+TI	VD		VD VM          
+TJ	FM		FM VF VD VM        
+TK	FD		FD VD VM VF        
+TL	VF		VF FM VD VM FD       
+TM	VF		VF FD VD VM        
+TN	FM		FM VD VM         
+TO	FM		FM VD VM         
+TP	VF		VF FM VD VM FD       
+TQ	VD		VD VM F         
+TR	VF		VF FM VD FD VM       
+TS	FD		FD VD VM         
+TT	FM		FM VD VM         
+TU	VD		VD VM F         
+TV	VF		VF VD VM         
+TW	VF		VF FD VD VM FM       
+TX	VD		VD VM          
+TY	F		F VD VM         
+TZ	VD		VD VM          
+UA	FM		FM V          
+UB	FD		FD V          
+UC	FM		FM V          
+UD	FD		FD V          
+UE	FM		FM V          
+UF	FM		FM V          
+UG	FM		FM V          
+UH	FD		FD V          
+UI	V		V           
+UJ	FM		FM V          
+UK	FD		FD V          
+UL	FM		FM FD V         
+UM	FD		FD V          
+UN	FM		FM V          
+UO	FM		FM V          
+UP	FM		FM FD V         
+UQ	F		F V          
+UR	FM		FM FD V         
+US	FD		FD V          
+UT	FM		FM V          
+UU	F		F V          
+UV	V		V           
+UW	FD		FD FM V         
+UY	F		F V          
+UZ	V		V           
+VA	FM		FM           
+VB	FD		FD           
+VC	FM		FM           
+VD	FD		FD           
+VE	FM		FM           
+VF	FM		FM           
+VG	FM		FM           
+VH	FD		FD           
+VI	VM*		           
+VJ	FM		FM           
+VK	FD		FD           
+VL	FM		FM FD          
+VM	FD		FD           
+VN	FM		FM           
+VO	FM		FM           
+VP	FM		FM FD          
+VQ	F		F           
+VR	FM		FM FD          
+VS	FD		FD           
+VT	FM		FM           
+VU	F		F           
+VV	FMD*		           
+VW	FD		FD FM          
+VX	VM*		           
+VY	F		F           
+VZ	FM*		           
+WA	FM		FM VM VD         
+WB	VM		VM VD FD         
+WC	FM		FM VM VD         
+WD	VF		VF VM FD VD        
+WE	FM		FM VM VD         
+WF	VM		VM VD FM         
+WG	FM		FM VF VM VD        
+WH	FD		FD VM VD VF        
+WI	VM		VM VD          
+WJ	FM		FM VM VD VF        
+WK	FD		FD VF VM VD        
+WL	VF		VF FM VM VD FD       
+WM	VF		VF FD VM VD        
+WN	FM		FM VM VD         
+WO	FM		FM VM VD         
+WP	FM		FM VF VM VD FD       
+WQ	VM		VM VD F         
+WR	VF		VF FM VM VD FD       
+WS	FD		FD VM VD         
+WT	FM		FM VM VD         
+WU	VM		VM VD F         
+WV	VF		VF VM VD         
+WW	VF		VF VM FD VD FM       
+WX	VM		VM VD          
+WY	F		F VM VD         
+WZ	VM		VM VD          
+XA	FM		FM V          
+XB	FD		FD V          
+XC	FM		FM V          
+XD	FD		FD V          
+XE	FM		FM V          
+XF	FM		FM V          
+XG	FM		FM V          
+XH	FD		FD V          
+XI	V		V           
+XJ	FM		FM V          
+XK	FD		FD V          
+XL	FM		FM FD V         
+XM	FD		FD V          
+XN	FM		FM V          
+XO	FM		FM V          
+XP	FM		FM FD V         
+XQ	V		V F          
+XR	FM		FM FD V         
+XS	FD		FD V          
+XT	FM		FM V          
+XU	F		F V          
+XV	V		V           
+XW	FD		FD FM V         
+XX	V		V           
+XY	F		F V          
+XZ	V		V           
+YA	FM		FM           
+YB	VF		VF FD          
+YC	FM		FM           
+YD	FD		FD           
+YE	FM		FM           
+YF	FM		FM           
+YG	FM		FM           
+YH	FD		FD           
+YI	VM*		           
+YJ	FM		FM           
+YK	FD		FD           
+YL	FM		FM FD          
+YM	FD		FD           
+YN	FM		FM           
+YO	FM		FM           
+YP	FM		FM FD          
+YQ	F		F           
+YR	FM		FM FD          
+YS	FD		FD           
+YT	FM		FM           
+YU	F		F           
+YV	VM*		           
+YW	FD		FD FM          
+YX	VM*		           
+YY	F		F           
+YZ	FM*		           
+ZA	FM		FM V          
+ZB	FD		FD V          
+ZC	FM		FM V          
+ZD	FD		FD V          
+ZE	FM		FM V          
+ZF	FM		FM V          
+ZG	FM		FM V          
+ZH	FD		FD V          
+ZI	V		V           
+ZJ	FM		FM V          
+ZK	FD		FD V          
+ZL	FM		FM FD V         
+ZM	FD		FD V          
+ZN	FM		FM V          
+ZO	FM		FM V          
+ZP	FM		FM FD V         
+ZQ	V		V F          
+ZR	FM		FM FD V         
+ZS	FD		FD V          
+ZT	FM		FM V          
+ZU	F		F V          
+ZV	V		V           
+ZW	FD		FD FM V         
+ZX	V		V           
+ZY	F		F V          
+ZZ	V		V           
