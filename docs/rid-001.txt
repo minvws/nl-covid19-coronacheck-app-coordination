@@ -39,3 +39,4 @@ Gezien de feiten dat:
 
 ## Contigency plan
 Indien het niet mogelijk is om de sleutel -ten bate van ondertekening- te vervangen zal de VWS CT-CL ondertekeningsservice worden uitgezet en zal de uitschakelfunctionaliteit van de verifier-App worden aangezet zodat het niet meer mogelijk is om met de Verifier-App de ondertekeningen te controleren.
+
