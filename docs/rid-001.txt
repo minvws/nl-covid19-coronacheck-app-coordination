@@ -33,6 +33,10 @@ Gezien de feiten dat:
 * De app alleen gebruikt is ter educatie van de Fieldlabevenement-bezoekers en de door de sleutel gegenereerde ondertekeningen niet in de praktijk gebruikt worden is de impact laag.
 * De app alleen binnen een besloten groep potentieele Fieldlabeventment-bezoekers is verspreid is er geen breed maatschappelijke impact.
 * De sleutel vervangen zal worden voor het verstrekken van ondertekende testresultaten die gebruikt gaan worden door burgers is er geen probleem.
+* De controle app nog niet gedistribueerd is is er nog geen mogelijkheid tot gebruik van de ondertekening.
+
+Analyse van deze feiten meet de mogelijkheid tot misbruik als "mogelijk" en de consequenties als "medium" (dit is een unfinished test versie), voornamelijk in het vertrouwensdomein, omdat de ondertekeningen nog niet in gebruik zijn.
+Classificatie: P3 Medium
 
 ## Lessen
 * Voordat software op de backend wordt geinstalleerd zal er een review worden gedaan of alleen de daar aanwezige sleutels gebruikt worden
