@@ -5,13 +5,14 @@ Localized. Impact: Medium, Urgentie: Laag, Prioriteit: P3 - Incident
 
 ## 001
 
-Versie 1.00 - 12 maart 2021
+Versie 1.01 - 12 maart 2021
 
 Versie geschiedenis
 
 Versie | Datum | Veranderingen
 -------|-------|--------------
 1.00 | 2021-03-12 | Initieele versie
+1.01 | 2021-03-12 | Signed commit
 
 
 #Hoofdstuk 1
