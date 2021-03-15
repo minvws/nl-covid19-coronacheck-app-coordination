@@ -7,10 +7,17 @@ info:
   version: 0.0.1
   title: Proof of Test API
 paths:
-  /proof/requisition:
+  /v1/test/proof:
     post:
       summary: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
       description: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+        parameters:
+           -in:
+           name: .AspNetCore.Session
+           schema:
+             type: string
+           required: true
+           description: Session cookie received from test/nonce call
       requestBody:
         required: true
         content:
@@ -24,7 +31,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ProofOfTestResponse"
-
+  /v1/test/nonce:
+    post:
+      summary: 'Generates a nonce which is used by the client to create the commitments message'
+      description: 'Generates a nonce which is used by the client to create the commitments message'
+      requestBody:
+        content:
+          application/json:
+            schema: #
+            type: object
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateNonceResult'
+                
 components:
   schemas:
     ProofOfTestRequest:

@@ -1,9 +1,9 @@
 openapi: 3.0.1
 info:
-  title: IssuerAPI
+  title: IssuerAPI 
   version: v1
 paths:
-  /proof/issue:
+  /v1/proof/issue:
     post:
       summary: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
       description: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
@@ -21,17 +21,17 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IssueProofResult'
-  /proof/nonce:
+  /v1/proof/nonce:
     post:
-      summary: 'Generates a nonce which is used by the client to create the CTCL commitments'
-      description: 'Generates a nonce which is used by the client to create the CTCL commitments'
+      summary: 'Generates a nonce which is used by the client to create the commitments message'
+      description: 'Generates a nonce which is used by the client to create the commitments message'
       tags:
         - ProofOfTest
       requestBody:
         content:
           application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateNonceRequest'
+            schema: #
+            type: object
       responses:
         '200':
           description: Success
@@ -46,7 +46,6 @@ components:
         - commitments
         - nonce
         - sampleTime
-        - sessionToken
         - testType
       type: object
       properties:
@@ -67,12 +66,8 @@ components:
         commitments:
           type: string
           format: byte
-          description: "CTCL committments JSON encoded as a base64 string"
+          description: "Committments JSON encoded as a base64 string"
           example: "eyJuXzIiOiIzWjBFYWJYL1QrakZLN1Z5R3hXZmtRPT0iLCJjb21iaW5lZFByb29mcyI6W3siVSI6IldwS3FrQjlLZmtRUzRkV3E5OEJ3VWFYWHl6SEdqdUFiWDBFYkdUaFl5OFRVV3Y0QmZnQTlibXVlVE9zalZXaHRtcEJMamtCQnJyb3dhTGRhcUpHelY1emFQblIramdIdEtUOUEzSXdmWm5DQklZaXZ6c1ducWpib3gwdnJoYVJJTWE0RVNOVnBjc0NOeDJOL0djclh2czFUNjJra2xMTHhNM0svemlLSmlUZFRyZ3Q5dkNaM001TEp1WUlPNDQzVWlBTk1FV2oydldkVjMwSkl1R05XNVVLTDhVNm94SzBFK205KzhJeFAvUmJGclRKdUw3akd6RXFpcXNmQXJMdkFnUUp5V3NncEdIRlE1cGwzUnpRc2N4aDNQWnh0aThxbW55a2U5NG1iemF6YWhnYmJaUWltQWJTaXFlNTZrd3JnTzVVSzhPcmttZHNXcU5TelZGRzJ5QT09IiwiYyI6InBTaXUyVHJuemlONzdScUtQRlo2OHA5cEUvVjhMa1Uwa3ZGVFdPdFlCcGc9Iiwidl9wcmltZV9yZXNwb25zZSI6ImlnYVBqVVR6WDZXRDJKczkzNEQvWVgyQkIwbUp6K24rTStXdHJyQUx0VTVndUFIZFMyQmlUZGU1L0tEUlNrd0x2ZTdtY3FOR0l3ZzduYitZTEp4ZzFNS1k2OHExT0EzQ2FGbnZSb2JkUkJmQUlmeXMyOTBwOU53NXphRXVOMEZjSCtmNEJ4WHVaY3dYM0JDN1cwblJUTVBWZW8zMXZGanRlUGNCaTU0ZGlOS3I1QW5abUZTWVhFMHRMM2tnY1VacjFwcis1NG51RTBBc2h3b0xwbXZMQjhVUlhJMDZIQzJYM2svbjlYRG4zVXVKbERzU2FWV0g4N3FsdXhuMitIM09HT1dheHF3MWgyTThucytsRzZSaXQ0dmNHbXgxejM0TnE2amhKdXNLNDZ4aVNJaXJ6aStsNi9vcUt4UldIc05tQkQ5QXRaZjRPWVk3TC9kNDNWbjRRUHVBMHVYdjhHbU91dGdudXpmMXZsOWx0SjdkRDN2NnUxRlJlTGE1ZmJRNTRIS2dodjZMYlJ6MWcyMVdBQUdkd3R2cUpBdmpaYTZFdVpEeDBvNVZrZFk9Iiwic19yZXNwb25zZSI6ImtQS0xqVG1MQ1hBWVo0WG12Z1JROFVTK2YxU293enl3YW92TnU1YWJuYVJKQXo0eHMydHVLV1VkVmtabnloQ0hPZ2wxTFhSdkc2QXcvNmJ0ZUZoLzVNL0ZBNU5XUWp6ZGFqUT0ifV19"
-        sessionToken:
-          type: string
-          description: "Unique session token"
-          example: "d2efcda326b2"
       additionalProperties: false
     Proof:
       type: object
@@ -112,19 +107,6 @@ components:
           $ref: '#/components/schemas/IssueSignatureMessage'
         attributes:
           $ref: '#/components/schemas/Attributes'
-        stoken:
-          type: string
-          nullable: true
-      additionalProperties: false
-    GenerateNonceRequest:
-      required:
-        - sessionToken
-      type: object
-      properties:
-        sessionToken:
-          type: string
-          description: "Unique session token"
-          example: "d2efcda326b2"
       additionalProperties: false
     GenerateNonceResult:
       type: object
@@ -134,10 +116,5 @@ components:
           format: byte
           description: "Nonce data encoded as a base64 string, as returned by GET /proof/nonce"
           example: "hgc3oMZzWd/rEcjdpHsNnw=="
-          nullable: true
-        stoken:
-          type: string
-          description: "Unique session token"
-          example: "d2efcda326b2"
           nullable: true
       additionalProperties: false
