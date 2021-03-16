@@ -295,7 +295,7 @@ Note: both failed/expired tokens and missing `verificationCode` result in a 401 
 
 ### Test result retention
 
-When a user has retrieved their test result via a token, they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is canceable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the test result should not be immediately removed after succesful retrieval. A grace period of 10 minutes should be respected, so that if the user cancels the operation and re-enters the code, they can still retrieve their result. 
+When a user has retrieved their test result via a token, they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the test result should not be immediately removed after succesful retrieval. A grace period of 10 minutes should be respected, so that if the user cancels the operation and re-enters the code, they can still retrieve their result. 
 
 To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field. 
 
