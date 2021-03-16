@@ -1,6 +1,6 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.0
+Version 2.0.1
 
 > :warning: This is the 2.0 version. For the 1.0 version that is currently in the field, please refer to the [1.0 version of the docs](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-1.0/docs/providing-test-results.md)
 
@@ -258,6 +258,12 @@ The http response code for an invalid token should be: 401
 
 Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
 
+### Test result retention
+
+When a user has retrieved their test result, they need to confirm in the CoronaCheck that it's the correct result and can then convert it to a QR code. This process is canceable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the test result should not be immediately removed after succesful retrieval. A grace period of 10 minutes should be respected, so that if the user cancels the operation and re-enters the code, they can still retrieve their result. 
+
+To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field. 
+
 ### Error states
 
 If an error occurs on the server, a proper 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
@@ -382,7 +388,7 @@ When providing endpoints for test retrieval, along with the general best practic
 * Do not include any personally identifiable data in responses.
 * The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
 * The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
-* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....)
+* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....) (After succesful retrieval, the token can be cleaned up, but this should respect the [retention time](#test-result-retention)
 * Verification codes should have a very limited lifetime of a few minutes. 
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
 * Properly secure endpoints against DDOS attacks. 
@@ -448,6 +454,10 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+2.0.1
+
+* Clarify [test result retention](#test-result-retention)
 
 2.0.0
 
