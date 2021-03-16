@@ -1,10 +1,45 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.0.1
+Version 2.1.0
 
 > :warning: This is the 2.0 version. For the 1.0 version that is currently in the field, please refer to the [1.0 version of the docs](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-1.0/docs/providing-test-results.md)
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
+
+## Contents
+
+- [CoronaCheck Prototype - Test Result Provisioning](#coronacheck-prototype---test-result-provisioning)
+  * [Overview](#overview)
+  * [Requirements](#requirements)
+  * [Distributing a test token](#distributing-a-test-token)
+    + [Analog Code(s)](#analog-code-s-)
+    + [QR Code(s)](#qr-code-s-)
+    + [Token ownership verification](#token-ownership-verification)
+  * [Exchanging the token for a test result](#exchanging-the-token-for-a-test-result)
+    + [Request as received by the endpoint.](#request-as-received-by-the-endpoint)
+    + [Returning a 'pending' state](#returning-a--pending--state)
+      - [Poll tokens](#poll-tokens)
+      - [Poll delay](#poll-delay)
+    + [Requesting owner verification](#requesting-owner-verification)
+    + [Returning a test result](#returning-a-test-result)
+    + [Response payload for invalid/expired tokens](#response-payload-for-invalid-expired-tokens)
+    + [Test result retention](#test-result-retention)
+    + [Error states](#error-states)
+  * [Initial normalization](#initial-normalization)
+  * [Signing responses](#signing-responses)
+    + [Obtaining a signing certificate](#obtaining-a-signing-certificate)
+    + [Signature algorithm](#signature-algorithm)
+    + [Including the signature in the response](#including-the-signature-in-the-response)
+    + [Signature verification](#signature-verification)
+    + [Command line example](#command-line-example)
+    + [More sample code](#more-sample-code)
+    + [Governance and the digital signature of the test result](#governance-and-the-digital-signature-of-the-test-result)
+- [Security and privacy guidelines](#security-and-privacy-guidelines)
+- [Appendix 1: Example implementations of X509 CMS signing](#appendix-1--example-implementations-of-x509-cms-signing)
+- [Appendix 2: Validating the signing output](#appendix-2--validating-the-signing-output)
+- [Appendix 3: OpenAPI specification of endpoint](#appendix-3--openapi-specification-of-endpoint)
+- [Appendix 4: Available Test Types](#appendix-4--available-test-types)
+- [Changelog](#changelog)
 
 ## Overview
 
@@ -455,9 +490,10 @@ pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
 
-2.0.1
+2.1.0
 
-* Clarify [test result retention](#test-result-retention)
+* Specify [test result retention](#test-result-retention)
+* Added table of contents
 
 2.0.0
 
