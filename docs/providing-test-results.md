@@ -247,6 +247,7 @@ And the payload should look like this:
         "testType": "pcr", // See Appendix 4
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
+        "isSpecimen": true, // Optional
         "holder": {
 	    "firstNameInitial": "J", // Normalized
 	    "lastNameInitial": "D", // Normalized
@@ -266,6 +267,7 @@ Where:
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
+* `isSpecimen`: Boolean. When set to true, the verifier app will show a grey verification screen instead of a green one. To be used for testing and demo purposes.
 * `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity. 
     * `firstNameInitial`: The first letter of the first name as specified on the person's ID. This must be (normalized)[#initial-normalization] according to a number of rules. 
     * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial. Like the other initial, this should be normalized. 
@@ -494,6 +496,7 @@ pcr-lamp   | PCR Test (LAMP)
 
 * Specify [test result retention](#test-result-retention)
 * Added table of contents
+* Added ability to create specimen results
 
 2.0.0
 
