@@ -159,7 +159,7 @@ The response body would look like this:
 
 Where: 
 
-* `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should currently always be `1.0`.
+* `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should be `2.0` for the protocol matching the version of this documentation.
 * `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaCheck team.
 * `status`: Should be `pending` or `complete` (lowercase), to indicate that a result is included or not.
 * `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
@@ -213,11 +213,11 @@ And the payload should look like this:
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
         "holder": {
-	    "firstNameInitial": "J", // Normalized
-	    "lastNameInitial": "D", // Normalized
-	    "birthDay": "31", // String, but no leading zero, e.g. "4"
-	    "birthMonth": "12" // String, but no leading zero, e.g. "4"
-	}
+            "firstNameInitial": "J", // Normalized
+            "lastNameInitial": "D", // Normalized
+            "birthDay": "31", // String, but no leading zero, e.g. "4"
+            "birthMonth": "12" // String, but no leading zero, e.g. "4"
+        }
     }
 }
 ```
@@ -251,7 +251,7 @@ The http response code for an invalid token should be: 401
 {
     "protocolVersion": "2.0",
     "providerIdentifier": "XXX"
-    "status": "invalid_token",
+    "status": "invalid_token"
 }
 
 ```
@@ -482,5 +482,4 @@ pcr-lamp   | PCR Test (LAMP)
 1.0.0
 
 * Initial version
-
 
