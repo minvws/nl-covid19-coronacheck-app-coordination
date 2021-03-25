@@ -27,11 +27,6 @@ paths:
       description: 'Generates a nonce which is used by the client to create the commitments message'
       tags:
         - ProofOfTest
-      requestBody:
-        content:
-          application/json:
-            schema: #
-            type: object
       responses:
         '200':
           description: Success
@@ -72,14 +67,6 @@ components:
           type: string
           nullable: true
       additionalProperties: false
-    IssueSignatureMessage:
-      type: object
-      properties:
-        proof:
-          $ref: '#/components/schemas/Proof'
-        signature:
-          nullable: true
-      additionalProperties: false
     Attributes:
       type: object
       properties:
@@ -104,6 +91,16 @@ components:
         birthMonth:
           type: string
           pattern: ^1[0-2]$|^[xX1-9]$
+        isSpecimen:
+          type: boolean
+      additionalProperties: false
+    IssueSignatureMessage:
+      type: object
+      properties:
+        proof:
+          $ref: '#/components/schemas/Proof'
+        signature:
+          nullable: true
       additionalProperties: false
     IssueProofResult:
       type: object
@@ -111,7 +108,12 @@ components:
         ism:
           $ref: '#/components/schemas/IssueSignatureMessage'
         attributes:
-          $ref: '#/components/schemas/Attributes'
+          type: array
+          items:
+            description: Attribute values stored as strings
+            type: string
+          minItems: 9
+          maxItems: 9
       additionalProperties: false
     GenerateNonceResult:
       type: object

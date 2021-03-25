@@ -35,7 +35,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenerateNonceResult'
-                
 components:
   schemas:
     SignedDataWrapper:
@@ -72,7 +71,7 @@ components:
           nullable: false
           description: The payload contains a base64 encoded json in the format specified by TestResult
         icm:
-          type: object
+          type: string
           format: byte
           description: Base64 serialized JSON which is in the format specified by Icm
     ProofOfTestResponse:
@@ -81,10 +80,12 @@ components:
         ism:
           $ref: "#/components/schemas/Ism"
         attributes:
-          $ref: "#/components/schemas/IsmAttributes"
-        stoken:
-          type: string
-          nullable: false
+          type: array
+          items:
+            description: Attribute values stored as strings
+            type: string
+          minItems: 9
+          maxItems: 9
     Icm:
       type: object
       properties:
