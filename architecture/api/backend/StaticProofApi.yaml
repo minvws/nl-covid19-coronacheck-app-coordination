@@ -62,13 +62,14 @@ components:
         sampleDate:
           type: string
           format: date-time
+          description: ISO 8601 UTC datetime string with minutes always 00 (yyyy-MM-ddThh:00Z)
         testType:
           type: string
         unique:
           type: string
         holder:
-          $ref: "#/components/schemas/TestResultAttributes"
-    TestResultAttributes:
+          $ref: "#/components/schemas/Attributes"
+    Attributes:
       type: object
       properties:
         firstNameInitial:
@@ -78,10 +79,8 @@ components:
           type: string
           pattern: ^[A-Z]{1}$
         birthDay:
-          type: integer
-          minimum: 1
-          maximum: 31
+          type: string
+          description: Day-in-month of the birthday. Integer from 1 to 31 or X (when subject has no birthday)
         birthMonth:
-          type: integer
-          minimum: 1
-          maximum: 12
+          type: string
+          description: Month number of the birthday. Integer from 1 to 12 or X (when subject has no birthday)
