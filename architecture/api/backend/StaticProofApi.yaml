@@ -62,7 +62,8 @@ components:
         sampleDate:
           type: string
           format: date-time
-          description: ISO 8601 UTC datetime string with minutes always 00 (yyyy-MM-ddThh:00Z)
+          description: "ISO 8601 UTC Date/time the test sample was taken, to the hour precision"
+          example: "2021-02-21T10:00:00Z"
         testType:
           type: string
         unique:
@@ -81,6 +82,8 @@ components:
         birthDay:
           type: string
           description: Day-in-month of the birthday. Integer from 1 to 31 or X (when subject has no birthday)
+          pattern: ^1[0-9]$|^2[0-9]$|^3[0-1]$|^[xX1-9]$
         birthMonth:
           type: string
           description: Month number of the birthday. Integer from 1 to 12 or X (when subject has no birthday)
+          pattern: ^1[0-2]$|^[xX1-9]$
