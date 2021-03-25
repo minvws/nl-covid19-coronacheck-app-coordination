@@ -34,14 +34,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenerateNonceResult'
+  /v1/proof/issue-static:
+    post:
+      summary: 'Requests that a static proof of negative test be created; when the request is the proof wil be returned as a QR in PNG'
+      description: 'Requests that a static proof of negative test be created; when the request is the proof wil be returned as a QR in PNG'
+      tags:
+        - ProofOfTest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueStaticProofRequest'
+      responses:
+        '200':
+          description: Static proof-of-negative-test QR as PNG 
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: byte
 components:
   schemas:
     IssueProofRequest:
       required:
         - commitments
         - nonce
-        - sampleTime
-        - testType
+        - attributes
       type: object
       properties:
         attributes:
@@ -75,10 +93,8 @@ components:
           format: date-time
           description: "UTC Date/time the test sample was taken, to the hour precision"
           example: "2021-02-21T10:00:00Z"
-          nullable: true
         testType:
           type: string
-          nullable: true
         firstNameInitial:
           type: string
           pattern: ^[A-Z]{1}$
@@ -124,4 +140,12 @@ components:
           description: "Nonce data encoded as a base64 string, as returned by GET /proof/nonce"
           example: "hgc3oMZzWd/rEcjdpHsNnw=="
           nullable: true
+      additionalProperties: false
+    IssueStaticProofRequest:
+      required:
+        - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
       additionalProperties: false
