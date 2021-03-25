@@ -1,0 +1,87 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://todo/v1'
+info:
+  description: >-
+    Static Proo fApi
+  version: 0.0.1
+  title: Static Proof Api
+paths:
+  /v1/staticproof/paper:
+    post:
+      summary: 'Requests that a static proof of negative test be created; when the request is the proof wil be returned as a QR in PNG'
+      description: 'Requests that a static proof of negative test be created; when the request is the proof wil be returned as a QR in PNG'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SignedDataWrapper"
+              description: TestResult describes the JSON in the payload
+      responses:
+        200:
+          description: Static proof-of-negative-test QR as PNG 
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: byte
+components:
+  schemas:
+    SignedDataWrapper:
+      type: object
+      description: Standard response wrapper
+      properties:
+        payload:
+          description: json encoded as base64 string
+          type: string
+          format: byte
+          nullable: false
+        signature:
+          description: CMS/PKCS#7 signature over payload bytes
+          type: string
+          format: byte
+          nullable: false
+    TestResult:
+      type: object
+      properties:
+        protocolVersion:
+          type: string
+          pattern: ^[0-9]+\\.[0-9]+$
+        providerIdentifier:
+          type: string
+          pattern: ^[a-zA-Z_-]+$
+        status:
+          type: string
+          pattern: ^(complete){1}$
+        result:
+          $ref: "#/components/schemas/TestResultDetails"
+    TestResultDetails:
+      type: object
+      properties:
+        sampleDate:
+          type: string
+          format: date-time
+        testType:
+          type: string
+        unique:
+          type: string
+        holder:
+          $ref: "#/components/schemas/TestResultAttributes"
+    TestResultAttributes:
+      type: object
+      properties:
+        firstNameInitial:
+          type: string
+          pattern: ^[A-Z]{1}$
+        lastNameInitial:
+          type: string
+          pattern: ^[A-Z]{1}$
+        birthDay:
+          type: integer
+          minimum: 1
+          maximum: 31
+        birthMonth:
+          type: integer
+          minimum: 1
+          maximum: 12
