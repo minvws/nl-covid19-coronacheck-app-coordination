@@ -250,7 +250,7 @@ The http response code for an invalid token should be: 401
 ```javascript
 {
     "protocolVersion": "2.0",
-    "providerIdentifier": "XXX"
+    "providerIdentifier": "XXX",
     "status": "invalid_token"
 }
 
@@ -482,4 +482,3 @@ pcr-lamp   | PCR Test (LAMP)
 1.0.0
 
 * Initial version
-
