@@ -48,7 +48,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignedResponseWrapper"
+                $ref: "#/components/schemas/SignedDataWrapper"
   /v1/holder/config_ctp:
     get:
       summary: 'Corona Test Provider configuration'
@@ -59,7 +59,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignedResponseWrapper"
+                $ref: "#/components/schemas/SignedDataWrapper"
   /v1/holder/public_keys:
     get:
       summary: 'Get all public keys used to create CL signatures'
@@ -70,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignedResponseWrapper"
+                $ref: "#/components/schemas/SignedDataWrapper"
   /v1/holder/test_types:
     get:
       summary: 'Get all test types'
@@ -81,10 +81,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SignedResponseWrapper"
+                $ref: "#/components/schemas/SignedDataWrapper"
 components:
   schemas:
-    SignedResponseWrapper:
+    SignedDataWrapper:
       type: object
       description: Standard response wrapper
       properties:
@@ -114,8 +114,10 @@ components:
             signature:
               type: string
               nullable: false
-        ism:
-          type: object
+        icm:
+          type: string
+          format: byte
+          description: Base64 serialized JSON which is in the format specified by Icm
     ProofOfTestResponse:
       type: object
       properties:
@@ -123,6 +125,29 @@ components:
           $ref: "#/components/schemas/Ism"
         attributes:
           $ref: "#/components/schemas/IsmAttributes"
+    Icm:
+      type: object
+      properties:
+        n_2:
+          type: string
+          format: byte
+        combinedProofs:
+          $ref: "#/components/schemas/CombinedProof"     
+    CombinedProof:
+      type: object
+      properties:
+        U:
+          type: string
+          format: byte     
+        c:
+          type: string
+          format: byte 
+        v_prime_response:
+          type: string
+          format: byte 
+        s_response:
+          type: string
+          format: byte           
     Ism:
       type: object
       properties:
@@ -182,7 +207,7 @@ components:
           nullable: false
           example: "https://apps.apple.com/nl/app/id1548269870"
         configTTL:
-          type: int
+          type: integer
           example: 864000
         appDeactivated:
           type: boolean
@@ -246,13 +271,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ClPublicKey'
-      ClPublicKey:
-        type: object
-        properties:
-          id:
-            type: string
-            example: "VWS-TEST-0"
-          public_key:
-            type: string
-            format: byte
-            example: "s057xYcgZ1rKmdKaU25p6m0uDN6tSfgxL1aQIF1h3g="
+    ClPublicKey:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "VWS-TEST-0"
+        public_key:
+          type: string
+          format: byte
+          example: "s057xYcgZ1rKmdKaU25p6m0uDN6tSfgxL1aQIF1h3g="

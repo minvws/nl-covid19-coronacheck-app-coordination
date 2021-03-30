@@ -1,0 +1,180 @@
+openapi: 3.0.0
+servers:
+  - url: 'http://todo/v1'
+info:
+  description: >-
+    Proof of Test API
+  version: 0.0.1
+  title: Proof of Test API
+paths:
+  /v1/test/proof:
+    post:
+      summary: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      description: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProofOfTestRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProofOfTestResponse"
+  /v1/test/nonce:
+    post:
+      summary: 'Generates a nonce which is used by the client to create the commitments message'
+      description: 'Generates a nonce which is used by the client to create the commitments message'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateNonceResult'
+components:
+  schemas:
+    SignedDataWrapper:
+      type: object
+      description: Standard response wrapper
+      properties:
+        payload:
+          description: json response encoded as base64 string
+          type: string
+          format: byte
+          nullable: false
+        signature:
+          description: CMS/PKCS#7 signature over payload bytes
+          type: string
+          format: byte
+          nullable: false
+    GenerateNonceResult:
+      type: object
+      properties:
+        nonce:
+          type: string
+          format: byte
+        stoken:
+          type: string
+          example: 95ba8468-fe9d-471e-9cda-71359690db28
+    ProofOfTestRequest:
+      type: object
+      properties:
+        stoken:
+          type: string
+          nullable: false
+        test:
+          $ref: "#/components/schemas/SignedDataWrapper"
+          nullable: false
+          description: The payload contains a base64 encoded json in the format specified by TestResult
+        icm:
+          type: string
+          format: byte
+          description: Base64 serialized JSON which is in the format specified by Icm
+    ProofOfTestResponse:
+      type: object
+      properties:
+        ism:
+          $ref: "#/components/schemas/Ism"
+        attributes:
+          type: array
+          items:
+            description: Attribute values stored as strings
+            type: string
+          minItems: 9
+          maxItems: 9
+    Icm:
+      type: object
+      properties:
+        n_2:
+          type: string
+          format: byte
+        combinedProofs:
+          $ref: "#/components/schemas/CombinedProof"     
+    CombinedProof:
+      type: object
+      properties:
+        U:
+          type: string
+          format: byte     
+        c:
+          type: string
+          format: byte 
+        v_prime_response:
+          type: string
+          format: byte 
+        s_response:
+          type: string
+          format: byte 
+    Ism:
+      type: object
+      properties:
+        proof:
+          $ref: "#/components/schemas/IsmProof"
+        signature:
+          nullable: false
+    IsmProof:
+      type: object
+      properties:
+        c:
+          type: string
+        e_response:
+          type: string
+    IsmAttributes:
+      type: object
+      properties:
+        sampleTime:
+          type: string
+          format: date-time
+          description: "UTC Date/time the test sample was taken, to the hour precision"
+          example: "2021-02-21T10:00:00Z"
+          nullable: false
+        testType:
+          type: string
+          nullable: false
+    TestResult:
+      type: object
+      properties:
+        protocolVersion:
+          type: string
+          pattern: ^[0-9]+\\.[0-9]+$
+        providerIdentifier:
+          type: string
+          pattern: ^[a-zA-Z_-]+$
+        status:
+          type: string
+          pattern: ^(complete){1}$
+        result:
+          $ref: "#/components/schemas/TestResultDetails"
+    TestResultDetails:
+      type: object
+      properties:
+        sampleDate:
+          type: string
+          format: date-time
+        testType:
+          type: string
+        unique:
+          type: string
+        holder:
+          $ref: "#/components/schemas/TestResultAttributes"
+    TestResultAttributes:
+      type: object
+      properties:
+        firstNameInitial:
+          type: string
+          pattern: ^[A-Z]{1}$
+        lastNameInitial:
+          type: string
+          pattern: ^[A-Z]{1}$
+        birthDay:
+          type: string
+          description: Day-in-month of the birthday. Integer from 1 to 31 or X (when subject has no birthday)
+          pattern: ^1[0-9]$|^2[0-9]$|^3[0-1]$|^[xX1-9]$
+        birthMonth:
+          type: string
+          description: Month number of the birthday. Integer from 1 to 12 or X (when subject has no birthday)
+          pattern: ^1[0-2]$|^[xX1-9]$
