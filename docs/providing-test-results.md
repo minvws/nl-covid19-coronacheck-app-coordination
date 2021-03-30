@@ -79,7 +79,7 @@ Our recommendation is to provide the token to the user in the form of a QR code.
 
 ### Analog Code
 
-For manual entry, the token can be wrapped in a code consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
+For manual entry, the token can be wrapped in a code that consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
 
 ```
 XXX-YYYYYYYYYYYYY-ZV
