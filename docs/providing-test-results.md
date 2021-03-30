@@ -289,11 +289,15 @@ The http response code for an invalid token should be: 401
 
 Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
 
-### Test result retention
+### Token retention
 
-When a user has retrieved their test result via a token, they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the test result should not be immediately removed after succesful retrieval. A grace period of 24 hours should be respected, so that if the user cancels the operation and re-enters the code later, they can still retrieve their result. 
+A token should remain valid until 40 hours after the sample time of the underlying test result.
 
-To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field, so the fact that during the 24 hour window the user could retrieve the result multiple times, is ok. 
+Even when a user has already retrieved their test result via a token, it should remain valid. A reason for this is that they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the token should *not* be immediately removed after succesful retrieval. If the user cancels the operation and re-enters the code later, they can still retrieve their result. 
+
+(The 40 hours is based on the validity of the proof of test: users who decide to load the result right before entering a venue, can still do so).
+
+To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field, so even if during the 40 hour window the user would retrieve the result multiple times, only once it can be converted to a signed test result in the signing service. 
 
 ### Error states
 
@@ -419,8 +423,8 @@ When providing endpoints for test retrieval, along with the general best practic
 * Do not include any personally identifiable data in responses.
 * The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
 * The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
-* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....) (After succesful retrieval, the token can be cleaned up, but this should respect the [retention time](#test-result-retention)
-* Verification codes should have a very limited lifetime of a few minutes. 
+* Tokens should have a lifetime of at maximum 40 hours after the sample time (see [token retention](#token-retention)
+* Verification codes should have a limited lifetime of 5 minutes. 
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
 * Properly secure endpoints against DDOS attacks. 
 * Properly secure endpoints against brute force attacks, for example by accepting a maximum number of attempts to provide a verificationCode
@@ -490,10 +494,11 @@ pcr-lamp   | PCR Test (LAMP)
 2.2.0
 
 * Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
+* Be more explicit about the validity of tokens.
 
 2.1.0
 
-* Specify [test result retention](#test-result-retention)
+* Specify [token retention](#token-retention)
 * Added table of contents
 * Added ability to create specimen results
 
