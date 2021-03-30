@@ -35,7 +35,7 @@ and can optionally:
 
 ## Distributing a test token
 
-Somewhere in the test process, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results.
+After a user has taken a test, and the result is negative, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results.
 
 For security reasons the token must be at least 10 characters long.
 
