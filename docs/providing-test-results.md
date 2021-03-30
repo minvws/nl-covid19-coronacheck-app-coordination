@@ -70,7 +70,7 @@ and can optionally:
 
 ## Distributing a test token
 
-After a user has taken a test, and the result is negative, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results.
+After a user has taken a test, and the result is negative, the party should supply the user with a token. There are multiple ways to communicate the token to the user, and multiple steps in the process where this can take place, but it must be provided *after* the user's test result is determined to be negative.
 
 For security reasons the token must be at least 10 characters long.
 
