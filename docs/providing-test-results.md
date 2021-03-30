@@ -1,10 +1,45 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.0
+Version 2.1.0
 
 > :warning: This is the 2.0 version. For the 1.0 version that is currently in the field, please refer to the [1.0 version of the docs](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-1.0/docs/providing-test-results.md)
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
+
+## Contents
+
+- [CoronaCheck Prototype - Test Result Provisioning](#coronacheck-prototype---test-result-provisioning)
+  * [Overview](#overview)
+  * [Requirements](#requirements)
+  * [Distributing a test token](#distributing-a-test-token)
+    + [Analog Code(s)](#analog-code-s-)
+    + [QR Code(s)](#qr-code-s-)
+    + [Token ownership verification](#token-ownership-verification)
+  * [Exchanging the token for a test result](#exchanging-the-token-for-a-test-result)
+    + [Request as received by the endpoint.](#request-as-received-by-the-endpoint)
+    + [Returning a 'pending' state](#returning-a--pending--state)
+      - [Poll tokens](#poll-tokens)
+      - [Poll delay](#poll-delay)
+    + [Requesting owner verification](#requesting-owner-verification)
+    + [Returning a test result](#returning-a-test-result)
+    + [Response payload for invalid/expired tokens](#response-payload-for-invalid-expired-tokens)
+    + [Test result retention](#test-result-retention)
+    + [Error states](#error-states)
+  * [Initial normalization](#initial-normalization)
+  * [Signing responses](#signing-responses)
+    + [Obtaining a signing certificate](#obtaining-a-signing-certificate)
+    + [Signature algorithm](#signature-algorithm)
+    + [Including the signature in the response](#including-the-signature-in-the-response)
+    + [Signature verification](#signature-verification)
+    + [Command line example](#command-line-example)
+    + [More sample code](#more-sample-code)
+    + [Governance and the digital signature of the test result](#governance-and-the-digital-signature-of-the-test-result)
+- [Security and privacy guidelines](#security-and-privacy-guidelines)
+- [Appendix 1: Example implementations of X509 CMS signing](#appendix-1--example-implementations-of-x509-cms-signing)
+- [Appendix 2: Validating the signing output](#appendix-2--validating-the-signing-output)
+- [Appendix 3: OpenAPI specification of endpoint](#appendix-3--openapi-specification-of-endpoint)
+- [Appendix 4: Available Test Types](#appendix-4--available-test-types)
+- [Changelog](#changelog)
 
 ## Overview
 
@@ -206,6 +241,7 @@ And the payload should look like this:
         "testType": "pcr", // See Appendix 4
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
+        "isSpecimen": true, // Optional
         "holder": {
 	    "firstNameInitial": "J", // Normalized
 	    "lastNameInitial": "D", // Normalized
@@ -225,6 +261,7 @@ Where:
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
+* `isSpecimen`: Boolean. When set to true, the verifier app will show a grey verification screen instead of a green one. To be used for testing and demo purposes.
 * `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity. 
     * `firstNameInitial`: The first letter of the first name as specified on the person's ID. This must be (normalized)[#initial-normalization] according to a number of rules. 
     * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial. Like the other initial, this should be normalized. 
@@ -251,6 +288,12 @@ The http response code for an invalid token should be: 401
 ```
 
 Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
+
+### Test result retention
+
+When a user has retrieved their test result via a token, they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the test result should not be immediately removed after succesful retrieval. A grace period of 24 hours should be respected, so that if the user cancels the operation and re-enters the code later, they can still retrieve their result. 
+
+To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field, so the fact that during the 24 hour window the user could retrieve the result multiple times, is ok. 
 
 ### Error states
 
@@ -376,7 +419,7 @@ When providing endpoints for test retrieval, along with the general best practic
 * Do not include any personally identifiable data in responses.
 * The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
 * The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
-* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....)
+* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....) (After succesful retrieval, the token can be cleaned up, but this should respect the [retention time](#test-result-retention)
 * Verification codes should have a very limited lifetime of a few minutes. 
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
 * Properly secure endpoints against DDOS attacks. 
@@ -443,9 +486,16 @@ pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
 
+
 2.2.0
 
 * Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
+
+2.1.0
+
+* Specify [test result retention](#test-result-retention)
+* Added table of contents
+* Added ability to create specimen results
 
 2.0.0
 
