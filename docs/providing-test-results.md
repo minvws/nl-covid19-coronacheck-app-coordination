@@ -121,7 +121,7 @@ When providing the code through a QR code, the CoronaCheck App will be able to s
 }
 ```
 
-The token should use the same character subset as the oral codes (as it's common to provite the manual code as an alternative to scanning the QR, in case the user sees the QR on the same device). 
+The token should use the same character subset as the oral codes (as it's common to provide the manual code as an alternative to scanning the QR, in case the user sees the QR on the same device). 
 
 ### Deeplink
 
