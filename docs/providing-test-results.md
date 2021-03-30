@@ -21,7 +21,7 @@ In order to be able to deliver test results to the CoronaCheck app, a test provi
 
 * Implement a mechanism to distribute a `token` in the form of a QR or `code` to the citizen that can be used to collect a negative result. 
 * Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
-* Obtain an x509 PKI certificate (e.g. PKI-O) for CMS signing test results.
+* Obtain an x509 PKI-O certificate for CMS signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
 * The CMS signature should use an appropritate signature algorithm and padding; conformant to the current, in-force SOG-IS (https://www.sogis.eu/uk/supporting_doc_en.html) standard.
 * Add all intermediate certificates to the CMS signature (in order to establish a trust chain).
