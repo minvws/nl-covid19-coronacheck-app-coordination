@@ -1,6 +1,6 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.1.0
+Version 2.2.0
 
 > :warning: This is the 2.0 version. For the 1.0 version that is currently in the field, please refer to the [1.0 version of the docs](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-1.0/docs/providing-test-results.md)
 
@@ -70,7 +70,7 @@ and can optionally:
 
 ## Distributing a test token
 
-Somewhere in the test process, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results.
+After a user has taken a test, and the result is negative, the party should supply the user with a token. There are multiple ways to communicate the token to the user, and multiple steps in the process where this can take place, but it must be provided *after* the user's test result is determined to be negative.
 
 For security reasons the token must be at least 10 characters long.
 
@@ -170,7 +170,7 @@ Notes:
 
 ### Returning a 'pending' state
 
-If the token is supplied and/or entered by the user BEFORE a test result is present, the endpoint must return a 'pending' state. This indicates to the app that the result is yet to be determined, and the app should try again in the specified time frame.
+A token must *only* be provided to users who have a negative test result. However, to accommodate a small set of providers who have a delay (caused by caching/batching) in publishing the result for consumption by the app, we support returning a 'pending' state. This indicates to the app that the result is not yet available, and the app should try again in the specified time frame. Note that this approach is *not recommended* as the user already knows they have a negative result, but are still unable to retrieve it. 
 
 The HTTP response code is: 202
 
@@ -486,10 +486,10 @@ pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
 
-
 2.2.0
 
 * Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
+* Clarify that tokens must only be handed out to users whose test result is negative.
 
 2.1.0
 
