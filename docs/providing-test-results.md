@@ -55,13 +55,7 @@ Where:
 * Z is a checksum to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
 * V is the code version that tells the app how to interpret the code. It should currently always be 2.
 
-The CoronaCheck app lets the user type any alphanumeric characters from the following set:
-
-```
-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
-```
-
-If the code is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
+To ensurethe code can be provided orally to the user (e.g. by phone), and to allow the user to write down the code, only the following subset of 23 characters should be used to generate tokens:
 
 ```
 BCFGJLQRSTUVXYZ23456789
@@ -448,6 +442,10 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+2.2.0
+
+* Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
 
 2.0.0
 
