@@ -12,8 +12,9 @@ In the CoronaCheck project we are prototyping a means of presenting a digital pr
   * [Overview](#overview)
   * [Requirements](#requirements)
   * [Distributing a test token](#distributing-a-test-token)
-    + [Analog Code(s)](#analog-code-s-)
-    + [QR Code(s)](#qr-code-s-)
+    + [Analog Code](#analog-code)
+    + [QR Token](#qr-token)
+    + [Deeplink](#deeplink)
     + [Token ownership verification](#token-ownership-verification)
   * [Exchanging the token for a test result](#exchanging-the-token-for-a-test-result)
     + [Request as received by the endpoint.](#request-as-received-by-the-endpoint)
@@ -76,9 +77,9 @@ For security reasons the token must be at least 10 characters long.
 
 Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided. It is of course possible to use both a manual token and a QR so the user can choose their desired method.
 
-### Analog Code(s)
+### Analog Code
 
-For manual entry, the code consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
+For manual entry, the token can be wrapped in a code that consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
 
 ```
 XXX-YYYYYYYYYYYYY-ZV
@@ -98,7 +99,7 @@ BCFGJLQRSTUVXYZ23456789
 
 This set is optimized to avoid confusion between visually similar characters, e.g. 0 (zero) vs O (letter), as well as orally similar sounding letters. 
 
-The code matches the following regular expression pattern:
+The code ( prefix, token and checksum/version) matches the following regular expression pattern:
 
 ```
 ^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[2-9]{1}$
@@ -108,9 +109,9 @@ The checksum is defined as the Luhn mod-N for alphanummerics; where the codepoin
 
 Note that the version number (2) is at the end of the string; this is an anti-pattern; but conscious choise; these are to be human readable/entered strings that would look odd starting with (always the same) number. Also note that the 'XXX-' allows for a future 'Z-XXX-' or 'ZXXX-' type of start.
 
-### QR Code(s)
+### QR Token
 
-When providing the code through a QR code, the CoronaCheck App will look for the following content:
+When providing the code through a QR code, the CoronaCheck App will be able to scan the token using the device's camera. The app will look for the following content:
 
 ```javascript
 {
@@ -120,11 +121,17 @@ When providing the code through a QR code, the CoronaCheck App will look for the
 }
 ```
 
-The token must match the following regular expression pattern:
+The token should use the same character subset as the oral codes (as it's common to provide the manual code as an alternative to scanning the QR, in case the user sees the QR on the same device). 
 
-```
-^[A-Z0-9]+$
-```
+### Deeplink
+
+When providing the token via a website that the user can visit using the device where CoronaCheck is installed, the token can be directly loaded into the CoronaCheck app by utilizing the app's deeplink functionality. To use the deeplink, the token should be wrapped inside the same code that the manual entry uses (XXX-YYYYYYYYYY-ZV) The deeplink should be constructed as such:
+
+```https://www.coronacheck.nl/app#XXX-YYYYYYYYYYYY-ZV```
+
+If a user does not have the app installed, the URL will take the user to the CoronaCheck website, where they can find download links to download the app. If the user does have the app, this URL will automatically open the URL and fetch the test result using the token. 
+
+Note the use of the ```#``` in the URL. By using an anchor the token is not leaked to the CoronaCheck website when the user does not have the app installed. 
 
 ### Token ownership verification
 
