@@ -127,7 +127,7 @@ The token should use the same character subset as the oral codes (as it's common
 
 When providing the token via a website that the user can visit using the device where CoronaCheck is installed, the token can be directly loaded into the CoronaCheck app by utilizing the app's deeplink functionality. To use the deeplink, the token should be wrapped inside the same code that the manual entry uses (XXX-YYYYYYYYYY-ZV) The deeplink should be constructed as such:
 
-```https://www.coronacheck.nl/app#XXX-YYYYYYYYYYYY-ZV```
+```https://www.coronacheck.nl/app/redeem#XXX-YYYYYYYYYYYY-ZV```
 
 If a user does not have the app installed, the URL will take the user to the CoronaCheck website, where they can find download links to download the app. If the user does have the app, this URL will automatically open the URL and fetch the test result using the token. 
 
