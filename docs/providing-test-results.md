@@ -139,6 +139,8 @@ If the token can be securely transferred to the user (e.g. by scanning a QR code
 
 The process of providing a one time code sent via sms/e-mail is familiar to users who have used Two Factor Authentication mechanisms. It is important to note that the scheme documented in this this specification is not a true 2FA schema. In a true 2FA schema two distinct factors should be used, whereas in our case there is only one distinct factor - both the token and the verification code constitute 'something you have'. 
 
+Verification codes must be numeric and 6 digits. 
+
 ## Exchanging the token for a test result
 
 Once scanned / read in the app, CoronaCheck will try to fetch a test result.
@@ -502,6 +504,7 @@ pcr-lamp   | PCR Test (LAMP)
 * Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
 * Be more explicit about the validity of tokens.
 * Clarify that tokens must only be handed out to users whose test result is negative.
+* Specified the requirements of verification codes (numeric and 6-digit). 
 
 2.1.0
 
