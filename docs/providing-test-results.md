@@ -1,10 +1,46 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.0
+Version 2.2.0
 
 > :warning: This is the 2.0 version. For the 1.0 version that is currently in the field, please refer to the [1.0 version of the docs](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-1.0/docs/providing-test-results.md)
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
+
+## Contents
+
+- [CoronaCheck Prototype - Test Result Provisioning](#coronacheck-prototype---test-result-provisioning)
+  * [Overview](#overview)
+  * [Requirements](#requirements)
+  * [Distributing a test token](#distributing-a-test-token)
+    + [Analog Code](#analog-code)
+    + [QR Token](#qr-token)
+    + [Deeplink](#deeplink)
+    + [Token ownership verification](#token-ownership-verification)
+  * [Exchanging the token for a test result](#exchanging-the-token-for-a-test-result)
+    + [Request as received by the endpoint.](#request-as-received-by-the-endpoint)
+    + [Returning a 'pending' state](#returning-a--pending--state)
+      - [Poll tokens](#poll-tokens)
+      - [Poll delay](#poll-delay)
+    + [Requesting owner verification](#requesting-owner-verification)
+    + [Returning a test result](#returning-a-test-result)
+    + [Response payload for invalid/expired tokens](#response-payload-for-invalid-expired-tokens)
+    + [Test result retention](#test-result-retention)
+    + [Error states](#error-states)
+  * [Initial normalization](#initial-normalization)
+  * [Signing responses](#signing-responses)
+    + [Obtaining a signing certificate](#obtaining-a-signing-certificate)
+    + [Signature algorithm](#signature-algorithm)
+    + [Including the signature in the response](#including-the-signature-in-the-response)
+    + [Signature verification](#signature-verification)
+    + [Command line example](#command-line-example)
+    + [More sample code](#more-sample-code)
+    + [Governance and the digital signature of the test result](#governance-and-the-digital-signature-of-the-test-result)
+- [Security and privacy guidelines](#security-and-privacy-guidelines)
+- [Appendix 1: Example implementations of X509 CMS signing](#appendix-1--example-implementations-of-x509-cms-signing)
+- [Appendix 2: Validating the signing output](#appendix-2--validating-the-signing-output)
+- [Appendix 3: OpenAPI specification of endpoint](#appendix-3--openapi-specification-of-endpoint)
+- [Appendix 4: Available Test Types](#appendix-4--available-test-types)
+- [Changelog](#changelog)
 
 ## Overview
 
@@ -21,7 +57,7 @@ In order to be able to deliver test results to the CoronaCheck app, a test provi
 
 * Implement a mechanism to distribute a `token` in the form of a QR or `code` to the citizen that can be used to collect a negative result. 
 * Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
-* Obtain an x509 PKI certificate (e.g. PKI-O) for CMS signing test results.
+* Obtain an x509 PKI-O certificate for CMS signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
 * The CMS signature should use an appropritate signature algorithm and padding; conformant to the current, in-force SOG-IS (https://www.sogis.eu/uk/supporting_doc_en.html) standard.
 * Add all intermediate certificates to the CMS signature (in order to establish a trust chain).
@@ -35,15 +71,15 @@ and can optionally:
 
 ## Distributing a test token
 
-Somewhere in the test process, the party should supply the user with a token. This can either be during registration, while taking the test, or when delivering the results.
+After a user has taken a test, and the result is negative, the party should supply the user with a token. There are multiple ways to communicate the token to the user, and multiple steps in the process where this can take place, but it must be provided *after* the user's test result is determined to be negative.
 
 For security reasons the token must be at least 10 characters long.
 
 Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided. It is of course possible to use both a manual token and a QR so the user can choose their desired method.
 
-### Analog Code(s)
+### Analog Code
 
-For manual entry, the code consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
+For manual entry, the token can be wrapped in a code that consists of the `providerIdentifer`, `token`, checksum, and code version. It should look like this:
 
 ```
 XXX-YYYYYYYYYYYYY-ZV
@@ -55,13 +91,7 @@ Where:
 * Z is a checksum to help avoid typing mistakes and to put up a small barrier for the apps to only pass tokens to an endpoint if a sanity check is performed using the check digits. This helps avoid hits on your endpoint by presenting invalid tokens.
 * V is the code version that tells the app how to interpret the code. It should currently always be 2.
 
-The CoronaCheck app lets the user type any alphanumeric characters from the following set:
-
-```
-ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
-```
-
-If the code is provided orally to the user (e.g. by phone), we recommend to only use the following subset of 23 characters:
+To ensure the code can be provided orally to the user (e.g. by phone), and to allow the user to write down the code, only the following subset of 23 characters should be used to generate tokens:
 
 ```
 BCFGJLQRSTUVXYZ23456789
@@ -69,7 +99,7 @@ BCFGJLQRSTUVXYZ23456789
 
 This set is optimized to avoid confusion between visually similar characters, e.g. 0 (zero) vs O (letter), as well as orally similar sounding letters. 
 
-The code matches the following regular expression pattern:
+The code ( prefix, token and checksum/version) matches the following regular expression pattern:
 
 ```
 ^[A-Z0-9]{3}-[A-Z0-9]+-[A-Z0-9]{1}[2-9]{1}$
@@ -79,9 +109,9 @@ The checksum is defined as the Luhn mod-N for alphanummerics; where the codepoin
 
 Note that the version number (2) is at the end of the string; this is an anti-pattern; but conscious choise; these are to be human readable/entered strings that would look odd starting with (always the same) number. Also note that the 'XXX-' allows for a future 'Z-XXX-' or 'ZXXX-' type of start.
 
-### QR Code(s)
+### QR Token
 
-When providing the code through a QR code, the CoronaCheck App will look for the following content:
+When providing the code through a QR code, the CoronaCheck App will be able to scan the token using the device's camera. The app will look for the following content:
 
 ```javascript
 {
@@ -91,17 +121,25 @@ When providing the code through a QR code, the CoronaCheck App will look for the
 }
 ```
 
-The token must match the following regular expression pattern:
+The token should use the same character subset as the oral codes (as it's common to provide the manual code as an alternative to scanning the QR, in case the user sees the QR on the same device). 
 
-```
-^[A-Z0-9]+$
-```
+### Deeplink
+
+When providing the token via a website that the user can visit using the device where CoronaCheck is installed, the token can be directly loaded into the CoronaCheck app by utilizing the app's deeplink functionality. To use the deeplink, the token should be wrapped inside the same code that the manual entry uses (XXX-YYYYYYYYYY-ZV) The deeplink should be constructed as such:
+
+```https://www.coronacheck.nl/app/redeem#XXX-YYYYYYYYYYYY-ZV```
+
+If a user does not have the app installed, the URL will take the user to the CoronaCheck website, where they can find download links to download the app. If the user does have the app, this URL will automatically open the URL and fetch the test result using the token. 
+
+Note the use of the ```#``` in the URL. By using an anchor the token is not leaked to the CoronaCheck website when the user does not have the app installed. 
 
 ### Token ownership verification
 
 If the token can be securely transferred to the user (e.g. by scanning a QR code in the test facility right after having confirmed identity, under supervision of staff), it is not necesarry to require ownership verification. In most circumstances however, ownership should be verified upon entering the test result. Ownership verification is performed by sending a 4-digit one time code to the user's phone per sms or per email, at the moment the user enters the token into the app. Although this doesn't guarantee for 100% that the result won't be passed to someone else, it now requires a deliberate act of fraud, instead of just 'handing over a voucher'. 
 
 The process of providing a one time code sent via sms/e-mail is familiar to users who have used Two Factor Authentication mechanisms. It is important to note that the scheme documented in this this specification is not a true 2FA schema. In a true 2FA schema two distinct factors should be used, whereas in our case there is only one distinct factor - both the token and the verification code constitute 'something you have'. 
+
+Verification codes must be numeric and 6 digits. 
 
 ## Exchanging the token for a test result
 
@@ -141,7 +179,7 @@ Notes:
 
 ### Returning a 'pending' state
 
-If the token is supplied and/or entered by the user BEFORE a test result is present, the endpoint must return a 'pending' state. This indicates to the app that the result is yet to be determined, and the app should try again in the specified time frame.
+A token must *only* be provided to users who have a negative test result. However, to accommodate a small set of providers who have a delay (caused by caching/batching) in publishing the result for consumption by the app, we support returning a 'pending' state. This indicates to the app that the result is not yet available, and the app should try again in the specified time frame. Note that this approach is *not recommended* as the user already knows they have a negative result, but are still unable to retrieve it. 
 
 The HTTP response code is: 202
 
@@ -159,7 +197,7 @@ The response body would look like this:
 
 Where: 
 
-* `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should currently always be `1.0`.
+* `protocolVersion` is the version of the protocol used. This helps the app interpret the QR correctly. This should match the version of the protocol implemented.
 * `providerIdentifier` is the 3-letter identifier of the test provider, as supplied by the CoronaCheck team.
 * `status`: Should be `pending` or `complete` (lowercase), to indicate that a result is included or not.
 * `pollToken`: An optional token of max 50 characters to be used for the next attempt to retrieve the test result. If no pollToken is provided, the next attempt will use the original token provided by the user.
@@ -212,11 +250,12 @@ And the payload should look like this:
         "testType": "pcr", // See Appendix 4
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
+        "isSpecimen": true, // Optional
         "holder": {
-	    "firstNameInitial": "J", // Normalized
-	    "lastNameInitial": "D", // Normalized
-	    "birthDay": "31", // String, but no leading zero, e.g. "4"
-	    "birthMonth": "12" // String, but no leading zero, e.g. "4"
+            "firstNameInitial": "J", // Normalized
+            "lastNameInitial": "D", // Normalized
+            "birthDay": "31", // String, but no leading zero, e.g. "4"
+            "birthMonth": "12" // String, but no leading zero, e.g. "4"
 	}
     }
 }
@@ -231,6 +270,7 @@ Where:
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
+* `isSpecimen`: Boolean. When set to true, the verifier app will show a grey verification screen instead of a green one. To be used for testing and demo purposes.
 * `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity. 
     * `firstNameInitial`: The first letter of the first name as specified on the person's ID. This must be (normalized)[#initial-normalization] according to a number of rules. 
     * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial. Like the other initial, this should be normalized. 
@@ -250,13 +290,23 @@ The http response code for an invalid token should be: 401
 ```javascript
 {
     "protocolVersion": "2.0",
-    "providerIdentifier": "XXX"
-    "status": "invalid_token",
+    "providerIdentifier": "XXX",
+    "status": "invalid_token"
 }
 
 ```
 
 Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
+
+### Token retention
+
+A token should remain valid until 40 hours after the sample time of the underlying test result.
+
+Even when a user has already retrieved their test result via a token, it should remain valid. A reason for this is that they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the token should *not* be immediately removed after succesful retrieval. If the user cancels the operation and re-enters the code later, they can still retrieve their result. 
+
+(The 40 hours is based on the validity of the proof of test: users who decide to load the result right before entering a venue, can still do so).
+
+To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field, so even if during the 40 hour window the user would retrieve the result multiple times, only once it can be converted to a signed test result in the signing service. 
 
 ### Error states
 
@@ -382,8 +432,8 @@ When providing endpoints for test retrieval, along with the general best practic
 * Do not include any personally identifiable data in responses.
 * The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
 * The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
-* Tokens should have a limited lifetime, to mitigate against longer brute-force attacks against the token space. This limited lifetime should be communicated to the user (e.g. 'please enter this code in the CoronaCheck app before ....)
-* Verification codes should have a very limited lifetime of a few minutes. 
+* Tokens should have a lifetime of at maximum 40 hours after the sample time (see [token retention](#token-retention)
+* Verification codes should have a limited lifetime of 5 minutes. 
 * Properly secure endpoints against common attacks by implementing, for example, but not limited to, OWASP best practices.
 * Properly secure endpoints against DDOS attacks. 
 * Properly secure endpoints against brute force attacks, for example by accepting a maximum number of attempts to provide a verificationCode
@@ -448,6 +498,19 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+2.2.0
+
+* Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
+* Be more explicit about the validity of tokens.
+* Clarify that tokens must only be handed out to users whose test result is negative.
+* Specified the requirements of verification codes (numeric and 6-digit). 
+
+2.1.0
+
+* Specify [token retention](#token-retention)
+* Added table of contents
+* Added ability to create specimen results
 
 2.0.0
 
