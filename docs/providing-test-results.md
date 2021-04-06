@@ -8,6 +8,8 @@ In the CoronaCheck project we are prototyping a means of presenting a digital pr
 
 - [CoronaCheck Prototype - Test Result Provisioning](#coronacheck-prototype---test-result-provisioning)
   * [Overview](#overview)
+    + [Retrieval from the CoronaCheck app](#retrieval-from-the-coronacheck-app)
+    + [Retrieval from print terminals](#retrieval-from-print-terminals)
   * [Requirements](#requirements)
   * [Distributing a test token](#distributing-a-test-token)
     + [Analog Code](#analog-code)
@@ -22,7 +24,8 @@ In the CoronaCheck project we are prototyping a means of presenting a digital pr
     + [Requesting owner verification](#requesting-owner-verification)
     + [Returning a test result](#returning-a-test-result)
     + [Response payload for invalid/expired tokens](#response-payload-for-invalid-expired-tokens)
-    + [Test result retention](#test-result-retention)
+    + [Token retention](#token-retention)
+    + [Performing terminal verification](#performing-terminal-verification)
     + [Error states](#error-states)
   * [Initial normalization](#initial-normalization)
   * [Signing responses](#signing-responses)
