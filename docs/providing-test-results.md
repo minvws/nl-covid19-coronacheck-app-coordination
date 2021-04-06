@@ -166,7 +166,7 @@ The detailed specification of the endpoint is provided in appendix 3.
 
 The Authorization header will contain a Bearer token which consists of the `token` (YYYYYYYYYYYYY) part of the `code`.
 
-In common CURL syntax it looks like this when the request comes from an app:
+In common CURL syntax it looks like this when the request comes from an *app*:
 
 ```
 curl
@@ -179,7 +179,7 @@ curl
 
 The call will contain a body with a `verificationCode` obtained from the ownership verification process (see further down on verification details). If your facility employs supervised scanning of a QR and doesn't require ownership verification, the app will omit this body. 
 
-When the request comes from a terminal, it looks like this:
+When the request comes from a *terminal*, it looks like this:
 
 ```
 curl
