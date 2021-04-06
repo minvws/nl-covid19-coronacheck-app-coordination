@@ -525,6 +525,10 @@ pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
 
+2.3.0
+
+* Added print terminal flow.
+
 2.2.0
 
 * Reduced ambiguity by requiring (instead of recommending) tokens to only use the 'orally optimized subset' of token characters.
