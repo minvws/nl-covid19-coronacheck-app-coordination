@@ -1,6 +1,6 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.2.0
+Version 2.3.0
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
 
@@ -46,25 +46,30 @@ The process is designed in such a way that privacy is perserved as much as possi
 
 The following diagram describes a high level overview of the result retrieval process:
 
+### Retrieval from the CoronaCheck app
+
 ![High Level Overview](images/overview.png)
 
+### Retrieval from print terminals
+
+For persons who do now own a smartphone or a printer, we have designed a way to print a QR from a public print terminal. The process is similar to the app retrieval process, with a few changes:
+
+![High Level Overview PT](images/overview-pt.png)
 
 ## Requirements
 
-In order to be able to deliver test results to the CoronaCheck app, a test provider MUST do the following:
+In order to be able to deliver test results for CoronaCheck, a test provider MUST do the following:
 
 * Implement a mechanism to distribute a `token` in the form of a QR or `code` to the citizen that can be used to collect a negative result. 
-* Provide an endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
+* Provide two endpoints:
+    * An endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
+    * An endpoint that offers the retrieval of test results to print terminals, e.g. https://api.acme.inc/resultretrieval/print. 
 * Obtain an x509 PKI-O certificate for CMS signing test results.
 * CMS sign its test results and other responses using the x509 certificate.
-* The CMS signature should use an appropritate signature algorithm and padding; conformant to the current, in-force SOG-IS (https://www.sogis.eu/uk/supporting_doc_en.html) standard.
 * Add all intermediate certificates to the CMS signature (in order to establish a trust chain).
 * Provide the public key of the CMS X509 certificate to the CoronaCheck system so that signed results can be verified against the certificate.
 * Provide an additional public key for TLS/SSL pinning against their endpoint.
 * Provide a privacy statement that the app can display before handing off a token to the endpoint.
-
-and can optionally:
-
 * Require an out of band ownership verification of the test result if the test result is handed out in an unsupervised manner (see details in next chapter).
 
 ## Distributing a test token
@@ -73,7 +78,7 @@ After a user has taken a test, and the result is negative, the party should supp
 
 For security reasons the token must be at least 10 characters long.
 
-Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided. It is of course possible to use both a manual token and a QR so the user can choose their desired method.
+Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided, with the manual code / deeplink as fallback in case the user is viewing their result on the same device. 
 
 ### Analog Code
 
@@ -133,7 +138,7 @@ Note the use of the ```#``` in the URL. By using an anchor the token is not leak
 
 ### Token ownership verification
 
-If the token can be securely transferred to the user (e.g. by scanning a QR code in the test facility right after having confirmed identity, under supervision of staff), it is not necesarry to require ownership verification. In most circumstances however, ownership should be verified upon entering the test result. Ownership verification is performed by sending a 4-digit one time code to the user's phone per sms or per email, at the moment the user enters the token into the app. Although this doesn't guarantee for 100% that the result won't be passed to someone else, it now requires a deliberate act of fraud, instead of just 'handing over a voucher'. 
+If the token can be securely transferred to the user (e.g. by scanning a QR code in the test facility right after having confirmed identity, under supervision of staff), it is not necessary to require ownership verification. In most circumstances however, ownership should be verified upon entering the test result. Ownership verification is performed by sending a 4-digit one time code to the user's phone per sms or per email, at the moment the user enters the token into the app. Although this doesn't guarantee for 100% that the result won't be passed to someone else, it now requires a deliberate act of fraud, instead of just 'handing over a voucher'. 
 
 The process of providing a one time code sent via sms/e-mail is familiar to users who have used Two Factor Authentication mechanisms. It is important to note that the scheme documented in this this specification is not a true 2FA schema. In a true 2FA schema two distinct factors should be used, whereas in our case there is only one distinct factor - both the token and the verification code constitute 'something you have'. 
 
@@ -141,9 +146,13 @@ Verification codes must be numeric and 6 digits.
 
 ## Exchanging the token for a test result
 
-Once scanned / read in the app, CoronaCheck will try to fetch a test result.
+Once the token is scanned / read / entered in the app or terminal, CoronaCheck will try to fetch a test result.
 
-The test provider should provide an endpoint that allows the user to collect this test result using the token provided in the previous step. Depending on where in the process the token was supplied, and depending on when the user enters it in their app, there can be 3 distinct responses:
+The test provider should provide two endpoints that allows the user to collect this test result using the token provided in the previous step:
+* The CoronaCheck end user app will fetch the result, using the token, directly from the test provider backend. This flow should include the verification step (using a verification code sent to the user's device) described earlier. 
+* Print terminals will fetch the result, using the token, directly from the test provider backend too. However instead of a verification via sms, the terminal staff will ask the user voor proof of identity, and enter the birth month / day. This month/day will be provided to the endpoint and should be checked by the test provider.
+
+Depending on where in the process the token was supplied, and depending on when the user enters it in their app, there can be 3 distinct responses:
 
 * A result is not yet available (the request should be retried later)
 * A result is available but requires verification (a verification code has been sent and should be retried with the code)
@@ -157,10 +166,10 @@ The detailed specification of the endpoint is provided in appendix 3.
 
 The Authorization header will contain a Bearer token which consists of the `token` (YYYYYYYYYYYYY) part of the `code`.
 
-In common CURL syntax it looks like this:
+In common CURL syntax it looks like this when the request comes from an app:
 
 ```
-CURL
+curl
   -X POST
   -H "Authorization: Bearer YYYYYYYYYYYYY"
   -H "CoronaCheck-Protocol-Version: 2.0"
@@ -170,10 +179,22 @@ CURL
 
 The call will contain a body with a `verificationCode` obtained from the ownership verification process (see further down on verification details). If your facility employs supervised scanning of a QR and doesn't require ownership verification, the app will omit this body. 
 
+When the request comes from a terminal, it looks like this:
+
+```
+curl
+  -X POST
+  -H "Authorization: Bearer YYYYYYYYYYYYY"
+  -H "CoronaCheck-Protocol-Version: 2.0"
+  -d { "birthMonth": "12", "birthDay": "24" }
+  https://test-provider-endpoint-base-url-print
+```
+
 Notes:
 
 * The useragent will be anonimized.
 * HTTP POST is used instead of a GET to aid in preventing logging/caching of the token or code.
+* The birthday and month are strings, not zero-padded (e.g. "4" and not "04"). There are IDs which have "X", "XX", "0" or "00" as value (for persons with no known birthdate). In this case, the terminal will always send "0". (The field in the terminal will use a numeric keyboard). 
 
 ### Returning a 'pending' state
 
@@ -181,7 +202,7 @@ A token must *only* be provided to users who have a negative test result. Howeve
 
 The HTTP response code is: 202
 
-The response body would look like this:
+The response body would look like this (for both the app and terminal endpoints):
 
 ```javascript
 {
@@ -296,6 +317,10 @@ The http response code for an invalid token should be: 401
 
 Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
 
+### Performing terminal verification
+
+The endpoint for terminals (which omits verification codes and uses birth month/day instead) should only be accessible to terminals. Terminals will use an SSL client certificate that can be verified when the call is made. The public certificate needed to perform this verification will be distributed when a test provider is configured into the CoronaCheck ecosystem.
+
 ### Token retention
 
 A token should remain valid until 40 hours after the sample time of the underlying test result.
@@ -318,8 +343,8 @@ Avoid including details about your server implementation in the error body (e.g.
 {
     "message": "An internal server error occured."
 }
+```
 
-````
 ## Initial normalization
 
 The initials of first name and last name should be normalized according to the following rules:
@@ -420,8 +445,7 @@ Whenever a digital signature is placed - it is the signers responsibility to ens
 
 It is the responsibility of the party fetching the data to ensure that it is connected to the right system (by means of certificate pinning and PKI-O certificate checks). 
 
-And in B2B settings, the client may be required to provide a PKI-O client certificate to authenticate.
-
+And in B2B settings (such as the print terminals), the client may be required to provide a PKI-O client certificate to authenticate (and the provider must check validity of this certificate).
 
 # Security and privacy guidelines
 
@@ -429,6 +453,7 @@ When providing endpoints for test retrieval, along with the general best practic
 
 * Do not include any personally identifiable data in responses.
 * The app will not trust redirects. This means exact specification of endpoint urls, accurate to the point of trailing slashes and extensions. 
+* The CMS signature should use an appropritate signature algorithm and padding; conformant to the current, in-force [SOG-IS](https://www.sogis.eu/uk/supporting_doc_en.html) standard.
 * The unique identifier of the test result MUST NOT be linkable to an individual citizen, pseudonymization is required. 
 * Tokens should have a lifetime of at maximum 40 hours after the sample time (see [token retention](#token-retention)
 * Verification codes should have a limited lifetime of 5 minutes. 
