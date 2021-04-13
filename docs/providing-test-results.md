@@ -73,7 +73,7 @@ and can optionally:
 
 After a user has taken a test, and the result is negative, the party should supply the user with a token. There are multiple ways to communicate the token to the user, and multiple steps in the process where this can take place, but it must be provided *after* the user's test result is determined to be negative.
 
-For security reasons the token must be at least 10 characters long.
+For security reasons the token must be at least 10 characters long. It must be randomly generated and should not be predictable or derived from any identifier or code that was previously communicated to the user (e.g. do not use a booking code directly as a token for a negative result).
 
 Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided. It is of course possible to use both a manual token and a QR so the user can choose their desired method.
 
@@ -498,6 +498,10 @@ pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
 
 # Changelog
+
+2.3.0
+
+* Emphasize that tokens should be randomly generated.
 
 2.2.0
 
