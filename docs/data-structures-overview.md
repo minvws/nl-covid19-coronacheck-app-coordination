@@ -9,8 +9,68 @@ This chapter describes the datastructures that providers of test/vaccination res
 ## Protocol version 3.0
 
 // todo: add minimal dataset fields
-// todo: add vaccination proof
-// todo: add recovery (positive test result)
+
+### Information Lookup
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "informationAvailable": true // true or false if information is available
+}
+````
+
+### Vaccination Event
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete",
+    "events": [
+        {
+            "type": "vaccination",
+            "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
+            "vaccination": {
+                "type": "C19-mRNA",
+                "date": "",
+                "brand": "",
+                "batchNumber": "",
+                "mah": "",
+                "country": "NLD", // ISO 3166-1
+                "administeringCenter": ""
+            },
+            "person": {
+                "identifier": "BSN",
+                "bsn": "999990111"
+            }
+        }
+    ]
+}
+```
+
+### Positive Test Event
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete",
+    "events": [
+        {
+            "type": "test",
+            "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
+            "test": {
+                "type": "pcr",
+                "positiveResult": true,
+                "country": "NLD", // ISO 3166-1
+                "administeringCenter": ""
+            },
+            "person": {
+                "identifier": "BSN",
+                "bsn": "999990111"
+            }
+        }
+    ]
+}
+```
 
 ## Protocol version 2.0
 
