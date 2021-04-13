@@ -141,11 +141,13 @@ Note the use of the ```#``` in the URL. By using an anchor the token is not leak
 
 ### Token ownership verification
 
-If the token can be securely transferred to the user (e.g. by scanning a QR code in the test facility right after having confirmed identity, under supervision of staff), it is not necessary to require ownership verification. In most circumstances however, ownership should be verified upon entering the test result. Ownership verification is performed by sending a 4-digit one time code to the user's phone per sms or per email, at the moment the user enters the token into the app. Although this doesn't guarantee for 100% that the result won't be passed to someone else, it now requires a deliberate act of fraud, instead of just 'handing over a voucher'. 
+If the token can be securely transferred to the user (e.g. by scanning a QR code in the test facility right after having confirmed identity, under supervision of staff), it is not necessary to require ownership verification. In most circumstances however, ownership should be verified upon entering the test result. Ownership verification is performed by sending a one time code to the user's phone per sms or per email, at the moment the user enters the token into the app. Although this doesn't guarantee for 100% that the result won't be passed to someone else, it now requires a deliberate act of fraud, instead of just 'handing over a voucher'. 
 
 The process of providing a one time code sent via sms/e-mail is familiar to users who have used Two Factor Authentication mechanisms. It is important to note that the scheme documented in this this specification is not a true 2FA schema. In a true 2FA schema two distinct factors should be used, whereas in our case there is only one distinct factor - both the token and the verification code constitute 'something you have'. 
 
 Verification codes must be numeric and 6 digits. 
+
+Note: Verification codes will only be used when the user uses the app. For terminal flows this verification is replaced by an ID check.
 
 ## Exchanging the token for a test result
 
