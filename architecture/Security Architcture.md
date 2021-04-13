@@ -20,7 +20,7 @@ Deze versie is niet de finale versie, er is expliciet de mogelijkheid tot commen
 ##
 Met dank aan:
 
-`	`Nick ten Cate
+Nick ten Cate
 
 Dirk-Willem van Gulik
 
@@ -191,8 +191,6 @@ Bij het scannen van een QR-code die om welke reden dan ook niet wordt herkend al
 
 **Overwegingen**: Met een duidelijke kleur van het scherm is het voor de controleur direct duidelijk wat er aan de hand is en zal er daarover minder snel discussie ontstaan. Dat de scanner controleert op de tijd zorgt er wel voor dat de tijd op het device van de scanner en de aanbieder van de qrcode redelijk goed moet staan. Er is hier een marge ingebouwd om kleine fouten in tijd te mitigeren. Hiermee blijft het werkbaar terwijl er toch absolute waarden worden gecommuniceerd.
 
-Als dit hoofdstuk leeg blijft misschien weghalen in deze versie?
-Als dit hoofdstuk leeg blijft misschien weghalen in deze versie?Service 
 ## HSM gebruik
 Ter beveiliging van het proces om borging dat na nodige vernietiging de data niet meer terug te vinden is, ook niet in backups, zal er gebruik gemaakt worden van een Hardware Security Module.
 
