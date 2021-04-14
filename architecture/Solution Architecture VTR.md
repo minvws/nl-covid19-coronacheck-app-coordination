@@ -1,7 +1,7 @@
 # COVID-19 CoronaTester Verifiable Test Result - Solution Architecture
 
 
-**Version:** 0.3 (Work in Progress)
+**Version:** 1.0
 
 # Introduction
 
@@ -360,7 +360,7 @@ Apps run on the user’s device and updates require a review process that is not
 
 # Changelog
 
-0.3
+1.0
 
 * Renamed the signer service to 'CoronaCheck Signer Service'
 * Added home print flow
