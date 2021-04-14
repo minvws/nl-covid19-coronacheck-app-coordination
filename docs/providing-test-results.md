@@ -348,6 +348,28 @@ Avoid including details about your server implementation in the error body (e.g.
 }
 ```
 
+### CORS headers 
+
+To be able to retrieve the test result from a web browser (the web client for home printing), the following CORS headers should be present on the app token retrieval endpoint:
+
+```
+Access-Control-Allow-Origin: https://coronacheck.nl
+Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+```
+
+For acceptance testing, the url is slightly different, so on acceptance test environments, the headers should be:
+
+```
+Access-Control-Allow-Origin: https://web.acc.coronacheck.nl
+Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+```
+
+Notes:
+* The CORS headers are not necessary for the previously mentioned terminal print endpoint. The terminal printer calls the API from the terminal application instead of a browser. So only the app endpoint needs to support these headers.
+* The app endpoint must respect the OPTIONS request that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
+
 ## Initial normalization
 
 The initials of first name and last name should be normalized according to the following rules:
