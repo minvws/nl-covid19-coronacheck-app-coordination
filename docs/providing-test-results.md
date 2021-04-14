@@ -51,9 +51,11 @@ The following diagram describes a high level overview of the result retrieval pr
 
 ### Retrieval from the CoronaCheck app
 
+The CoronaCheck Android and iOS apps, and the web version (intended for desktop use / home printing), use the following flow:
+
 ![High Level Overview](images/overview.png)
 
-### Retrieval from print terminals
+### Retrieval from public print terminals
 
 For persons who do now own a smartphone or a printer, we have designed a way to print a QR from a public print terminal. The process is similar to the app retrieval process, with a few changes:
 
@@ -367,8 +369,8 @@ Access-Control-Allow-Methods: POST, GET, OPTIONS
 ```
 
 Notes:
-* The CORS headers are not necessary for the previously mentioned terminal print endpoint. The terminal printer calls the API from the terminal application instead of a browser. So only the app endpoint needs to support these headers.
-* The app endpoint must respect the OPTIONS request that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
+* The CORS headers are not necessary for the previously mentioned terminal *print* endpoint. The terminal printer calls the API from the terminal application instead of a browser. So only the app endpoint needs to support these headers.
+* The app endpoint must respect the OPTIONS request (respond with 200 status code) that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
 
 ## Initial normalization
 
