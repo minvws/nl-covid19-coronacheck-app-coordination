@@ -522,8 +522,15 @@ ID         | Name
 -----------|--------
 pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
+antigen    | Antigen Test
+breath     | Breath Test
 
 # Changelog
+
+2.3.1
+
+* Added CORS headers and info on home printing.
+* Added missing test types
 
 2.3.0
 
