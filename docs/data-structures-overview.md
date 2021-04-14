@@ -39,8 +39,8 @@ This chapter describes the datastructures that providers of test/vaccination res
                 "administeringCenter": ""
             },
             "person": {
-                "identifier": "BSN",
-                "bsn": "999990111"
+                "identifier": "HASH",
+                "hash": ""
             }
         }
     ]
@@ -64,8 +64,8 @@ This chapter describes the datastructures that providers of test/vaccination res
                 "administeringCenter": ""
             },
             "person": {
-                "identifier": "BSN",
-                "bsn": "999990111"
+                "identifier": "HASH",
+                "hash": ""
             }
         }
     ]
