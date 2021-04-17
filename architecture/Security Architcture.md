@@ -158,6 +158,13 @@ Bij het aanleveren van een Testresultaat zal de backend van CoronaCheck een cont
 
 Indien deze handtekening correct is zal er worden gecontroleerd of dit Testresultaat niet al eerder is uitgegeven. Dit wordt gedaan met een hashtabel, waarin de unieke combinatie van de unieke code van het Testresultaat en de CTP identifier wordt opgenomen samen met een verlooptijd. Periodiek worden testresultaten die verlopen zijn uit de tabel verwijder.
 
+### Herhaaldelijk omzetten van testresultaat###
+Het aantal keren dat een QR in de App wordt opgehaald is gemaximeerd op 2 (twee) keer.
+Het aantal keren dat een QR voor Print kan worden opgehaald is ongelimiteerd.
+
+De achtergrond achter het beperken van het aantal keren dat een QR-code opgehaald wordt is dat het anders gemakkelijk mogelijk zou zijn om fraude te plegen: de QR-code van de ene persoon kan gemakkelijk ook door een ander opgehaald en gebruikt worden. Zolang er geen goede persoonsidentificatie aan de poort plaatsvind, door het tonen van initialen en geboortedag en maand in de verifier app en deze te vergelijken met die uit een ID bewijs, is dat een ongewenste situatie.
+
+
 ### Inhoud van het Testbewijs
 Het Testbewijs bevat uitsluitend:
 
@@ -202,12 +209,16 @@ Om dit mogelijk te maken wordt de HSM voorzien van een speciale software uitbrei
 ## Holder-Device
 Op het device zal de data veilig en alleen benaderbaar door de app worden opgeslagen. Hierdoor is het voor andere apps niet mogelijk om deze data uit te lezen.
 
+De data zal versleuteld moeten worden opgeslagen zodat er door andere applicaties niet te lezen is wat er in de database staat. Deze sleutel moet voor elk device uniek zijn, op het device aangemaakt moeten worden en alleen aanwezig zijn op het device zelf.
 
-Misschien is het goed dit explicieter te maken. In de ggd contact security overwegingen doc staat een passage ver gebruik van Strongbox (indien aanwezig) en Keychain. Misschien goed dat hier ook op te nemen?
+Android: De encryptie zal bij voorkeur gedaan moeten worden met een door StrongBox Keymaster zo breed als mogelijk ondersteunde versleuteling. Indien Strongbox niet beschikbaar is zal er van de Keystore gebruik gemaakt moeten worden.
 
-Heb de passage as-is gekopieerd, misschien is dat voldoende?
+IOS: Voor IOS dient gebruik te worden gemaakt te worden gemaakt van Keychain
 
-Heb de passage as-is gekopieerd, misschien is dat voldoende?veilige opslag.
+**Overwegingen**: Het zijn gevoelige persoonsgegevens, daarom zal er zorgvuldig mee omgegaan dienen te worden. Dit omvat uiteraard ook veilige opslag.
+
+
+
 ## Scanner-Device
 *Geen speciale eisen voor offline verwerking anders dan een competente camera* 
 
