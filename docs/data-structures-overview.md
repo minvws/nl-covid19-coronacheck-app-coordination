@@ -9,8 +9,47 @@ This chapter describes the datastructures that providers of test/vaccination res
 ## Protocol version 3.0
 
 // todo: add minimal dataset fields
-// todo: add vaccination proof
-// todo: add recovery (positive test result)
+
+### Information Lookup
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "informationAvailable": true // true or false if information is available
+}
+````
+
+### Vaccination Event
+```javascript
+{
+    "protocolVersion": "3.0",
+        "providerIdentifier": "XXX",
+        "status": "complete",
+        "identityHash": "" // The identity-hash belonging to this person
+    "holder": {
+        "firstName": "",
+            "lastName": "",
+            "birthDate": "1970-01-01" // ISO 8601                
+    },
+    "events": [
+        {
+            "type": "vaccination",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
+            "vaccination": {
+                "type": "C19-mRNA",
+                "date": "1970-01-01",
+                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
+                "batchNumber": "EJ6795",
+                "mah": "", // Can be derived from Brand
+                "country": "NLD", // ISO 3166-1
+                "administeringCenter": "" // Can be left blank
+            }
+
+        }
+    ]
+}
+```
+
 
 ## Protocol version 2.0
 
