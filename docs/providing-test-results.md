@@ -51,9 +51,11 @@ The following diagram describes a high level overview of the result retrieval pr
 
 ### Retrieval from the CoronaCheck app
 
+The CoronaCheck Android and iOS apps, and the web version (intended for desktop use / home printing), use the following flow:
+
 ![High Level Overview](images/overview.png)
 
-### Retrieval from print terminals
+### Retrieval from public print terminals
 
 For persons who do now own a smartphone or a printer, we have designed a way to print a QR from a public print terminal. The process is similar to the app retrieval process, with a few changes:
 
@@ -350,6 +352,28 @@ Avoid including details about your server implementation in the error body (e.g.
 }
 ```
 
+### CORS headers 
+
+To be able to retrieve the test result from a web browser (the web client for home printing), the following CORS headers should be present on the app token retrieval endpoint:
+
+```
+Access-Control-Allow-Origin: https://coronacheck.nl
+Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+```
+
+For acceptance testing, the url is slightly different, so on acceptance test environments, the headers should be:
+
+```
+Access-Control-Allow-Origin: https://web.acc.coronacheck.nl
+Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version
+Access-Control-Allow-Methods: POST, GET, OPTIONS
+```
+
+Notes:
+* The CORS headers are not necessary for the previously mentioned terminal *print* endpoint. The terminal printer calls the API from the terminal application instead of a browser. So only the app endpoint needs to support these headers.
+* The app endpoint must respect the OPTIONS request (respond with 200 status code) that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
+
 ## Initial normalization
 
 The initials of first name and last name should be normalized according to the following rules:
@@ -524,8 +548,15 @@ ID         | Name
 -----------|--------
 pcr        | PCR Test (Traditional)
 pcr-lamp   | PCR Test (LAMP)
+antigen    | Antigen Test
+breath     | Breath Test
 
 # Changelog
+
+2.3.1
+
+* Added CORS headers and info on home printing.
+* Added missing test types
 
 2.3.0
 
