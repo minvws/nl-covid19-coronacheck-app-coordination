@@ -23,54 +23,33 @@ This chapter describes the datastructures that providers of test/vaccination res
 ```javascript
 {
     "protocolVersion": "3.0",
-    "providerIdentifier": "XXX",
-    "status": "complete",
+        "providerIdentifier": "XXX",
+        "status": "complete",
+        "identityHash": "" // The identity-hash belonging to this person
+    "holder": {
+        "firstName": "",
+            "lastName": "",
+            "birthDate": "1970-01-01" // ISO 8601                
+    },
     "events": [
         {
             "type": "vaccination",
-            "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
             "vaccination": {
                 "type": "C19-mRNA",
-                "date": "",
-                "brand": "",
-                "batchNumber": "",
-                "mah": "",
+                "date": "1970-01-01",
+                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
+                "batchNumber": "EJ6795",
+                "mah": "", // Can be derived from Brand
                 "country": "NLD", // ISO 3166-1
-                "administeringCenter": ""
-            },
-            "person": {
-                "identifier": "HASH",
-                "hash": ""
+                "administeringCenter": "" // Can be left blank
             }
+
         }
     ]
 }
 ```
 
-### Positive Test Event
-```javascript
-{
-    "protocolVersion": "3.0",
-    "providerIdentifier": "XXX",
-    "status": "complete",
-    "events": [
-        {
-            "type": "test",
-            "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
-            "test": {
-                "type": "pcr",
-                "positiveResult": true,
-                "country": "NLD", // ISO 3166-1
-                "administeringCenter": ""
-            },
-            "person": {
-                "identifier": "HASH",
-                "hash": ""
-            }
-        }
-    ]
-}
-```
 
 ## Protocol version 2.0
 
