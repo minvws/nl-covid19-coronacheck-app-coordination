@@ -83,7 +83,7 @@ After a user has taken a test, and the result is negative, the party should supp
 
 For security reasons the token must be at least 10 characters long. It must be randomly generated and should not be predictable or derived from any identifier or code that was previously communicated to the user (e.g. do not use a booking code directly as a token for a negative result).
 
-Our recommendation is to provide the token to the user in the form of a QR code. The CoronaTest app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided, with the manual code / deeplink as fallback in case the user is viewing their result on the same device. 
+Our recommendation is to provide the token to the user in the form of a QR code. The CoronaCheck app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided, with the manual code / deeplink as fallback in case the user is viewing their result on the same device. 
 
 ### Analog Code
 
