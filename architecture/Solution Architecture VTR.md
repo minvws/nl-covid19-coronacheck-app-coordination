@@ -267,7 +267,7 @@ We don't want to keep data around longer than necessary. Therefor we have define
 
 ### Apps cleanup
 
-* Test results are deleted after they have become invalid. Since technical it is difficult to delete items when the app is not running, the app will remove the data the first time the app starts after the data has expired.
+* Test results are deleted after they have become invalid. Since it is technically difficult to delete items when the app is not running, the app will remove the data the first time the app starts after the data has expired.
 
 ## App/Device Verification
 
@@ -308,7 +308,7 @@ The idea is to generate a database of all locations and the capacity for the nex
 
 The solution does not consist of a central database. A citizen retrieves their test result directly from the test provider (who use their own data model). The app then hands the result off to a signing service, which verifies the result signature, and converts it to a CL signed test result. This result is not centrally stored.
 
-To avoid test proofs from being handed out more than once, the `unique` field from the test result is hashed and stored in redis for a limited time. 
+To avoid test proofs from being handed out more than once, the `unique` field from the test result is hashed and stored in cache for a limited time. Currently this time is set to the maximum test validity + 1 day. 
 
 ## Public API (papi)
 
