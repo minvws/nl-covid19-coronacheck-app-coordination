@@ -90,4 +90,6 @@ Text file in UTF-8 encoding containing N lines conforming to the following patte
 
 Line ending can be either CRLF or LF.
 
-The current version of the partial issuance file is [here](lists/partial-issuance-list.v1.02.csv)
+The current version of the partial issuance file is [here](lists/partial-issuance-list.v1.02.csv).
+
+We also provide a spreadsheet so that the list can be configured easily be a non-technical person, the current version is [here](lists/partial-disclosure-sheet.v1.02.xlsx).
