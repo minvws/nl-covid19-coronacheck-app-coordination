@@ -1,7 +1,7 @@
 # COVID-19 CoronaTester Verifiable Test Result - Solution Architecture
 
 
-**Version:** 0.2 (Work in Progress)
+**Version:** 1.0
 
 # Introduction
 
@@ -34,6 +34,8 @@ This document is work in progress and will be adjusted during the project. Given
 - [Flows](#flows)
   * [Flow 1: Retrieving a GGD test result](#flow-1--retrieving-a-ggd-test-result)
   * [Flow 2: Retrieving a third party test result](#flow-2--retrieving-a-third-party-test-result)
+  * [Flow 3: Printing a test result](#flow-3-printing-a-test-result)
+  * [Flow 4: Test result print service](#flow-4-test-result-print-service)
 - [System Landscape](#system-landscape)
 - [Security & Privacy](#security--privacy)
   * [Overview](#overview)
@@ -147,6 +149,7 @@ Throughout this document we use a number of core concepts. To get an understandi
 * An *agent* is the person that performs the actual verification (e.g. a bouncer at the door)
 * An *issuer* is the provider of certified test results (e.g. a health authority)
 * A *citizen* is a person who was tested and wants to enter a venue.
+* The *holder* is the citizen that is the legal holder of a test result.
 
 ## Solution
 The following diagram depicts the high level architecture of the solution. The diagram can best be interpreted by starting at one of the user icons and following their actions across the system. In later versions of this document we will detail some of these flows in separate diagrams in more detail.
@@ -179,7 +182,7 @@ This chapter describes the core flow that we are following, which is derived fro
 
 ## Flow 1: Retrieving a GGD test result 
 
-The following diagram describes how the solution would retrieve a **negative** test result from a GGD test (positive results are not relevant to the solution), and convert it to a verifiable test result. For GGD test results we can use a digid authentication mechanism. 
+The following diagram describes how the solution would retrieve a **negative** test result from a GGD test (positive results are not currently relevant to the solution), and convert it to a verifiable test result. For GGD test results we can use a digid authentication mechanism. 
 
 ![Flow - GGD Result](images/flow-ggd-result.png)
 
@@ -187,13 +190,34 @@ The following diagram describes how the solution would retrieve a **negative** t
 
 The following diagram describes what the flow looks like for third parties where we can't retrieve the test result via BSN/Digid check. 
 
-![Flow - Third Party Result](images/test-result-provisioning.png)
+![Flow - Third Party Result Provisioning](images/test-result-provisioning.png)
 
 In this scenario the digid login has been replaced by a token mechanism. A user might still have to login (via digid or otherwise) at the test provider, to obtain access to the necessary token.
 
 The following diagram details how this token flow works in detail. Note that the 'login on the test provider site' is just an example, as how this part of the flow works is entirely up to the test provider.
 
-![Flow - Third Party Result](images/flow-testparty-result.png)
+![Flow - Third Party Result Flow](images/flow-testparty-result.png)
+
+## Flow 3: Printing a test result
+
+For citizens who do not posess a smartphone or who do not wish to use the app, a browser version is envisioned where citizens can print the test result on a printer at home. It should be noted that the paper version offers slightly *less* privacy features, for example a static QR on a paper is linkable, as opposed to the QR in the app that rotates every few minutes. Also, the paper version contains the initials of the holder (to be able for a holder to distinguish between the papers of themselves and their family members), whereas in the app version these are only visible once scanned, in the verifier app. For privacy concerned citizens it is therefore recommended to prefer the app over the paper version.
+
+The following diagram describes the home print flow. It is very similar to flow 2. There will also be a way to retrieve GGD results in the home print flow: the differences between the ggd and third party flows can also be applied to the home print flow. it is so similar to the existing flows that making the combination of flow 1 and 3 is left as an exercise to the reader.
+
+![Flow - Printing a test result](images/flow-testparty-result-homeprint.png)
+
+## Flow 4: Test result print service
+
+For citizens who do not have or want to use the app, but also have no means to print the test proof, we have envisioned a way to do printing from a public terminal (e.g. in a store front). The following diagram depicts this flow from a user perspective:
+
+![Flow - Third Party Result Provisioning](images/test-result-provisioning-terminal.png)
+
+A notable difference with the other flows is that the verification code by SMS has been replaced by an ID check. This is to ensure that even if the citizen does not posess a mobile phone that can receive SMS messages, it is possible to print the proof. Printing is currently based on the token that is used in the third party flow. An alternative solution for GGD results (which are based on digid, which can't be used at the print terminal) should be considered, which could encompass the ability to retrieve a token for GGD results.
+
+The following diagram is the complete flow diagram for this flow:
+
+![Flow - Test result print terminal](images/flow-testparty-result-printterminal.png)
+
 
 # System Landscape
 
@@ -243,7 +267,7 @@ We don't want to keep data around longer than necessary. Therefor we have define
 
 ### Apps cleanup
 
-Todo
+* Test results are deleted after they have become invalid. Since it is technically difficult to delete items when the app is not running, the app will remove the data the first time the app starts after the data has expired.
 
 ## App/Device Verification
 
@@ -282,11 +306,13 @@ The idea is to generate a database of all locations and the capacity for the nex
 
 ## Data model
 
-Todo.
+The solution does not consist of a central database. A citizen retrieves their test result directly from the test provider (who use their own data model). The app then hands the result off to a signing service, which verifies the result signature, and converts it to a CL signed test result. This result is not centrally stored.
+
+To avoid test proofs from being handed out more than once, the `unique` field from the test result is hashed and stored in cache for a limited time. Currently this time is set to the maximum test validity + 1 day. 
 
 ## Public API (papi)
 
-The public API is the API that is accessible via the public internet, by the CoronaTester apps. The following diagram describes the architecture of this public API: TODO
+The public API is the API that is accessible via the public internet, by the CoronaCheck apps. The following diagram describes the architecture of this public API: TODO
 
 The definition of the Public API can be found in the [API Swagger Files](api/) (TODO)
 
@@ -334,10 +360,17 @@ Apps run on the user’s device and updates require a review process that is not
 
 # Changelog
 
+1.0
+
+* Renamed the signer service to 'CoronaCheck Signer Service'
+* Added home print flow
+* Added terminal print flow
+* A word on cleanup of data in the apps
+
 0.2
 
 * Replaced proxy service with a signer service 
-* Added third party test result collection. 
+* Added third party test result collection 
 * Updated flow diagrams
 
 0.1
