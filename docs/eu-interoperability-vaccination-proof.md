@@ -84,12 +84,27 @@ Payload:
 
 ```
 {
-	[TODO]
+	[{
+		"Country": "NL",
+		"KeyId": "TBC",
+		"DigitA": 123,
+		"DigitB": 456
+	},{
+		"Country": "DE",
+		"KeyId": "TBC",
+		"DigitA": 123,
+		"DigitB": 456
+	},
+	]
 }
 ````
 
-This will be distributed on our CDN with the headers [TODO add header information].
+Country: ISO 2-digit country code of the country.
+KeyId: Unique identifier for the key.
+DigitA: TBD
+DigitB: TBD
 
+This will be distributed on our CDN with the headers [TODO add header information].
 
 ## Architechture Design Credits
 
