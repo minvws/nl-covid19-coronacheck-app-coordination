@@ -1,6 +1,6 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.3.0
+Version 2.4.0
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
 
@@ -36,11 +36,15 @@ In the CoronaCheck project we are prototyping a means of presenting a digital pr
     + [Command line example](#command-line-example)
     + [More sample code](#more-sample-code)
     + [Governance and the digital signature of the test result](#governance-and-the-digital-signature-of-the-test-result)
+- [Onboarding and validation processes]
+  * [Onboarding process](#onboarding-process)
+  * [Implementation validation process](#implementation-validation-process)
 - [Security and privacy guidelines](#security-and-privacy-guidelines)
 - [Appendix 1: Example implementations of X509 CMS signing](#appendix-1--example-implementations-of-x509-cms-signing)
 - [Appendix 2: Validating the signing output](#appendix-2--validating-the-signing-output)
 - [Appendix 3: OpenAPI specification of endpoint](#appendix-3--openapi-specification-of-endpoint)
 - [Appendix 4: Available Test Types](#appendix-4--available-test-types)
+- [Appendix 5: Test sets](#appendix-4--test-sets)
 - [Changelog](#changelog)
 
 ## Overview
@@ -476,6 +480,32 @@ It is the responsibility of the party fetching the data to ensure that it is con
 
 And in B2B settings (such as the print terminals), the client may be required to provide a PKI-O client certificate to authenticate (and the provider must check validity of this certificate).
 
+
+# Onboarding and validation processes
+
+To ensure that implementations are correct and remain correct we have defined two processes. The onboarding-process must be completed by any Test Result Provider who wishes to integrate with CoronaCheck. As part of this process, they must also pass the implementation validation process.
+
+
+
+##  Onboarding process
+
+Coming soon!
+
+##  Implementation Validation process
+
+This process provides both CoronaCheck and the Test Result Provider the assurance that their implementation is capable of correctly handling the test cases defined by CoronaCheck. The process is designed to be repeated on a periodic bases to ensure that implementations remain compliant with the requirements of CoronaCheck.
+
+1. Result provider deploys their API into an acceptance environment.
+2. Result provider loads the latest test set file into their database.
+3. Result provider requests a validation from CoronaCheck, providing the URL to be called and their Provider code.
+  * CoronaCheck team manually execute the test set.
+  * CoronaCheck team provide the Result Provider with the results in the form of a report.
+4. If unsuccessful, Result provider applies technical fixes and follows this process again from step 1.
+
+The test set files are defined in [Appendix 5: Test sets](#appendix-4--test-sets).
+
+Our intention is to extend this process to include a self-service portal; this will greatly simply the validation process and allow it to be executed on demand by any test providers as part of their continous development process.
+
 # Security and privacy guidelines
 
 When providing endpoints for test retrieval, along with the general best practices regarding web application security, the following security and privacy guidelines should be followed:
@@ -551,7 +581,142 @@ pcr-lamp   | PCR Test (LAMP)
 antigen    | Antigen Test
 breath     | Breath Test
 
+# Appendix 5: Test sets
+
+## Test Cases File Name and Location
+
+The test sets will be published in the coordination repository in the folder:
+
+	`docs\resultprovider\testsets`. 
+
+The test set files follow the following naming convention:
+
+	RPyyyy-MM-dd-i
+	
+Where:
+
+	RP = fixed text prefix
+	yyyy = year, i.e. 2021
+	MM = month, i.e. 04
+	dd = day, i.e. 01
+	i = index number
+
+For example:
+
+	RP2021-01-01-1.csv
+
+The latest - and current - file is the file with the highest date and index number. This can be easily seen by sorting the files alphabetically.
+
+## Test Cases File Structure
+
+We will provide the data used for the test cases in the CSV format in the following structure:
+
+Data will be delimited by the following character:
+
+	Name: pipe, vertical line
+	Character: `|`
+	Unicode number: `U+007C`
+	HTML code: `&#124;`
+	ASCII code: 
+
+Text file format:
+
+	UTF-8 without BOM
+
+Line-endings:
+
+	LF
+
+Fields:
+
+	caseId
+		format:
+			string
+		pattern:
+			^[A-Z]{1}[0-9]{5}$ 
+		example:
+			C00001
+
+	sampleDateTime
+		format:
+			string
+		type:
+			ISO-8601 date/time UTC to second precision
+		example:
+			2021-04-23T11:45:38Z
+		
+	fullName
+		format:
+			string
+		pattern:
+			^[^|]*$
+			
+	birthDate
+		format:
+			string
+		type:
+			ISO-8601 date
+		example:
+			2021-12-31
+		
+	negativeResult
+		format:
+			boolean
+		values:
+			0 = false
+			1 = true
+		
+	testType
+		format:
+			string
+		pattern:
+			^[^|]$*$
+
+	expectedFirstNameInitial
+		format:
+			string
+		pattern:
+			^[A-Z]{1}$
+		
+	expectedLastNameInitial
+		format:
+			string
+		pattern:
+			^[A-Z]{1}$
+			
+	expectedBirthDay
+		format:
+			string
+		pattern:
+			^1[0-9]$|^2[0-9]$|^3[0-1]$|^[xX1-9]$
+		
+	expectedBirthMonth
+		format:
+			string
+		pattern:
+			^1[0-2]$|^[xX1-9]$
+			
+	expectedSampleDateTime
+		format:
+			string
+		type:
+			ISO-8601 date/time UTC to second precision
+		example:
+			2021-04-23T11:00:00Z
+		notes:
+			The minutes and seconds must be set to zeros
+
+Example:
+
+	C00001|2021-04-01T10:10:10Z|Pietje Puk|1945-05-05|1|PCR|P|P|5|5|2021-04-01T00:00:00Z
+
 # Changelog
+
+2.4.0
+
+* Added implementation validation process
+* Added specification of the test sets
+* Added placeholder for the onboarding process
 
 2.3.1
 
