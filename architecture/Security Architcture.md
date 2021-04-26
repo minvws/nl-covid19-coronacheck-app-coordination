@@ -68,7 +68,7 @@ Uitgegeven door de CTP. Digitaal document met bewijs van negatieve testresultaat
 
 ## Datastromen
 
-Er bestaan de volgende datastromen:
+Er bestaan de volgende datastromen voor de gebruikers:
 
 1. Ophalen van de ondertekende configuratiebestanden door Holder-App en Verifier-App.
 1. Opvragen Testresultaat door de Holder-App bij de CTP.
@@ -101,9 +101,12 @@ ECDHE-RSA-AES128-SHA256
 ECDHE-RSA-AES256-GCM-SHA384
 ECDHE-RSA-AES256-SHA384*
 
+Deze chiphers zijn aangeraden door o.a. mozilla https://ssl-config.mozilla.org/ voor Intermeditia security configuratie. In Modern wordt alleen TlS1.3 geaccepteerd.
+
 **Waar**: Configuratie + ophalen Testresultaat + ophalen CoronaCheck handtekening
 
 **Overwegingen**: Gezien de data door de App zelf wordt opgehaald bij de aanbieder en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Geen beveiliging is geen optie hier. Dit geldt ook voor de aanbieders van testresultaten.
+Datauitwisseling met de overheid zal op hoog niveau beveiligd dienen te zijn. Door ondertekening, en transportencryptie is dit ruimschoots geborgd.
 
 ## Strippen IP adressen
 Waar: Ophalen configuratie (CDN) + ophalen handtekening (app en papier)
@@ -112,9 +115,9 @@ Welke apps: Holder en Verifier app endpoints.
 
 Het HTTP verkeer dat versleuteld is met TLS gaat door meerdere systemen heen voor het bij de dienst komt. Het begint bij de firewall, daarna komt het op een door de hosting partij beheerde TCP-proxy waar het IP adres verwijderd wordt. Hierna komt het verkeer terecht op een een andere applicatieserver waar TLS-termination plaatsvindt.
 
-Zo kan Prolocation BV niet zien wat voor data er verzonden wordt, en VWS niet vanaf welk IP adres het verkeer komt. Het is dus onmogelijk om te achterhalen vanaf welk IP-adres een ondertekening van een testresultaat wordt aangevraagd.
+Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekeningsservice niet vanaf welk IP adres het verkeer komt. Het is dus onmogelijk om te achterhalen vanaf welk IP-adres een ondertekening van een testresultaat wordt aangevraagd.
 
-**Overwegingen**: Gezien het voor het gebruik van de backend systemen en beveiligingen hiervoor niet nodig is om een relatie te kunnen leggen tussen de gebruiker (IP adres) en de data zal deze niet samen gebundeld moeten kunnen worden in logfiles en foutmeldingen.
+**Overwegingen**: Gezien het voor het gebruik van de backend systemen en beveiligingen hiervoor niet nodig is om een relatie te kunnen leggen tussen de gebruiker (IP adres) en de data zal deze niet samen gebundeld moeten kunnen worden in logfiles en foutmeldingen. Door beheer gescheiden uit te voeren is dit ook organisatorisch efficient te borgen.
 
 Het gebruik van IP-adressen is nog steeds nodig om te communiceren over het internet, dus ze moeten wel gebruikt worden.
 
@@ -166,7 +169,7 @@ De achtergrond achter het beperken van het aantal keren dat een QR-code opgehaal
 
 
 ### Inhoud van het Testbewijs
-Het Testbewijs bevat uitsluitend:
+Het Testbewijs bevat maximaal:
 
 - Datum/tijd van testafname
 - Initialen van Voornaam en Achternaam
@@ -179,8 +182,10 @@ Het Testbewijs bevat uitsluitend:
 - Het bovenstaande ondertekend met de CL handtekening 
 
 **Overwegingen**: Voor zover ze nog niet genoemd zijn in de beschrijving: er is niet meer informatie beschikbaar dan er verzonden wordt door de burger, dus meer informatie kan niet. Het gebruik van CTCC cryptografie levert een flinke bijdrage in de privacy omdat er geen relatie gelegd kan worden tussen de verschillende scans bij dezelfde burger en omdat dit 100% offline kan gebeuren waardoor er geen tracering en logging van bestaat.
+Door deze ondertekening is het niet meer mogelijk om te bewijzen dat een burger deze ondertekening heeft getoond is het verleden. Hierdoor is er ook in het geval van (illegale) logging geen methode om correlaties tussen scans te leggen.
+
 ## Tonen van het Testbewijs
-Om elke keer een uniek testbewijs te hebben zonder dat er echte data zoals tijd, delen van de naam en tijdstip uniek horen te zijn wordt er bij het testresultaat een zogeheten nonce toegevoegd. Een 128 bits groot willekeurig en statistisch uniek getal.
+Om elke keer een uniek testbewijs te hebben zonder dat er echte data zoals tijd, delen van de naam en tijdstip uniek horen te zijn wordt er bij het testresultaat een zogeheten nonce toegevoegd. Een meer dan 96 bits groot arbitrair getal per testbewijs. Hiermee wordt geborgd dat een testbewijs uniek te identificeren is voor de ondertekeningsservice.
 
 Bij het tonen van het Testbewijs wordt de nonce uit het bericht verborgen en wordt er een unieke handtekening getoond op basis van de CL-cryptografie.
 
