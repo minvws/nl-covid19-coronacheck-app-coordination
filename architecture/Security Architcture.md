@@ -122,9 +122,11 @@ Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekening
 Het gebruik van IP-adressen is nog steeds nodig om te communiceren over het internet, dus ze moeten wel gebruikt worden.
 
 ## Aanleveren Test Provider Ondertekend Testresultaat
-Het Testresultaat dient te worden aangeleverd door de CTP voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding.
+Het Testresultaat dient te worden aangeleverd door de CTP voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding. SHA256 voldoet ook aan de SOGIS Agreed Cryptographic Mechanisms.
 
 In de app zal de door MinVWS gepubliceerde lijst publieke sleutels bekend zijn waarmee gecontroleerd kan worden of dit Testresultaat door MinVWS geaccepteerd zal worden voor het omzetten naar een Testbewijs.
+
+Dit is een goed beheerde en ondertekende lijst in beheer van MinVWS en beheerd volgens de geldende BIO normen. De sleutel van deze ondertekening zal in de HSM opgeslagen zijn.
 
 Dit Testresultaat dient alleen te worden aangeleverd via een gecontroleerde methode waarbij er met redelijke mate van waarschijnlijkheid kan worden uitgegaan dat de gebruiker ook de bedoelde patiënt is. Dit zoals bedoeld in NEN7510.
 
