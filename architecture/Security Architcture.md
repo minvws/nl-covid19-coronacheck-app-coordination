@@ -192,6 +192,8 @@ Bij het tonen van het Testbewijs wordt de nonce uit het bericht verborgen en wor
 Ook zal de QR-code van het Testbewijs de datum/tijd van generatie van de QRcode bevatten.
 
 **Overwegingen**: Zodat het niet mogelijk is om screenshots te gebruiken is de QRcode slechts tijdelijk geldig. Hiermee wordt klein en grootschalige fraude tegengegaan. De nonce wordt niet gecommuniceerd zodat ook logging hiervan niet mogelijk is om tracking te doen tussen verschillende scans.
+Daarnaast zijn er andere maatregelen genomen om fraude tegen te gaan, animatie, interactie, reactie op de scan en alle niet-technische toegangscontrole maatregelen die bij toegangstesten uitgevoerd kunnen worden.
+
 ## Het scannen van het Testbewijs
 Bij het scannen van het Testbewijs zal door de CL-ondertekening elke keer dat er een QR-code wordt getoond een testbewijs met andere handtekening worden getoond.
 
@@ -209,6 +211,8 @@ Ter beveiliging van het proces om borging dat na nodige vernietiging de data nie
 In deze HSM worden de sleutels opgeslagen op een niet exporteerbare manier. Hierdoor is de HSM de enige die een geldige ondertekening op de gevraagde data kan leveren.
 
 Om dit mogelijk te maken wordt de HSM voorzien van een speciale software uitbreiding om  CC-CL cryptografie mogelijk te maken.
+
+De HSM modules zijn in beheer bij JustID PKI, daarmee is het beheer en zijn de operationele en organizatorische procedures zeer goed geregeld. 
 
 **Overwegingen**: Hiermee kunnen de sleutels niet gelekt worden en is misbruik alleen nog mogelijk terwijl er toegang is tot de HSM. Als deze is afgesloten is er geen misbruik meer mogelijk, als de sleutel te kopiëren is zou dit oncontroleerbaar en wel mogelijk zijn.
 ## Holder-Device
@@ -234,5 +238,5 @@ Voor het verkleinen van de attack surface ten aanzien van het scanner-device, is
 **Overwegingen:** Met de voorafgaande beschreven technieken is het niet nodig, zelfs ongewenst, om online te zijn tijdens het tonen van een Testbewijs, dan wel het scannen en verifiëren van een QR-code Testbewijs. Dit om het mogelijk te maken Testbewijzen te controleren in een omgeving waar geen of slechte/langzame internettoegang is. Het voorkomt oponthoud en vertragingen in de doorstroom van gebruikers wanneer er infrastructuur-issues zijn, zoals trage responses, volledige onbeschikbaarheid door een DDoS-aanval, of zelfs dat de actie van het massaal tonen van Testbewijzen zorgt voor een potentiële DDoS op de infrastructuur.
 
 Naast bovenstaande security-overwegingen is offline gebruik privacy-vriendelijker voor gebruikers. Er kunnen geen gegevens uitgewisseld worden met de achterliggende infrastructuur, er kan dus geen data gelogd worden buiten hetgeen in de Scanner-App en/of in de Holder-App eventueel wordt gedaan, en deze software is door het publiek te auditen.
- 
+
 
