@@ -137,12 +137,11 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
                 "administeringCenter": "" // Can be left blank if unknown
                 "country": "NLD", // ISO 3166-1
             }
-
         },
         {
-            "type": "vaccination-completed",
+            "type": "vaccinationCompleted",
             "unique": "165dd2a9-74e5-4afc-8983-53a753554142",
-            "vaccination-completed": {
+            "vaccinationCompleted": {
                 "date": "2021-01-01",
                 "hpkCode": "2924528",  // If available: type/brand can be left blank.
                 "type": "C19-mRNA",
@@ -151,7 +150,6 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
                 "administeringCenter": "", // Can be left blank if unknown
                 "country": "NLD" // ISO 3166-1
             }
-
         }
     ]    
 }
