@@ -122,27 +122,36 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
 {
     "protocolVersion": "3.0",
     "providerIdentifier": "XXX",
-    "status": "complete",
-    "identityHash": "" // The identity-hash belonging to this person
-    "holder": {
-        "firstName": "",
-        "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601                
-    },
+    "status": "complete", // This refers to the data-completeness, not vaccination status.
+    "identityHash": "", // The identity-hash belonging to this person.
     "events": [
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
             "vaccination": {
+                "date": "2021-01-01",
+                "hpkCode": "2924528",  // If available: type/brand can be left blank.
                 "type": "C19-mRNA",
-                "date": "1970-01-01",
                 "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
-                "batchNumber": "EJ6795",
-                "mah": "", // Can be derived from Brand
+                "batchNumber": "EW2243",
+                "administeringCenter": "" // Can be left blank if unknown
                 "country": "NLD", // ISO 3166-1
-                "administeringCenter": "" // Can be left blank
             }
-            
+
+        },
+        {
+            "type": "vaccination-completed",
+            "unique": "165dd2a9-74e5-4afc-8983-53a753554142",
+            "vaccination-completed": {
+                "date": "2021-01-01",
+                "hpkCode": "2924528",  // If available: type/brand can be left blank.
+                "type": "C19-mRNA",
+                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
+                "batchNumbers": ["EW2243","ER9480"], // Optional
+                "administeringCenter": "", // Can be left blank if unknown
+                "country": "NLD" // ISO 3166-1
+            }
+
         }
     ]    
 }
