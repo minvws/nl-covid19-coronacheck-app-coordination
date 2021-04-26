@@ -123,7 +123,12 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
     "protocolVersion": "3.0",
     "providerIdentifier": "XXX",
     "status": "complete", // This refers to the data-completeness, not vaccination status.
-    "identityHash": "", // The identity-hash belonging to this person.
+    "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
+        "firstName": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
+    },
     "events": [
         {
             "type": "vaccination",
