@@ -164,6 +164,10 @@ There are a few edge cases to consider:
 * Incase the person is known but vaccination events do not exist, the `events` array can be left empty.
 * Incase the person is known but the vaccination events are still processing, the `events` array can be left blank and the `status` field can be set to `pending`
 
+
+Authorative Data sources
+* hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
+
 #### JWT Token
 The JWT token will contain the BSN in an encrypted format. The encryption will be done using libsodium public/private sealboxes (X25519).
 
