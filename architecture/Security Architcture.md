@@ -234,5 +234,5 @@ Voor het verkleinen van de attack surface ten aanzien van het scanner-device, is
 **Overwegingen:** Met de voorafgaande beschreven technieken is het niet nodig, zelfs ongewenst, om online te zijn tijdens het tonen van een Testbewijs, dan wel het scannen en verifiëren van een QR-code Testbewijs. Dit om het mogelijk te maken Testbewijzen te controleren in een omgeving waar geen of slechte/langzame internettoegang is. Het voorkomt oponthoud en vertragingen in de doorstroom van gebruikers wanneer er infrastructuur-issues zijn, zoals trage responses, volledige onbeschikbaarheid door een DDoS-aanval, of zelfs dat de actie van het massaal tonen van Testbewijzen zorgt voor een potentiële DDoS op de infrastructuur.
 
 Naast bovenstaande security-overwegingen is offline gebruik privacy-vriendelijker voor gebruikers. Er kunnen geen gegevens uitgewisseld worden met de achterliggende infrastructuur, er kan dus geen data gelogd worden buiten hetgeen in de Scanner-App en/of in de Holder-App eventueel wordt gedaan, en deze software is door het publiek te auditen.
-
+ 
 
