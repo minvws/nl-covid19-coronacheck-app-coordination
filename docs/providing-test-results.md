@@ -36,9 +36,7 @@ In the CoronaCheck project we are prototyping a means of presenting a digital pr
     + [Command line example](#command-line-example)
     + [More sample code](#more-sample-code)
     + [Governance and the digital signature of the test result](#governance-and-the-digital-signature-of-the-test-result)
-- [Onboarding and validation processes]
-  * [Onboarding process](#onboarding-process)
-  * [Implementation validation process](#implementation-validation-process)
+- [Implementation validation process](#implementation-validation-process)
 - [Security and privacy guidelines](#security-and-privacy-guidelines)
 - [Appendix 1: Example implementations of X509 CMS signing](#appendix-1--example-implementations-of-x509-cms-signing)
 - [Appendix 2: Validating the signing output](#appendix-2--validating-the-signing-output)
@@ -480,18 +478,7 @@ It is the responsibility of the party fetching the data to ensure that it is con
 
 And in B2B settings (such as the print terminals), the client may be required to provide a PKI-O client certificate to authenticate (and the provider must check validity of this certificate).
 
-
-# Onboarding and validation processes
-
-To ensure that implementations are correct and remain correct we have defined two processes. The onboarding-process must be completed by any Test Result Provider who wishes to integrate with CoronaCheck. As part of this process, they must also pass the implementation validation process.
-
-
-
-##  Onboarding process
-
-Coming soon!
-
-##  Implementation Validation process
+#  Implementation Validation process
 
 This process provides both CoronaCheck and the Test Result Provider the assurance that their implementation is capable of correctly handling the test cases defined by CoronaCheck. The process is designed to be repeated on a periodic bases to ensure that implementations remain compliant with the requirements of CoronaCheck.
 
@@ -503,6 +490,8 @@ This process provides both CoronaCheck and the Test Result Provider the assuranc
 4. If unsuccessful, Result provider applies technical fixes and follows this process again from step 1.
 
 The test set files are defined in [Appendix 5: Test sets](#appendix-4--test-sets).
+
+The first version will not support the two factor authentication flow: the endpoint under test must be configured such that this check will be ommitted.
 
 Our intention is to extend this process to include a self-service portal; this will greatly simply the validation process and allow it to be executed on demand by any test providers as part of their continous development process.
 
