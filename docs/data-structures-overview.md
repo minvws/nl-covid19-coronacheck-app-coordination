@@ -23,30 +23,30 @@ This chapter describes the datastructures that providers of test/vaccination res
 ```javascript
 {
     "protocolVersion": "3.0",
-        "providerIdentifier": "XXX",
-        "status": "complete",
-        "identityHash": "" // The identity-hash belonging to this person
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not vaccination status.
     "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
-            "lastName": "",
-            "birthDate": "1970-01-01" // ISO 8601                
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
     },
     "events": [
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
             "vaccination": {
-                "type": "C19-mRNA",
-                "date": "1970-01-01",
-                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
-                "batchNumber": "EJ6795",
-                "mah": "", // Can be derived from Brand
-                "country": "NLD", // ISO 3166-1
-                "administeringCenter": "" // Can be left blank
+                "date": "2021-01-01",
+                "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
+                "type": "1119349007",
+                "manufacturer": "ORG-100030215", 
+                "brand": "EU/1/20/1507", 
+                "completedByMedicalStatement": false, // Optional
+                "doseNumber": 1, 
+                "totalDoses": 2, // optional, will be based on brand info if left out
             }
-
         }
-    ]
+    ]    
 }
 ```
 
