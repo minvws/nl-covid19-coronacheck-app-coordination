@@ -83,7 +83,7 @@ This chapter describes the datastructures that providers of test/vaccination res
 }
 ```
 
-### Recovery Statment
+### Recovery Statement
 
 ```javascript
 {
@@ -100,11 +100,11 @@ This chapter describes the datastructures that providers of test/vaccination res
         {
             "type": "recovery",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
-	    "isSpecimen": true,
+            "isSpecimen": true,
             "recovery": {
                 "sampleDate": "2021-01-01",
-		"validFrom": "2021-01-12",
-		"validUntil": "2021-06-30"
+                "validFrom": "2021-01-12",
+                "validUntil": "2021-06-30"
             }
         }
     ]    
