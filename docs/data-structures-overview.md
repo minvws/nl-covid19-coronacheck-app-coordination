@@ -83,6 +83,34 @@ This chapter describes the datastructures that providers of test/vaccination res
 }
 ```
 
+### Recovery Statment
+
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not test status.
+    "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
+        "firstName": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
+    },
+    "events": [
+        {
+            "type": "recovery",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
+	    "isSpecimen": true,
+            "recovery": {
+                "sampleDate": "2021-01-01",
+		"validFrom": "2021-01-12",
+		"validUntil": "2021-06-30"
+            }
+        }
+    ]    
+}
+```
+
 
 ## Protocol version 2.0
 
