@@ -35,6 +35,7 @@ This chapter describes the datastructures that providers of test/vaccination res
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
+	    "isSpecimen": true,
             "vaccination": {
                 "date": "2021-01-01",
                 "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
@@ -44,6 +45,38 @@ This chapter describes the datastructures that providers of test/vaccination res
                 "completedByMedicalStatement": false, // Optional
                 "doseNumber": 1, 
                 "totalDoses": 2, // optional, will be based on brand info if left out
+            }
+        }
+    ]    
+}
+```
+
+### Negative Test Event
+
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not test status.
+    "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
+        "firstName": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
+    },
+    "events": [
+        {
+            "type": "test",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
+	    "isSpecimen": true,
+            "testresult": {
+                "sampleDate": "2021-01-01",
+		"resultDate": "2021-01-02",
+		"negativeResult": true,
+		"facility": "GGD XL Amsterdam",
+                "type": "???",
+		"name": "???",
+                "manufacturer": "1232"
             }
         }
     ]    
