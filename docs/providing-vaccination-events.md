@@ -139,7 +139,7 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
                 "type": "1119349007",
                 "manufacturer": "ORG-100030215", 
                 "brand": "EU/1/20/1507", 
-                "vaccinationCompleted": false, // Optional
+                "completedByMedicalStatement": false, // Optional
                 "doseNumber": 1, 
                 "totalDoses": 2, // optional, will be based on brand info if left out
             }
@@ -152,7 +152,7 @@ There are a few edge cases to consider:
 * In case the person is known but vaccination events do not exist, the `events` array can be left empty.
 * In case the person is known but the vaccination events are still processing, the `events` array can be left blank and the `status` field can be set to `pending`
 
-Remark on vaccinationCompleted field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or doctor-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+Remark on completedByMedicalStatement field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
 
 Authorative Data sources
 * hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
