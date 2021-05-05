@@ -35,7 +35,7 @@ This chapter describes the datastructures that providers of test/vaccination res
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
-	    "isSpecimen": true,
+            "isSpecimen": true,
             "vaccination": {
                 "date": "2021-01-01",
                 "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
@@ -68,14 +68,14 @@ This chapter describes the datastructures that providers of test/vaccination res
         {
             "type": "test",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
-	    "isSpecimen": true,
+            "isSpecimen": true,
             "testresult": {
                 "sampleDate": "2021-01-01",
-		"resultDate": "2021-01-02",
-		"negativeResult": true,
-		"facility": "GGD XL Amsterdam",
+                "resultDate": "2021-01-02",
+                "negativeResult": true,
+                "facility": "GGD XL Amsterdam",
                 "type": "???",
-		"name": "???",
+                "name": "???",
                 "manufacturer": "1232"
             }
         }
