@@ -8,8 +8,6 @@ This chapter describes the datastructures that providers of test/vaccination res
 
 ## Protocol version 3.0
 
-// todo: add minimal dataset fields
-
 ### Information Lookup
 ```javascript
 {
