@@ -15,7 +15,7 @@ This chapter describes the datastructures that providers of test/vaccination res
     "providerIdentifier": "XXX",
     "informationAvailable": true // true or false if information is available
 }
-````
+```
 
 ### Vaccination Event
 ```javascript
