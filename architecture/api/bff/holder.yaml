@@ -1,0 +1,283 @@
+openapi: 3.0.0
+servers:
+  - url: 'https://holder-api.dev.ccappdev.nl'
+  - url: 'https://holder-api.test.coronacheck.nl'
+  - url: 'https://holder-api.acc.coronacheck.nl'
+  - url: 'https://holder-api.coronacheck.nl'
+info:
+  description: >-
+    Holder API
+  version: 0.0.1
+  title: Holder API
+paths:
+  /v1/holder/get_test_ism:
+    post:
+      summary: 'Convert Test Result into a Signed Test Result'
+      description: 'Convert Test Result into a Signed Test Result. In CL terms: Take an ICM and return ISM.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProofOfTestRequest"
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProofOfTestResponse"
+  /v1/holder/nonce:
+    get:
+      summary: 'Get nonce and stoken for use in communication.'
+      description: 'Get nonce and stoken for use in communication.'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GetNonceResponse"
+  /v1/holder/config:
+    get:
+      summary: 'Application Configuration'
+      description: 'Application Configuration'
+      responses:
+        200:
+          description: Success (payload `ConfigResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDataWrapper"
+  /v1/holder/config_ctp:
+    get:
+      summary: 'Corona Test Provider configuration'
+      description: 'API Provides valid endpoints for the app to fetch test results from Corona Test Providers'
+      responses:
+        200:
+          description: Success (payload `ConfigCtpResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDataWrapper"
+  /v1/holder/public_keys:
+    get:
+      summary: 'Get all public keys used to create CL signatures'
+      description: 'Get all public keys used to create CL signatures'
+      responses:
+        200:
+          description: Success (payload `PublicKeysResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDataWrapper"
+  /v1/holder/test_types:
+    get:
+      summary: 'Get all test types'
+      description: 'Get all test types'
+      responses:
+        200:
+          description: Success (payload `TestTypesResponse`)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignedDataWrapper"
+components:
+  schemas:
+    SignedDataWrapper:
+      type: object
+      description: Standard response wrapper
+      properties:
+        payload:
+          description: json response encoded as base64 string
+          type: string
+          format: byte
+          nullable: false
+        signature:
+          description: CMS/PKCS#7 signature over payload bytes
+          type: string
+          format: byte
+          nullable: false
+    ProofOfTestRequest:
+      type: object
+      properties:
+        stoken:
+          type: string
+          nullable: false
+        test:
+          type: object
+          nullable: false
+          properties:
+            payload:
+              type: string
+              nullable: false
+            signature:
+              type: string
+              nullable: false
+        icm:
+          type: string
+          format: byte
+          description: Base64 serialized JSON which is in the format specified by Icm
+    ProofOfTestResponse:
+      type: object
+      properties:
+        ism:
+          $ref: "#/components/schemas/Ism"
+        attributes:
+          $ref: "#/components/schemas/IsmAttributes"
+    Icm:
+      type: object
+      properties:
+        n_2:
+          type: string
+          format: byte
+        combinedProofs:
+          $ref: "#/components/schemas/CombinedProof"     
+    CombinedProof:
+      type: object
+      properties:
+        U:
+          type: string
+          format: byte     
+        c:
+          type: string
+          format: byte 
+        v_prime_response:
+          type: string
+          format: byte 
+        s_response:
+          type: string
+          format: byte           
+    Ism:
+      type: object
+      properties:
+        proof:
+          $ref: "#/components/schemas/IsmProof"
+        signature:
+          nullable: false
+    IsmProof:
+      type: object
+      properties:
+        c:
+          type: string
+        e_response:
+          type: string
+    IsmAttributes:
+      type: object
+      properties:
+        sampleTime:
+          type: string
+          nullable: false
+        testType:
+          type: string
+          nullable: false
+    GetNonceResponse:
+      type: object
+      properties:
+        nonce:
+          type: string
+          format: byte
+        stoken:
+          type: string
+    ConfigResponse:
+      type: object
+      properties:
+        androidMinimumVersion:
+          type: integer
+          format: int64
+          example: 1
+        androidMinimumVersionMessage:
+          type: string
+          nullable: false
+          example:  "Om de app te gebruiken heb je de laatste versie uit de store nodig."
+        playStoreURL:
+          type: string
+          nullable: false
+          example: "https://www.google.com"
+        iosMinimumVersion:
+          type: string
+          nullable: false
+          example: "1.0.0"
+        iosMinimumVersionMessage:
+          type: string
+          nullable: false
+          example: "1.0.0"
+        iosAppStoreURL:
+          type: string
+          nullable: false
+          example: "https://apps.apple.com/nl/app/id1548269870"
+        configTTL:
+          type: integer
+          example: 864000
+        appDeactivated:
+          type: boolean
+          example: false
+        informationURL:
+          type: string
+          nullable: false
+          example: "https://coronacheck.nl"
+    ConfigCtpResponse:
+      type: object
+      properties:
+        corona_test_providers:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoronaTestProvider'
+    CoronaTestProvider:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Market name for the test provider (will be shown to the users)
+          example: 'Fake Test Provider'
+        provider_identifier:
+          type: string
+          description: Unique idenfier for the provider
+          example: 'ABC'
+        result_url:
+          type: string
+          description: URI to the providers get_rest_results endpoint.
+          example: 'https://www.example.com/get_test_result'
+        public_key:
+          type: string
+          format: byte
+          description: SSL certificate encoded as a base64 string.
+        ssl_cert:
+          type: string
+          format: byte
+          description: SSL certificate encoded as a base64 string.
+    TestTypesResponse:
+      type: object
+      properties:
+        test_types:
+          type: array
+          items:
+            $ref: '#/components/schemas/TestType'
+    TestType:
+      type: object
+      properties:
+        name:
+          type: string
+          example: 'PCR'
+          description: Human readable test type.
+        uuid:
+          type: string
+          example: 'pcr'
+          description: Unique identifier for the test type.
+    PublicKeysResponse:
+      type: object
+      properties:
+        cl_keys:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClPublicKey'
+    ClPublicKey:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "VWS-TEST-0"
+        public_key:
+          type: string
+          format: byte
+          example: "s057xYcgZ1rKmdKaU25p6m0uDN6tSfgxL1aQIF1h3g="

@@ -1,0 +1,151 @@
+openapi: 3.0.1
+info:
+  title: IssuerAPI 
+  version: v1
+paths:
+  /v1/proof/issue:
+    post:
+      summary: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      description: 'Requests a proof of negative test be created; when the request is valid then the proof will be returned'
+      tags:
+        - ProofOfTest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueProofRequest'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IssueProofResult'
+  /v1/proof/nonce:
+    post:
+      summary: 'Generates a nonce which is used by the client to create the commitments message'
+      description: 'Generates a nonce which is used by the client to create the commitments message'
+      tags:
+        - ProofOfTest
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateNonceResult'
+  /v1/proof/issue-static:
+    post:
+      summary: 'Requests that a static proof of negative test be created; when the request is the proof wil be returned as a QR in PNG'
+      description: 'Requests that a static proof of negative test be created; when the request is the proof wil be returned as a QR in PNG'
+      tags:
+        - ProofOfTest
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueStaticProofRequest'
+      responses:
+        '200':
+          description: Static proof-of-negative-test QR as PNG 
+          content:
+            text/plain:
+              schema:
+                type: string
+                format: byte
+components:
+  schemas:
+    IssueProofRequest:
+      required:
+        - commitments
+        - nonce
+        - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+        nonce:
+          type: string
+          format: byte
+          description: "Nonce data encoded as a base64 string, as returned by GET /proof/nonce"
+          example: "hgc3oMZzWd/rEcjdpHsNnw=="
+        commitments:
+          type: string
+          format: byte
+          description: "Committments JSON encoded as a base64 string"
+          example: "eyJuXzIiOiIzWjBFYWJYL1QrakZLN1Z5R3hXZmtRPT0iLCJjb21iaW5lZFByb29mcyI6W3siVSI6IldwS3FrQjlLZmtRUzRkV3E5OEJ3VWFYWHl6SEdqdUFiWDBFYkdUaFl5OFRVV3Y0QmZnQTlibXVlVE9zalZXaHRtcEJMamtCQnJyb3dhTGRhcUpHelY1emFQblIramdIdEtUOUEzSXdmWm5DQklZaXZ6c1ducWpib3gwdnJoYVJJTWE0RVNOVnBjc0NOeDJOL0djclh2czFUNjJra2xMTHhNM0svemlLSmlUZFRyZ3Q5dkNaM001TEp1WUlPNDQzVWlBTk1FV2oydldkVjMwSkl1R05XNVVLTDhVNm94SzBFK205KzhJeFAvUmJGclRKdUw3akd6RXFpcXNmQXJMdkFnUUp5V3NncEdIRlE1cGwzUnpRc2N4aDNQWnh0aThxbW55a2U5NG1iemF6YWhnYmJaUWltQWJTaXFlNTZrd3JnTzVVSzhPcmttZHNXcU5TelZGRzJ5QT09IiwiYyI6InBTaXUyVHJuemlONzdScUtQRlo2OHA5cEUvVjhMa1Uwa3ZGVFdPdFlCcGc9Iiwidl9wcmltZV9yZXNwb25zZSI6ImlnYVBqVVR6WDZXRDJKczkzNEQvWVgyQkIwbUp6K24rTStXdHJyQUx0VTVndUFIZFMyQmlUZGU1L0tEUlNrd0x2ZTdtY3FOR0l3ZzduYitZTEp4ZzFNS1k2OHExT0EzQ2FGbnZSb2JkUkJmQUlmeXMyOTBwOU53NXphRXVOMEZjSCtmNEJ4WHVaY3dYM0JDN1cwblJUTVBWZW8zMXZGanRlUGNCaTU0ZGlOS3I1QW5abUZTWVhFMHRMM2tnY1VacjFwcis1NG51RTBBc2h3b0xwbXZMQjhVUlhJMDZIQzJYM2svbjlYRG4zVXVKbERzU2FWV0g4N3FsdXhuMitIM09HT1dheHF3MWgyTThucytsRzZSaXQ0dmNHbXgxejM0TnE2amhKdXNLNDZ4aVNJaXJ6aStsNi9vcUt4UldIc05tQkQ5QXRaZjRPWVk3TC9kNDNWbjRRUHVBMHVYdjhHbU91dGdudXpmMXZsOWx0SjdkRDN2NnUxRlJlTGE1ZmJRNTRIS2dodjZMYlJ6MWcyMVdBQUdkd3R2cUpBdmpaYTZFdVpEeDBvNVZrZFk9Iiwic19yZXNwb25zZSI6ImtQS0xqVG1MQ1hBWVo0WG12Z1JROFVTK2YxU293enl3YW92TnU1YWJuYVJKQXo0eHMydHVLV1VkVmtabnloQ0hPZ2wxTFhSdkc2QXcvNmJ0ZUZoLzVNL0ZBNU5XUWp6ZGFqUT0ifV19"
+      additionalProperties: false
+    Proof:
+      type: object
+      properties:
+        c:
+          type: string
+          nullable: true
+        e_response:
+          type: string
+          nullable: true
+      additionalProperties: false
+    Attributes:
+      type: object
+      properties:
+        sampleTime:
+          type: string
+          format: date-time
+          description: "UTC Date/time the test sample was taken, to the hour precision"
+          example: "2021-02-21T10:00:00Z"
+        testType:
+          type: string
+        firstNameInitial:
+          type: string
+          pattern: ^[A-Z]{1}$
+        lastNameInitial:
+          type: string
+          pattern: ^[A-Z]{1}$
+        birthDay:
+          type: string
+          pattern: ^1[0-9]$|^2[0-9]$|^3[0-1]$|^[xX1-9]$
+        birthMonth:
+          type: string
+          pattern: ^1[0-2]$|^[xX1-9]$
+        isSpecimen:
+          type: boolean
+      additionalProperties: false
+    IssueSignatureMessage:
+      type: object
+      properties:
+        proof:
+          $ref: '#/components/schemas/Proof'
+        signature:
+          nullable: true
+      additionalProperties: false
+    IssueProofResult:
+      type: object
+      properties:
+        ism:
+          $ref: '#/components/schemas/IssueSignatureMessage'
+        attributes:
+          type: array
+          items:
+            description: Attribute values stored as strings
+            type: string
+          minItems: 9
+          maxItems: 9
+      additionalProperties: false
+    GenerateNonceResult:
+      type: object
+      properties:
+        nonce:
+          type: string
+          format: byte
+          description: "Nonce data encoded as a base64 string, as returned by GET /proof/nonce"
+          example: "hgc3oMZzWd/rEcjdpHsNnw=="
+          nullable: true
+      additionalProperties: false
+    IssueStaticProofRequest:
+      required:
+        - attributes
+      type: object
+      properties:
+        attributes:
+          $ref: '#/components/schemas/Attributes'
+      additionalProperties: false

@@ -1,0 +1,27 @@
+# With the prefixes (e.g. van, de) in place. Hence 'V' is very lage.
+A	2.3%
+B	9.2%
+C	1.7%
+D	8.8%
+E	1.8%
+F	1.3%
+G	2.9%
+H	6.1%
+I	0.4%
+J	2.2%
+K	6.9%
+L	3.2%
+M	4.5%
+N	1.7%
+O	1.7%
+P	3.2%
+Q	0.1%
+R	3.4%
+S	8.2%
+T	3.0%
+U	0.3%
+V	22.4%
+W	3.6%
+X	0.0%
+Y	0.2%
+Z	1.1%
