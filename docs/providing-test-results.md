@@ -360,7 +360,7 @@ To be able to retrieve the test result from a web browser (the web client for ho
 
 ```
 Access-Control-Allow-Origin: https://coronacheck.nl
-Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version
+Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version, Content-Type
 Access-Control-Allow-Methods: POST, GET, OPTIONS
 ```
 
@@ -368,7 +368,7 @@ For acceptance testing, the url is slightly different, so on acceptance test env
 
 ```
 Access-Control-Allow-Origin: https://web.acc.coronacheck.nl
-Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version
+Access-Control-Allow-Headers: Authorization, CoronaCheck-Protocol-Version, Content-Type
 Access-Control-Allow-Methods: POST, GET, OPTIONS
 ```
 
@@ -701,11 +701,15 @@ Example:
 
 # Changelog
 
-2.4.0
+2.3.3
 
 * Added implementation validation process
 * Added specification of the test sets
 * Added placeholder for the onboarding process
+
+2.3.2
+
+* Added missing CORS header `Access-Control-Allow-Headers: Content-Type`
 
 2.3.1
 
