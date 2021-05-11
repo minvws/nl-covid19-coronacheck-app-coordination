@@ -1,19 +1,32 @@
-## HTML template for test providers
+# HTML template for test providers
 
-### Portal
-Inside the directory `portal` there are the 
-- HTML
-- CSS
+## Portal
+
+Inside the directory `portal` you can find the 
+
+- HTML with inline CSS
 - fonts
 - images
 
-for the portal of the testprovider. The test code needs to be 
-  added as a unique item in the content.
+for the portal of the testprovider. You can copy this code and use it within your pages. 
 
-Via css the content has two appearances:
-- for desktop an instruction text
-- for mobile a button with a `deeplink`
+### How to use this template 
 
-### Mail
+- copy the HTML to your HTML template and replace the zzz-code (in our example, `ZZZ-3839287252-F1`) with your generated code:
+  - Once in the visible section (line `179`)
+  - Once in the deeplink (line `188`)
+- include the CSS and assets in the appropriate place for your website platform
+- change the header level on line `175` and `177` to the appropriate level within your website (h2, h3, h4), to keep the code accessible
 
-Inside the directory `mail` there is the design for the mail template.
+### Differences between the desktop and mobile versions
+
+The template has two important differences for desktop and mobile devices:
+
+- on desktop we show an instruction text
+- on mobile we show a button with a `deeplink` to coronacheck.nl to redeem a code
+
+We use the classes `.test-provider-portal__hide-for-mobile` and `.test-provider-portal__hide-for-desktop` to implement these differences.
+
+## Mail
+
+Inside the directory `mail` there is the design for the e-mail template.
