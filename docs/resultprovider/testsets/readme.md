@@ -1,0 +1,1 @@
+This folder contains the test sets which must be executed by Test Result Providers as part of the validation process.
