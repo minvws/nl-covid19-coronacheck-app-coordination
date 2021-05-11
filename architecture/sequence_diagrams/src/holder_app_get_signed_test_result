@@ -1,0 +1,40 @@
+https://sequencediagram.org/
+
+title Get a Signed Test Result
+actor User
+participant HolderAPP
+participant BFF
+participant Backend
+participant Cache
+
+User->HolderAPP: Choose Test to Sign
+parallel
+HolderAPP->BFF: Get Nonce
+BFF->Backend:Get Nonce
+
+parallel off
+BFF->BFF: Generate Stoken
+Backend->BFF: Return Nonce
+BFF->Cache: Store Stoken/Nonce
+BFF->HolderAPP:Return Nonce/Stoken
+
+
+HolderAPP->HolderAPP: Generate CL Commitment (ICM)
+HolderAPP->BFF: Get Signed Test Result\n--/get_test_ism/--
+
+BFF->BFF: Validate CMS Signature
+BFF->BFF: Validate Test Type
+BFF->BFF: Validate Test Sample Date
+BFF->BFF: Generate Hash for Test Result
+BFF->Cache: Check Hash exists
+Cache->BFF: Return Count
+BFF->Cache: Get nonce for stoken
+Cache->BFF: Return nonce
+parallel
+BFF-#red>HolderAPP: Failed to Validate Test Result
+BFF-#green>Backend: Sign Test Result (ICM)
+parallel off
+BFF->Cache: Set Test Hash +1
+Backend->BFF: Return Signed Test Result (ISM)
+BFF->HolderAPP: Return Signed Test Result (ISM)
+note over HolderAPP: Store Signed Test Result

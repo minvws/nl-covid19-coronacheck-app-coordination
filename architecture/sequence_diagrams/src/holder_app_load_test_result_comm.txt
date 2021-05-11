@@ -1,0 +1,24 @@
+https://sequencediagram.org/
+
+title Load Test Result into Holder App
+
+fontawesome5regular f1ad CoronaTestProvider
+actor User
+participant HolderAPP
+
+
+CoronaTestProvider->User: Provide a Token\n--string or QR form--
+User->HolderAPP: Enter/Scan Token
+HolderAPP->HolderAPP: Validate Token checksum
+HolderAPP->CoronaTestProvider: Get Test Result
+HolderAPP->HolderAPP: Check SSL Certificate
+CoronaTestProvider-->HolderAPP: Ask for Verification Code
+CoronaTestProvider-->User: Provide a Verification Code\n--optional--
+HolderAPP-->User: Ask for Verification code
+User-->HolderAPP: Enter verification code
+HolderAPP-->CoronaTestProvider: Send Verification Code
+CoronaTestProvider->HolderAPP: Return Test Result
+HolderAPP->HolderAPP: Validate CMS Signature
+HolderAPP->HolderAPP: Validate Test Type
+HolderAPP->HolderAPP: Validate Test Sample Date
+note over HolderAPP: Store Test Result

@@ -1,7 +1,27 @@
-**Tip:** use the following UI links to open the API docs in a formatted way:
+# Mobile Application Rest API(s)
 
-* Interface between app and backend: [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-app.yaml) [ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-app.yaml) [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-app.yaml) 
+There are several api's that are in use by each application.
 
-* Interface between backend and GGD middleware: [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-ggd-out.yaml) [ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-ggd-out.yaml) [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-ggd-out.yaml) 
+TODO: (update) Swagger files
 
-* Interface between GGD middleware and backend: [Swagger UI](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-ggd-in.yaml) [ReDoc](https://redocly.github.io/redoc/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-ggd-in.yaml) [Swagger Editor](https://editor.swagger.io/?url=https://raw.githubusercontent.com/minvws/nl-covid19-dbco-app-coordination/main/architecture/api/apispec-ggd-in.yaml) 
+## Holder App
+Full url of the api is: `https://holder-api.ENV.coronacheck.nl/v#/holder/`
+
+Api Name     | CDN | CMS  | Description
+-------------|-----|------|-------------------|
+config       | Yes | Yes  | Application configuration file
+config_ctp   | Yes | Yes  | Configuration file containing public key(s) from Coronatest Providers used for Certificate Pinning and CMS Signature verification
+public_keys  | Yes | Yes  | Contains public_keys used by CL cryptography
+test_types   | Yes | Yes  | List of possible tests (`uuid` and `name`)
+nonce        | No  | No   | Gets a `nonce` and `stoken` used in CL cryptography
+get_test_ism | No  | No   | Turns a `test-result` into a `signed-test-result`
+
+
+## Verifier App
+Full url of the api is: `https://verifier-api.ENV.coronacheck.nl/v#/verifier/`
+
+Api Name     | CDN | CMS  | Description
+-------------|-----|------|-------------------|
+config       | Yes | Yes  | Application configuration file
+public_keys  | Yes | Yes  | Contains public_keys used by CL cryptography
+test_types   | Yes | Yes  | List of possible tests (`uuid` and `name`)
