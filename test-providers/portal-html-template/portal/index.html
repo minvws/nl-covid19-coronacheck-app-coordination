@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Template testaanbieders CoronaCheck</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+
+</head>
+<style>
+    @font-face {
+        font-family: 'Noto Sans';
+        src: url('./fonts/NotoSans-Regular.woff2') format('woff2'),
+        url('./fonts/NotoSans-Regular.woff') format('woff');
+        font-weight: 400;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Noto Sans';
+        src: url('./fonts/NotoSans-Bold.woff2') format('woff2'),
+        url('./fonts/NotoSans-Bold.woff') format('woff');
+        font-weight: 600;
+        font-display: swap;
+    }
+
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local(''),
+        url('./fonts/montserrat-v15-latin_cyrillic-ext_cyrillic-700.woff2') format('woff2'),
+        url('./fonts/montserrat-v15-latin_cyrillic-ext_cyrillic-700.woff') format('woff');
+    }
+
+    .test-provider-portal {
+        font-family: 'Noto Sans', 'Arial', sans-serif;
+        font-size: 16px;
+        background: #fff;
+        line-height: 1.5;
+        display: flex;
+    }
+
+    .test-provider-portal__primary,
+    .test-provider-portal__secondary {
+        width: 50%;
+        padding: 64px 64px 0 64px;
+    }
+
+    .test-provider-portal__secondary {
+        background: #EFF7F9;
+        display: flex;
+        align-items: center;
+    }
+
+    .test-provider-portal__content {
+        max-width: 280px;
+    }
+
+    .test-provider-portal__primary .test-provider-portal__content {
+        margin: 0 0 0 auto;
+    }
+
+    .test-provider-portal__secondary .test-provider-portal__content {
+        margin: 0 auto 0 0;
+    }
+
+    .test-provider-portal h3 {
+        font-size: 22px;
+        margin: 0 0 24px 0;
+        font-family: 'Montserrat', 'Noto Sans', 'Arial', sans-serif;
+    }
+
+    .test-provider-portal p {
+        margin: 0 0 24px 0;
+    }
+
+    .test-provider-portal a:not(.test-provider-portal__btn) {
+        font-weight: 700;
+        color: #000;
+        text-decoration: none;
+    }
+
+    .test-provider-portal .phone img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .test-provider-portal__hide-for-desktop {
+        display: none;
+    }
+
+    .test-provider-portal__btn,
+    .test-provider-portal__btn:visited {
+        padding: 14px 34px;
+        margin-bottom: 16px;
+        display: inline-block;
+        background: #1540eb;
+        border: 1px solid currentColor;
+        color: white;
+        border-radius: 24px 24px 24px 24px / 50% 50% 50% 50%;
+        font-size: 17px;
+        font-family: inherit;
+        white-space: nowrap;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .test-provider-portal__btn:hover,
+    .test-provider-portal__btn:focus {
+        color: #1540eb;
+        background-color: #ffffff;
+    }
+
+
+    @media screen and (max-width: 600px) {
+
+        .test-provider-portal {
+            display: block;
+        }
+
+        .test-provider-portal__primary,
+        .test-provider-portal__secondary {
+            width: 100%;
+            padding: 64px 64px 0 64px;
+        }
+
+        .test-provider-portal__primary .test-provider-portal__content,
+        .test-provider-portal__secondary .test-provider-portal__content {
+            margin: 0;
+            width: 100%;
+        }
+
+        .test-provider-portal__primary {
+            padding: 52px 20px 40px 20px;
+        }
+
+        .test-provider-portal__secondary {
+            padding: 40px 20px;
+        }
+    }
+
+    @media screen and (max-width: 600px),
+    screen and (max-width: 812px) and (orientation: landscape),
+    (pointer: coarse) {
+
+        .test-provider-portal__hide-for-desktop {
+            display: block;
+        }
+
+        .test-provider-portal__hide-for-mobile {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 812px) and (orientation: landscape) {
+
+        .test-provider-portal__primary,
+        .test-provider-portal__secondary {
+            padding: 32px 32px 0 32px;
+            width: 100%;
+        }
+    }
+</style>
+
+<body class="test-provider-portal">
+    <div class="test-provider-portal">
+        <div class="test-provider-portal__primary">
+            <div class="test-provider-portal__content">
+                <h3>
+                    Maak jouw testbewijs
+                </h3>
+                <p>
+                    Zet jouw testuitslag om in een testbewijs. Gebruik in de CoronaCheck-app ophaalcode:<br>
+                    <strong>ZZZ-3839287252-F1</strong>
+                </p>
+                <p class="test-provider-portal__hide-for-mobile">
+                    Tip: open de pagina op je mobiele telefoon. Zo hoef je de code niet over te typen.
+                </p>
+                <div class="phone test-provider-portal__hide-for-mobile">
+                    <img src="images/phone.png" alt="Een voorbeeld van CoronaCheck in werking, met een aangemaakte QR-code" />
+                </div>
+                <div class="test-provider-portal__hide-for-desktop">
+                    <a class="test-provider-portal__btn" href="https://coronacheck.nl/app/redeem#ZZZ-3839287252-F1" target="_blank" rel="noopener noreferrer">
+                        Open de CoronaCheck-app
+                    </a>
+                    <p>
+                        De ophaalcode gaat automatisch mee
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="test-provider-portal__secondary">
+            <div class="test-provider-portal__content">
+                <p class="test-provider-portal__hide-for-mobile">
+                    Geen mobiele telefoon? Download en print jouw testbewijs op<br>
+                    <a href="https://coronacheck.nl/print/" target="_blank" rel="noopener noreferrer">CoronaCheck.nl/print</a>
+                </p>
+                <p>
+                    Heb je een vraag? Bel gratis
+                    <a href="tel:0800-1421">0800-1421</a> Of stuur een e-mail naar
+                    <a href="mailto:helpdesk@coronacheck.nl" target="_blank" rel="noopener noreferrer">helpdesk@coronacheck.nl</a>
+                </p>
+                <div class="logo-corona-check">
+                    <img height="32" alt="CoronaCheck logo" src="images/coronacheck.svg"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
