@@ -33,15 +33,15 @@
         url('./fonts/montserrat-v15-latin_cyrillic-ext_cyrillic-700.woff') format('woff');
     }
 
-    body {
-        margin: 0;
-    }
-
     .test-provider-portal {
         font-family: 'Noto Sans', 'Arial', sans-serif;
         font-size: 16px;
         background: #fff;
         line-height: 1.5;
+        margin: 0;
+    }
+
+    .test-provider-portal__container {
         display: flex;
     }
 
@@ -167,49 +167,49 @@
     }
 </style>
 
-<body>
-<div class="test-provider-portal">
-    <div class="test-provider-portal__primary">
-        <div class="test-provider-portal__content">
-            <h3>
-                Maak jouw testbewijs
-            </h3>
-            <p>
-                Zet jouw testuitslag om in een testbewijs. Gebruik in de CoronaCheck-app ophaalcode:<br>
-                <strong>ZZZ-3839287252-F1</strong>
-            </p>
-            <p class="test-provider-portal__hide-for-mobile">
-                Tip: open de pagina op je mobiele telefoon. Zo hoef je de code niet over te typen.
-            </p>
-            <div class="phone test-provider-portal__hide-for-mobile">
-                <img src="images/phone.png" alt="Een voorbeeld van CoronaCheck in werking, met een aangemaakte QR-code" />
-            </div>
-            <div class="test-provider-portal__hide-for-desktop">
-                <a class="test-provider-portal__btn" href="https://coronacheck.nl/app/redeem#ZZZ-3839287252-F1" target="_blank" rel="noopener noreferrer">
-                    Open de CoronaCheck-app
-                </a>
+<body class="test-provider-portal">
+    <div class="test-provider-portal__container">
+        <div class="test-provider-portal__primary">
+            <div class="test-provider-portal__content">
+                <h3>
+                    Maak jouw testbewijs
+                </h3>
                 <p>
-                    De ophaalcode gaat automatisch mee
+                    Zet jouw testuitslag om in een testbewijs. Gebruik in de CoronaCheck-app ophaalcode:<br>
+                    <strong>ZZZ-3839287252-F1</strong>
                 </p>
+                <p class="test-provider-portal__hide-for-mobile">
+                    Tip: open de pagina op je mobiele telefoon. Zo hoef je de code niet over te typen.
+                </p>
+                <div class="phone test-provider-portal__hide-for-mobile">
+                    <img src="images/phone.png" alt="Een voorbeeld van CoronaCheck in werking, met een aangemaakte QR-code" />
+                </div>
+                <div class="test-provider-portal__hide-for-desktop">
+                    <a class="test-provider-portal__btn" href="https://coronacheck.nl/app/redeem#ZZZ-3839287252-F1" target="_blank" rel="noopener noreferrer">
+                        Open de CoronaCheck-app
+                    </a>
+                    <p>
+                        De ophaalcode gaat automatisch mee
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="test-provider-portal__secondary">
+            <div class="test-provider-portal__content">
+                <p class="test-provider-portal__hide-for-mobile">
+                    Geen mobiele telefoon? Download en print jouw testbewijs op<br>
+                    <a href="https://coronacheck.nl/nl/print/" target="_blank" rel="noopener noreferrer">CoronaCheck.nl/print</a>
+                </p>
+                <p>
+                    Heb je een vraag? Bel gratis
+                    <a href="tel:0800-1421">0800-1421</a> Of stuur een e-mail naar
+                    <a href="mailto:helpdesk@coronacheck.nl" target="_blank" rel="noopener noreferrer">helpdesk@coronacheck.nl</a>
+                </p>
+                <div class="logo-corona-check">
+                    <img height="32" alt="CoronaCheck logo" src="images/coronacheck.svg"/>
+                </div>
             </div>
         </div>
     </div>
-    <div class="test-provider-portal__secondary">
-        <div class="test-provider-portal__content">
-            <p class="test-provider-portal__hide-for-mobile">
-                Geen mobiele telefoon? Download en print jouw testbewijs op<br>
-                <a href="https://coronacheck.nl/nl/print/" target="_blank" rel="noopener noreferrer">CoronaCheck.nl/print</a>
-            </p>
-            <p>
-                Heb je een vraag? Bel gratis
-                <a href="tel:0800-1421">0800-1421</a> Of stuur een e-mail naar
-                <a href="mailto:helpdesk@coronacheck.nl" target="_blank" rel="noopener noreferrer">helpdesk@coronacheck.nl</a>
-            </p>
-            <div class="logo-corona-check">
-                <img height="32" alt="CoronaCheck logo" src="images/coronacheck.svg"/>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 </html>
