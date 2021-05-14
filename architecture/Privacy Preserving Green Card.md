@@ -13,7 +13,7 @@ Recently the team has been tasked with adding support for vaccination certificat
 
 This provides us with a challenge: since a negative test has a short validity (currently 40 hours) and a completed vaccination has a long validity (to be determined, but let's for now assume a year), the QR could reveal that someone is vaccinated purely by disclosing that the certificate has a long validity. Although we could decide to hide that fact in the CoronaCheck Scanner app, it would still be in the QR, so a modified or alternative scanner app would still be able to derive vaccination status - therefor we have designed a solution that does not disclose the vaccination status in the QR at all, so that even a rogue scanner would not be able to tell the difference between a vaccinated person, a person with a negative test or a person that has recovered from covid and is considered to be immune.
 
-This document presenets the solution designed by the CoronaCheck team.
+This document presents the solution designed by the CoronaCheck team.
 
 NOTE: This is about the Dutch *domestic* solution. For the European 'Digital Green Card' initiative for cross border travel the solution is not applicable (in its current iteration, a European DGC always disclosed vaccination status as well as several other personal details.)
 
