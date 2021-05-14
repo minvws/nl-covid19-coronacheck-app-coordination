@@ -64,7 +64,7 @@ The reasons we generate only 28 days of strips and not all at once:
 
 This renewal process means that the CoronaCheck app will have to regularly fetch new strips. To avoid having to fetch strips at the last possible moment before being scanned, this should be opportunistic: If there are less than `minimumSpareStrips` (a config to be added to the app config, initially set to 5) in the wallet and the app happens to be active and online, the app should request new strips. Note that the last strips in the wallet will then be overwritten by the new set. This is generally not a problem. (We may later add a date offset to the signer).
 
-Apps may employ background checks to renew strips when the app is not actively running; note however that iOS and Android only allow background activity if the app has been active in the last couple of days. This could be used however to optimize the reneal. If there are only 2 days more than minimumSpareStrips when the app is running, it may decide to try to fetch the next batch in the background after 2 days. If the user doesn't open their app again, their strips will still be renewed. 
+Apps may employ background checks to renew strips when the app is not actively running; note however that iOS and Android only allow background activity if the app has been active in the last couple of days. This could be used however to optimize the renewal. If there are only 2 days more than minimumSpareStrips when the app is running, it may decide to try to fetch the next batch in the background after 2 days. If the user doesn't open their app again, their strips will still be renewed. 
 
 The renewal process should be transparent to the user and is performed by the app without any user interaction. If strip generation fails for a recoverable reason (e.g. server down) and there are still strips left, the renewal can happen at the next attempt.
 
@@ -108,7 +108,7 @@ Currently we have an isPaper flag to distinguish between paper and app strips (a
 
 * 0 - app strip (validity 40 hours, refresh requirement 3 minutes)
 * 1 - paper strip short (validity 40 hours, no refresh requirement)
-* 2 - paper strip long (validity 28 days no refresh requirement) 
+* 2 - paper strip long (validity 28 days, no refresh requirement) 
 
 ## Appendix 1: Strip data structure
 
