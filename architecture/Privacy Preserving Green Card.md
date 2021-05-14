@@ -38,7 +38,7 @@ To solve the conundrum we break up our domestic green card in little pieces. A '
 
 ![Strippenkaart analogy](images/strippenkaart.jpg)
 
-Each strip in the strip card is a credential, which has its own signature and each piece's validity is based on the smallest validity that our various proofs have. The smallest profo is currently valid for 40 hours for a negative test result. Since in the past this validity was subject of debate, and ranged from 24-48 hours, we have chosen to make the strip size 24 hours. Even if the validity of a negative test changes: as long as it's not smaller than 24 hours, we don't need to change the strip card model. 
+Each strip in the strip card is a credential, which has its own signature and each credential's validity is based on the smallest validity that our various proofs have. The smallest proof is currently valid for 40 hours for a negative test result. Since in the past this validity was subject of debate, and ranged from 24-48 hours, we have chosen to make the strip size (the 'granularity') 24 hours. Even if the validity of a negative test changes: as long as it's not smaller than 24 hours, we don't need to change the strip card model. 
 
 The next picture depicts a sample strip card for both a negative test and a vaccination:
 
