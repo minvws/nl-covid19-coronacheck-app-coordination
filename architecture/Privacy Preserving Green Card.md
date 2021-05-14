@@ -2,8 +2,8 @@
 
 *Providing proof of vaccination or a negative test result without disclosing a person's vaccination status.*
 
-Authors: Tomas Harreveld, Ivo Jansch
-Version: 0.9
+* Authors: Tomas Harreveld, Ivo Jansch
+* Version: 0.9
 
 ## Introduction
 
