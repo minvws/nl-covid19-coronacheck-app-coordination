@@ -41,8 +41,8 @@ This chapter describes the datastructures that providers of test/vaccination res
                 "manufacturer": "ORG-100030215", 
                 "brand": "EU/1/20/1507", 
                 "completedByMedicalStatement": false, // Optional
-                "doseNumber": 1, 
-                "totalDoses": 2, // optional, will be based on brand info if left out
+                "doseNumber": 1, // optional, will be based on business rules / brand info if left out
+                "totalDoses": 2, // optional, will be based on business rules / brand info if left out
             }
         }
     ]    
