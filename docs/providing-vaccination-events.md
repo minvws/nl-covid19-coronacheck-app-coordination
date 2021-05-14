@@ -1,6 +1,6 @@
 # CoronaCheck - Vaccination Events
 
-Version 1.0.0
+Version 1.0.1
 
 ##Draft
 This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
@@ -24,7 +24,7 @@ The CoronaCheck Android and iOS apps, and the web version (intended for desktop 
 
 In order to be able to deliver vaccination events to CoronaCheck, a data source MUST do the following:
 
-* Provide three endpoints:
+* Provide two endpoints:
   * An endpoint that an app can use to determine if a system contains information belonging to a person.
   * An endpoint that an app can use to retrieve vaccination events on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
 * Obtain a x509 PKI-O certificate for CMS signing events.
@@ -70,11 +70,11 @@ Will return: `47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307` 
 ## JWT Tokens
 In order to authenticate to the API endpoints mentioned below, each request will contain a JWT token. The contents of the JWT token is mentioned in the definition of the api endpoint.
 
-All JWT tokens are signed by MVWS using a public/private keypair in the 'RS256' format. The public key used by MVWS will provided on a public api endpoint.
+All JWT tokens are signed by MinVWS using a public/private keypair in the 'RS256' format. The public key used by MVWS will provided on a public api endpoint.
 
 Key rollover(s) will be published and communicated at least 2 weeks in advance.
 
-Only tokens signed by MVWS should be considered by the api endpoint(s).
+Only tokens signed by MinVWS should be considered by the api endpoint(s).
 
 ## Api Endpoints
 
@@ -135,25 +135,13 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
             "vaccination": {
                 "date": "2021-01-01",
-                "hpkCode": "2924528",  // If available: type/brand can be left blank.
-                "type": "C19-mRNA",
-                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
-                "batchNumber": "EW2243",
-                "administeringCenter": "" // Can be left blank if unknown
-                "country": "NLD", // ISO 3166-1
-            }
-        },
-        {
-            "type": "vaccinationCompleted",
-            "unique": "165dd2a9-74e5-4afc-8983-53a753554142",
-            "vaccinationCompleted": {
-                "date": "2021-01-01",
-                "hpkCode": "2924528",  // If available: type/brand can be left blank.
-                "type": "C19-mRNA",
-                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
-                "batchNumbers": ["EW2243","ER9480"], // Optional
-                "administeringCenter": "", // Can be left blank if unknown
-                "country": "NLD" // ISO 3166-1
+                "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
+                "type": "1119349007",
+                "manufacturer": "ORG-100030215", 
+                "brand": "EU/1/20/1507", 
+                "completedByMedicalStatement": false, // Optional
+                "doseNumber": 1, 
+                "totalDoses": 2, // optional, will be based on brand info if left out
             }
         }
     ]    
@@ -161,12 +149,16 @@ The response (CMS Signed) may contain multiple vaccination events. The response 
 ```
 
 There are a few edge cases to consider:
-* Incase the person is known but vaccination events do not exist, the `events` array can be left empty.
-* Incase the person is known but the vaccination events are still processing, the `events` array can be left blank and the `status` field can be set to `pending`
+* In case the person is known but vaccination events do not exist, the `events` array can be left empty.
+* In case the person is known but the vaccination events are still processing, the `events` array can be left blank and the `status` field can be set to `pending`
 
+Remark on completedByMedicalStatement field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
 
 Authorative Data sources
 * hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
+* type: [ehealth type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-prophylaxis.json)
+* brand: [ehealth medicinal product list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-medicinal-product.json)
+* manufacturer: [ehealth manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-mah-manf.jso)
 
 #### JWT Token
 The JWT token will contain the BSN in an encrypted format. The encryption will be done using libsodium public/private sealboxes (X25519).
