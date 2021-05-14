@@ -8,8 +8,6 @@ This chapter describes the datastructures that providers of test/vaccination res
 
 ## Protocol version 3.0
 
-// todo: add minimal dataset fields
-
 ### Information Lookup
 ```javascript
 {
@@ -17,36 +15,97 @@ This chapter describes the datastructures that providers of test/vaccination res
     "providerIdentifier": "XXX",
     "informationAvailable": true // true or false if information is available
 }
-````
+```
 
 ### Vaccination Event
 ```javascript
 {
     "protocolVersion": "3.0",
-        "providerIdentifier": "XXX",
-        "status": "complete",
-        "identityHash": "" // The identity-hash belonging to this person
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not vaccination status.
     "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
-            "lastName": "",
-            "birthDate": "1970-01-01" // ISO 8601                
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
     },
     "events": [
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
+            "isSpecimen": true,
             "vaccination": {
-                "type": "C19-mRNA",
-                "date": "1970-01-01",
-                "brand": "COVID-19 VACCIN PFIZER INJVLST 0,3ML",
-                "batchNumber": "EJ6795",
-                "mah": "", // Can be derived from Brand
-                "country": "NLD", // ISO 3166-1
-                "administeringCenter": "" // Can be left blank
+                "date": "2021-01-01",
+                "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
+                "type": "1119349007",
+                "manufacturer": "ORG-100030215", 
+                "brand": "EU/1/20/1507", 
+                "completedByMedicalStatement": false, // Optional
+                "doseNumber": 1, // optional, will be based on business rules / brand info if left out
+                "totalDoses": 2, // optional, will be based on business rules / brand info if left out
             }
-
         }
-    ]
+    ]    
+}
+```
+
+### Negative Test Event
+
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not test status.
+    "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
+        "firstName": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
+    },
+    "events": [
+        {
+            "type": "test",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
+            "isSpecimen": true,
+            "testresult": {
+                "sampleDate": "2021-01-01",
+                "resultDate": "2021-01-02",
+                "negativeResult": true,
+                "facility": "GGD XL Amsterdam",
+                "type": "???",
+                "name": "???",
+                "manufacturer": "1232"
+            }
+        }
+    ]    
+}
+```
+
+### Recovery Statement
+
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not test status.
+    "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
+        "firstName": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
+    },
+    "events": [
+        {
+            "type": "recovery",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
+            "isSpecimen": true,
+            "recovery": {
+                "sampleDate": "2021-01-01",
+                "validFrom": "2021-01-12",
+                "validUntil": "2021-06-30"
+            }
+        }
+    ]    
 }
 ```
 
