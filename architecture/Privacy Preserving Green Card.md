@@ -13,7 +13,7 @@ Recently the team has been tasked with adding support for vaccination certificat
 
 This provides us with a challenge: since a negative test has a short validity (currently 40 hours) and a completed vaccination has a long validity (to be determined, but let's for now assume a year), the QR could reveal that someone is vaccinated purely by disclosing that the certificate has a long validity. Although we could decide to hide that fact in the CoronaCheck Scanner app, it would still be in the QR, so a modified or alternative scanner app would still be able to derive vaccination status - therefor we have designed a solution that does not disclose the vaccination status in the QR at all, so that even a rogue scanner would not be able to tell the difference between a vaccinated person, a person with a negative test or a person that has recovered from covid and is considered to be immune.
 
-This document presenets the solution designed by the CoronaCheck team.
+This document presents the solution designed by the CoronaCheck team.
 
 NOTE: This is about the Dutch *domestic* solution. For the European 'Digital Green Card' initiative for cross border travel the solution is not applicable (in its current iteration, a European DGC always disclosed vaccination status as well as several other personal details.)
 
@@ -38,7 +38,7 @@ To solve the conundrum we break up our domestic green card in little pieces. A '
 
 ![Strippenkaart analogy](images/strippenkaart.jpg)
 
-Each strip in the strip card is a credential, which has its own signature and each piece's validity is based on the smallest validity that our various proofs have. The smallest profo is currently valid for 40 hours for a negative test result. Since in the past this validity was subject of debate, and ranged from 24-48 hours, we have chosen to make the strip size 24 hours. Even if the validity of a negative test changes: as long as it's not smaller than 24 hours, we don't need to change the strip card model. 
+Each strip in the strip card is a credential, which has its own signature and each credential's validity is based on the smallest validity that our various proofs have. The smallest proof is currently valid for 40 hours for a negative test result. Since in the past this validity was subject of debate, and ranged from 24-48 hours, we have chosen to make the strip size (the 'granularity') 24 hours. Even if the validity of a negative test changes: as long as it's not smaller than 24 hours, we don't need to change the strip card model. 
 
 The next picture depicts a sample strip card for both a negative test and a vaccination:
 
