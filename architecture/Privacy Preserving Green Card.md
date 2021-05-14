@@ -125,17 +125,18 @@ When this document is implemented, a credential (the technical term for a strip)
 
 Terminology:
 * Green card validity: The validity of the green card based on the type, e.g. 40h for a test, 365d for a vaccination, 180d for a recovery. (determined by a config)
-* Strip validity: The validity of a single strip, 24h (determined by a config)
+* Strip granularity: The time between the start of one strip and the next, 24h minus some randomness(determined by a signer config)
+* Strip validity: The time that a scanner will deem this strip valid (40 hours, determined by a scanner config)
 * Start-strip: The strip at the start of the green card validity
 * End-strip: The strip at the end of the green card validity
 
 The following rules should be applied when generating strips:
 
 * The start-strip should *start* on the rounded down sampleDate
-* The end-strip should *end* on the rounded down `sampleDate + green card validity`. Since a strip only has a `startDate` and not an `endDate`, the `startDate` of the end-strip is the `endDate - strip validity` 
+* The end-strip should *end* on the rounded down `sampleDate + green card validity`. Since a strip only has a `startDate` and not an `endDate`, the `startDate` of the end-strip is the `endDate - stripValidity` 
 * Only generate strips with future validity. This means that the start-strip is sometimes not used.  
 * Never generate strips with a startdate higher than `today + 28 days`. This means that the end-strip is only generated when strips are renewed for the final 28 days of the green card validity.
-* All other strips should have a startDate that is `previousStrip.startDate + stripValidity - rand()%5 hours`, causing a random strip overlap of 0-4 hours.
+* All other strips should have a startDate that is `previousStrip.startDate + stripGranularity - rand()%5 hours`, causing a random strip overlap of 0-4 hours.
 
 Some of the calculations visualized:
 
