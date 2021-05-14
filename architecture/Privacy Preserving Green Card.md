@@ -137,6 +137,7 @@ The following rules should be applied when generating strips:
 * Only generate strips with future validity. This means that the start-strip is sometimes not used.  
 * Never generate strips with a startdate higher than `today + 28 days`. This means that the end-strip is only generated when strips are renewed for the final 28 days of the green card validity.
 * All other strips should have a startDate that is `previousStrip.startDate + stripGranularity - rand()%5 hours`, causing a random strip overlap of 0-4 hours.
+* If the startDate ends up in 20.00 - 0.00 range (nl timezone), *subtract* 4 hours (don't round them all to 20.00 as that would give a larger than usual amount of 20.00 strips)
 
 Some of the calculations visualized:
 
