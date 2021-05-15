@@ -1,4 +1,4 @@
-# CoronaCheck - Providing Vaccination / Test / Recovery Events for Digid Users
+ Providing Vaccination / Test / Recovery Events by Digid
 
 * Version 1.1
 * Authors: Nick, Ivo
