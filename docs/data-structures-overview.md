@@ -49,6 +49,15 @@ This chapter describes the datastructures that providers of test/vaccination res
 }
 ```
 
+Remark on completedByMedicalStatement field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+
+Authorative Data sources
+* hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
+* type: [ehealth type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-prophylaxis.json)
+* brand: [ehealth medicinal product list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-medicinal-product.json)
+* manufacturer: [ehealth manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-mah-manf.jso)
+
+
 ### Negative Test Event
 
 ```javascript
