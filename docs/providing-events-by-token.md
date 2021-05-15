@@ -1,8 +1,17 @@
-# CoronaCheck Prototype - Test Result Provisioning
+# Providing Vaccination / Test / Recovery by retrieval code
 
-Version 2.4.0
+** IMPORTANT **
 
-In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
+  >
+  >  ☢️🚧 This is the upcoming 3.0 version of the protocol, which was enhanced with EU and vaccination support. 
+  >  Current commercial test providers are still on version 2.0 of the protocol. The 2.0 version is tagged and can be found here:
+  >  https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-2.0/docs/providing-test-results.md
+  > 
+
+* Version 3.0
+* Authors: Ivo, Nick
+
+In the CoronaCheck project we have implemented a means of presenting a digital proof of a negative test result, vaccination or recovery. This document describes the steps a party needs to take to provide test results or vaccination events that the CoronaCheck app will use to provide proof of vaccination/negative test/recovery.
 
 ## Contents
 
@@ -57,35 +66,31 @@ The CoronaCheck Android and iOS apps, and the web version (intended for desktop 
 
 ![High Level Overview](images/overview.png)
 
-### Retrieval from public print terminals
-
-For persons who do now own a smartphone or a printer, we have designed a way to print a QR from a public print terminal. The process is similar to the app retrieval process, with a few changes:
-
-![High Level Overview PT](images/overview-pt.png)
+Although the picture depicts a negative test result, the process is the same for vaccination and recovery events.
 
 ## Requirements
 
-In order to be able to deliver test results for CoronaCheck, a test provider MUST do the following:
+In order to be able to deliver test results or vaccination events for CoronaCheck, a test provider MUST do the following:
 
 * Implement a mechanism to distribute a `token` in the form of a QR or `code` to the citizen that can be used to collect a negative result. 
-* Provide two endpoints:
+* Provide one endpoint:
     * An endpoint that an app can use to retrieve a test result on behalf of the citizen, e.g. https://api.acme.inc/resultretrieval, according to the specs laid out in this document.
-    * An endpoint that offers the retrieval of test results to print terminals, e.g. https://api.acme.inc/resultretrieval/print. 
-* Obtain an x509 PKI-O certificate for CMS signing test results.
-* CMS sign its test results and other responses using the x509 certificate.
-* Add all intermediate certificates to the CMS signature (in order to establish a trust chain).
-* Provide the public key of the CMS X509 certificate to the CoronaCheck system so that signed results can be verified against the certificate.
-* Provide an additional public key for TLS/SSL pinning against their endpoint.
-* Provide a privacy statement that the app can display before handing off a token to the endpoint.
-* Require an out of band ownership verification of the test result if the test result is handed out in an unsupervised manner (see details in next chapter).
+* Obtain an x509 PKI-O certificate for CMS signing responses (from a private PKI-O root).
+* CMS sign responses using the x509 certificate.
+* Obtain another x509 PKI-O certificate for TLS/SSL pinning (public PKI-O root)
+* Provide the public key of the CMS X509 signing certificate to the CoronaCheck team so that signed results can be verified against the certificate.
+* Provide the public key of the X509 TLS/SSL certificate so the apps can perform TLS/SSL pinning against the endpoint.
+* Require an out of band ownership verification of the request if the event is handed out in an unsupervised manner (see details in next chapter).
 
-## Distributing a test token
+## Distributing a token
 
 After a user has taken a test, and the result is negative, the party should supply the user with a token. There are multiple ways to communicate the token to the user, and multiple steps in the process where this can take place, but it must be provided *after* the user's test result is determined to be negative.
 
+Similarly, if a user got vaccinated, a token can be handed out after the vaccination was registered.
+
 For security reasons the token must be at least 10 characters long. It must be randomly generated and should not be predictable or derived from any identifier or code that was previously communicated to the user (e.g. do not use a booking code directly as a token for a negative result).
 
-Our recommendation is to provide the token to the user in the form of a QR code. The CoronaCheck app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. We also provide support for manually entering the token - however due to the poor user experience we highly recommend that QR codes are provided, with the manual code / deeplink as fallback in case the user is viewing their result on the same device. 
+Our recommendation is to provide the token to the user in the form of a QR code. The CoronaCheck app is designed to work with QR codes and provides the user the ability to scan a QR code containing their test token. 
 
 ### Analog Code
 
@@ -125,7 +130,7 @@ When providing the code through a QR code, the CoronaCheck App will be able to s
 
 ```javascript
 {
-   "protocolVersion": "2.0",
+   "protocolVersion": "3.0",
    "providerIdentifier": "XXX",
    "token": "YYYYYYYYYYYYY",
 }
@@ -153,13 +158,13 @@ Verification codes must be numeric and 6 digits.
 
 Note: Verification codes will only be used when the user uses the app. For terminal flows this verification is replaced by an ID check.
 
-## Exchanging the token for a test result
+## Exchanging the token for a test result or vaccination event
 
-Once the token is scanned / read / entered in the app or terminal, CoronaCheck will try to fetch a test result.
+Once the token is scanned / read / entered in the app, CoronaCheck will try to fetch the result.
 
-The test provider should provide two endpoints that allows the user to collect this test result using the token provided in the previous step:
+The provider should provide an endpoint that allows the user to collect this result using the token provided in the previous step:
 * The CoronaCheck end user app will fetch the result, using the token, directly from the test provider backend. This flow should include the verification step (using a verification code sent to the user's device) described earlier. 
-* Print terminals will fetch the result, using the token, directly from the test provider backend too. However instead of a verification via sms, the terminal staff will ask the user voor proof of identity, and enter the birth month / day. This month/day will be provided to the endpoint and should be checked by the test provider.
+* The CoronaCheck website for home printing will use the exact same endpoint.
 
 Depending on where in the process the token was supplied, and depending on when the user enters it in their app, there can be 3 distinct responses:
 
@@ -175,39 +180,27 @@ The detailed specification of the endpoint is provided in appendix 3.
 
 The Authorization header will contain a Bearer token which consists of the `token` (YYYYYYYYYYYYY) part of the `code`.
 
-In common CURL syntax it looks like this when the request comes from an *app*:
+In common CURL syntax it looks like this when the request comes from the app or website:
 
 ```
 curl
   -X POST
   -H "Authorization: Bearer YYYYYYYYYYYYY"
-  -H "CoronaCheck-Protocol-Version: 2.0"
+  -H "CoronaCheck-Protocol-Version: 3.0"
   -d { "verificationCode": "12345"}
-  https://test-provider-endpoint-base-url
+  https://provider-endpoint-base-url
 ```
 
 The call will contain a body with a `verificationCode` obtained from the ownership verification process (see further down on verification details). If your facility employs supervised scanning of a QR and doesn't require ownership verification, the app will omit this body. 
-
-When the request comes from a *terminal*, it looks like this:
-
-```
-curl
-  -X POST
-  -H "Authorization: Bearer YYYYYYYYYYYYY"
-  -H "CoronaCheck-Protocol-Version: 2.0"
-  -d { "birthMonth": "12", "birthDay": "24" }
-  https://test-provider-endpoint-base-url-print
-```
 
 Notes:
 
 * The useragent will be anonimized.
 * HTTP POST is used instead of a GET to aid in preventing logging/caching of the token or code.
-* The birthday and month are strings, not zero-padded (e.g. "4" and not "04"). There are IDs which have "X", "XX", "0" or "00" as value (for persons with no known birthdate). In this case, the terminal will always send "0". (The field in the terminal will use a numeric keyboard). 
 
 ### Returning a 'pending' state
 
-A token must *only* be provided to users who have a negative test result. However, to accommodate a small set of providers who have a delay (caused by caching/batching) in publishing the result for consumption by the app, we support returning a 'pending' state. This indicates to the app that the result is not yet available, and the app should try again in the specified time frame. Note that this approach is *not recommended* as the user already knows they have a negative result, but are still unable to retrieve it. 
+In the case of test results, a token must *only* be provided to users who have a negative test result. However, to accommodate a small set of providers who have a delay (caused by caching/batching) in publishing the result for consumption by the app, we support returning a 'pending' state. This indicates to the app that the result is not yet available, and the app should try again in the specified time frame. Note that this approach is *not recommended* as the user already knows they have a negative result, but are still unable to retrieve it. 
 
 The HTTP response code is: 202
 
@@ -215,7 +208,7 @@ The response body would look like this (for both the app and terminal endpoints)
 
 ```javascript
 {
-    "protocolVersion": "2.0",
+    "protocolVersion": "3.0",
     "providerIdentifier": "XXX"
     "status": "pending",
     "pollToken": "...", // optional
@@ -245,7 +238,7 @@ Please note that the `pollDelay` is not guaranteed. Foreground/background activi
 
 ### Requesting owner verification
 
-If the testing party wants to tighten the binding between user and test result, ownership verification should be considered when a result is available and the result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaCheck app to ask for this validation number. 
+To tighten the binding between user and test result, ownership verification should be performed when a result will be issued outside a supervised context. The server should issue a verification code to the user by ways of sms, phone or e-mail and should return a response that prompts the CoronaCheck app to ask for this validation number. 
 
 To prompt the response, use HTTP response code: 401
 
@@ -253,7 +246,7 @@ The response body should look like this:
 
 ```javascript
 {
-    "protocolVersion": "2.0",
+    "protocolVersion": "3.0",
     "providerIdentifier": "XXX"
     "status": "verification_required",
 }
@@ -262,7 +255,7 @@ The response body should look like this:
 
 The client can then repeat the request, but include the verificationCode body.
 
-### Returning a test result
+### Returning a test, vaccination or recovery event
 
 When a result is available, the http response code should be: 200
 
@@ -270,22 +263,38 @@ And the payload should look like this:
 
 ```javascript
 {
-    "protocolVersion": "2.0",
+    "protocolVersion": "3.0",
     "providerIdentifier": "XXX",
-    "status": "complete",
-    "result": {
-        "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
-        "testType": "pcr", // See Appendix 4
-        "negativeResult": true,
-        "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
-        "isSpecimen": true, // Optional
-        "holder": {
-            "firstNameInitial": "J", // Normalized
-            "lastNameInitial": "D", // Normalized
-            "birthDay": "31", // String, but no leading zero, e.g. "4"
-            "birthMonth": "12" // String, but no leading zero, e.g. "4"
-	}
-    }
+    "status": "complete", // This refers to the data-completeness, not vaccination status.
+    "holder": {
+        "identityHash": "", // The identity-hash belonging to this person.
+        "firstName": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // ISO 8601
+    },
+    "events": [
+        {
+            "type": "vaccination",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
+            "vaccination": {
+                // Vaccination record
+            }
+        },
+        {
+            "type": "test",
+            "unique: "",
+            "test": {
+                // Test record
+            }
+        },
+        {
+            "recovery":
+            "unique",
+            "recovery: {
+                // Recovery record
+            }
+        }
+    ]    
 }
 ```
 
@@ -294,20 +303,11 @@ Where:
 * `protocolVersion` indicates the version of this protocol that was used.
 * `providerIdentifier`: the provider identifier as discussed earlier
 * `status`: Either `pending` or `complete` (lowercase)
-* `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits.
-* `testType`: The type of test that was used to obtain the result
-* `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
-* `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
-* `isSpecimen`: Boolean. When set to true, the verifier app will show a grey verification screen instead of a green one. To be used for testing and demo purposes.
 * `holder`: A number of personally identifiable information fields that allow verification against an ID, without revealing a full identity. 
-    * `firstNameInitial`: The first letter of the first name as specified on the person's ID. This must be (normalized)[#initial-normalization] according to a number of rules. 
-    * `lastNameInitial`: The first letter of the last name as specified on the person's ID. Any middle names or Dutch 'tussenvoegsel' should be ignored, e.g. 'Joe van der Plank' has 'P' as lastNameInitial. Like the other initial, this should be normalized. 
-    * `birthDay`: The non-zero-padded day of the month of a person's birthdate. We use a string because persons with unknown birthdays sometimes have an 'X' on their ID.
-    * `birthMonth`: The non-zero-padded month of the birthdate.
+* `events`: The container for the actual events. Although events is an array, this is purely for compatibility with [Digid based retrieval](providing-events-by-digid.md). Each code should correspond to a single event.
 
-Notes:
-* We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
-* Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
+For the details of the vaccination, test and recovery records, see the overview at https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/docs/data-structures-overview.md
+
 
 ### Response payload for invalid/expired tokens
 
@@ -317,7 +317,7 @@ The http response code for an invalid token should be: 401
 
 ```javascript
 {
-    "protocolVersion": "2.0",
+    "protocolVersion": "3.0",
     "providerIdentifier": "XXX",
     "status": "invalid_token"
 }
@@ -326,19 +326,16 @@ The http response code for an invalid token should be: 401
 
 Note: both failed/expired tokens and missing `verificationCode` result in a 401 (as the request could be retried with the correct token/verificationCode). The app will distinguish between the 2 states by looking at the body.
 
-### Performing terminal verification
-
-The endpoint for terminals (which omits verification codes and uses birth month/day instead) should only be accessible to terminals. Terminals will use an SSL client certificate that can be verified when the call is made. The public certificate needed to perform this verification will be distributed when a test provider is configured into the CoronaCheck ecosystem.
-
 ### Token retention
 
-A token should remain valid until 40 hours after the sample time of the underlying test result.
+A token should remain valid until the underlying record expires. Currently this is:
+* 40 hours after the sample time of the underlying test result.
+* One year after a vaccination event
+* 180 days after a recovery event
 
-Even when a user has already retrieved their test result via a token, it should remain valid. A reason for this is that they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the token should *not* be immediately removed after succesful retrieval. If the user cancels the operation and re-enters the code later, they can still retrieve their result. 
+Even when a user has already retrieved their result via a token, it should remain valid. One reason is that the user might reinstall their app and need to retrieve the result again. Another reason for this is that they need to confirm in the CoronaCheck app that this is indeed the correct result that should be converted to a QR. This process is cancelable by the user, and is not atomic (e.g. it could fail before a QR has been generated succesfully). To avoid the user ending up with neither a valid code nor a valid QR, the token should *not* be immediately removed after succesful retrieval. If the user cancels the operation and re-enters the code later, they can still retrieve their result. 
 
-(The 40 hours is based on the validity of the proof of test: users who decide to load the result right before entering a venue, can still do so).
-
-To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each test result once, based on its `unique` field, so even if during the 40 hour window the user would retrieve the result multiple times, only once it can be converted to a signed test result in the signing service. 
+To avoid reuse of the code by multiple phones/users, the Signer Service will only sign each result a limited number of times, based on its `unique` field, so even if during the validity window the user would retrieve the result multiple times, only a few times it can be converted to a signed test result in the signing service. This is to avoid certain forms of fraud.
 
 ### Error states
 
@@ -373,21 +370,7 @@ Access-Control-Allow-Methods: POST, GET, OPTIONS
 ```
 
 Notes:
-* The CORS headers are not necessary for the previously mentioned terminal *print* endpoint. The terminal printer calls the API from the terminal application instead of a browser. So only the app endpoint needs to support these headers.
 * The app endpoint must respect the OPTIONS request (respond with 200 status code) that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
-
-## Initial normalization
-
-The initials of first name and last name should be normalized according to the following rules:
-
-* Tussenvoegsels / middle names should be ignored. E.g for `van Dam` the initial is D. 
-* Accents/diacritics should be removed. E.g Ö becomes O, Ã becomes A, etc.
-* If a name starts with a quotation mark, the quote should be skipped. E.g. for a person named `'Aouji` the initial is A
-* Special case: if the name starts with a quote followed by a lowercase character and a hyphen, the first uppercase letter after the hyphen should be used. E.g for `'s-Gravezande` the initial is G. 
-* The final initial should be uppercase. 
-* After normalization the initial matches the regular expression [A-Z]
-
-Rationale: characters outside the range A-Z are easier to link to an actual person because they are more rare (some combinations of initials could point only to a small number of individuals). 
 
 ## Signing responses
 
@@ -418,6 +401,9 @@ signature = CMS(PAYLOAD_JSONBYTES, x509cert)
 ```
 
 The signature must be calculated over the raw json bytes from the response stream.
+
+Note: Add all intermediate certificates to the CMS signature (in order to establish a trust chain).
+
 
 ### Including the signature in the response
 
@@ -470,7 +456,7 @@ The mycrt.crt is a X.509 certificate as issued to the sender by PKI-O. Full exam
 
 More sample code for the signing method can be found in our [Github Sample Code repository](https://github.com/minvws/nl-covid19-coronacheck-tester-signature-demo)
 
-### Governance and the digital signature of the test result
+### Governance and the digital signature of the result
 
 Whenever a digital signature is placed - it is the signers responsibility to ensure that this signature is placed on the right data; and that they have taken appropriate steps to ensure it is not issued or distributed in error, twice or can be 'obtained' without sufficient controls.
 
@@ -700,6 +686,11 @@ Example:
 	C00001|2021-04-01T10:10:10Z|Pietje Puk|1945-05-05|1|PCR|P|P|5|5|2021-04-01T00:00:00Z
 
 # Changelog
+
+3.0
+
+* Added support for vaccinations and recoveries
+* Removed the print terminal flow (currently not in use)
 
 2.3.3
 
