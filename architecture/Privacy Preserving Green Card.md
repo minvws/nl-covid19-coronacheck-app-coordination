@@ -44,7 +44,7 @@ The next picture depicts a sample strip card for both a negative test and a vacc
 
 ![Strip card model basics](images/strip_basic.png)
 
-The negative test consists of 2 strips: to cover a 40 hour validity we need 2 24-hour strips. Strips don't have to be adjacent; they can overlap. Indeed in this case they must overlap, because without overlap, our two strips would have 24 + 24 = 48 hours of validity, and we only need 40 hours. So there's an overlap of 8 hours (the second strip starts 8 hours earlier than the first strip ends). . 
+The negative test consists of 2 strips: to cover a 40 hour validity we need 2 24-hour strips. Strips don't have to be adjacent; they can overlap. Indeed in this case they must overlap, because without overlap, our two strips would have 24 + 24 = 48 hours of validity, and we only need 40 hours. So there's an overlap of 8 hours (the second strip starts 8 hours earlier than the first strip ends).
 
 The vaccination on the right hand side of the picture has many more strips. 
 
