@@ -167,5 +167,5 @@ Some of the calculations visualized:
 * Else: 
    * Generate a 'middle strip' whose `validFrom` starts today
    
-(*) Todo: we never hand out test/vaccination results that start in the future so we could theoretically omit this startStrip entirely and always generate a strip that starts today.
+(*) Todo: we never hand out test/vaccination results that start in the future so we could theoretically omit this startStrip entirely and always generate a strip that starts today. This however also depends on where we implement the 'vaccination only valid from day 11'. Do we set our startDate to sampleDate + 11, or is this a business rule in the scanner?
 
