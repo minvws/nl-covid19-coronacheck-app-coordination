@@ -144,6 +144,7 @@ The following rules should be applied when generating strips.
 * Never generate strips with a `validFrom` higher than `today + 28 days`. This means that the end-strip is only generated when strips are renewed for the final 28 days of the green card validity.
 * All other strips should have a `validFrom` that is `previousStrip.validFrom + stripValidity - rand()%5 hours`, causing a random strip overlap of 0-4 hours.
 * If the `validFrom` ends up in 20.00 - 0.00 range (nl timezone), *subtract* 4 hours (don't round them all to 20.00 as that would give a larger than usual amount of 20.00 strips)
+* Set the stripType of each strip to 0 (app strip)
 
 Some of the calculations visualized:
 
@@ -151,13 +152,13 @@ Some of the calculations visualized:
 
 ### For a paper test proof
 
-* Never generate more than 1 strips
+* Never generate more than 1 strip
 * Set the stripType to 1 (paper strip short)
 * Generate only a single strip, which starts on the rounded down `sampleDate`
 
 ### For a paper vaccination/recovery proof
 
-* Never generate more than 1 strips
+* Never generate more than 1 strip
 * Set the stripType to 2 (paper strip long)
 * If the green card's validity ends within 28 days:
    * Generate an 'end strip', which starts on the `sampleDate + greencardValidity - stripValidity`
