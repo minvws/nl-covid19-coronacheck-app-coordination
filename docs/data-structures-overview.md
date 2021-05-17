@@ -33,7 +33,7 @@ This chapter describes the datastructures that providers of test/vaccination res
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
             "isSpecimen": true,
-            "vaccination": {
+            "data": {
                 "date": "2021-01-01",
                 "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
                 "type": "1119349007",
@@ -75,7 +75,7 @@ Authorative Data sources
             "type": "test",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "testresult": {
+            "data": {
                 "sampleDate": "2021-01-01",
                 "resultDate": "2021-01-02",
                 "negativeResult": true,
@@ -110,7 +110,7 @@ Notes:
             "type": "recovery",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "recovery": {
+            "data": {
                 "sampleDate": "2021-01-01",
                 "validFrom": "2021-01-12",
                 "validUntil": "2021-06-30"
