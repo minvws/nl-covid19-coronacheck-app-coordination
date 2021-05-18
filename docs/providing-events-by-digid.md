@@ -3,7 +3,7 @@
 * Version 1.1
 * Authors: Nick, Ivo
 
-##Draft
+## Draft
 This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
 
 ## Overview
@@ -181,6 +181,27 @@ The JWT token will contain the BSN in an encrypted format. The encryption will b
 
 The private key that can be used to decrypt the token must remain with the provider at all times. The public key has to be provided to MinVWS.
 
+### Error states
+
+If an error occurs on the server, a proper 40x or 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
+
+A response body may be provided for debugging purposes, but this is optional and the app will not communicate it to the user. 
+
+Avoid including details about your server implementation in the error body (e.g. no stack trace).
+
+The body, if provided, should look like this:
+
+```javascript
+{
+    "message": "An internal server error occured."
+}
+```
+
+The following error codes will have a specific message in the app:
+
+* 404 (not found) - The app will tell the user that no vaccination/test/recovery records for this user were found.
+* 429 (too many requests) - The app will tell the user that the server is busy and will ask to try again later.
+* Any other 40x / 50x errors will lead to a generic error message. 
 
 ## CMS Signature algorithm
 
