@@ -78,8 +78,8 @@ Authorative Data sources
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
             "data": {
-                "sampleDate": "2021-01-01",
-                "resultDate": "2021-01-02",
+                "sampleDate": "2021-01-01T10:00:00Z", 
+                "resultDate": "2021-01-02T10:00:00Z", 
                 "negativeResult": true,
                 "facility": "GGD XL Amsterdam",
                 "type": "???",
