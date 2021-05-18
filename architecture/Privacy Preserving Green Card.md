@@ -27,7 +27,7 @@ Our team has consistently followed a 'privacy by design' approach, already discl
 * The test type (pcr, antigen) - This was added to be able to distinguish in validity between test types, but is currently not used.
 * A digital signature to establish the authenticity of the test result and to avoid the data values from being tampered with. The system uses a Camenish-Lysyanskaya signature scheme that offers 'unlinkability' properties - in other words, should the signature be scanned multiple times a day, the signature will be different enough to avoid tracking the individual across multiple scans or by the issuer.
 * A `credentialVersion` which enables forward/backward compatibility when changes are made to the QR structure.
-* A `isSpecimen` flag, to allow test QRs to be generated that can be tested for validity but that will generate a grey 'demo' screen in scanners instead of a green screen.
+* An `isSpecimen` flag, to allow test QRs to be generated that can be tested for validity but that will generate a grey 'demo' screen in scanners instead of a green screen.
 * An `isPaper` flag, that allows the scanner to distinguish between proofs intended for the CoronaCheck app and proofs on paper. See also [Paper proofs](#paper-proofs)
 
 Currently, CoronaCheck Scanner always checks if a QR is valid for 40 hours after the sample date. To be able to ensure that a vaccinated person will be able to enter for a much longer period, the scanner should be able to see the difference between a test result and a vaccination. But this is a conundrum: it needs precisely the information that we are trying to hide.
