@@ -24,8 +24,8 @@ This chapter describes the datastructures that providers of test/vaccination res
     "providerIdentifier": "XXX",
     "status": "complete", // This refers to the data-completeness, not vaccination status.
     "holder": {
-        "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
@@ -34,13 +34,14 @@ This chapter describes the datastructures that providers of test/vaccination res
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
             "isSpecimen": true,
-            "vaccination": {
+            "data": {
                 "date": "2021-01-01",
                 "hpkCode": "2924528",  // If hpkCode is available, type/manufacturer/brand can be left blank.
                 "type": "1119349007",
                 "manufacturer": "ORG-100030215", 
                 "brand": "EU/1/20/1507", 
                 "completedByMedicalStatement": false, // Optional
+                "country": "NLD", // optional iso 3166 3-letter country field, will be set to NLD if left out. Can be used if shot was administered abroad
                 "doseNumber": 1, // optional, will be based on business rules / brand info if left out
                 "totalDoses": 2, // optional, will be based on business rules / brand info if left out
             }
@@ -48,6 +49,15 @@ This chapter describes the datastructures that providers of test/vaccination res
     ]    
 }
 ```
+
+Remark on completedByMedicalStatement field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+
+Authorative Data sources
+* hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
+* type: [ehealth type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-prophylaxis.json)
+* brand: [ehealth medicinal product list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-medicinal-product.json)
+* manufacturer: [ehealth manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-mah-manf.jso)
+
 
 ### Negative Test Event
 
@@ -57,8 +67,8 @@ This chapter describes the datastructures that providers of test/vaccination res
     "providerIdentifier": "XXX",
     "status": "complete", // This refers to the data-completeness, not test status.
     "holder": {
-        "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
@@ -67,9 +77,9 @@ This chapter describes the datastructures that providers of test/vaccination res
             "type": "test",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "testresult": {
-                "sampleDate": "2021-01-01",
-                "resultDate": "2021-01-02",
+            "data": {
+                "sampleDate": "2021-01-01T10:00:00Z", 
+                "resultDate": "2021-01-02T10:00:00Z", 
                 "negativeResult": true,
                 "facility": "GGD XL Amsterdam",
                 "type": "???",
@@ -81,6 +91,10 @@ This chapter describes the datastructures that providers of test/vaccination res
 }
 ```
 
+Notes:
+* We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
+* Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
+
 ### Recovery Statement
 
 ```javascript
@@ -89,8 +103,8 @@ This chapter describes the datastructures that providers of test/vaccination res
     "providerIdentifier": "XXX",
     "status": "complete", // This refers to the data-completeness, not test status.
     "holder": {
-        "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
@@ -99,7 +113,7 @@ This chapter describes the datastructures that providers of test/vaccination res
             "type": "recovery",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "recovery": {
+            "data": {
                 "sampleDate": "2021-01-01",
                 "validFrom": "2021-01-12",
                 "validUntil": "2021-06-30"
