@@ -226,7 +226,7 @@ The body, if provided, should look like this:
 
 The following error codes will have a specific message in the app:
 
-* 404 (not found) - The app will tell the user that no vaccination/test/recovery records for this user were found.
+* 404 (not found) - The app will tell the user that no vaccination/test/recovery records for this user were found. (Note: this is exceptional, and can only happen for the event query, because if no data was found, the 'information' request would have returned a 200 OK with 'informationAvailable=false'.
 * 429 (too many requests) - The app will tell the user that the server is busy and will ask to try again later.
 * Any other 40x / 50x errors will lead to a generic error message. 
 
