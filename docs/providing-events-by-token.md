@@ -339,17 +339,24 @@ To avoid reuse of the code by multiple phones/users, the Signer Service will onl
 
 ### Error states
 
-If an error occurs on the server, a proper 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
+If an error occurs on the server, a proper 40x or 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
 
-A response body may be provided for debugging purposes, but this is optional and the app will ignore it. (TODO: or do we want to include a message that we relay to the user?)
+A response body may be provided for debugging purposes, but this is optional and the app will not communicate it to the user. 
 
 Avoid including details about your server implementation in the error body (e.g. no stack trace).
+
+The body, if provided, should look like this:
 
 ```javascript
 {
     "message": "An internal server error occured."
 }
 ```
+
+The following error codes will have a specific message in the app:
+
+* 429 (too many requests) - The app will tell the user that the server is busy and will ask to try again later.
+* Any other 40x / 50x errors will lead to a generic error message. 
 
 ### CORS headers 
 
