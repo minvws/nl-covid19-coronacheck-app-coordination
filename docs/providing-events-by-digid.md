@@ -176,20 +176,23 @@ The response (CMS Signed) may contain multiple events. The response should be pr
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
+            "isSpecimen": true,
             "vaccination": {
                 // Vaccination record
             }
         },
         {
             "type": "test",
-            "unique: "",
-            "test": {
-                // Test record
+            "unique: "...",
+            "isSpecimen": true,
+            "testresult": {
+                // Test result record
             }
         },
         {
             "recovery":
-            "unique",
+            "unique": "...",
+            "isSpecimen": true,
             "recovery: {
                 // Recovery record
             }
