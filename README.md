@@ -3,6 +3,20 @@
 ## Introduction
 This repository contains the technical documentation of the Dutch COVID-19 CoronaCheck app proof of concept.
 
+## Overview of CoronaCheck Repositories
+
+* [Documentation](https://github.com/minvws/nl-covid19-coronacheck-app-coordination) (this repository)
+* [UX/UI Designs](https://github.com/minvws/nl-covid19-coronacheck-app-design)
+* [iOS app](https://github.com/minvws/nl-covid19-coronacheck-app-ios)
+* [Android app](https://github.com/minvws/nl-covid19-coronacheck-app-android)
+* [BFF API for the apps](https://github.com/minvws/nl-covid19-coronacheck-app-bff)
+* [Website and print portal](https://github.com/minvws/nl-covid19-coronacheck-website)
+* [Debug portal for test providers](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-portal)
+* [Reference impementation of a dummy test provider](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-example)
+* [Example signing code for test/vaccination/recovery providers](https://github.com/minvws/nl-covid19-coronacheck-signature-demo)
+* [Backend services](https://github.com/minvws/nl-covid19-coronacheck-app-backend)
+* [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-cl-core)
+
 ## Development & Contribution process
 
 The development team works on the repository in a private fork (for reasons of compliance with existing processes) and shares its work as often as possible.
