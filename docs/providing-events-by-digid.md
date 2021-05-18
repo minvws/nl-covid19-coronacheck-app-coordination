@@ -3,13 +3,12 @@
 * Version 1.1.1
 * Authors: Nick, Ivo
 
-## Draft
-This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
+Note: This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
 
 ## Contents
 
 - [Providing Vaccination / Test / Recovery Events by Digid](#providing-vaccination---test---recovery-events-by-digid)
-  * [Draft](#draft)
+  * [Contents](#contents)
   * [Overview](#overview)
     + [Terminology](#terminology)
     + [Retrieval from the CoronaCheck apps](#retrieval-from-the-coronacheck-apps)
