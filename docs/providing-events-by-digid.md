@@ -1,10 +1,38 @@
 # Providing Vaccination / Test / Recovery Events by Digid
 
-* Version 1.1
+* Version 1.1.1
 * Authors: Nick, Ivo
 
 ## Draft
 This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
+
+## Contents
+
+- [Providing Vaccination / Test / Recovery Events by Digid](#providing-vaccination---test---recovery-events-by-digid)
+  * [Draft](#draft)
+  * [Overview](#overview)
+    + [Terminology](#terminology)
+    + [Retrieval from the CoronaCheck apps](#retrieval-from-the-coronacheck-apps)
+  * [Requirements](#requirements)
+  * [Identity Hash](#identity-hash)
+  * [JWT Tokens](#jwt-tokens)
+  * [Api Endpoints](#api-endpoints)
+    + [Information Available](#information-available)
+      - [Request](#request)
+      - [Response](#response)
+      - [JWT Token](#jwt-token)
+    + [Events Api](#events-api)
+      - [Request](#request-1)
+      - [Response](#response-1)
+      - [JWT Token](#jwt-token-1)
+    + [Error states](#error-states)
+  * [CMS Signature algorithm](#cms-signature-algorithm)
+    + [Including the signature in the response](#including-the-signature-in-the-response)
+    + [Signature verification](#signature-verification)
+    + [Command line example](#command-line-example)
+    + [More sample code](#more-sample-code)
+  * [CORS headers](#cors-headers)
+  * [Changelog](#changelog)
 
 ## Overview
 
