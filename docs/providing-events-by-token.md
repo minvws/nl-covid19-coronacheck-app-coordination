@@ -269,6 +269,7 @@ And the payload should look like this:
     "holder": {
         "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
@@ -696,6 +697,7 @@ Example:
 
 3.0.1
 * Added error code information
+* Added infix to structures
 
 3.0
 

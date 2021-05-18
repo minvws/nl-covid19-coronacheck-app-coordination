@@ -168,6 +168,7 @@ The response (CMS Signed) may contain multiple events. The response should be pr
     "holder": {
         "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
