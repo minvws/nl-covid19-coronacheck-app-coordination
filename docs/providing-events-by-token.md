@@ -15,7 +15,7 @@ In the CoronaCheck project we have implemented a means of presenting a digital p
 
 ## Contents
 
-- [CoronaCheck Prototype - Test Result Provisioning](#coronacheck-prototype---test-result-provisioning)
+- [Providing Vaccination / Test / Recovery by retrieval code](#providing-vaccination---test---recovery-by-retrieval-code)
   * [Overview](#overview)
     + [Retrieval from the CoronaCheck app](#retrieval-from-the-coronacheck-app)
     + [Retrieval from print terminals](#retrieval-from-print-terminals)
