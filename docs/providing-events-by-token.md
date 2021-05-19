@@ -8,14 +8,14 @@
   >  https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/test-provider-protocol-2.0/docs/providing-test-results.md
   > 
 
-* Version 3.0
+* Version 3.0.1
 * Authors: Ivo, Nick
 
 In the CoronaCheck project we have implemented a means of presenting a digital proof of a negative test result, vaccination or recovery. This document describes the steps a party needs to take to provide test results or vaccination events that the CoronaCheck app will use to provide proof of vaccination/negative test/recovery.
 
 ## Contents
 
-- [CoronaCheck Prototype - Test Result Provisioning](#coronacheck-prototype---test-result-provisioning)
+- [Providing Vaccination / Test / Recovery by retrieval code](#providing-vaccination---test---recovery-by-retrieval-code)
   * [Overview](#overview)
     + [Retrieval from the CoronaCheck app](#retrieval-from-the-coronacheck-app)
     + [Retrieval from print terminals](#retrieval-from-print-terminals)
@@ -269,6 +269,7 @@ And the payload should look like this:
     "holder": {
         "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
@@ -339,17 +340,24 @@ To avoid reuse of the code by multiple phones/users, the Signer Service will onl
 
 ### Error states
 
-If an error occurs on the server, a proper 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
+If an error occurs on the server, a proper 40x or 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
 
-A response body may be provided for debugging purposes, but this is optional and the app will ignore it. (TODO: or do we want to include a message that we relay to the user?)
+A response body may be provided for debugging purposes, but this is optional and the app will not communicate it to the user. 
 
 Avoid including details about your server implementation in the error body (e.g. no stack trace).
+
+The body, if provided, should look like this:
 
 ```javascript
 {
     "message": "An internal server error occured."
 }
 ```
+
+The following error codes will have a specific message in the app:
+
+* 429 (too many requests) - The app will tell the user that the server is busy and will ask to try again later.
+* Any other 40x / 50x errors will lead to a generic error message. 
 
 ### CORS headers 
 
@@ -686,6 +694,10 @@ Example:
 	C00001|2021-04-01T10:10:10Z|Pietje Puk|1945-05-05|1|PCR|P|P|5|5|2021-04-01T00:00:00Z
 
 # Changelog
+
+3.0.1
+* Added error code information
+* Added infix to structures
 
 3.0
 

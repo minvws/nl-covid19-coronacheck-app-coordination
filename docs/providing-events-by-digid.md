@@ -1,10 +1,37 @@
 # Providing Vaccination / Test / Recovery Events by Digid
 
-* Version 1.1
+* Version 1.1.1
 * Authors: Nick, Ivo
 
-##Draft
-This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
+Note: This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
+
+## Contents
+
+- [Providing Vaccination / Test / Recovery Events by Digid](#providing-vaccination---test---recovery-events-by-digid)
+  * [Contents](#contents)
+  * [Overview](#overview)
+    + [Terminology](#terminology)
+    + [Retrieval from the CoronaCheck apps](#retrieval-from-the-coronacheck-apps)
+  * [Requirements](#requirements)
+  * [Identity Hash](#identity-hash)
+  * [JWT Tokens](#jwt-tokens)
+  * [Api Endpoints](#api-endpoints)
+    + [Information Available](#information-available)
+      - [Request](#request)
+      - [Response](#response)
+      - [JWT Token](#jwt-token)
+    + [Events Api](#events-api)
+      - [Request](#request-1)
+      - [Response](#response-1)
+      - [JWT Token](#jwt-token-1)
+    + [Error states](#error-states)
+  * [CMS Signature algorithm](#cms-signature-algorithm)
+    + [Including the signature in the response](#including-the-signature-in-the-response)
+    + [Signature verification](#signature-verification)
+    + [Command line example](#command-line-example)
+    + [More sample code](#more-sample-code)
+  * [CORS headers](#cors-headers)
+  * [Changelog](#changelog)
 
 ## Overview
 
@@ -141,6 +168,7 @@ The response (CMS Signed) may contain multiple events. The response should be pr
     "holder": {
         "identityHash": "", // The identity-hash belonging to this person.
         "firstName": "",
+        "infix": "",
         "lastName": "",
         "birthDate": "1970-01-01" // ISO 8601
     },
@@ -148,20 +176,23 @@ The response (CMS Signed) may contain multiple events. The response should be pr
         {
             "type": "vaccination",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed9",
+            "isSpecimen": true,
             "vaccination": {
                 // Vaccination record
             }
         },
         {
             "type": "test",
-            "unique: "",
-            "test": {
-                // Test record
+            "unique: "...",
+            "isSpecimen": true,
+            "testresult": {
+                // Test result record
             }
         },
         {
             "recovery":
-            "unique",
+            "unique": "...",
+            "isSpecimen": true,
             "recovery: {
                 // Recovery record
             }
@@ -181,6 +212,27 @@ The JWT token will contain the BSN in an encrypted format. The encryption will b
 
 The private key that can be used to decrypt the token must remain with the provider at all times. The public key has to be provided to MinVWS.
 
+### Error states
+
+If an error occurs on the server, a proper 40x or 50x response should be returned. If such an error occurs, the CoronaCheck app will ask te user to try the request at a later time.
+
+A response body may be provided for debugging purposes, but this is optional and the app will not communicate it to the user. 
+
+Avoid including details about your server implementation in the error body (e.g. no stack trace).
+
+The body, if provided, should look like this:
+
+```javascript
+{
+    "message": "An internal server error occured."
+}
+```
+
+The following error codes will have a specific message in the app:
+
+* 404 (not found) - The app will tell the user that no vaccination/test/recovery records for this user were found. (Note: this is exceptional, and can only happen for the event query, because if no data was found, the 'information' request would have returned a 200 OK with 'informationAvailable=false'.
+* 429 (too many requests) - The app will tell the user that the server is busy and will ask to try again later.
+* Any other 40x / 50x errors will lead to a generic error message. 
 
 ## CMS Signature algorithm
 
