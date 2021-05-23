@@ -27,7 +27,7 @@ This chapter describes the datastructures that providers of test/vaccination res
         "firstName": "",
         "infix": "",
         "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601
+        "birthDate": "1970-01-01" // yyyy-mm-dd (see details below)
     },
     "events": [
         {
@@ -70,7 +70,7 @@ Authorative Data sources
         "firstName": "",
         "infix": "",
         "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601
+        "birthDate": "1970-01-01" // yyyy-mm-dd (see details below)
     },
     "events": [
         {
@@ -107,7 +107,7 @@ Notes:
         "firstName": "",
         "infix": "",
         "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601
+        "birthDate": "1970-01-01" // // yyyy-mm-dd (see details below)
     },
     "events": [
         {
@@ -124,6 +124,21 @@ Notes:
 }
 ```
 
+### Formatting rules
+
+* birthdays:
+    * YYYY-MM-DD
+    * accepts '00' and 'XX' for month and day, to accommodate unknown birth month/day. Use the value as it appears on a person's id/passport  
+* sampleDate for tests: 
+    * ISO 8601 date and time
+    * Always in utc (Z)
+    * No milliseconds 
+    * Rounded down to nearest hour 
+    * Example: 2021-10-03T10:00:00Z
+* dates for vaccinations and recoveries:
+    * YYYY-MM-DD
+    * No time part 
+
 
 ## Protocol version 2.0
 
@@ -137,7 +152,7 @@ In protocol version 2 we only supported negative test results.
     "providerIdentifier": "XXX",
     "status": "complete",
     "result": {
-        "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
+        "sampleDate": "2020-10-10T10:00:00Z", // rounded down to nearest hour
         "testType": "pcr", // must be one of pcr, pcr-lamp, antigen, breath
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
