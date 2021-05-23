@@ -1,6 +1,6 @@
 # CoronaCheck Prototype - Test Result Provisioning
 
-Version 2.4.0
+Version 2.4.1
 
 In the CoronaCheck project we are prototyping a means of presenting a digital proof of a negative test result. This document describes the steps a party needs to take to provide test results that the CoronaCheck app will use to provide proof of negative test.
 
@@ -294,7 +294,7 @@ Where:
 * `protocolVersion` indicates the version of this protocol that was used.
 * `providerIdentifier`: the provider identifier as discussed earlier
 * `status`: Either `pending` or `complete` (lowercase)
-* `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix). Rounded to the nearest hour to avoid linkability to test facility visits.
+* `sampleDate`: The date/time on which the sample for the covid test was obtained (in ISO 8601 / RFC3339 UTC date+time format with Z suffix, without milliseconds). Rounded **down** to the nearest hour to avoid linkability to test facility visits.
 * `testType`: The type of test that was used to obtain the result
 * `negativeResult`: The presence of a negative result of the covid test. `true` when a negative result is present. `false` in all other situations.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
@@ -701,7 +701,11 @@ Example:
 
 # Changelog
 
-2.3.3
+2.4.1
+
+* Clarify that sampleTime should be rounded down. 
+
+2.4.0
 
 * Added implementation validation process
 * Added specification of the test sets
