@@ -77,7 +77,7 @@ Authorative Data sources
             "type": "negativetest",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "testresult": {
+            "negativetest": {
                 "sampleDate": "2021-01-01T10:00:00Z", 
                 "resultDate": "2021-01-02T10:00:00Z", 
                 "negativeResult": true,
@@ -146,7 +146,7 @@ For those providers who are unable to provide a recovery event but who are able 
             "type": "positivetest",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "testresult": {
+            "positivetest": {
                 "sampleDate": "2021-01-01T10:00:00Z", 
                 "resultDate": "2021-01-02T10:00:00Z", 
                 "positiveResult": true,
