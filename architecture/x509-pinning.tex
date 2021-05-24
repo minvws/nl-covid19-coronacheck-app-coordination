@@ -14,7 +14,7 @@
 
 \def\thisdoc{Design -- Certificate Pinning van SSL en CMS}
 \def\thisauthor{Corona Check Project, MinVWS}
-\def\version{1.07\xspace}
+\def\version{1.08\xspace}
 
 %\def\rid{002}
 %\def\priority{Impact: Kritiek - Urgentie: Laag - Priority: P3}
@@ -50,6 +50,8 @@ Versie & Datum & Veranderingen \\
 \hline
 1.07 & 2021-02-026 & Verduidelijking commerciële handtekening test resultaat \\
 \hline
+1.08 & 2021-02-026 & Verduidelijking print portaal, typo in table. \\
+\hline
 \end{tabular}
 
 %\setcounter{tocdepth}{0}
@@ -70,11 +72,12 @@ Wat						& (met) Wie					& Hoe	& CA						& CN check & whitelist & wildcards  \\
 \hline
 \hline
 Connectie				& VWS						& TLS 	& PKI-O (Server 2020)	& ja			& nee		& nee \\
-Master-Config			& VWS						& CMS 	& PKI-O (EV Root)  		& ja			& nee		& \emph{n/a} \\
+Master-Config			& VWS						& CMS 	& PKI-O (EV)  		& ja			& nee		& \emph{n/a} \\
 Anders (direct)			& VWS						& CMS	& \emph{n/a}		  		& \emph{n/a}	& \emph{n/a}& \emph{n/a} \\
-Anders (via CDN)		& VWS						& CMS	& PKI-O (EV Root)  		& ja			& nee 		& \emph{n/a} \\
+Anders (via CDN)		& VWS						& CMS	& PKI-O (EV)  		& ja			& nee 		& \emph{n/a} \\
 Connectie				& test provider 				& TLS 	& PKI-O (all)/EV (all) 	& ja 			& ja 		& ja \\
-						& test provider 				& CMS 	& PKI-O (all) 			& nee 			& ja 		& j\emph{n/a} \\
+						& test provider 				& CMS 	& PKI-O (all) 			& nee 			& ja 		& \emph{n/a} \\
+Printportaal			& test provider 				& TLS 	& PKI-O (EV/Server 2020) & ja 			& ja 		& ja \\
 \hline
 \end{tabular}
 
@@ -205,6 +208,22 @@ De pinning zal plaatsvinden op:
 \item Er is geen beperking qua diepte.
 \end{enumerate}
 
+
+\subsection{Eisen TLS connectie Printportaal, serverzijde}
+
+Aangezien het online printportaal van CoronaCheck\footnote{\url{https://coronacheck.nl/nl/print/}} vanuit de browser van de burger direct een TLS-verbinding legt met de test provider - dient het certificaat er één te zijn die op de trustlist van de browser staat. Daarnaast dient zij te zijn uitgegeven door de Staat der Nederlanden.
+
+Dus voor dit TLS certificaat geldt dat bij connectie met de webserver er:
+
+\begin{enumerate}
+\item gecontroleerd zal worden dat: 
+\begin{enumerate}
+\item Staat der Nederlanden Root CA - G3
+\item Stamcertificaat Staat der Nederlanden EV Root CA 
+\end{enumerate}
+\item Dat het certificaat voorzien van de juiste CN and Subject Alternative Name (als per CA/Browser forum (\textsc{cab} regelgeving). Dus gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
+\item HTTP-Redirects zijn \emph{niet} toegestaan.
+\end{enumerate}
 
 \appendix
 \chapter{Key IDs}
