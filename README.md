@@ -17,6 +17,14 @@ This repository contains the technical documentation of the Dutch COVID-19 Coron
 * [Backend services](https://github.com/minvws/nl-covid19-coronacheck-app-backend)
 * [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-cl-core)
 
+## Architecture documentation
+
+The CoronaCheck Architecture and development documentation can be found in the [architecture/ folder](architecture/)
+
+## Provider documentation
+
+All documentation for providers who want to connect to Coronacheck an be found in the [docs/ folder](docs/)
+
 ## Development & Contribution process
 
 The development team works on the repository in a private fork (for reasons of compliance with existing processes) and shares its work as often as possible.
