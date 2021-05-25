@@ -180,21 +180,29 @@ The response (CMS Signed) may contain multiple events. The response should be pr
             "vaccination": {
                 // Vaccination record
             }
-        },
+        }, // or
         {
-            "type": "test",
+            "type": "negativetest",
             "unique: "...",
             "isSpecimen": true,
-            "testresult": {
+            "negativetest": {
                 // Test result record
             }
-        },
+        }, // or
         {
-            "recovery":
+            "type": "recovery",
             "unique": "...",
             "isSpecimen": true,
             "recovery: {
                 // Recovery record
+            }
+        }, // or
+        { 
+            "type": "positivetest",
+            "unique: "...",
+            "isSpecimen": true,
+            "positivetest": {
+                // Test result record
             }
         }
     ]    
@@ -323,6 +331,9 @@ Notes:
 * The app endpoint must respect the OPTIONS request (respond with 200 status code) that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
 
 ## Changelog
+
+1.1.1
+* Addes support for positive test records. 
 
 1.1
 * Generalized for id-hash based retrieval of vaccinations, recoveries and test results

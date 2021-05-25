@@ -280,22 +280,29 @@ And the payload should look like this:
             "vaccination": {
                 // Vaccination record
             }
-        },
+        }, // or
         {
-            "type": "test",
-            "unique: "",
-            "test": {
+            "type": "negativetest",
+            "unique: "...",
+            "negativetest": {
                 // Test record
             }
-        },
+        }, // or
         {
-            "recovery":
-            "unique",
+            "type": "recovery",
+            "unique": "...",
             "recovery: {
                 // Recovery record
             }
+        }, // or
+        { 
+            "type": "positivetest",
+            "unique": "...",
+            "positivetest": { 
+                // Positive test record 
+            }
         }
-    ]    
+    ]      
 }
 ```
 
@@ -698,6 +705,7 @@ Example:
 3.0.1
 * Added error code information
 * Added infix to structures
+* Added support for positive tests
 
 3.0
 
