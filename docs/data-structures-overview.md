@@ -214,7 +214,7 @@ In protocol version 2 we only supported negative test results.
             "lastNameInitial": "D", // Normalized
             "birthDay": "31", // String, but no leading zero, e.g. "4"
             "birthMonth": "12" // String, but no leading zero, e.g. "4"
-	      }
+        }
     }
 }
 ```
