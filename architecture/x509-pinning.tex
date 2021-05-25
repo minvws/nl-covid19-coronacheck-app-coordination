@@ -15,9 +15,10 @@
 
 \def\orgtitle{Design -- Certificate Pinning van SSL en CMS}
 
-\def\testsonly{x}
+% \def\testsonly{x}
+
 \ifdefined\testsonly
-\def\thisdoc{\orgtitle voor test providers}
+\def\thisdoc{\orgtitle\xspace voor test providers}
 \else
 \def\thisdoc{\orgtitle}
 \fi
@@ -126,9 +127,9 @@ Omdat een probleem inzake deze een  Kritiek\footnote{Treft alle gebruikers, reë
 \else\item Geen `\emph{harde}' pinning op het leaf certificaat waar mogelijk - zodat in samenwerking met PKI Overheid vervangende sleutels in de door hun gecontroleerde infrastructuur gemaakt kunnen worden.
 \item Het toestaan van een (relatief onbetrouwbaar) Content Delivery Network (\textsc{cdn}) om de distributie van het configuratie zeer robuust te maken.
 \fi
-\item Het toestaan van een gecontroleerde set certificaten (van PKI Overheid) om integratie door derden makkelijk te maken inzake de signature `\emph{waar integriteit belangrijk is'} -- bij het test resultaat, terwijl er nog wel goede (Nederlandse) controle is.
+\item Het gebruik van een gecontroleerde, maar relatief toegankelijke, set van certificaten (verstrekt PKI Overheid). Dit om integratie door derden makkelijk te maken met een digitale signature `\emph{waar integriteit belangrijk is}'. Zoals het geval is bij een test resultaat. Maar er voor zorgdragen dat er wel een goede (en in het Nederlands recht systeem verankerde) controle is.
 \item Het toestaan van een zeer brede reeks van (commerciële) certificaten (PKI Overheid of CAB-Forum EV certified) inzake de TLS connectie naar test providers - maar, ter compensatie, dit gecombineerd met whitelisting op leaf level.
-\item Daar waar geen whitelisting mogelijk is (bijvoorbeeld omdat de connectie vanuit de webbrowser geïnitieerd wordt) enkel een PKI Overheid certificaat toestaan - zodat er goede (Nederlandse) controle is (de meeste CAB-Forum certificaten vallen onder buitelandsrecht).
+\item Daar waar geen whitelisting mogelijk is (bijvoorbeeld omdat de connectie vanuit de webbrowser geïnitieerd wordt) enkel een PKI Overheid certificaat toestaan - zodat er goede (Nederlandse) controle is (de meeste CAB-Forum certificaten vallen onder buitenlands recht).
 \end{enumerate}
 
 
@@ -185,14 +186,23 @@ En dat data welke direct, bij de eigen API servers opgehaald wordt, voldoet aan 
 De reden voor dit verschil is dat de controle over het SSL certificaat in dit laatste geval geheel bij het Ministerie van VWS ligt op infrastructuur met additionele lagen van isolatie en beveiliging. Terwijl de CDN data via een gedeeld platform loopt waarbij de SSL certificaten hun private keys minder `defence in depth' hebben.
 
 \fi
-\pagebreak
 \section{Ontwerp - Connecties (commerciële test) providers}
 
-Daarnaast zal de Holder app met diverse providers contact moeten opnemen. Hiervoor gelden eisen inzake de TLS connectie en eisen inzake de data(testuitslag) zelf.
+Voor de resultaten zal de Holder app met diverse test providers contact op moeten opnemen. Hiervoor gelden eisen inzake de TLS connectie en eisen inzake de data(testuitslag) zelf. Het gaat hier om 3 soorten certificaten; waarvan er twee vaak gecombineerd kunnen worden. Twee TLS certificaten:
 
-\subsection{Eisen TLS connectie met derden}
+\begin{enumerate}
+\item Eén ten behoeve van het digitaal ondertekenen van de uitslag.
+\item Eén voor de TLS connectie naar de server van de test provider waar de app van de burger het resultaat op haalt, 
+\item Eén voor de TLS connectie die de burger haar webbrowser eventueel maakt naar het print portaal (waar van toepassing). 
 
-Hiervoor geldt dat:
+Deze kan gecombineerd worden met bovenstaande TLS certificaat.
+\end{enumerate}
+
+
+\subsection{Eisen TLS connectie met derden ten behoeve resultaat}
+\label{tlstest}
+
+Dit is de TLS connectie die de app (client) maakt met de (web)server van de test provider. Hiervoor geldt dat:
 
 \begin{enumerate}
 \item voor de TLS connectie controleerd zal worden dat: 
@@ -201,36 +211,22 @@ Hiervoor geldt dat:
 \begin{enumerate}
 \item Staat der Nederlanden Root CA - G3
 \item Stamcertificaat Staat der Nederlanden EV Root CA 
-\item Staat der Nederlanden Private Root CA 
+\item Staat der Nederlanden Private Root CA (\emph{Niet toegestaan indien gecombineerd met het printportaal -- zie de uitzondering in sectie \ref{note}}).\label{priv}
 \end{enumerate}
 
 \emph{--Of--}
 
 \item  dat het een Extended Validation Certificate (EV) betreft welke voldoet aan de eisen gesteld in versie 1.7.4 (of nieuwer mits door Ballot bevestigd) van de richtlijnen van het CA/Browser Forum ```\emph{Guidelines For The Issuance And Management Of Extended Validation Certificates}''\footnote{\url{https://cabforum.org/extended-validation/}}.
+
+(\emph{Niet toegestaan indien gecombineerd met het printportaal -- zie zie de uitzondering in sectie \ref{note}}).
+\label{cab}
 \item Er is geen beperking qua diepte.
 \end{enumerate}
+
 \item   Dat het \textsc{fqdn} en Subject Key Identifier (2.5.29.14) paar op de lijst voorkomen van geaccepteerde providers.
 \item 	Dat het certificaat gewhitelist is.
-\item 	Gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
+\item 	Gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec, toegankelijkheidseisen (\url{https://www.digitoegankelijk.nl/wetgeving/wat-verplicht}, waar van toepassing richtlijnen als \ref{https://www.communicatierijk.nl/vakkennis/rijkswebsites/verplichte-richtlijnen} en met name de pas-toe-of-leg uit lijst.}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
 \item HTTP-Redirects zijn \emph{niet} toegestaan.
-\end{enumerate}
-
-\subsection{Eisen CMS signature payload derden (testuitslag)}
-
-Daarnaast zal bij het ophalen van de data via de API ook gecheckt worden dat deze (testuitslag) ondertekend is met een geldige CMS handtekening waarvan:
-
-\begin{enumerate}
-\item	Gecontroleerd worden dat een PKI overheid certificaat, uit een specifieke, hardcoded lijst, deel uit maakt van de trust-chain.
-
-De pinning zal plaatsvinden op:
-
-\begin{enumerate}
-\item Staat der Nederlanden Root CA - G3
-\item Stamcertificaat Staat der Nederlanden EV Root CA 
-\item Staat der Nederlanden Private Root CA 
-\end{enumerate}
-\item Dat het certificaat gewhitelist is.
-\item Er is geen beperking qua diepte.
 \end{enumerate}
 
 
@@ -249,6 +245,43 @@ Dus voor dit TLS certificaat geldt dat bij connectie met de webserver er:
 \item Dat het certificaat voorzien van de juiste CN and Subject Alternative Name (als per CA/Browser forum (\textsc{cab} regelgeving). Dus gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
 \item HTTP-Redirects zijn \emph{niet} toegestaan.
 \end{enumerate}
+
+\subsection{Combineren TLS certificaten in één}
+\label{note}
+
+Indien organisatorisch mogelijk kan voor het printportaal (technisch) hetzelfde certificaat als dat uit sectie \ref{tlstest} gebruik worden. Bijvoorbeeld indien de partij die deze dienst levert -en- de service één en dezelfde is. In dat geval gelden er twee extra beperkingen. 
+
+Ten eerste kan men in dat geval niet de Private Root gebruiken (optie \ref{priv} in sectie \ref{tlstest}). Want voor het printportaal is het het certificaat in de CAB Forum lijst van de browsers van de burger staat. En dat is niet het geval bij de ``Staat der Nederlanden Private Root CA''. Deze staat niet op de internationale CA lijst die in de browsers van de burgers zit. 
+
+Ten tweede is het van belang dat de controle over de connectie (naar het printportaal) onder Nederlandse controle blijft vallen - dus de tweede optie - het gebruik van een `Extended Validation Certificate (EV)' van een CAB partij (optie \ref{cab} in  sectie \ref{tlstest}) valt ook af. 
+
+Het certificaat moet dus van een van de volgende twee types zijn:
+
+\begin{enumerate}
+\item Staat der Nederlanden Root CA - G3
+\item Stamcertificaat Staat der Nederlanden EV Root CA 
+\end{enumerate}
+ 
+\pagebreak
+\subsection{Eisen CMS signature payload derden (testuitslag)}
+
+Tot slot zal bij het ophalen van de data via de API ook gecheckt worden dat deze (testuitslag) ondertekend is met een geldige CMS handtekening waarvan:
+
+\begin{enumerate}
+\item	Gecontroleerd worden dat een PKI overheid certificaat, uit een specifieke, hardcoded lijst, deel uit maakt van de trust-chain.
+
+De pinning zal plaatsvinden op:
+
+\begin{enumerate}
+\item Staat der Nederlanden Root CA - G3
+\item Stamcertificaat Staat der Nederlanden EV Root CA 
+\item Staat der Nederlanden Private Root CA 
+\end{enumerate}
+\item Dat het certificaat gewhitelist is.
+\item Er is geen beperking qua diepte.
+\end{enumerate}
+
+
 
 \appendix
 \chapter{Key IDs}
