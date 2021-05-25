@@ -8,6 +8,8 @@ This chapter describes the datastructures that providers of test/vaccination res
 
 ## Protocol version 3.0
 
+Protocol version 3.0 has support for negative tests, positive tests, recovery statements and vaccination events. The current version of the app in the store used protocol version 2.0. Only use 3.0 for preparing for the future version of the app. (Consult with your CoronaCheck liaison when in doubt).
+
 ### Information Lookup
 ```javascript
 {
@@ -27,7 +29,7 @@ This chapter describes the datastructures that providers of test/vaccination res
         "firstName": "",
         "infix": "",
         "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601
+        "birthDate": "1970-01-01" // yyyy-mm-dd (see details below)
     },
     "events": [
         {
@@ -70,14 +72,14 @@ Authorative Data sources
         "firstName": "",
         "infix": "",
         "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601
+        "birthDate": "1970-01-01" // yyyy-mm-dd (see details below)
     },
     "events": [
         {
-            "type": "test",
+            "type": "negativetest",
             "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
             "isSpecimen": true,
-            "testresult": {
+            "negativetest": {
                 "sampleDate": "2021-01-01T10:00:00Z", 
                 "resultDate": "2021-01-02T10:00:00Z", 
                 "negativeResult": true,
@@ -92,10 +94,13 @@ Authorative Data sources
 ```
 
 Notes:
+* sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
 * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
 * Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
 
 ### Recovery Statement
+
+Statement that a person has recovered from Covid19.
 
 ```javascript
 {
@@ -106,7 +111,7 @@ Notes:
         "firstName": "",
         "infix": "",
         "lastName": "",
-        "birthDate": "1970-01-01" // ISO 8601
+        "birthDate": "1970-01-01" // // yyyy-mm-dd (see details below)
     },
     "events": [
         {
@@ -123,6 +128,60 @@ Notes:
 }
 ```
 
+### Positive Test Event
+
+For those providers who are unable to provide a recovery event but who are able to provide the result of a positive test, there is an alternative event. Note that it's the exact same structure as a negative event, but with type `positivetest` and a `positiveResult` field.
+
+```javascript
+{
+    "protocolVersion": "3.0",
+    "providerIdentifier": "XXX",
+    "status": "complete", // This refers to the data-completeness, not test status.
+    "holder": {
+        "firstName": "",
+        "infix": "",
+        "lastName": "",
+        "birthDate": "1970-01-01" // yyyy-mm-dd (see details below)
+    },
+    "events": [
+        {
+            "type": "positivetest",
+            "unique": "ee5afb32-3ef5-4fdf-94e3-e61b752dbed7",
+            "isSpecimen": true,
+            "positivetest": {
+                "sampleDate": "2021-01-01T10:00:00Z", 
+                "resultDate": "2021-01-02T10:00:00Z", 
+                "positiveResult": true,
+                "facility": "GGD XL Amsterdam",
+                "type": "???",
+                "name": "???",
+                "manufacturer": "1232"
+            }
+        }
+    ]    
+}
+```
+
+Notes:
+* sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
+* We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
+* Returning `false` for the `positiveResult` does not necessarily imply 'negative'. This is data minimisation: when requesting a recovery, it is not necessary for the app to know whether a person is negative, only that they have had a positive test result. A `false` in the `positiveResult` field could either indicate a negative test, or no test at all, etc.
+
+### Formatting rules
+
+* birthdays:
+    * YYYY-MM-DD
+    * accepts '00' and 'XX' for month and day, to accommodate unknown birth month/day. Use the value as it appears on a person's id/passport  
+* sampleDate for tests: 
+    * ISO 8601 date and time
+    * Always in utc (Z)
+    * No milliseconds 
+    * Rounded down to nearest hour 
+    * Example: 2021-10-03T10:00:00Z
+* dates for vaccinations and recoveries:
+    * YYYY-MM-DD
+    * No time part 
+
 
 ## Protocol version 2.0
 
@@ -136,7 +195,7 @@ In protocol version 2 we only supported negative test results.
     "providerIdentifier": "XXX",
     "status": "complete",
     "result": {
-        "sampleDate": "2020-10-10T10:00:00Z", // rounded to nearest hour
+        "sampleDate": "2020-10-10T10:00:00Z", // rounded down to nearest hour
         "testType": "pcr", // must be one of pcr, pcr-lamp, antigen, breath
         "negativeResult": true,
         "unique": "kjwSlZ5F6X2j8c12XmPx4fkhuewdBuEYmelDaRAi",
@@ -153,7 +212,7 @@ In protocol version 2 we only supported negative test results.
 
 ## Protocol version 1.0
 
-This version is now phased out. There are no apps in the field that use this protocol version.
+This version is now phased out and should not be used by any provider. There are no apps in the field that use this protocol version. 
 
 ### Negative test result
 

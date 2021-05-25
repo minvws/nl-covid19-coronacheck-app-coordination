@@ -17,6 +17,16 @@ This repository contains the technical documentation of the Dutch COVID-19 Coron
 * [Backend services](https://github.com/minvws/nl-covid19-coronacheck-app-backend)
 * [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-cl-core)
 
+## Architecture documentation
+
+The CoronaCheck Architecture and development documentation can be found in the [architecture/](architecture/) folder.
+
+A good starting point with an overall view of the system is the [COVID-19 CoronaTester Verifiable Test Result - Solution Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Solution%20Architecture%20VTR.md)
+
+## Provider documentation
+
+All documentation for providers who want to connect to Coronacheck an be found in the [docs/](docs/) folder.
+
 ## Development & Contribution process
 
 The development team works on the repository in a private fork (for reasons of compliance with existing processes) and shares its work as often as possible.
@@ -26,7 +36,4 @@ This increases the chance that we might be able to use your contribution (or it 
 
 Note that all commits should be signed using a gpg key.
 
-## Documentation
-All documentation can be found in the `architecture` and `docs` directories.
- - [CoronaTester Prototype - Test Result Provisioning](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/docs/providing-test-results.md)
- - [COVID-19 CoronaTester Verifiable Test Result - Solution Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Solution%20Architecture%20VTR.md)
+
