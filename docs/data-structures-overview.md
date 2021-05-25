@@ -8,6 +8,8 @@ This chapter describes the datastructures that providers of test/vaccination res
 
 ## Protocol version 3.0
 
+Protocol version 3.0 has support for negative tests, positive tests, recovery statements and vaccination events. The current version of the app in the store used protocol version 2.0. Only use 3.0 for preparing for the future version of the app. (Consult with your CoronaCheck liaison when in doubt).
+
 ### Information Lookup
 ```javascript
 {
@@ -210,7 +212,7 @@ In protocol version 2 we only supported negative test results.
 
 ## Protocol version 1.0
 
-This version is now phased out. There are no apps in the field that use this protocol version.
+This version is now phased out and should not be used by any provider. There are no apps in the field that use this protocol version. 
 
 ### Negative test result
 
