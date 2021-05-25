@@ -4,7 +4,7 @@ This document provides an overview of the various data structures in use in the 
 
 # JSON Data Structures
 
-This chapter describes the datastructures that providers of test/vaccination results send to the CoronaCheck app. The protocol for sending the data is [documented here](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/docs/providing-test-results.md#analog-code).
+This chapter describes the datastructures that providers of test/vaccination results send to the CoronaCheck app. The protocol for sending the data is [documented here](providing-events-by-digid.md) (for digid based retrieval) and [here](providing-events-by-token.md).
 
 ## Protocol version 3.0
 
@@ -84,7 +84,7 @@ Authorative Data sources
                 "resultDate": "2021-01-02T10:00:00Z", 
                 "negativeResult": true,
                 "facility": "GGD XL Amsterdam",
-                "type": "???",
+                "type": "LP6464-4",
                 "name": "???",
                 "manufacturer": "1232"
             }
@@ -97,6 +97,10 @@ Notes:
 * sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
 * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
 * Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
+
+Authoritative data sources for values:
+* Types: [ehealth test type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/test-type.json)
+* Manufacturers: [ehealth test manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/test-manf.json)
 
 ### Recovery Statement
 
@@ -153,7 +157,7 @@ For those providers who are unable to provide a recovery event but who are able 
                 "resultDate": "2021-01-02T10:00:00Z", 
                 "positiveResult": true,
                 "facility": "GGD XL Amsterdam",
-                "type": "???",
+                "type": "LP6464-4",
                 "name": "???",
                 "manufacturer": "1232"
             }
