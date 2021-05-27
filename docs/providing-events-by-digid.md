@@ -125,7 +125,13 @@ curl
   https://api.acme.inc/information
 ```
 
-The `filter` is optional. If left out, the provider should check if they have either vaccination, test or recovery events for this user. Allowed values are: `vaccination`, `test` or `recovery`.
+The `filter` is currently required, but we plan to make this optional in the future so providers are encouraged to consider this optional, to save future work. (If left out, the provider would check if they have either vaccination, test or recovery events for this user). 
+Allowed values currently are: `vaccination`, `negativetest` or `positivetest,recovery`.
+
+Notes:
+
+* The useragent will be anonimized.
+* HTTP POST is used instead of a GET to aid in preventing logging/caching of the token or code.
 
 #### Response
 
@@ -155,6 +161,9 @@ curl
   -d '{ "filter": "vaccination" }'
   https://api.acme.inc/events
 ```
+
+The `filter` is currently required, but we plan to make this optional in the future so providers are encouraged to consider this optional, to save future work. (If left out, the provider would check if they have either vaccination, test or recovery events for this user). 
+Allowed values are: `vaccination`, `negativetest` or `positivetest,recovery`.
 
 #### Response
 
@@ -331,6 +340,10 @@ Notes:
 * The app endpoint must respect the OPTIONS request (respond with 200 status code) that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
 
 ## Changelog
+
+1.1.2
+
+* filter is required until further notice. 
 
 1.1.1
 * Addes support for positive test records. 
