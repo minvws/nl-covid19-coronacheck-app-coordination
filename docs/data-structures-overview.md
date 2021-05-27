@@ -99,7 +99,7 @@ Additional field explanations:
     * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really 
 * `resultDate`: The date and time that the result was delivered to the patient. Required for pcr tests, optional for other test types. 
 * `type`: The type of test that was used to obtain the result, see below for the value lists to use. 
-* `negativeResult`: The presence of a negative result of the covid test. true when a negative result is present. false in all other situations.
+* `negativeResult`: The presence of a negative result of the covid test. true when a negative result is present. false in all other situations. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
 * `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
 
 
