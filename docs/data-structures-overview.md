@@ -43,6 +43,7 @@ Protocol version 3.0 has support for negative tests, positive tests, recovery st
                 "manufacturer": "ORG-100030215", 
                 "brand": "EU/1/20/1507", 
                 "completedByMedicalStatement": false, // Optional
+                "completedByPersonalStatement": false, // Optional
                 "country": "NLD", // optional iso 3166 3-letter country field, will be set to NLD if left out. Can be used if shot was administered abroad
                 "doseNumber": 1, // optional, will be based on business rules / brand info if left out
                 "totalDoses": 2, // optional, will be based on business rules / brand info if left out
@@ -52,7 +53,9 @@ Protocol version 3.0 has support for negative tests, positive tests, recovery st
 }
 ```
 
-Remark on completedByMedicalStatement field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+Field details:
+* `completedByMedicalStatement`: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+* `completedByPersonalStatement`: This is the self-declared version of the completed statement. If a user has indicated that they only need 1 shot because they recently had covid, use this boolean instead of the medical boolean. In business rules we can then make the distinction whether or not to allow this based on policy.
 
 Authorative Data sources
 * hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
