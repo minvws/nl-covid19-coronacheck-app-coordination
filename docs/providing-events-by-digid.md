@@ -1,6 +1,6 @@
 # Providing Vaccination / Test / Recovery Events by Digid
 
-* Version 1.1.1
+* Version 1.1.2
 * Authors: Nick, Ivo
 
 Note: This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
@@ -67,14 +67,16 @@ In order to be able to deliver vaccination, test or recovery events to CoronaChe
 ## Identity Hash
 In order to reliably determine a system contains information about a certain person without revealing who that person is an `identity-hash` will be generated for each individual connected party and sent to the Information endpoint. 
 
-Since only the designated party may check the hash, a secret `hash key` is added. The `hash key` will be determined by MinVWS and shared privately with the provider. 
+Since only the designated party may check the hmac, a secret `hash key` is added. The `hash key` will be determined by MinVWS and shared privately with the provider. 
 
-The hash will be created using the following items:
+The hmac will be created using the following items:
 
 - BSN
-- First Name (as it appears on a person's passport)
-- Last Name (as it appears on a person's passport)
+- First Name (UTF-8 encoded, including any diacritics, full length, as it appears on a person's passport / in the BRP)
+- Last Name (UTF-8 encoded, including any diacritics, full length, as it appears on a person's passport / in the BRP)
 - Day of Birth (in String format with leading zero)
+
+Do not include the 'voorvoegsel' (infix) field. 
 
 The `identity-hash` can be generated as follows:
 
@@ -84,13 +86,14 @@ echo -n "<BSN>-<First Name>-<Last Name>-<Day Of Birth>" | openssl dgst -sha256 -
 
 For example:
 - BSN: 000000012
-- First Name: Pluk
-- Last Name: Petteflet
+- First Name: P'luk
+- Infix: van de
+- Last Name: Pêtteflèt
 - Day of Birth: 01
 - Secret Hash Key: ZrHsI6MZmObcqrSkVpea
 
 ```shell
-echo -n "000000012-Pluk-Petteflet-01" | openssl dgst -sha256 -hmac "ZrHsI6MZmObcqrSkVpea" 
+echo -n "000000012-P'luk-Pêtteflèt-01" | openssl dgst -sha256 -hmac "ZrHsI6MZmObcqrSkVpea" 
 ```
 
 Will return: `47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307` as the `identity-hash`
@@ -343,7 +346,8 @@ Notes:
 
 1.1.2
 
-* filter is required until further notice. 
+* Filter is required until further notice. 
+* Added clarification to id hash generation. 
 
 1.1.1
 * Addes support for positive test records. 
