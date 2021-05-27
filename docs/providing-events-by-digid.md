@@ -126,7 +126,7 @@ curl
 ```
 
 The `filter` is currently required, but we plan to make this optional in the future so providers are encouraged to consider this optional, to save future work. (If left out, the provider would check if they have either vaccination, test or recovery events for this user). 
-Allowed values are: `vaccination`, `test` or `recovery`.
+Allowed values currently are: `vaccination`, `negativetest` or `positivetest,recovery`.
 
 Notes:
 
@@ -163,7 +163,7 @@ curl
 ```
 
 The `filter` is currently required, but we plan to make this optional in the future so providers are encouraged to consider this optional, to save future work. (If left out, the provider would check if they have either vaccination, test or recovery events for this user). 
-Allowed values are: `vaccination`, `test` or `recovery`.
+Allowed values are: `vaccination`, `negativetest` or `positivetest,recovery`.
 
 #### Response
 
