@@ -10,19 +10,22 @@
 % version 1.0 or later
 %.
 
-\documentclass[11.0pt,twoside,openright]{report}
+% \documentclass[11.0pt,twoside,openright]{report}
+\documentclass[11.0pt]{report}
 \usepackage[bottom]{footmisc}
 
 \def\orgtitle{Design -- Certificate Pinning van SSL en CMS}
 
 % \def\testsonly{x}
+\def\CoronaCheckApp{CoronaCheck-app\xspace}
+\def\CoronaCheckScannerApp{CoronaCheck Scanner app\xspace}
 
 \ifdefined\testsonly
 \def\thisdoc{\orgtitle\xspace voor test providers}
 \else
 \def\thisdoc{\orgtitle}
 \fi
-\def\thisauthor{Corona Check Project, MinVWS}
+\def\thisauthor{CoronaCheck, MinVWS}
 \def\version{1.08\xspace}
 
 %\def\rid{002}
@@ -69,7 +72,7 @@ Versie & Datum & Veranderingen \\
 \pagebreak
 \chapter{Executive Summary}
 
-De veiligheid van Corona Check App berust, onder andere, op de betrouwbaarheid van de connecties naar het backend systeem en dat van (commerciële en publieke) test providers.
+De veiligheid van \CoronaCheckApp berust, onder andere, op de betrouwbaarheid van de connecties naar het backend systeem en dat van (commerciële en publieke) test providers.
 
 Een aspect hiervan is het hebben van een hoge mate van zekerheid dat de app praat met het `echte' backend of systeem waar het mee denkt te praten. En niet met een totaal ander systeem of een 'man in the middle'.
 
@@ -96,30 +99,34 @@ Printportaal			& test provider 				& TLS 	& PKI-O (EV/Server 2020) & ja 			& ja 
 
 Waarbij TLS de bescherming is van de connectie en CMS de bescherming is van de `\emph{payload}' (zoals een testbewijs of configuratie bestand).
 
-Dit document\footnote{Zie ook het uitgebreidere algemene document:``\orgtitle'', version \version, \thisauthor} getailleerd dit ontwerp en de gedachtes erachter in 
+Dit document%
+\ifdefined\testsonly
+\footnote{Zie ook het uitgebreidere algemene document:``\orgtitle'', version \version, \thisauthor}
+\fi
+\xspace getailleerd het ontwerp en de gedachtes erachter.
 
 \pagebreak
 \section*{Uitgangspunten}
 
 \ifdefined\testsonly
 \else
-De Verifier en Holder app moeten op gezette tijden contact opnemen met een aantal backend services van de overheid. Daarnaast moet de Holder app tijdens het laden van het test resultaat contact opnemen met de server van de publieke (e.g. GGD) of private (e.g. commerciële) test provider. 
+De \CoronaCheckApp en de \CoronaCheckScannerApp moeten op gezette tijden contact opnemen met een aantal backend services van de overheid. Daarnaast moet de \CoronaCheckApp tijdens het laden van het test resultaat contact opnemen met de server van de publieke (e.g. GGD) of private (e.g. commerciële) test provider. 
 
 Specifiek gaat het om:
 
 \begin{enumerate}
-\item	Connectie Verifier/Holder app ten behoeve van het ophalen van de basis configuratie\footnote{Welke extra gevoelig is - omdat hier zaken als geldigheid en een onomkeerbare `killswitch' in zitten}.
-\item	Connectie Verifier/Holder app met de backend API - bijvoorbeeld voor het 'inwisselen' van een test resultaat voor een C.L. getekende code.
-\item 	Connectie Holder app ten behoeve van het test certificaat met een (commerciële) test provider. 
+\item	Connectie \CoronaCheckScannerApp/\CoronaCheckApp ten behoeve van het ophalen van de basis configuratie\footnote{Welke extra gevoelig is - omdat hier zaken als geldigheid en een onomkeerbare `killswitch' in zitten}.
+\item	Connectie \CoronaCheckScannerApp/\CoronaCheckApp met de backend API - bijvoorbeeld voor het 'inwisselen' van een test resultaat voor een C.L. getekende code.
+\item 	Connectie \CoronaCheckApp ten behoeve van het test certificaat met een (commerciële) test provider. 
 \end{enumerate}
 
 Ditzelfde geld voor de test providers.
 \fi
-De Holder app heeft hier ten behoeve van het ophalen van test resultaten contact met de server van de test provider (direct, of unomi/events). Ook hierbij is het van belang dat de app \emph{`zeker'} weet dat het met een legitieme test provider te maken heeft\footnote{Daarnaast neemt het monitoring backend op gezette tijden ook contact op met de test provider om de verbindingsinstellingen te controleren.}. Daarnaast kan het zijn dat de burger het testportaal moet benaderen.
+De \CoronaCheckApp heeft, ten behoeve van het ophalen van test resultaten, contact met de server van de test provider (direct, of unomi/events). Hierbij is het van belang dat de app \emph{`zeker'} weet dat het met een legitieme test provider te maken heeft\footnote{Daarnaast neemt het monitoring backend op gezette tijden ook contact op met de test provider om de verbindingsinstellingen te controleren.}. Daarnaast kan het zijn dat de burger het printportaal moet benaderen.
 
 \section{Risico afweging / Contigency}
 
-Omdat een probleem inzake deze een  Kritiek\footnote{Treft alle gebruikers, reële kans op politieke verantwoording, reputatie schade landelijke media} incident oplevert zijn er de volgende mitigaties meegenomen in het ontwerp:
+Omdat een probleem inzake de veiligheid en vertrouwelijkheid van de medische informatie van de burger (of de betrouwbaarheid van een uitgeven verklaring) een  Kritiek\footnote{Treft alle gebruikers, reële kans op politieke verantwoording, reputatie schade landelijke media} incident oplevert zijn er de volgende mitigaties meegenomen in het ontwerp:
 
 \begin{enumerate}
 \item Gebruik van de PKI overheids infrastructuur welke onder Nederlandse controle is (geen afhankelijkheid van (buitenlandse) derden waar mogelijk.
@@ -188,14 +195,16 @@ De reden voor dit verschil is dat de controle over het SSL certificaat in dit la
 \fi
 \section{Ontwerp - Connecties (commerciële test) providers}
 
-Voor de resultaten zal de Holder app met diverse test providers contact op moeten opnemen. Hiervoor gelden eisen inzake de TLS connectie en eisen inzake de data(testuitslag) zelf. Het gaat hier om 3 soorten certificaten; waarvan er twee vaak gecombineerd kunnen worden. Twee TLS certificaten:
+Voor de resultaten zal de \CoronaCheckApp met diverse test providers contact op moeten opnemen. Hiervoor gelden eisen inzake de TLS connectie en eisen inzake de data (testuitslag) zelf. 
+
+Het gaat hier om 3 soorten certificaten; waarvan de eerste twee gecombineerd kunnen worden:
 
 \begin{enumerate}
-\item Eén ten behoeve van het digitaal ondertekenen van de uitslag.
 \item Eén voor de TLS connectie naar de server van de test provider waar de app van de burger het resultaat op haalt, 
-\item Eén voor de TLS connectie die de burger haar webbrowser eventueel maakt naar het print portaal (waar van toepassing). 
+\item Eén voor de TLS connectie die de burger haar webbrowser maakt naar de server van de test provider om een papieren testbewijs aan te maken.
 
-Deze kan gecombineerd worden met bovenstaande TLS certificaat.
+Deze kan gecombineerd worden met eerste TLS certificaat.
+\item Eén ten behoeve van het digitaal ondertekenen van de test uitslag.
 \end{enumerate}
 
 
@@ -218,14 +227,14 @@ Dit is de TLS connectie die de app (client) maakt met de (web)server van de test
 
 \item  dat het een Extended Validation Certificate (EV) betreft welke voldoet aan de eisen gesteld in versie 1.7.4 (of nieuwer mits door Ballot bevestigd) van de richtlijnen van het CA/Browser Forum ```\emph{Guidelines For The Issuance And Management Of Extended Validation Certificates}''\footnote{\url{https://cabforum.org/extended-validation/}}.
 
-(\emph{Niet toegestaan indien gecombineerd met het printportaal -- zie zie de uitzondering in sectie \ref{note}}).
+(\emph{Niet toegestaan indien gecombineerd met het printportaal -- zie de uitzondering in sectie \ref{note}}).
 \label{cab}
 \item Er is geen beperking qua diepte.
 \end{enumerate}
 
 \item   Dat het \textsc{fqdn} en Subject Key Identifier (2.5.29.14) paar op de lijst voorkomen van geaccepteerde providers.
 \item 	Dat het certificaat gewhitelist is.
-\item 	Gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec, toegankelijkheidseisen (\url{https://www.digitoegankelijk.nl/wetgeving/wat-verplicht}, waar van toepassing richtlijnen als \ref{https://www.communicatierijk.nl/vakkennis/rijkswebsites/verplichte-richtlijnen} en met name de pas-toe-of-leg uit lijst.}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
+\item 	Gecontroleerd wordt dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec, toegankelijkheidseisen (\url{https://www.digitoegankelijk.nl/wetgeving/wat-verplicht}, waar van toepassing richtlijnen als \ref{https://www.communicatierijk.nl/vakkennis/rijkswebsites/verplichte-richtlijnen} en met name de pas-toe-of-leg uit lijst.}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
 \item HTTP-Redirects zijn \emph{niet} toegestaan.
 \end{enumerate}
 
@@ -242,7 +251,7 @@ Dus voor dit TLS certificaat geldt dat bij connectie met de webserver er:
 \item Staat der Nederlanden Root CA - G3
 \item Stamcertificaat Staat der Nederlanden EV Root CA 
 \end{enumerate}
-\item Dat het certificaat voorzien van de juiste CN and Subject Alternative Name (als per CA/Browser forum (\textsc{cab} regelgeving). Dus gecontroleerd worden dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
+\item Dat het certificaat voorzien is van de juiste CN and Subject Alternative Name (als per CA/Browser forum (\textsc{cab} regelgeving). Dus gecontroleerd wordt dat de \textsc{fqdn} van de server waarmee contact opgenomen wordt overeenkomt met de CN of SubjectAlterNative name\footnote{Dit staat dus los van andere aspecten, zoals DNS Sec}. Hierbij zijn wildcards toegestaan (normale CAB forum matching rules).
 \item HTTP-Redirects zijn \emph{niet} toegestaan.
 \end{enumerate}
 
@@ -261,8 +270,7 @@ Het certificaat moet dus van een van de volgende twee types zijn:
 \item Staat der Nederlanden Root CA - G3
 \item Stamcertificaat Staat der Nederlanden EV Root CA 
 \end{enumerate}
- 
-\pagebreak
+
 \subsection{Eisen CMS signature payload derden (testuitslag)}
 
 Tot slot zal bij het ophalen van de data via de API ook gecheckt worden dat deze (testuitslag) ondertekend is met een geldige CMS handtekening waarvan:
@@ -280,8 +288,6 @@ De pinning zal plaatsvinden op:
 \item Dat het certificaat gewhitelist is.
 \item Er is geen beperking qua diepte.
 \end{enumerate}
-
-
 
 \appendix
 \chapter{Key IDs}
