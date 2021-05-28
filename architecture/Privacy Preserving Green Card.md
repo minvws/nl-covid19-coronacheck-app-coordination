@@ -38,7 +38,7 @@ To solve the conundrum we break up our domestic green card in little pieces. A '
 
 ![Strippenkaart analogy](images/strippenkaart.jpg)
 
-Each strip in the strip card is a credential, which has its own signature and `validFrom`. A credential's validity should be based on the smallest validity that our various proofs have. The smallest proof is currently valid for 40 hours for a negative test result. Since in the past this validity was subject of debate, and ranged from 24-48 hours, we have chosen to make the strip size (the `stripValidity`) 24 hours. Even if the validity of a negative test changes: as long as it's not smaller than the `stripValidity`, we don't need to change the strip card model. Note that the strip validity is not hardcoded in the credential, it's determined by a config value in the backend, holder and scanner apps.
+Each strip in the strip card is a credential, which has its own signature and `validFrom`. A credential's validity should be based on the smallest validity that our various proofs have. The smallest proof is currently valid for 40 hours for a negative test result. Since in the past this validity was subject of debate, and ranged from 24-48 hours, we have chosen to make the strip size (the `stripValidity`) 24 hours. Even if the validity of a negative test changes: as long as it's not smaller than the `stripValidity`, we don't need to change the strip card model. The stripValidity is encoded in the credential as `validForHours`.
 
 The next picture depicts a sample strip card for both a negative test and a vaccination:
 
@@ -108,11 +108,11 @@ For paper proofs the strip card model requires a few changes. Using strips of 24
 
 For paper proofs, the strip validity is chosen to be 4 weeks (for recovery/vaccination). 
 
-Currently we have an `isPaper` flag to distinguish between paper and app strips (app strips have an additional requirement to randomize every 90 seconds, paper does not). To avoid adding another field, which increases the QR size, we replace the `isPaper` by a `stripType` field, which has the following values:
+In addition to the `isPaper` flag to distinguish between paper and app strips (app strips have an additional requirement to randomize every 90 seconds, paper does not), we must now also distinguish in length of a strip. For this purpose the field `validForHours` is created. This gives us the ability to distinguish between all 3 scenario's:
 
-* 0 - app strip (validity 24 hours, refresh requirement 3 minutes)
-* 1 - paper strip short (validity 40 hours, no refresh requirement)
-* 2 - paper strip long (validity 28 days, no refresh requirement) 
+* `isPaper=false`, `validForHours=24`: validity 24 hours, refresh requirement 3 minutes, for all in-app proofs
+* `isPaper=true`, `validForHours=40`: validity 40 hours, no refresh requirement, for paper negative test proofs.
+* `isPaper=true`, `validForHours=28*40`: validity 28 days, no refresh requirement, for paper vaccination/recovery proofs. 
 
 ## Appendix 1: Strip data structure
 
@@ -122,14 +122,15 @@ When this document is implemented, a credential (the technical term for a strip)
 * The person's initials and birth month/day. 
 * The CL signature 
 * A `credentialVersion` 
-* A `stripType`, see [Paper proofs chapter](#paper-proofs).
+* An `isPaper` flag, see [Paper proofs chapter](#paper-proofs).
+* The `validForHours` value, indicating the validity of that strip
 * An `isSpecimen` flag, to allow test QRs to be generated that can be tested for validity but that will generate a grey 'demo' screen in scanners instead of a green screen.
 
 ## Appendix 2: Generating credential strips
 
 Terminology:
 * Green card validity: The validity of the green card based on the type, e.g. 40h for a test, 365d for a vaccination, 180d for a recovery. (determined by a config)
-* Strip validity: The time that a scanner will deem this strip valid (24 hours, determined by a scanner config)
+* Strip validity: The time that a scanner will deem this strip valid (24 hours, determined by the strip's `validForHours` field)
 * Granularity: How much strips are spaced apart (validity minus a random amount). 
 * Start-strip: The strip at the start of the green card validity
 * End-strip: The strip at the end of the green card validity
@@ -144,7 +145,7 @@ The following rules should be applied when generating strips.
 * Never generate strips with a `validFrom` higher than `today + 28 days`. This means that the end-strip is only generated when strips are renewed for the final 28 days of the green card validity.
 * All other strips should have a `validFrom` that is `previousStrip.validFrom + stripValidity - rand()%5 hours`, causing a random strip overlap of 0-4 hours.
 * If the `validFrom` ends up in 20.00 - 0.00 range (nl timezone), *subtract* 4 hours (don't round them all to 20.00 as that would give a larger than usual amount of 20.00 strips)
-* Set the stripType of each strip to 0 (app strip)
+* Set the `validForHours` of each strip to 24 
 
 Some of the calculations visualized:
 
@@ -153,13 +154,13 @@ Some of the calculations visualized:
 ### For a paper test proof
 
 * Never generate more than 1 strip
-* Set the stripType to 1 (paper strip short)
+* Set the `validForHours` of the strip to 40
 * Generate only a single strip, which starts on the rounded down `sampleDate`
 
 ### For a paper vaccination/recovery proof
 
 * Never generate more than 1 strip
-* Set the stripType to 2 (paper strip long)
+* Set the `validForHours` to 1.120 (28 days * 40 hours)
 * If the green card's validity ends within 28 days:
    * Generate an 'end strip', which starts on the `sampleDate + greencardValidity - stripValidity`
 * Else, if the `sampleDate` is less then 28 days ago: (*)
