@@ -79,18 +79,19 @@ The hmac will be created using the following items:
 Notes:
 * Do not include the 'voorvoegsel' (infix) field. 
 * The Birth Name is the name given by birth and, unlike Last Name, does not change during marriage / divorce. 
+* Some providers do not have the Birth Name; if that is the case, please consult with your CoconaCheck liaison so we can customize the hash.
 
 The `identity-hash` can be generated as follows:
 
 ```shell
-echo -n "<BSN>-<First Name>-<Last Name>-<Day Of Birth>" | openssl dgst -sha256 -hmac "<hash key>" 
+echo -n "<BSN>-<First Name>-<Birth Name>-<Day Of Birth>" | openssl dgst -sha256 -hmac "<hash key>" 
 ```
 
 For example:
 - BSN: 000000012
 - First Name: P'luk
 - Infix: van de
-- Last Name: Pêtteflèt
+- Birth Name: Pêtteflèt
 - Day of Birth: 01
 - Secret Hash Key: ZrHsI6MZmObcqrSkVpea
 
