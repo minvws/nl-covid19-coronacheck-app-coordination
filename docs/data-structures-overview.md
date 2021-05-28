@@ -4,7 +4,7 @@ This document provides an overview of the various data structures in use in the 
 
 # JSON Data Structures
 
-This chapter describes the datastructures that providers of test/vaccination results send to the CoronaCheck app. The protocol for sending the data is [documented here](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/docs/providing-test-results.md#analog-code).
+This chapter describes the datastructures that providers of test/vaccination results send to the CoronaCheck app. The protocol for sending the data is [documented here](providing-events-by-digid.md) (for digid based retrieval) and [here](providing-events-by-token.md).
 
 ## Protocol version 3.0
 
@@ -43,6 +43,7 @@ Protocol version 3.0 has support for negative tests, positive tests, recovery st
                 "manufacturer": "ORG-100030215", 
                 "brand": "EU/1/20/1507", 
                 "completedByMedicalStatement": false, // Optional
+                "completedByPersonalStatement": false, // Optional
                 "country": "NLD", // optional iso 3166 3-letter country field, will be set to NLD if left out. Can be used if shot was administered abroad
                 "doseNumber": 1, // optional, will be based on business rules / brand info if left out
                 "totalDoses": 2, // optional, will be based on business rules / brand info if left out
@@ -52,13 +53,15 @@ Protocol version 3.0 has support for negative tests, positive tests, recovery st
 }
 ```
 
-Remark on completedByMedicalStatement field: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+Field details:
+* `completedByMedicalStatement`: If known at the provider, mark this vaccination as 'considered complete' (e.g. last in a batch, or *doctor*-based 'this is sufficient for this person' declaration. If unknown, leave this field out instead of using false.
+* `completedByPersonalStatement`: This is the self-declared version of the completed statement. If a user has indicated that they only need 1 shot because they recently had covid, use this boolean instead of the medical boolean. In business rules we can then make the distinction whether or not to allow this based on policy.
 
 Authorative Data sources
 * hpkCode from the accepted list available on [https://hpkcode.nl/](https://hpkcode.nl/).
 * type: [ehealth type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-prophylaxis.json)
 * brand: [ehealth medicinal product list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-medicinal-product.json)
-* manufacturer: [ehealth manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-mah-manf.jso)
+* manufacturer: [ehealth manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-mah-manf.json)
 
 
 ### Negative Test Event
@@ -81,10 +84,10 @@ Authorative Data sources
             "isSpecimen": true,
             "negativetest": {
                 "sampleDate": "2021-01-01T10:00:00Z", 
-                "resultDate": "2021-01-02T10:00:00Z", 
+                "resultDate": "2021-01-02T10:00:00Z",
                 "negativeResult": true,
                 "facility": "GGD XL Amsterdam",
-                "type": "???",
+                "type": "LP6464-4",
                 "name": "???",
                 "manufacturer": "1232"
             }
@@ -93,10 +96,19 @@ Authorative Data sources
 }
 ```
 
-Notes:
-* sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
-* We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
-* Returning `false` for the `negativeResult` does not necessarily imply 'positive'. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
+Additional field explanations:
+* `sampleDate`: The date and time that the test was taken.
+    * sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
+    * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really 
+* `resultDate`: The date and time that the result was delivered to the patient. Required for pcr tests, optional for other test types. 
+* `type`: The type of test that was used to obtain the result, see below for the value lists to use. 
+* `negativeResult`: The presence of a negative result of the covid test. true when a negative result is present. false in all other situations. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
+* `unique`: An opaque string that is unique for this test result for this provider. An id for a test result could be used, or something that's derived/generated randomly. The signing service will use this unique id to ensure that it will only sign each test result once. (It is added to a simple strike list)
+
+
+Authoritative data sources for values:
+* Types: [ehealth test type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/test-type.json)
+* Manufacturers: [ehealth test manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/test-manf.json)
 
 ### Recovery Statement
 
@@ -153,7 +165,7 @@ For those providers who are unable to provide a recovery event but who are able 
                 "resultDate": "2021-01-02T10:00:00Z", 
                 "positiveResult": true,
                 "facility": "GGD XL Amsterdam",
-                "type": "???",
+                "type": "LP6464-4",
                 "name": "???",
                 "manufacturer": "1232"
             }
@@ -166,6 +178,11 @@ Notes:
 * sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
 * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really see.
 * Returning `false` for the `positiveResult` does not necessarily imply 'negative'. This is data minimisation: when requesting a recovery, it is not necessary for the app to know whether a person is negative, only that they have had a positive test result. A `false` in the `positiveResult` field could either indicate a negative test, or no test at all, etc.
+
+Authoritative data sources for values:
+* Types: [ehealth test type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/test-type.json)
+* Manufacturers: [ehealth test manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/test-manf.json)
+
 
 ### Formatting rules
 
@@ -205,7 +222,7 @@ In protocol version 2 we only supported negative test results.
             "lastNameInitial": "D", // Normalized
             "birthDay": "31", // String, but no leading zero, e.g. "4"
             "birthMonth": "12" // String, but no leading zero, e.g. "4"
-	      }
+        }
     }
 }
 ```

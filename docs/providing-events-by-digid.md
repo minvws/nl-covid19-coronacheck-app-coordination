@@ -1,6 +1,6 @@
 # Providing Vaccination / Test / Recovery Events by Digid
 
-* Version 1.1.1
+* Version 1.3
 * Authors: Nick, Ivo
 
 Note: This document is a draft and is not yet final. Changes are to be expected as requirements evolve.
@@ -67,43 +67,78 @@ In order to be able to deliver vaccination, test or recovery events to CoronaChe
 ## Identity Hash
 In order to reliably determine a system contains information about a certain person without revealing who that person is an `identity-hash` will be generated for each individual connected party and sent to the Information endpoint. 
 
-Since only the designated party may check the hash, a secret `hash key` is added. The `hash key` will be determined by MinVWS and shared privately with the provider. 
+Since only the designated party may check the hmac, a secret `hash key` is added. The `hash key` will be determined by MinVWS and shared privately with the provider. 
 
-The hash will be created using the following items:
+The hmac will be created using the following items:
 
 - BSN
-- First Name (as it appears on a person's passport)
-- Last Name (as it appears on a person's passport)
+- First Name (UTF-8 encoded, including any diacritics, full length, as it appears in the BRP)
+- Birth Name (UTF-8 encoded, including any diacritics, full length, as it appears in the BRP)
 - Day of Birth (in String format with leading zero)
+
+Notes:
+* Do not include the 'voorvoegsel' (infix) field. 
+* The Birth Name is the name given by birth and, unlike Last Name, does not change during marriage / divorce. 
+* Some providers do not have the Birth Name; if that is the case, please consult with your CoconaCheck liaison so we can customize the hash.
 
 The `identity-hash` can be generated as follows:
 
 ```shell
-echo -n "<BSN>-<First Name>-<Last Name>-<Day Of Birth>" | openssl dgst -sha256 -hmac "<hash key>" 
+echo -n "<BSN>-<First Name>-<Birth Name>-<Day Of Birth>" | openssl dgst -sha256 -hmac "<hash key>" 
 ```
 
 For example:
 - BSN: 000000012
-- First Name: Pluk
-- Last Name: Petteflet
+- First Name: P'luk
+- Infix: van de
+- Birth Name: Pêtteflèt
 - Day of Birth: 01
 - Secret Hash Key: ZrHsI6MZmObcqrSkVpea
 
 ```shell
-echo -n "000000012-Pluk-Petteflet-01" | openssl dgst -sha256 -hmac "ZrHsI6MZmObcqrSkVpea" 
+echo -n "000000012-P'luk-Pêtteflèt-01" | openssl dgst -sha256 -hmac "ZrHsI6MZmObcqrSkVpea" 
 ```
 
-Will return: `47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307` as the `identity-hash`
+Will return: `b8a33227016d1bbff65b050aa12a11bcb352fdde2ebff5ab895213b26c50a183` as the `identity-hash`
+
+Code sample in python:
+
+```python
+h = hmac.new(b'ZrHsI6MZmObcqrSkVpea',digestmod='sha256')
+h.update("000000012-P'luk-Pêtteflèt-01".encode('utf-8'))
+print h.digest().hex()
+```
 
 
 ## JWT Tokens
-In order to authenticate to the API endpoints mentioned below, each request will contain a JWT token. The contents of the JWT token is mentioned in the definition of the api endpoint.
+In order to authenticate to the API endpoints mentioned below, each request will contain a JWT token. 
 
 All JWT tokens are signed by MinVWS using a public/private keypair in the 'RS256' format. The public key used by MVWS will provided on a public api endpoint.
 
 Key rollover(s) will be published and communicated at least 2 weeks in advance. The provider should implement a key roll-over mechanism, so that if a new key is distributed, it will temporarily accept both keys, to account for users migrating over a short period of time.
 
 The provider MUST validate the signature in the token. Only tokens signed by MinVWS should be considered by the api endpoint(s).
+
+Example of the generic fields of a CoronaCheck JWT token:
+
+```javascript
+{
+    "iss": "jwt.test.coronacheck.nl",
+    "aud": "api-test.coronatester.nl",
+    "identityHash": "47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307",
+    "nonce": "5dee747d0eb7bccd22a6bb81e4959906aecd80bd0ebf047d",
+    "iat": 1622214031,
+    "nbf": 1622214031,
+    "exp": 1623423631
+}
+```
+
+Request specific contents of the JWT tokens are documented in the definition of each api endpoint.
+
+When evaluating the JWT, the API endpoint should check:
+* Whether the JWT has a valid signature
+* Whether the expiration is in the future (`exp` field)
+* Note: if you validate the issuer (`iss`) check only if it ends in `coronacheck.nl` as different prefixes might be used depending on infrastructure changes.
 
 ## Api Endpoints
 
@@ -125,7 +160,13 @@ curl
   https://api.acme.inc/information
 ```
 
-The `filter` is optional. If left out, the provider should check if they have either vaccination, test or recovery events for this user. Allowed values are: `vaccination`, `test` or `recovery`.
+The `filter` is currently required, but we plan to make this optional in the future so providers are encouraged to consider this optional, to save future work. (If left out, the provider would check if they have either vaccination, test or recovery events for this user). 
+Allowed values currently are: `vaccination`, `negativetest` or `positivetest,recovery`.
+
+Notes:
+
+* The useragent will be anonimized.
+* HTTP POST is used instead of a GET to aid in preventing logging/caching of the token or code.
 
 #### Response
 
@@ -139,7 +180,8 @@ The response (CMS Signed) should be provided as follows:
 ```
 
 #### JWT Token
-The JWT token will contain the unencrypted `identity-hash`.
+
+This request has no additional JWT fields other than the standard set.
 
 ### Events Api
 If the Information Available api returns `true` the app will follow up with a second request in order to get the actual vaccatination events. This time the JWT token will contain two items, the identity-hash and the actual BSN. The BSN inside the JWT token is encrypted.
@@ -155,6 +197,9 @@ curl
   -d '{ "filter": "vaccination" }'
   https://api.acme.inc/events
 ```
+
+The `filter` is currently required, but we plan to make this optional in the future so providers are encouraged to consider this optional, to save future work. (If left out, the provider would check if they have either vaccination, test or recovery events for this user). 
+Allowed values are: `vaccination`, `negativetest` or `positivetest,recovery`.
 
 #### Response
 
@@ -216,9 +261,12 @@ There are a few edge cases to consider:
 * In case the person is known but the events are still processing, the `events` array can be left blank and the `status` field can be set to `pending`. The app will ask the user to try again later. This should be avoided though, the best user experience is if the events are immediately available and the 'information' call matches this state.
 
 #### JWT Token
-The JWT token will contain the BSN in an encrypted format. The encryption will be done using libsodium public/private sealboxes (X25519).
+In addition to the standard JWT token fields documented earlier, the JWT token for the event request will contain:
 
-The private key that can be used to decrypt the token must remain with the provider at all times. The public key has to be provided to MinVWS.
+* `bsn`: The BSN in an encrypted format. 
+* `roleIdentifier`: Identifies the role of the requesting entity. CoronaCheck will set this to `01` ('Subject of care'). This can be used by providers for NEN compliant logging.
+
+The encryption of the BSN is done using libsodium public/private sealboxes (X25519). The private key that can be used to decrypt the token must remain with the provider at all times. The public key has to be provided to MinVWS.
 
 ### Error states
 
@@ -332,8 +380,16 @@ Notes:
 
 ## Changelog
 
-1.1.1
-* Addes support for positive test records. 
+1.3
+
+* Added clarification to id hash generation. 
+* Added idhash code sample in Python
+* The `filter` parameter is required until further notice. 
+* Added `roleIdentifier` for compliance with NEN logging.
+* Added JWT sample.
+
+1.2
+* Adds support for positive test records. 
 
 1.1
 * Generalized for id-hash based retrieval of vaccinations, recoveries and test results
