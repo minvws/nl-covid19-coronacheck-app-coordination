@@ -99,7 +99,7 @@ For example:
 echo -n "000000012-P'luk-Pêtteflèt-01" | openssl dgst -sha256 -hmac "ZrHsI6MZmObcqrSkVpea" 
 ```
 
-Will return: `47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307` as the `identity-hash`
+Will return: `b8a33227016d1bbff65b050aa12a11bcb352fdde2ebff5ab895213b26c50a183` as the `identity-hash`
 
 
 ## JWT Tokens
