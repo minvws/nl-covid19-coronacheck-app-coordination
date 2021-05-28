@@ -72,11 +72,13 @@ Since only the designated party may check the hmac, a secret `hash key` is added
 The hmac will be created using the following items:
 
 - BSN
-- First Name (UTF-8 encoded, including any diacritics, full length, as it appears on a person's passport / in the BRP)
-- Last Name (UTF-8 encoded, including any diacritics, full length, as it appears on a person's passport / in the BRP)
+- First Name (UTF-8 encoded, including any diacritics, full length, as it appears in the BRP)
+- Birth Name (UTF-8 encoded, including any diacritics, full length, as it appears in the BRP)
 - Day of Birth (in String format with leading zero)
 
-Do not include the 'voorvoegsel' (infix) field. 
+Notes:
+* Do not include the 'voorvoegsel' (infix) field. 
+* The Birth Name is the name given by birth and, unlike Last Name, does not change during marriage / divorce. 
 
 The `identity-hash` can be generated as follows:
 
