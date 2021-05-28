@@ -97,13 +97,34 @@ Will return: `47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307` 
 
 
 ## JWT Tokens
-In order to authenticate to the API endpoints mentioned below, each request will contain a JWT token. The contents of the JWT token is mentioned in the definition of the api endpoint.
+In order to authenticate to the API endpoints mentioned below, each request will contain a JWT token. 
 
 All JWT tokens are signed by MinVWS using a public/private keypair in the 'RS256' format. The public key used by MVWS will provided on a public api endpoint.
 
 Key rollover(s) will be published and communicated at least 2 weeks in advance. The provider should implement a key roll-over mechanism, so that if a new key is distributed, it will temporarily accept both keys, to account for users migrating over a short period of time.
 
 The provider MUST validate the signature in the token. Only tokens signed by MinVWS should be considered by the api endpoint(s).
+
+Example of the generic fields of a CoronaCheck JWT token:
+
+```javascript
+{
+    "iss": "jwt.test.coronacheck.nl",
+    "aud": "api-test.coronatester.nl",
+    "identityHash": "47a6c28642c05a30f48b191869126a808e31f7ebe87fd8dc867657d60d29d307",
+    "nonce": "5dee747d0eb7bccd22a6bb81e4959906aecd80bd0ebf047d",
+    "iat": 1622214031,
+    "nbf": 1622214031,
+    "exp": 1623423631
+}
+```
+
+Request specific contents of the JWT tokens are documented in the definition of each api endpoint.
+
+When evaluating the JWT, the API endpoint should check:
+* Whether the JWT has a valid signature
+* Whether the expiration is in the future (`exp` field)
+* Note: if you validate the issuer (`iss`) check only if it ends in `coronacheck.nl` as different prefixes might be used depending on infrastructure changes.
 
 ## Api Endpoints
 
@@ -145,7 +166,8 @@ The response (CMS Signed) should be provided as follows:
 ```
 
 #### JWT Token
-The JWT token will contain the unencrypted `identity-hash`.
+
+This request has no additional JWT fields other than the standard set.
 
 ### Events Api
 If the Information Available api returns `true` the app will follow up with a second request in order to get the actual vaccatination events. This time the JWT token will contain two items, the identity-hash and the actual BSN. The BSN inside the JWT token is encrypted.
@@ -225,9 +247,12 @@ There are a few edge cases to consider:
 * In case the person is known but the events are still processing, the `events` array can be left blank and the `status` field can be set to `pending`. The app will ask the user to try again later. This should be avoided though, the best user experience is if the events are immediately available and the 'information' call matches this state.
 
 #### JWT Token
-The JWT token will contain the BSN in an encrypted format. The encryption will be done using libsodium public/private sealboxes (X25519).
+In addition to the standard JWT token fields documented earlier, the JWT token for the event request will contain:
 
-The private key that can be used to decrypt the token must remain with the provider at all times. The public key has to be provided to MinVWS.
+* `bsn`: The BSN in an encrypted format. 
+* `roleIdentifier`: Identifies the role of the requesting entity. CoronaCheck will set this to `01` ('Subject of care'). This can be used by providers for NEN compliant logging.
+
+The encryption of the BSN is done using libsodium public/private sealboxes (X25519). The private key that can be used to decrypt the token must remain with the provider at all times. The public key has to be provided to MinVWS.
 
 ### Error states
 
@@ -341,12 +366,13 @@ Notes:
 
 ## Changelog
 
-1.1.2
+1.3
+* The `filter` parameter is required until further notice. 
+* Added `roleIdentifier` for compliance with NEN logging.
+* Added JWT sample.
 
-* filter is required until further notice. 
-
-1.1.1
-* Addes support for positive test records. 
+1.2
+* Adds support for positive test records. 
 
 1.1
 * Generalized for id-hash based retrieval of vaccinations, recoveries and test results
