@@ -101,6 +101,14 @@ echo -n "000000012-P'luk-Pêtteflèt-01" | openssl dgst -sha256 -hmac "ZrHsI6MZm
 
 Will return: `b8a33227016d1bbff65b050aa12a11bcb352fdde2ebff5ab895213b26c50a183` as the `identity-hash`
 
+Code sample in python:
+
+```python
+h = hmac.new(b'ZrHsI6MZmObcqrSkVpea',digestmod='sha256')
+h.update("000000012-P'luk-Pêtteflèt-01".encode('utf-8'))
+print h.digest().hex()
+```
+
 
 ## JWT Tokens
 In order to authenticate to the API endpoints mentioned below, each request will contain a JWT token. The contents of the JWT token is mentioned in the definition of the api endpoint.
@@ -351,6 +359,7 @@ Notes:
 
 * Filter is required until further notice. 
 * Added clarification to id hash generation. 
+* Added idhash code sample in Python
 
 1.1.1
 * Addes support for positive test records. 
