@@ -382,7 +382,6 @@ Notes:
 
 1.3
 
-* Filter is required until further notice. 
 * Added clarification to id hash generation. 
 * Added idhash code sample in Python
 * The `filter` parameter is required until further notice. 
