@@ -332,7 +332,7 @@ So far we have identified no workers.
 
 Although the CoronaCheck solution consists of decentralized databases, we need a way to store event/access card data inside the apps. To store the data consistently between Android and iOS, both platforms use the same datamodel. The data model for the apps is outlined below:
 
-![Client side datamodel](client-side-datamodel.png)
+![Client side datamodel](images/client-side-datamodel.png)
 
 ## Native vs hybrid development
 
