@@ -99,7 +99,7 @@ Authorative Data sources
 Additional field explanations:
 * `sampleDate`: The date and time that the test was taken.
     * sampleDate should be rounded **down** to the nearest hour. (To avoid test times in the future). 
-    * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions as well as on where the test result is presented. E.g. a 2-day festival might require a longer validity than a short seminar; By including the sample date, verifiers can control how much data they really 
+    * We deliberately use `sampleDate` and not an expiry after x hours/minutes/seconds. This is because we anticipate that validity might depend on both epidemiological conditions. By including the sample date, the CoronaCheck signer service can control the validity. 
 * `resultDate`: The date and time that the result was delivered to the patient. Required for pcr tests, optional for other test types. 
 * `type`: The type of test that was used to obtain the result, see below for the value lists to use. 
 * `negativeResult`: The presence of a negative result of the covid test. true when a negative result is present. false in all other situations. This is data minimisation: it is not necessary for the app to know whether a person is positive, only that they have had a negative test result. A `false` in the `negativeResult` field could either indicate a positive test, or no test at all, etc.
