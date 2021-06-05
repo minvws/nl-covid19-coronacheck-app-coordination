@@ -14,7 +14,7 @@ This repository contains the technical documentation of the Dutch COVID-19 Coron
 * [Debug portal for test providers](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-portal)
 * [Reference impementation of a dummy test provider](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-example)
 * [Example signing code for test/vaccination/recovery providers](https://github.com/minvws/nl-covid19-coronacheck-signature-demo)
-* [Backend services](https://github.com/minvws/nl-covid19-coronacheck-app-backend)
+* [EU DGCG Integration](https://github.com/minvws/nl-covid19-coronacheck-app-dgcg-integration)
 * [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-cl-core)
 
 ## Architecture documentation
