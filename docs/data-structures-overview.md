@@ -11,7 +11,7 @@ This chapter describes the datastructures that providers of test/vaccination res
 Protocol version 3.0 has support for negative tests, positive tests, recovery statements and vaccination events. The current version of the app in the store used protocol version 2.0. Only use 3.0 for preparing for the future version of the app. (Consult with your CoronaCheck liaison when in doubt).
 
 Notes about optional fields:
-* Optional does not mean 'never supply it'. Oeiginal source data is always better than interpreted values. E.g if you don't know the dose number, don't supply it. If you do know it, please supply it. 
+* Optional does not mean 'never supply it'. Original source data is always better than interpreted values. E.g if you don't know the dose number, don't supply it. If you do know it, please supply it. 
 * If you don't have an optional field, either pass null as the value or omit the entire key in json. Do not pass arbitrary values. (E.g. doseNumber '0' is not a valid response). 
 
 ### Information Lookup
