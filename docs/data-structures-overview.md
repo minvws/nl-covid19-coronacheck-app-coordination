@@ -10,6 +10,10 @@ This chapter describes the datastructures that providers of test/vaccination res
 
 Protocol version 3.0 has support for negative tests, positive tests, recovery statements and vaccination events. The current version of the app in the store used protocol version 2.0. Only use 3.0 for preparing for the future version of the app. (Consult with your CoronaCheck liaison when in doubt).
 
+Notes about optional fields:
+* Optional does not mean 'never supply it'. Original source data is always better than interpreted values. E.g if you don't know the dose number, don't supply it. If you do know it, please supply it. 
+* If you don't have an optional field, either pass null as the value or omit the entire key in json. Do not pass arbitrary values. (E.g. doseNumber '0' is not a valid response). 
+
 ### Information Lookup
 ```javascript
 {
@@ -27,7 +31,7 @@ Protocol version 3.0 has support for negative tests, positive tests, recovery st
     "status": "complete", // This refers to the data-completeness, not vaccination status.
     "holder": {
         "firstName": "",
-        "infix": "",
+        "infix": "", // optional 
         "lastName": "",
         "birthDate": "1970-01-01" // yyyy-mm-dd (see details below)
     },
@@ -45,8 +49,8 @@ Protocol version 3.0 has support for negative tests, positive tests, recovery st
                 "completedByMedicalStatement": false, // Optional
                 "completedByPersonalStatement": false, // Optional
                 "country": "NLD", // optional iso 3166 3-letter country field, will be set to NLD if left out. Can be used if shot was administered abroad
-                "doseNumber": 1, // optional, will be based on business rules / brand info if left out
-                "totalDoses": 2, // optional, will be based on business rules / brand info if left out
+                "doseNumber": 1, // optional, will be based on business rules if left out. If set, should be integer >= 1. 
+                "totalDoses": 2, // optional, will be based on business rules / brand info if left out. If set, should be integer >= 1. 
             }
         }
     ]    
