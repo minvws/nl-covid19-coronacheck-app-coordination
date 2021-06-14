@@ -31,6 +31,7 @@ Note: This document is a draft and is not yet final. Changes are to be expected 
     + [Command line example](#command-line-example)
     + [More sample code](#more-sample-code)
   * [CORS headers](#cors-headers)
+  * [Acceptance to Production](#Acceptance-to-Production)
   * [Changelog](#changelog)
 
 ## Overview
@@ -378,6 +379,45 @@ Access-Control-Allow-Methods: POST, GET, OPTIONS
 Notes:
 * The app endpoint must respect the OPTIONS request (respond with 200 status code) that browsers will perform to check the headers. The OPTIONS request should have the same headers but no body.
 
+## Acceptance to Production
+
+There are a few steps that need to be taken in order to be accepted into the production version of CoronaCheck.
+
+1. Event Provider will submit a request to RDO Beheer (helpdesk@rdobeheer.nl) containing
+   - Name of organization.
+   - Provider Identifier (3 characters).
+   - Production API endpoints.
+   - Your libsodium(X25519) public key in base64 format.
+   - Contact who will receive the Identity-Hash Secret Key (Email and Phone number).
+2. Once your request has been received we reply with
+   - The identity-hash secret key in a password protected zip. The password will be communicated via SMS.
+   - The MinVWS public key used to encrypt the BSN in base64 format.
+3. Provide feedback on when the key will be installed.
+4. MinVWS will confirm all contracts are in order.
+5. API added to the production configuration by RDO Beheer.
+
+### Generating a Libsodium(X25519) keypair
+
+With PHP:
+```php
+php -r '$keypair = sodium_crypto_box_keypair(); echo "PUBLIC: ".base64_encode(sodium_crypto_box_publickey($keypair))."\nSECRET: ".base64_encode(sodium_crypto_box_secretkey($keypair))."\n";'
+```
+
+With Python:
+```python3
+import nacl.utils
+import base64
+from nacl.public import PrivateKey, SealedBox
+
+sk = PrivateKey.generate()
+pk = sk.public_key
+
+secret =  base64.b64encode(sk.encode())
+public =  base64.b64encode(pk.encode())
+
+print(f"SECRET: {secret.decode()}")
+print(f"PUBLIC: {public.decode()}")
+```
 ## Changelog
 
 1.3
