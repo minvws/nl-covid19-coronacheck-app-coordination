@@ -48,7 +48,7 @@ Notes about optional fields:
                 "brand": "EU/1/20/1507", 
                 "completedByMedicalStatement": false, // Optional
                 "completedByPersonalStatement": false, // Optional
-                "country": "NLD", // optional iso 3166 3-letter country field, will be set to NLD if left out. Can be used if shot was administered abroad
+                "country": "NL", // optional iso 3166 2-letter country field, will be set to NL if left out. Can be used if shot was administered abroad
                 "doseNumber": 1, // optional, will be based on business rules if left out. If set, should be integer >= 1. 
                 "totalDoses": 2, // optional, will be based on business rules / brand info if left out. If set, should be integer >= 1. 
             }
@@ -66,6 +66,7 @@ Authorative Data sources
 * type: [ehealth type list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-prophylaxis.json)
 * brand: [ehealth medicinal product list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-medicinal-product.json)
 * manufacturer: [ehealth manufacturer list](https://github.com/ehn-digital-green-development/ehn-dgc-schema/blob/main/valuesets/vaccine-mah-manf.json)
+* country: [ehealth country list](https://github.com/ehn-dcc-development/ehn-dcc-schema/blob/main/valuesets/country-2-codes.json)
 
 
 ### Negative Test Event
