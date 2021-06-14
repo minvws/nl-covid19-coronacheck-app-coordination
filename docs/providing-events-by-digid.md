@@ -390,7 +390,7 @@ There are a few steps that need to be taken in order to be accepted into the pro
    - Contact who will receive the Identity-Hash Secret Key (Email and Phone number).
 2. Once your request has been received we will send the identity-hash secret key in a password protected zip. The password will be communicated via SMS.
 3. Provide feedback on when the key will be installed.
-4. MinVWS will double check the API.
+4. MinVWS will confirm all contracts are in order.
 5. API added to the production configuration by RDO Beheer.
 
 
