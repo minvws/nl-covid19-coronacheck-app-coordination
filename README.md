@@ -21,7 +21,7 @@ This repository contains the technical documentation of the Dutch COVID-19 Coron
 
 The CoronaCheck Architecture and development documentation can be found in the [architecture/](architecture/) folder.
 
-A good starting point with an overall view of the system is the [COVID-19 CoronaTester Verifiable Test Result - Solution Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Solution%20Architecture%20VTR.md)
+A good starting point with an overall view of the system is the [COVID-19 CoronaCheck - Solution Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Solution%20Architecture.md)
 
 ## Provider documentation
 
