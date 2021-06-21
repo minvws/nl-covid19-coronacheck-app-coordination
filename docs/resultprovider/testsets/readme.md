@@ -1,1 +1,1 @@
-This folder contains the test sets which must be executed by Test Result Providers as part of the validation process.
+This testset is old. Check https://github.com/minvws/nl-covid19-coronacheck-provider-docs for documentation, part 'test-suite'
