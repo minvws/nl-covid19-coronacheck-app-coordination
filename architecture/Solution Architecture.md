@@ -218,7 +218,7 @@ The detailed process of receiving the events and generating a signed proof, is d
 
 ## Flow 4: Printing a corona access card 
 
-For citizens who do not posess a smartphone or who do not wish to use the app, a browser version is envisioned where citizens can print the card on a printer at home. It should be noted that the paper version offers slightly *less* privacy features, for example a static QR on a paper is linkable, as opposed to the QR in the app that rotates every few minutes. Also, the paper version contains the initials of the holder (to be able for a holder to distinguish between the papers of themselves and their family members), whereas in the app version these are only visible once scanned, in the verifier app. For privacy concerned citizens it is therefore recommended to prefer the app over the paper version.
+For citizens who do not posess a smartphone or who do not wish to use the app, a browser version is envisioned where citizens can print the card on a printer at home. It should be noted that the paper version offers slightly *less* privacy features, for example a static QR on a paper is linkable, as opposed to the QR in the app that rotates every few minutes. Also, the paper version contains the initials of the holder (to be able for a holder to distinguish between the papers of themselves and their family members), whereas in the app version these are only visible once scanned, in the verifier app. For privacy concerned citizens it is therefore recommended to use the app over the paper version.
 
 The following diagram describes the home print flow. It is very similar to flow 2. Although the diagram only depicts the token flow for home printing, there will also be a way to retrieve events in the home print flow using DigiD. It is so similar to the existing flows that making the combination of flow 1 and 4 is left as an exercise to the reader.
 
@@ -246,7 +246,7 @@ The following diagram is the complete flow diagram for this flow:
 
 ## Overview
 
-The details surrounding the security and privacy implementation of the app is laid out in the document [‘Security Architecture’](Security Architecture.md). 
+The details surrounding the security and privacy implementation of the app is laid out in the document [‘Security Architecture’](<Security Architecture.md>). 
 
 ## Attack Surface Minimisation
 
