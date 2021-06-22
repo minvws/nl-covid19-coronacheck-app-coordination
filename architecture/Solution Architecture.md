@@ -322,11 +322,10 @@ So far we have identified no workers.
 
 * iOS app: Native Swift / MVVM based architecture. Baseline iOS 11+.
 * Android app: Native Kotlin / MVVM based architecture. Baseline Android 5+.
-* Core backend services: written in dotnet core, hosted in a container based environment (Docker containers).
-* BFF for apps: PHP/Python/etc, using a commonly used framework. Or: dotnetcore (to potentially reuse some coronamelder code).
+* Core backend services: Python, using a commonly used framework.
+* BFF for apps: PHP/Python/etc, using a commonly used framework.
 * Any necessary web portals: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort).
 * Queing and caching mechanisms: Redis (with cluster/sentinel).
-* Database: Postgresql (to be able to use built in encryption mechanisms) (TODO: Or MS SQL if we want to reuse CoronaMelder code/tooling?).
 
 ## Data Model
 
