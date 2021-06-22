@@ -180,7 +180,7 @@ The following diagram describes how the solution would retrieve a negative test 
 
 ![Flow - DigiD event flow](images/flow-eventcapture-digid.png)
 
-The login proces will be performed by making use of the ToegangVerleningService (TVS), a DigiD frontend specifically aid at health applications. The detailed login flow is described by this flow diagram:
+The login proces will be performed by making use of the ToegangVerleningService (TVS), a DigiD frontend specifically aimed at health applications. The detailed login flow is described by this flow diagram:
 
 ![Flow - Login](images/flow-login.png)
 
@@ -204,7 +204,7 @@ Once we have retrieved one or more events (vaccinations, test results, recovery 
 * The EU Digital COVID-19 Certificate (DCC) QR for international travel between EU countries
 * An NL domestic QR for access to events
 
-Although the EU DCC could theoretically be used for access to Dutch events, we prefer to use the NL domestic QR, as it offers more privacy. A detailed design expaining these privacy aspects can be found in the document [Privacy Preserving Green Card](Privacy Preserving Green Card.md).
+Although the EU DCC could theoretically be used for access to Dutch events, we prefer to use the NL domestic QR, as it offers more privacy. A detailed design expaining these privacy aspects can be found in the document [Privacy Preserving Green Card](<Privacy Preserving Green Card.md>).
 
 The following diagram describes how we get from the events to a proof that can be scanned:
 
