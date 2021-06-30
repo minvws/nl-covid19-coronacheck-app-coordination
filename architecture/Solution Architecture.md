@@ -180,7 +180,7 @@ The following diagram describes how the solution would retrieve a negative test 
 
 ![Flow - DigiD event flow](images/flow-eventcapture-digid.png)
 
-The login proces will be performed by making use of the ToegangVerleningService (TVS), a DigiD frontend specifically aid at health applications. The detailed login flow is described by this flow diagram:
+The login proces will be performed by making use of the ToegangVerleningService (TVS), a DigiD frontend specifically aimed at health applications. The detailed login flow is described by this flow diagram:
 
 ![Flow - Login](images/flow-login.png)
 
@@ -204,7 +204,7 @@ Once we have retrieved one or more events (vaccinations, test results, recovery 
 * The EU Digital COVID-19 Certificate (DCC) QR for international travel between EU countries
 * An NL domestic QR for access to events
 
-Although the EU DCC could theoretically be used for access to Dutch events, we prefer to use the NL domestic QR, as it offers more privacy. A detailed design expaining these privacy aspects can be found in the document [Privacy Preserving Green Card](Privacy Preserving Green Card.md).
+Although the EU DCC could theoretically be used for access to Dutch events, we prefer to use the NL domestic QR, as it offers more privacy. A detailed design expaining these privacy aspects can be found in the document [Privacy Preserving Green Card](<Privacy Preserving Green Card.md>).
 
 The following diagram describes how we get from the events to a proof that can be scanned:
 
@@ -218,7 +218,7 @@ The detailed process of receiving the events and generating a signed proof, is d
 
 ## Flow 4: Printing a corona access card 
 
-For citizens who do not posess a smartphone or who do not wish to use the app, a browser version is envisioned where citizens can print the card on a printer at home. It should be noted that the paper version offers slightly *less* privacy features, for example a static QR on a paper is linkable, as opposed to the QR in the app that rotates every few minutes. Also, the paper version contains the initials of the holder (to be able for a holder to distinguish between the papers of themselves and their family members), whereas in the app version these are only visible once scanned, in the verifier app. For privacy concerned citizens it is therefore recommended to prefer the app over the paper version.
+For citizens who do not posess a smartphone or who do not wish to use the app, a browser version is envisioned where citizens can print the card on a printer at home. It should be noted that the paper version offers slightly *less* privacy features, for example a static QR on a paper is linkable, as opposed to the QR in the app that rotates every few minutes. Also, the paper version contains the initials of the holder (to be able for a holder to distinguish between the papers of themselves and their family members), whereas in the app version these are only visible once scanned, in the verifier app. For privacy concerned citizens it is therefore recommended to use the app over the paper version.
 
 The following diagram describes the home print flow. It is very similar to flow 2. Although the diagram only depicts the token flow for home printing, there will also be a way to retrieve events in the home print flow using DigiD. It is so similar to the existing flows that making the combination of flow 1 and 4 is left as an exercise to the reader.
 
@@ -246,7 +246,7 @@ The following diagram is the complete flow diagram for this flow:
 
 ## Overview
 
-The details surrounding the security and privacy implementation of the app is laid out in the document [‘Security Architecture’](Security Architecture.md). 
+The details surrounding the security and privacy implementation of the app is laid out in the document [‘Security Architecture’](<Security Architecture.md>). 
 
 ## Attack Surface Minimisation
 
@@ -322,11 +322,10 @@ So far we have identified no workers.
 
 * iOS app: Native Swift / MVVM based architecture. Baseline iOS 11+.
 * Android app: Native Kotlin / MVVM based architecture. Baseline Android 5+.
-* Core backend services: written in dotnet core, hosted in a container based environment (Docker containers).
-* BFF for apps: PHP/Python/etc, using a commonly used framework. Or: dotnetcore (to potentially reuse some coronamelder code).
+* Core backend services: Python, using a commonly used framework.
+* BFF for apps: PHP/Python/etc, using a commonly used framework.
 * Any necessary web portals: PHP 7/Laravel with a VueJS frontend (to potentialy reuse GGD Contact portal effort).
 * Queing and caching mechanisms: Redis (with cluster/sentinel).
-* Database: Postgresql (to be able to use built in encryption mechanisms) (TODO: Or MS SQL if we want to reuse CoronaMelder code/tooling?).
 
 ## Data Model
 
