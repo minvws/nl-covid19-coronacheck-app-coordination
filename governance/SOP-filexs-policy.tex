@@ -1,0 +1,91 @@
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+%
+% Copyright (c) 2020 De Staat der Nederlanden, Ministerie van Volksgezondheid, Welzijn en Sport.
+% Licensed under the EUROPEAN UNION PUBLIC LICENCE v. 1.2&
+%
+% SPDX-License-Identifier: EUPL-1.2
+%
+% Based on RedWax.eu and KS-HiP 2001 (c) Webweaving, 2017 (c) RedWax.eu under the Apache Softewar License
+% version 1.0 or later
+%.
+\documentclass[11.0pt,twoside,openright]{report}
+\input{ro-stijl.tex}
+
+\def\thisdoc{Standard Operating Procedures \\
+-- Adhoc Secure File Transfer -- }
+\def\thisauthor{RDO, MinVWS}
+\def\version{1.02\xspace}
+%\date{}                                           % Activate to display a given date or no date
+
+
+\begin{document}
+\maketitle
+
+\section*{Document geschiedenis}
+
+\begin{tabular}{|r|l|l|}
+\hline
+Versie & Datum & Veranderingen \\
+\hline
+\hline
+1.00 & 2020-12-31 & Eerste concept - voor interne discussie en verificatie. \\
+\hline
+1.01 & 2021-01-02 & Finale versie - voor productie. \\
+\hline
+1.02 & 2021-06-18 & Made more generic for CIMS/RIVM/GGD-GHOR project \\
+\hline
+\end{tabular}
+
+\chapter{Context}
+
+Tijdens outages of andere onvoorziene events kan het nodig zijn om AdHoc bestanden uit te wisselen welke gevoelige informatie bevatten. En waarbij er niet de tijd is dit te doen via een bestaande koppeling. 
+
+Dit document beschrijft de aanbevolen procedures voor dit soort noodgevallen alsmede de te gebruiken tools en technieken.
+
+Hiernaast is onverkort, en voor het overige, het vigerende beveilingsbeleid en de Baseline Informatiebeveiliging Overheid (BIO) van de rijksoverheid van toepassing.
+
+\section*{Ontwerp uitgangspunten en afwegingen}
+
+Deze standard operating procedure is bedoeld voor de uitzonderingen - éénmalige uitwisselingen waarbij er geen tijd is voor de bouw van een koppeling of het inrichten van een PKI. Daarom is deze procedure bewust simpel gehouden (enkel ZIP), maakt zij gebruik van processen (borging, 4-ogen principe), is zij zo min mogelijk digitaal (geen opslag password, password in persoon of per telefoon communiceren) en zo veel mogelijk éénmalig (wachtwoord maar één keer gebruiken; alle bestanden na overdracht wissen).
+\pagebreak
+\section*{Uitwerking}
+
+Waar mogelijk is het process als hieronder beschreven. Eventuele afwijkingen dienen achteraf gedocumenteerd te worden in een kort document dat gedeeld wordt met alle betrokken partijen.
+
+\begin{description}
+\item[Borging] Deze stappen zullen waar mogelijk voorzien worden van een ops-ticket nummer of andere interne tracking en borging.
+\item[Inpakken] De stappen zullen uitgevoerd worden door twee personen (4-ogen principe): 
+\begin{itemize}
+\item De te versturen bestanden zullen in één directory gezet worden.
+\item Deze directory zal ingepakt worden met ZIP (file format versie 5.2 of nieuwer) gebruikmakend van AES-256 encryptie.
+\item Er zal een sterk wachtwoord (Zie handreiking Wachtwoorden, BIO\footnote{\url{https://www.informatiebeveiligingsdienst.nl/product/wachtwoordbeleid-2/}}; meer dan 20 cijfers en letters of meer dan 8 indien de regels van 'complex' gevolgd worden).
+\item Dit wachtwoord is éénmalig (emphemoral) en wordt niet digitaal opgeslagen (e.g. in een email, Notepad, etc). 
+\end{itemize}
+
+\item[overdracht] Het ZIP bestand kan uitgewisseld worden via een onveilig kanaal. Hierbij heeft een intern kanaal de voorkeur, gevolgd door een kanaal via een beperkt toegankelijke file server waar mogelijk. 
+
+Dit wachtwoord wordt via een ander kanaal, niet digitaal, gecommuniceerd. Bijvoorbeeld in persoon of per telefoon.
+
+\item[Ontvangen] De stappen zullen uitgevoerd worden door twee personen (4-ogen principe).
+
+\begin{itemize}
+\item Ontvangende partij stelt het versleutelde bestand direct veilig.
+\item Controleert of het bestand versleuteld is.
+\item Decodeert het bestand in een veilige omgeving
+\end{itemize}
+
+Na ontvangst, veiligstellen informeer de ontvangende partij de verzendende partij zo snel mogelijk.
+
+\item[Afronding] \emph{Beide} partijen nemen dan, waar nodig, actie om alle versies van het ZIP bestand te wissen.
+
+Beide partijen zorgen voor eigen vastlegging en delen die. Eventuele afwijkingen worden gedocumenteerd.
+\end{description}
+
+\section*{Aanbevolen versies ZIP}
+
+Aanbevolen versies van ZIP zijn elke versie van WinZIP en PKZIP van na 2004 (het menu `Conversion Settings' toont de default geselecteerde 256-bits AES). Voor Linux, *BSD en MacOSX zijn alle versie van `7za' of 'PkZip' afdoende. 
+
+Voor MacOSX is de meegeleverde 'zip' (command line utility) met de flaggen `-er' vanaf MacOSX 10.2 voldoende indien de procedure van \url{https://www.canr.msu.edu/news/encrypted-zip-mac} gebruikt wordt.
+
+\end{document}  
