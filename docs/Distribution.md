@@ -17,8 +17,8 @@ To validate that the source versions and the store binaries are based on the sam
 
 In the Apple App Store we publish the binaries for the CoronaCheck and Scanner for CoronaCheck apps:
 
-* CoronaCheck download: https://apps.apple.com/nl/app/coronacheck/id1548269870
-* Scanner for CoronaCheck download: https://apps.apple.com/nl/app/scanner-voor-coronacheck/id1549842661
+* CoronaCheck: https://apps.apple.com/nl/app/coronacheck/id1548269870
+* Scanner for CoronaCheck: https://apps.apple.com/nl/app/scanner-voor-coronacheck/id1549842661
 
 ## Google Play Store
 
