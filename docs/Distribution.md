@@ -29,7 +29,7 @@ In the Google Play Store we publish the binaries for the CoronaCheck and Scanner
 
 ## F-Droid Store
 
-We are currently investigating the possibility of offering an official build of the CoronaCheck app for the f-droid store.
+We are currently investigating the possibility of offering an official build of the CoronaCheck app for the F-Droid store.
 
 ## APK file
 
