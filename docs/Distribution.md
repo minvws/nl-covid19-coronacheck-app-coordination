@@ -6,8 +6,8 @@ The CoronaCheck and CoronaCheck Scanner apps are distributed via various methods
 
 Both the Android and iOS apps are available in source code form from GitHub:
 
-* Android source code: https://github.com/minvws/nl-covid19-coronacheck-app-android (and Scanner link?)
-* iOS source code: https://github.com/minvws/nl-covid19-coronacheck-app-ios
+* Android source code for CoronaCheck and Scanner for CoronaCheck: https://github.com/minvws/nl-covid19-coronacheck-app-android 
+* iOS source code for CoronaCheck and Scanner for CoronaCheck: https://github.com/minvws/nl-covid19-coronacheck-app-ios
 
 There are tags in each repository corresponding to releases from the stores. The public repository might lag behind a few days but generally should be up to date whenever a new release is done to the app stores.
 
