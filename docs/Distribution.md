@@ -1,12 +1,12 @@
 # Distribution
 
-The CoronaCheck apps are distributed via various methods.
+The CoronaCheck and CoronaCheck Scanner apps are distributed via various methods.
 
 ## Source form
 
 Both the Android and iOS apps are available in source code form from GitHub:
 
-* Android source code: https://github.com/minvws/nl-covid19-coronacheck-app-android
+* Android source code: https://github.com/minvws/nl-covid19-coronacheck-app-android (and Scanner link?)
 * iOS source code: https://github.com/minvws/nl-covid19-coronacheck-app-ios
 
 There are tags in each repository corresponding to releases from the stores. The public repository might lag behind a few days but generally should be up to date whenever a new release is done to the app stores.
@@ -33,9 +33,9 @@ We are currently investigating the possibility of offering an official build of 
 
 ## APK file
 
-For the Scanner app we provide an apk file that can be loaded on verifier devices using MDM tooling or other bulk distribution mechanisms.
+For the CoronaCheck Scanner we provide an APK file that can be loaded on verifier devices using MDM tooling or other bulk distribution mechanisms.
 
-* Scanner for CoronaCheck APK: https://coronacheck.nl/nl/faq-scanner/2-6-kan-ik-een-apk-bestand-downloaden/
+* CoronaCheck Scanner APK: https://coronacheck.nl/nl/faq-scanner/2-6-kan-ik-een-apk-bestand-downloaden/
 
 Note that the link always points to the latest APK. Since we cannot provide an auto-update mechanism for manual APKs, users of this APK are encouraged to regulary maually update the APK on their devices. (In the case of a forced upgrade, the app will point the user to the app store, so you'll have to manually upgrade the APK).
 
