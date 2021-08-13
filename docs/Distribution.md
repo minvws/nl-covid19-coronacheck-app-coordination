@@ -20,7 +20,7 @@ In the Apple App Store we publish the binaries for the CoronaCheck and Scanner f
 * CoronaCheck download: https://apps.apple.com/nl/app/coronacheck/id1548269870
 * Scanner for CoronaCheck download: https://apps.apple.com/nl/app/scanner-voor-coronacheck/id1549842661
 
-# Google Play Store
+## Google Play Store
 
 In the Google Play Store we publish the binaries for the CoronaCheck and Scanner for CoronaCheck apps:
 
