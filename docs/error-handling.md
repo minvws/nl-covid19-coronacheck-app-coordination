@@ -4,8 +4,8 @@ When an error occurs in the CoronaCheck apps (or one of the backends), we inform
 
 To ensure we can properly identify where an issue is, each reported error code should:
 
-a) identify which situation it is (e.g. which feature, which backend call, etc)         
-b) what the error is
+* identify which situation it is (e.g. which feature, which backend call, etc)         
+* what the error is
 
 So that we can see from the code in which flow it happened, which api call it was, and why it happened.
 
