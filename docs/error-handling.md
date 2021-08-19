@@ -187,6 +187,9 @@ voorzet, todo android/ios/web devs.
 
 ## 03h - json parse failures
 
+* 030: Can not decode object to json
+* 031: Can not encode object to json
+
 ## 04h - data validation failures
 
 * 040: Malformed json string
