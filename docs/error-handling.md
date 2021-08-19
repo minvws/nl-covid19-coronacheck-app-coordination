@@ -97,7 +97,7 @@ Known step lists
 
 ### Commercial test (flow 1)
 
-* test_providers: 10
+* test_providers: 20
 * test result: 50
 * storing events: 60
 * prepare issue call: 70
