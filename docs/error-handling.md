@@ -17,6 +17,8 @@ Error codes displayed in an error dialog will be formatted like this:
 
 ### System
 
+s identifies which system the user is operating.
+
 * Android: A
 * iOS: i
 * Web: W
