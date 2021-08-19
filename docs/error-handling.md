@@ -42,14 +42,15 @@ Print portal:
 
 yy identifies the step/call (within the flow, in 2 digits with 10-step increments so that later other steps can be injected), e.g for the vaccination flow:
 
-* event_providers: 10
+* tvs / digid: 10
+* event_providers: 20
 * access_tokens: 20
-* unomi: 30
-* event call: 40
-* storing events: 50
-* prepare issue call: 60
-* signer call: 70
-* storing credentials: 80
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 See [Appendix A](#appendix-a) for the currently known steps for all major flows.
 
@@ -97,54 +98,57 @@ Known step lists
 ### Commercial test (flow 1)
 
 * test_providers: 10
-* test result: 40
-* storing events: 50
-* prepare issue call: 60
-* signer call: 70
-* storing credentials: 80
+* test result: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 ### Vaccination (flow 2)
 
 (voorzet, todo ios/android/web devs)
 
-* event_providers: 10
+* tvs / digid: 10
+* event_providers: 20
 * access_tokens: 20
-* unomi: 30
-* event call: 40
-* storing events: 50
-* prepare issue call: 60
-* signer call: 70
-* storing credentials: 80
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 ### Recovery (flow 3)
 
-* event_providers: 10
+* tvs / digid: 10
+* event_providers: 20
 * access_tokens: 20
-* unomi: 30
-* event call: 40
-* storing events: 50
-* prepare issue call: 60
-* signer call: 70
-* storing credentials: 80
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 ### Digid test results (flow 4)
 
-* event_providers: 10
+* tvs / digid: 10
+* event_providers: 20
 * access_tokens: 20
-* unomi: 30
-* event call: 40
-* storing events: 50
-* prepare issue call: 60
-* signer call: 70
-* storing credentials: 80
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 ### Paper scan (flow 5)
 
 * coupling: 10
-* storing events: 50
-* prepare issue call: 60
-* signer call: 70
-* storing credentials: 80
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 
 ## Verifier app
