@@ -42,13 +42,14 @@ Print portal:
 
 yy identifies the step/call (within the flow, in 2 digits with 10-step increments so that later other steps can be injected), e.g for the vaccination flow:
 
-* event_providers refresh: 10
-* unomi: 20
-* event call: 30
-* storing events: 40
-* nonce call: 50
-* signer call: 60
-* storing credentials: 70
+* event_providers: 10
+* access_tokens: 20
+* unomi: 30
+* event call: 40
+* storing events: 50
+* prepare issue call: 60
+* signer call: 70
+* storing credentials: 80
 
 See [Appendix A](#appendix-a) for the currently known steps for all major flows.
 
@@ -90,29 +91,68 @@ Known step lists
 
 ### Startup / Onboarding (flow 0)
 
+* configuration: 10
+* public keys: 20
+
 ### Commercial test (flow 1)
+
+* test_providers: 10
+* test result: 40
+* storing events: 50
+* prepare issue call: 60
+* signer call: 70
+* storing credentials: 80
 
 ### Vaccination (flow 2)
 
 (voorzet, todo ios/android/web devs)
 
-* event_providers refresh: 10
-* unomi: 20
-* event call: 30
-* storing events: 40
-* nonce call: 50
-* signer call: 60
-* storing credentials: 70
+* event_providers: 10
+* access_tokens: 20
+* unomi: 30
+* event call: 40
+* storing events: 50
+* prepare issue call: 60
+* signer call: 70
+* storing credentials: 80
 
 ### Recovery (flow 3)
 
+* event_providers: 10
+* access_tokens: 20
+* unomi: 30
+* event call: 40
+* storing events: 50
+* prepare issue call: 60
+* signer call: 70
+* storing credentials: 80
+
 ### Digid test results (flow 4)
 
+* event_providers: 10
+* access_tokens: 20
+* unomi: 30
+* event call: 40
+* storing events: 50
+* prepare issue call: 60
+* signer call: 70
+* storing credentials: 80
+
 ### Paper scan (flow 5)
+
+* coupling: 10
+* storing events: 50
+* prepare issue call: 60
+* signer call: 70
+* storing credentials: 80
+
 
 ## Verifier app
 
 ### Startup / Onboarding (flow 0)
+
+* configuration: 10
+* public keys: 20
 
 ### Scan flow (flow 1)
 
