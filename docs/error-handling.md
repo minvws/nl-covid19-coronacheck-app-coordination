@@ -13,7 +13,13 @@ So that we can see from the code in which flow it happened, which api call it wa
 
 Error codes displayed in an error dialog will be formatted like this:
 
-`xyy/ppp/hhh/bbbbbb (flow.step/provider/errorcode/detailederrorcode)`
+`s/xyy/ppp/hhh/bbbbbb (system/flow.step/provider/errorcode/detailederrorcode)`
+
+### System
+
+* Android: A
+* iOS: i
+* Web: W
 
 ### Flow
 
@@ -68,8 +74,8 @@ If available: bbbbbb is any code from the body of the server call, e.g. 999
 
 ## Examples
 
-* `220/RVV/500/999111`  means: while retrieving a vaccination and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 9999111.
-* `110/ABC/051` means: while retrieving a commercial code and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
+* `i/220/RVV/500/999111`  means: while retrieving a vaccination on iOS and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 999111.
+* `A/110/ABC/051` means: while retrieving a commercial code on Android and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
 
 ## Client side errors
 
