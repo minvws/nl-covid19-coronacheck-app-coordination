@@ -4,4 +4,4 @@ This folder contains various documents that haven't been categorized under any o
 
 ## Provider Documentation
 
-This folder used to also include documenation for providers. A while ago  we have moved all documentation for vaccination, test and recovery providers into a [single repository](https://github.com/minvws/nl-covid19-coronacheck-provider-docs)
+This folder used to also include documentation for providers. A while ago we have moved all documentation for vaccination, test and recovery providers into a [single repository](https://github.com/minvws/nl-covid19-coronacheck-provider-docs)
