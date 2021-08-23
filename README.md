@@ -26,7 +26,7 @@ A good starting point with an overall view of the system is the [COVID-19 Corona
 
 ## Provider documentation
 
-All documentation for providers who want to connect to Coronacheck an be found in the [docs/](docs/) folder.
+This repository used to also include documentation for providers. A while ago we have moved all documentation for vaccination, test and recovery providers into a [single repository](https://github.com/minvws/nl-covid19-coronacheck-provider-docs)
 
 ## Development & Contribution process
 
