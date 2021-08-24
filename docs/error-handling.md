@@ -13,7 +13,15 @@ So that we can see from the code in which flow it happened, which api call it wa
 
 Error codes displayed in an error dialog will be formatted like this:
 
-`xyy/ppp/hhh/bbbbbb (flow.step/provider/errorcode/detailederrorcode)`
+`s/xyy/ppp/hhh/bbbbbb (system/flow.step/provider/errorcode/detailederrorcode)`
+
+### System
+
+s identifies which system the user is operating.
+
+* Android: A
+* iOS: i
+* Web: W
 
 ### Flow
 
@@ -42,13 +50,15 @@ Print portal:
 
 yy identifies the step/call (within the flow, in 2 digits with 10-step increments so that later other steps can be injected), e.g for the vaccination flow:
 
-* event_providers refresh: 10
-* unomi: 20
-* event call: 30
-* storing events: 40
-* nonce call: 50
-* signer call: 60
-* storing credentials: 70
+* tvs / digid: 10
+* event_providers: 20
+* access_tokens: 30
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 See [Appendix A](#appendix-a) for the currently known steps for all major flows.
 
@@ -66,8 +76,8 @@ If available: bbbbbb is any code from the body of the server call, e.g. 999
 
 ## Examples
 
-* `220/RVV/500/999111`  means: while retrieving a vaccination and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 9999111.
-* `110/ABC/051` means: while retrieving a commercial code and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
+* `i/220/RVV/500/999111`  means: while retrieving a vaccination on iOS and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 999111.
+* `A/110/ABC/051` means: while retrieving a commercial code on Android and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
 
 ## Client side errors
 
@@ -90,29 +100,71 @@ Known step lists
 
 ### Startup / Onboarding (flow 0)
 
+* configuration: 10
+* public keys: 20
+
 ### Commercial test (flow 1)
+
+* test_providers: 20
+* test result: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 ### Vaccination (flow 2)
 
 (voorzet, todo ios/android/web devs)
 
-* event_providers refresh: 10
-* unomi: 20
-* event call: 30
-* storing events: 40
-* nonce call: 50
-* signer call: 60
-* storing credentials: 70
+* tvs / digid: 10
+* event_providers: 20
+* access_tokens: 30
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
 
 ### Recovery (flow 3)
 
+* tvs / digid: 10
+* event_providers: 20
+* access_tokens: 30
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
+
 ### Digid test results (flow 4)
 
+* tvs / digid: 10
+* event_providers: 20
+* access_tokens: 30
+* unomi: 40
+* event call: 50
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
+
 ### Paper scan (flow 5)
+
+* coupling: 10
+* storing events: 60
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
+
 
 ## Verifier app
 
 ### Startup / Onboarding (flow 0)
+
+* configuration: 10
+* public keys: 20
 
 ### Scan flow (flow 1)
 
@@ -134,6 +186,9 @@ voorzet, todo android/ios/web devs.
 ## 02h - cms signature failures
 
 ## 03h - json parse failures
+
+* 030: Can not decode object to json
+* 031: Can not encode object to json
 
 ## 04h - data validation failures
 
