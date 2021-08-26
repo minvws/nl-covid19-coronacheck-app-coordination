@@ -11,11 +11,12 @@ This repository contains the technical documentation of the Dutch COVID-19 Coron
 * [Android app](https://github.com/minvws/nl-covid19-coronacheck-app-android)
 * [BFF API for the apps](https://github.com/minvws/nl-covid19-coronacheck-app-bff)
 * [Website and print portal](https://github.com/minvws/nl-covid19-coronacheck-website)
-* [Debug portal for test providers](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-portal)
 * [Reference impementation of a dummy test provider](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-example)
-* [Example signing code for test/vaccination/recovery providers](https://github.com/minvws/nl-covid19-coronacheck-signature-demo)
 * [EU DGCG Integration](https://github.com/minvws/nl-covid19-coronacheck-app-dgcg-integration)
-* [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-cl-core)
+* [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-idemix)
+* [Mobile Core library](https://github.com/minvws/nl-covid19-coronacheck-mobile-core)
+* [Authentication glue DICTU Toegangs Verlenings Service/OpenID](https://github.com/minvws/nl-covid19-coronacheck-authentication-service)
+* [Signing Service driven by business rules](https://github.com/minvws/nl-covid19-coronacheck-backend-bizrules-signing-service)
 
 ## Architecture documentation
 
@@ -25,7 +26,7 @@ A good starting point with an overall view of the system is the [COVID-19 Corona
 
 ## Provider documentation
 
-All documentation for providers who want to connect to Coronacheck an be found in the [docs/](docs/) folder.
+This repository used to also include documentation for providers. A while ago we have moved all documentation for vaccination, test and recovery providers into a [single repository](https://github.com/minvws/nl-covid19-coronacheck-provider-docs)
 
 ## Development & Contribution process
 
