@@ -13,7 +13,7 @@ So that we can see from the code in which flow it happened, which api call it wa
 
 Error codes displayed in an error dialog will be formatted like this:
 
-`s xyy ppp? hhh bbbbbb (system flow.step provider?  errorcode detailederrorcode)`
+`s xyy ppp? hhh bbbbbb (system flow.step provider errorcode detailederrorcode)`
 
 ### System
 
@@ -64,7 +64,7 @@ See [Appendix A](#appendix-a) for the currently known steps for all major flows.
 
 ### Provider identifier
 
-ppp is the provider identifier (omitted for non-provider specific errors)
+ppp is the provider identifier ( 000 for non-provider specific errors)
 
 ### Error code
 
