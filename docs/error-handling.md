@@ -13,7 +13,7 @@ So that we can see from the code in which flow it happened, which api call it wa
 
 Error codes displayed in an error dialog will be formatted like this:
 
-`s/xyy/ppp/hhh/bbbbbb (system/flow.step/provider/errorcode/detailederrorcode)`
+`s xyy ppp? hhh bbbbbb (system flow.step provider?  errorcode detailederrorcode)`
 
 ### System
 
@@ -64,7 +64,7 @@ See [Appendix A](#appendix-a) for the currently known steps for all major flows.
 
 ### Provider identifier
 
-ppp is the provider identifier (000 for non-provider specific errors)
+ppp is the provider identifier (omitted for non-provider specific errors)
 
 ### Error code
 
@@ -76,8 +76,8 @@ If available: bbbbbb is any code from the body of the server call, e.g. 999
 
 ## Examples
 
-* `i/220/RVV/500/999111`  means: while retrieving a vaccination on iOS and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 999111.
-* `A/110/ABC/051` means: while retrieving a commercial code on Android and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
+* `i 220 RVV 500 999111`  means: while retrieving a vaccination on iOS and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 999111.
+* `A 110 ABC 051` means: while retrieving a commercial code on Android and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
 
 ## Client side errors
 
@@ -178,6 +178,7 @@ voorzet, todo android/ios/web devs.
 
 * 001: Unable to connect to host
 * 002: Invalid hostname.. etc.
+* 003: Invalid response
 
 ## 01h - ssl pinning failures
 
@@ -185,9 +186,11 @@ voorzet, todo android/ios/web devs.
 
 ## 02h - cms signature failures
 
+* 020: invalid signature
+
 ## 03h - json parse failures
 
-* 030: Can not decode object to json
+* 030: Can not decode object from json
 * 031: Can not encode object to json
 
 ## 04h - data validation failures
@@ -198,3 +201,9 @@ voorzet, todo android/ios/web devs.
 ## ≥ 05h - flow specific failures 
 
 * 051: luhn check failed etc
+* 052: can not convert paper DCC into event V3
+* 053: can not base64 decode nonce
+* 054: can not create commitment message
+* 055: error saving greenCards / origins / credentials
+* 056: error saving events
+
