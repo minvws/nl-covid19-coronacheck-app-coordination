@@ -28,7 +28,7 @@ s identifies which system the user is operating.
 x identifies in which main flow it happened (the number is assigned based on the order we added the feature to the app)
 
 Holder:
-* onboarding/startup flow: 0
+* launch / startup flow: 0
 * commercial test flow: 1
 * vaccination flow: 2
 * recovery flow: 3
@@ -36,8 +36,7 @@ Holder:
 * hkvi scan flow: 5
 
 Verifier:
-* onboarding/startup flow: 0
-* scan flow: 1
+* launch / startup flow: 0
 
 Print portal: 
 * onboarding flow: 0
