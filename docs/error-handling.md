@@ -206,3 +206,46 @@ voorzet, todo android/ios/web devs.
 * 055: error saving greenCards / origins / credentials
 * 056: error saving events
 
+## 06h - SQL failures
+ 
+* 060: Integrity constraint violation
+
+## 07h - TVS/DigiD failures
+
+* 070: General errors
+    * 070-0: Invalid discovery document
+    * 070-1: User cancelled flow
+    * 070-2: Flow cancelled programmatically
+    * 070-3: Network error
+    * 070-4: Server error
+    * 070-5: JSON deserialization error
+    * 070-6: Token response construction error
+    * 070-7: Invalid registration response
+    * 070-8: Unable to parse ID Token
+    * 070-9: Invalid ID Token
+* 071: OAuth authorization errors
+    * 071-1000: invalid_request
+    * 071-1001: unauthorized_client
+    * 071-1002: access_denied
+    * 071-1003: unsupported_response_type
+    * 071-1004: invalid_scope
+    * 071-1005: server_error
+    * 071-1006: temporarily_unavailable
+    * 071-1007: Client error
+    * 071-1008: Unknown error
+* 072: OAuth token errors
+    * 072-2000: invalid_request
+    * 072-2001: invalid_client
+    * 072-2002: invalid_grant
+    * 072-2003: unauthorized_client
+    * 072-2004: unsupported_grant_type
+    * 072-2005: invalid_scope
+    * 072-2006: Client error
+    * 072-2006: Unknown error
+* 073: Resource server authorization errors
+* 074: OAuth errors on registration endpoint
+    * 074-4000: invalid_request
+    * 074-4001: invalid_redirect_uri
+    * 074-4002: invalid_client_metadata
+    * 074-4003: Client error
+    * 074-4004: Unknown error
