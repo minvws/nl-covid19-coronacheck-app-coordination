@@ -205,6 +205,7 @@ voorzet, todo android/ios/web devs.
 * 054: can not create commitment message
 * 055: error saving greenCards / origins / credentials
 * 056: error saving events
+* 057: failed to initialize the Go crypto library
 
 ## 06h - SQL failures
  
