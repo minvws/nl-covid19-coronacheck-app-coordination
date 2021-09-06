@@ -242,7 +242,7 @@ voorzet, todo android/ios/web devs.
     * 072-2004: unsupported_grant_type
     * 072-2005: invalid_scope
     * 072-2006: Client error
-    * 072-2006: Unknown error
+    * 072-2007: Unknown error
 * 073: Resource server authorization errors
 * 074: OAuth errors on registration endpoint
     * 074-4000: invalid_request
