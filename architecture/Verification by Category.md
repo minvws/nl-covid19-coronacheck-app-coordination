@@ -10,6 +10,10 @@ The QR codes, upon issuance, are given a specific category based on a set of yet
 
 This document outlines the change to the flow to accommodate such a category.
 
+## Credential update
+
+The basis for this change is a new field `category` in the credential (the basis of the QR codes). Currently we are on version 2 of the credential. When we add the `category` field we will upgrade to version 3.
+
 ## Flow
 
 The following diagram depicts the changed flow. Hypothetical categories 'A' and 'B' are used, with an example business rule set that uses the test type to distingish between A and B.
@@ -36,3 +40,28 @@ At time of release of the category field, 2 versions of holder and verifier apps
 
 Since paper has a longer validity, current papers are continued to be supported by the new verifier app. The verifier app will assume a category for all paper based on a predetermined preset.
 
+## Impact
+
+### Verifier app ###
+
+The verifier app requires the following changes:
+
+* The mobile core library (written in go) will be upgraded to support v2 and v3 credentials.
+* A settings screen must be added to allow agents to select the categories they support.
+* The business rules need to be updated to mark the screen red or green based on the scanned QR, now taking into account the new category.
+
+The holder app requires the following changes:
+
+* The UI should be updated to explain the user what category of QR they received and what this means.
+* The storage should be updated to be able to store credentials with the new `category` field.
+* Existing credentials that are already on the device should, upon upgrade be migrated to the new storage model (even though they will have an empty category).
+* If we want to phase out old credentials, the holder should initiate a re-sign of current credentials. This can be done by shortening the refresh window (currently set to 28 days) temporarily, or by introducing a forced refresh. (Note: in the latter case it should be spread to not overload the signers).
+
+The signer requires the following changes:
+
+* Based on to-be-determined business rules, new credentials will be handed out with a new category value.
+* Two endpoints should be provided, the current v4 endpoint that hands out old credentials for apps that haven't been upgraded, and a v5 endpoint for upgraded apps.
+
+The print portal requires the following changes:
+
+* The UI should be updated to explain the user what category of QR they received and what this means.
