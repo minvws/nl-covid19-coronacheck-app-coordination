@@ -224,6 +224,10 @@ voorzet, todo android/ios/web devs.
     * 070-7: Invalid registration response
     * 070-8: Unable to parse ID Token
     * 070-9: Invalid ID Token
+    * 070-10: Safari open 
+    * 070-11: Browser open
+    * 070-12: Token refresh
+    * 070-13: JSON serialization error
 * 071: OAuth authorization errors
     * 071-1000: invalid_request
     * 071-1001: unauthorized_client
