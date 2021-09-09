@@ -13,7 +13,7 @@ So that we can see from the code in which flow it happened, which api call it wa
 
 Error codes displayed in an error dialog will be formatted like this:
 
-`s/xyy/ppp/hhh/bbbbbb (system/flow.step/provider/errorcode/detailederrorcode)`
+`s xyy ppp? hhh bbbbbb (system flow.step provider errorcode detailederrorcode)`
 
 ### System
 
@@ -28,7 +28,7 @@ s identifies which system the user is operating.
 x identifies in which main flow it happened (the number is assigned based on the order we added the feature to the app)
 
 Holder:
-* onboarding/startup flow: 0
+* launch / startup flow: 0
 * commercial test flow: 1
 * vaccination flow: 2
 * recovery flow: 3
@@ -36,8 +36,7 @@ Holder:
 * hkvi scan flow: 5
 
 Verifier:
-* onboarding/startup flow: 0
-* scan flow: 1
+* launch / startup flow: 0
 
 Print portal: 
 * onboarding flow: 0
@@ -64,7 +63,7 @@ See [Appendix A](#appendix-a) for the currently known steps for all major flows.
 
 ### Provider identifier
 
-ppp is the provider identifier (000 for non-provider specific errors)
+ppp is the provider identifier ( 000 for non-provider specific errors)
 
 ### Error code
 
@@ -76,8 +75,8 @@ If available: bbbbbb is any code from the body of the server call, e.g. 999
 
 ## Examples
 
-* `i/220/RVV/500/999111`  means: while retrieving a vaccination on iOS and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 999111.
-* `A/110/ABC/051` means: while retrieving a commercial code on Android and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
+* `i 220 RVV 500 999111`  means: while retrieving a vaccination on iOS and doing a unomi call to RIVM, the server responded  with a 500 error and the body said it was 999111.
+* `A 110 ABC 051` means: while retrieving a commercial code on Android and entering the code, for provider ABC, the Luhn check failed. (no detailed error code)
 
 ## Client side errors
 
@@ -178,6 +177,7 @@ voorzet, todo android/ios/web devs.
 
 * 001: Unable to connect to host
 * 002: Invalid hostname.. etc.
+* 003: Invalid response
 
 ## 01h - ssl pinning failures
 
@@ -185,9 +185,11 @@ voorzet, todo android/ios/web devs.
 
 ## 02h - cms signature failures
 
+* 020: invalid signature
+
 ## 03h - json parse failures
 
-* 030: Can not decode object to json
+* 030: Can not decode object from json
 * 031: Can not encode object to json
 
 ## 04h - data validation failures
@@ -198,3 +200,57 @@ voorzet, todo android/ios/web devs.
 ## ≥ 05h - flow specific failures 
 
 * 051: luhn check failed etc
+* 052: can not convert paper DCC into event V3
+* 053: can not base64 decode nonce
+* 054: can not create commitment message
+* 055: error saving greenCards / origins / credentials
+* 056: error saving events
+* 057: failed to initialize the Go crypto library
+
+## 06h - SQL failures
+ 
+* 060: Integrity constraint violation
+
+## 07h - TVS/DigiD failures
+
+* 070: General errors
+    * 070-0: Invalid discovery document
+    * 070-1: User cancelled flow
+    * 070-2: Flow cancelled programmatically
+    * 070-3: Network error
+    * 070-4: Server error
+    * 070-5: JSON deserialization error
+    * 070-6: Token response construction error
+    * 070-7: Invalid registration response
+    * 070-8: Unable to parse ID Token
+    * 070-9: Invalid ID Token
+    * 070-10: Safari open 
+    * 070-11: Browser open
+    * 070-12: Token refresh
+    * 070-13: JSON serialization error
+* 071: OAuth authorization errors
+    * 071-1000: invalid_request
+    * 071-1001: unauthorized_client
+    * 071-1002: access_denied
+    * 071-1003: unsupported_response_type
+    * 071-1004: invalid_scope
+    * 071-1005: server_error
+    * 071-1006: temporarily_unavailable
+    * 071-1007: Client error
+    * 071-1008: Unknown error
+* 072: OAuth token errors
+    * 072-2000: invalid_request
+    * 072-2001: invalid_client
+    * 072-2002: invalid_grant
+    * 072-2003: unauthorized_client
+    * 072-2004: unsupported_grant_type
+    * 072-2005: invalid_scope
+    * 072-2006: Client error
+    * 072-2007: Unknown error
+* 073: Resource server authorization errors
+* 074: OAuth errors on registration endpoint
+    * 074-4000: invalid_request
+    * 074-4001: invalid_redirect_uri
+    * 074-4002: invalid_client_metadata
+    * 074-4003: Client error
+    * 074-4004: Unknown error
