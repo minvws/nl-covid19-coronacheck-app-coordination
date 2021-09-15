@@ -178,6 +178,8 @@ voorzet, todo android/ios/web devs.
 * 001: Unable to connect to host
 * 002: Invalid hostname.. etc.
 * 003: Invalid response
+* 004: Timed out
+* 005: Connection lost
 
 ## 01h - ssl pinning failures
 
