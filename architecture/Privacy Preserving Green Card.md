@@ -72,7 +72,7 @@ Apps may employ background checks to renew strips when the app is not actively r
 
 The renewal process should be transparent to the user and is performed by the app without any user interaction. If strip generation fails for a recoverable reason (e.g. server down) and there are still strips left, the renewal can happen at the next attempt.
 
-There will only be user-interaction in the situation where the app needs new strips and the renewal failed and no strips are available. In that case the app must ask the user to go online to re-activate his green card.
+There will only be user-interaction in the situation where the app needs new strips and the renewal failed and no strips are available. In that case the app must ask the user to go online to re-activate their green card.
 
 ## Strip Randomization
 
