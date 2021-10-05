@@ -34,6 +34,7 @@ Holder:
 * recovery flow: 3
 * digid test flow: 4
 * hkvi scan flow: 5
+* QR flow: 6
 
 Verifier:
 * launch / startup flow: 0
@@ -157,6 +158,9 @@ Known step lists
 * signer call: 80
 * storing credentials: 90
 
+### QRs (flow 6)
+
+* show: 10
 
 ## Verifier app
 
@@ -212,6 +216,8 @@ voorzet, todo android/ios/web devs.
 ## 06h - SQL failures
  
 * 060: Integrity constraint violation
+* 061: No greenCards available
+* 062: Error fetching greenCards from CoreData
 
 ## 07h - TVS/DigiD failures
 
