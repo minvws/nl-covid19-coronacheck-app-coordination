@@ -56,6 +56,7 @@ yy identifies the step/call (within the flow, in 2 digits with 10-step increment
 * event call: 50
 * storing events: 60
 * prepare issue call: 70
+* refresh strippen error: 75
 * signer call: 80
 * storing credentials: 90
 
