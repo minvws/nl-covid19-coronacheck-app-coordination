@@ -35,6 +35,7 @@ Holder:
 * digid test flow: 4
 * hkvi scan flow: 5
 * QR flow: 6
+* upgradeEUVaccination: 7
 
 Verifier:
 * launch / startup flow: 0
