@@ -34,6 +34,8 @@ Holder:
 * recovery flow: 3
 * digid test flow: 4
 * hkvi scan flow: 5
+* QR flow: 6
+* upgradeEUVaccination: 7
 
 Verifier:
 * launch / startup flow: 0
@@ -158,6 +160,9 @@ Known step lists
 * signer call: 80
 * storing credentials: 90
 
+### QRs (flow 6)
+
+* show: 10
 
 ## Verifier app
 
@@ -179,6 +184,8 @@ voorzet, todo android/ios/web devs.
 * 001: Unable to connect to host
 * 002: Invalid hostname.. etc.
 * 003: Invalid response
+* 004: Timed out
+* 005: Connection lost
 
 ## 01h - ssl pinning failures
 
@@ -211,6 +218,8 @@ voorzet, todo android/ios/web devs.
 ## 06h - SQL failures
  
 * 060: Integrity constraint violation
+* 061: No greenCards available
+* 062: Error fetching greenCards from CoreData
 
 ## 07h - TVS/DigiD failures
 
