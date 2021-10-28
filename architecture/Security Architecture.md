@@ -16,6 +16,7 @@ Deze versie is niet de finale versie, er is expliciet de mogelijkheid tot commen
 |0.0|2021-02-10|MM||
 |0.99|2020-03-31|MM|Commentaar verwerkt|
 |1.0|2020-04-10|MM|Commentaar verwerkt|
+|2.0|2020-10-19|MM|Nieuwe features.
 
 ##
 Met dank aan:
@@ -49,6 +50,8 @@ Hierbij is per maatregel een overweging opgenomen waarom deze maatregel nodig bl
 
 <u>CTP</u>: Corona Test Provider, aanbieder van een coronatest
 
+<u>CTB</u>: Corona Toegangs Bewijs, geeft (indien geldig) een groen vinkje in de scanner.
+
 <u>CoronaCheck Signing Service Ondertekend Testresultaat</u>
 Uitgegeven door CoronaCheck Signing Service. Een digitaal document met met daarin de gegevens verwerkt die nodig zijn om een Testbewijs te maken in de Holder-App. Het document bevat een CL signature van de sleutel die beschikbaar is gesteld door MinVWS.
 
@@ -61,7 +64,11 @@ Uitgegeven door CoronaCheck Signing Service. Een digitaal document met met daari
 <u>Test Provider Ondertekend Testresultaat</u>:
 Uitgegeven door de CTP. Digitaal document met bewijs van negatieve testresultaat. Het document bevat een CMS signature van de CTP over deze data.
 
+<u>Identityhash</u>:
+Een (redelijk) anonieme hash die de burger kan gebruiken om uit te vinden of de burger bekend is bij de opvragende instantie.
 
+<u>Dataprovider</u>:
+Een aangesloten gegevensleverancier die test-, vaccinatie- of herstel-gegevens kan leveren via de identityhash route.
 
 
 
@@ -70,21 +77,25 @@ Uitgegeven door de CTP. Digitaal document met bewijs van negatieve testresultaat
 
 Er bestaan de volgende datastromen voor de gebruikers:
 
+1. Inloggen met DigiD en ophalen identityhash
 1. Ophalen van de ondertekende configuratiebestanden door Holder-App en Verifier-App.
-1. Opvragen Testresultaat door de Holder-App bij de CTP.
-1. Opvragen en omzetten van een Testresultaat naar een Ondertekend Testresultaat door de Holder-App.
-1. Omzetten van een Ondertekend Testresultaat  naar een Testbewijs, offline, in de Holder-App
+1. Opvragen Testresultaat-gegevens door de Holder-App bij de CTP.
+1. Opvragen Test- of Vaccinatiegegevens bij een aangesloten dataprovider.
+1. Opvragen en omzetten van ondertekende gegevens naar een Ondertekend Testresultaat door de Holder-App.
+1. Omzetten van een Ondertekend Testresultaat  naar een CTB, offline, in de Holder-App
 1. Presenteren Testbewijs door Holder-App aan de Verifier-App.
 
-**Datastroom 1** is het door de app ophalen van de huidige configuratie zoals door MinVWS gepubliceerd. Deze configuratiebestanden zijn voorzien van een controleerbare digitale handtekening waarvan in de App het certificaat van te voren bekend is bij uitlevering.
+**Datastroom 2** is het door de app ophalen van de huidige configuratie zoals door MinVWS gepubliceerd. Deze configuratiebestanden zijn voorzien van een controleerbare digitale handtekening waarvan in de App het certificaat van te voren bekend is bij uitlevering.
 
-**Datastroom 2** is vanuit de Holder-App naar de CTP en levert een Testresultaat op dat in de Holder-App nagekeken kan worden.
+**Datastroom 3** is vanuit de Holder-App naar de CTP en levert een Testresultaat op dat in de Holder-App nagekeken kan worden.
 
-**Datastroom 3** is het opsturen van het Testresultaat naar CoronaCheck Signing Service (CCSS) om dit om te zetten naar een Ondertekend Testresultaat. Deze wordt door de dienst eerst (nog een keer) gevalideerd.
+**Datastroom 4** is vanuit de Holder-App naar de CTP en levert een Testresultaat op dat in de Holder-App nagekeken kan worden.
 
-**Datastroom 4** is het omzetten van een Ondertekend Testresultaat naar een Testbewijs welke gepresenteerd wordt als QR.
+**Datastroom 5** is het opsturen van het Testresultaat naar CoronaCheck Signing Service (CCSS) om dit om te zetten naar een Ondertekend Testresultaat. Deze wordt door de dienst eerst (nog een keer) gevalideerd.
 
-**Datastroom 5** is het tonen van het Testbewijs door middel van een QR-code
+**Datastroom 6** is het omzetten van een Ondertekend Testresultaat naar een Testbewijs welke gepresenteerd wordt als QR.
+
+**Datastroom 7** is het tonen van het Testbewijs door middel van een QR-code
 ## Datatransport beveiliging
 1) Het datatransport dient versleuteld zijn met HTTPS TLS 1.3 met de juiste ciphers en PFS (of soortgelijk – dus dat een key compromise op dag 10 niet leidt tot confidentialiteit verlies van dag 1-9).
 1) Indien uit oogpunt van gebruikersacceptatie oudere OS versies ondersteund dienen te worden zal daar de TLS versie niet lager mogen zijn dan TLS 1.2. (Android < versie 6, iOS < 12.2). 
@@ -103,9 +114,9 @@ ECDHE-RSA-AES256-SHA384*
 
 Deze chiphers zijn aangeraden door o.a. mozilla https://ssl-config.mozilla.org/ voor Intermeditia security configuratie. In Modern wordt alleen TlS1.3 geaccepteerd.
 
-**Waar**: Configuratie + ophalen Testresultaat + ophalen CoronaCheck handtekening
+**Waar**: Configuratie + ophalen gegevens bij dataprovider + ophalen CoronaCheck handtekening
 
-**Overwegingen**: Gezien de data door de App zelf wordt opgehaald bij de aanbieder en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Geen beveiliging is geen optie hier. Dit geldt ook voor de aanbieders van testresultaten.
+**Overwegingen**: Gezien de data door de App zelf wordt opgehaald bij de dataprovider en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Geen beveiliging is geen optie hier. Dit geldt ook voor de aanbieders van testresultaten.
 Datauitwisseling met de overheid zal op hoog niveau beveiligd dienen te zijn. Door ondertekening, en transportencryptie is dit ruimschoots geborgd.
 
 ## Strippen IP adressen
@@ -121,91 +132,79 @@ Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekening
 
 Het gebruik van IP-adressen is nog steeds nodig om te communiceren over het internet, dus ze moeten wel gebruikt worden.
 
-## Aanleveren Test Provider Ondertekend Testresultaat
-Het Testresultaat dient te worden aangeleverd door de CTP voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding. SHA256 voldoet ook aan de SOGIS Agreed Cryptographic Mechanisms.
+## Aanleveren test provider en dataprovider ondertekende gegevens
+De gegevens dienen te worden aangeleverd door de CTP voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding. SHA256 voldoet ook aan de SOGIS Agreed Cryptographic Mechanisms.
 
 In de app zal de door MinVWS gepubliceerde lijst publieke sleutels bekend zijn waarmee gecontroleerd kan worden of dit Testresultaat door MinVWS geaccepteerd zal worden voor het omzetten naar een Testbewijs.
 
 Dit is een goed beheerde en ondertekende lijst in beheer van MinVWS en beheerd volgens de geldende BIO normen. De sleutel van deze ondertekening zal in de HSM opgeslagen zijn.
 
-Dit Testresultaat dient alleen te worden aangeleverd via een gecontroleerde methode waarbij er met redelijke mate van waarschijnlijkheid kan worden uitgegaan dat de gebruiker ook de bedoelde patiënt is. Dit zoals bedoeld in NEN7510.
+Het Testresultaat dient alleen te worden aangeleverd via een gecontroleerde methode waarbij er met redelijke mate van waarschijnlijkheid kan worden uitgegaan dat de gebruiker ook de bedoelde patiënt is. Dit zoals bedoeld in NEN7510.
 
 Hierbij is bijvoorbeeld acceptabel om DigiD midden te gebruiken of een bijna realtime controle via SMS indien er niet van DigiD gebruik gemaakt kan worden.
 
 **Overwegingen**: Aangezien de burger zelf de data ontvangt en deze op eigen initiatief doorstuurt is het nodig dat er geverifieerd kan worden dat deze data niet is gemanipuleerd. Encryptie is niet nodig omdat de burger juist zelf moet kunnen controleren of de data correct is.
 
 
-## Inhoud TestResultaat
-Het Testresultaat bevat uitsluitend:
+## Inhoud datagegevens
+Het Testresultaat bevat uitsluitend de gegevens zoals nodig voor DCC en CTB certificaat zoals gedocumenteerd in 
 
 - Een unieke code voor deze test. Dit om het resultaat uniek te maken.
-- De datum/tijd van de test, naar beneden afgerond op een uur
+- De datum/tijd van de test
 - Het testtype
 - De aanwezigheid van een negatief resultaat.
 - De dag van de geboortedatum
 - De maand van de geboortedatum
-- De eerste letter van de voornaam
-- De eerste letter van de achternaam
+- De voornaam
+- De achternaam
 - Een ondertekening over de bovenstaande data
 - Of het een demonstratie code betreft 
 
 **Overwegingen**: Dit is de minimale set om aan de vereisten te voldoen zodat de app-set op grote schaal gebruikt kan worden. Minder gegevens levert op vele vlakken mogelijkheden tot fraude. Meer gegevens levert minder privacy en niet een substantiële fraude-reductie.
 
-## Aanleveren Testbewijs
-De Holder-App levert het Testresultaat aan aan de CoronaCheck backend. Deze zet het Testresultaat om naar een Ondertekend Testresultaat door het te voorzien van een niet-herleidbare Camenisch-Lysyanskaya handtekening. De gebruiker kan op basis van deze handtekening aan de Scanner-App elke keer een andere handtekening op het testbewijs leveren waarmee er geen unieke traceerbaarheid van de gebruiker van de Holder-App meer mogelijk is.
+## Aanleveren toegangsbewijs
+De Holder-App levert het toegangsbewijs aan aan de CoronaCheck backend. Deze zet het Testresultaat om naar een Ondertekend Testresultaat door het te voorzien van een niet-herleidbare Camenisch-Lysyanskaya handtekening. De gebruiker kan op basis van deze handtekening aan de Scanner-App elke keer een andere handtekening op het toegangsbewijs leveren waarmee er geen unieke traceerbaarheid van de gebruiker van de Holder-App meer mogelijk is.
 
 ### Lengte van de sleutels
 Aangezien het mogelijk is om elke week een andere publieke sleutel te gebruiken voor ondertekening kan de lengte van de RSA sleutels in deze CL handtekening korter worden gehouden dan de standaard voorgeschreven 2048 bits.
 
 Gezien de lengte van de sleutel bepalend is voor de hoeveelheid tekens die getoond moeten worden met de QR-code, is het vanuit bruikbaarheids-oogpunt zaak deze zo kort als mogelijk te houden. Daarom is een lengte van 1024 bits hier toegestaan.
+
 ### Controle Testresultaat
 Bij het aanleveren van een Testresultaat zal de backend van CoronaCheck een controle doen of de handtekening geldig is en gezet is door een CTP in de toegestane lijst van CTP’s.
 
 Indien deze handtekening correct is zal er worden gecontroleerd of dit Testresultaat niet al eerder is uitgegeven. Dit wordt gedaan met een hashtabel, waarin de unieke combinatie van de unieke code van het Testresultaat en de CTP identifier wordt opgenomen samen met een verlooptijd. Periodiek worden testresultaten die verlopen zijn uit de tabel verwijder.
 
-### Herhaaldelijk omzetten van testresultaat###
-Het aantal keren dat een QR in de App wordt opgehaald is gemaximeerd op 2 (twee) keer.
-Het aantal keren dat een QR voor Print kan worden opgehaald is ongelimiteerd.
 
-De achtergrond achter het beperken van het aantal keren dat een QR-code opgehaald wordt is dat het anders gemakkelijk mogelijk zou zijn om fraude te plegen: de QR-code van de ene persoon kan gemakkelijk ook door een ander opgehaald en gebruikt worden. Zolang er geen goede persoonsidentificatie aan de poort plaatsvind, door het tonen van initialen en geboortedag en maand in de verifier app en deze te vergelijken met die uit een ID bewijs, is dat een ongewenste situatie.
+### Inhoud van de toegangsbewijzen:
 
 
-### Inhoud van het Testbewijs
-Het Testbewijs bevat maximaal:
-
-- Datum/tijd van testafname
-- Initialen van Voornaam en Achternaam
-- Dag en maand van de geboortedatum
-- Is het bestemd voor papier
-- Het test type
-- datum en tijd van generatie
-- sleutel identifier van de sleutel die is gebruikt.
-- Is het een demonstratie code
-- Het bovenstaande ondertekend met de CL handtekening 
-
-**Overwegingen**: Voor zover ze nog niet genoemd zijn in de beschrijving: er is niet meer informatie beschikbaar dan er verzonden wordt door de burger, dus meer informatie kan niet. Het gebruik van CTCC cryptografie levert een flinke bijdrage in de privacy omdat er geen relatie gelegd kan worden tussen de verschillende scans bij dezelfde burger en omdat dit 100% offline kan gebeuren waardoor er geen tracering en logging van bestaat.
+**Overwegingen**: Voor zover ze nog niet genoemd zijn in de beschrijving: er is niet meer informatie beschikbaar dan er verzonden wordt door de burger, dus meer informatie kan niet. Het gebruik van CTCL cryptografie levert een flinke bijdrage in de privacy omdat er geen relatie gelegd kan worden tussen de verschillende scans bij dezelfde burger en omdat dit 100% offline kan gebeuren waardoor er geen tracering en logging van bestaat.
 Door deze ondertekening is het niet meer mogelijk om te bewijzen dat een burger deze ondertekening heeft getoond is het verleden. Hierdoor is er ook in het geval van (illegale) logging geen methode om correlaties tussen scans te leggen.
 
-## Tonen van het Testbewijs
-Om elke keer een uniek testbewijs te hebben zonder dat er echte data zoals tijd, delen van de naam en tijdstip uniek horen te zijn wordt er bij het testresultaat een zogeheten nonce toegevoegd. Een meer dan 96 bits groot arbitrair getal per testbewijs. Hiermee wordt geborgd dat een testbewijs uniek te identificeren is voor de ondertekeningsservice.
+## Tonen van het toegangsbewijs
+Om elke keer een uniek toegangsbewijs te hebben zonder dat er echte data zoals tijd, delen van de naam en tijdstip uniek horen te zijn wordt er bij het testresultaat een zogeheten nonce toegevoegd. Een meer dan 96 bits groot arbitrair getal per toegangsbewijs. Hiermee wordt geborgd dat een toegangsbewijs uniek te identificeren is voor de ondertekeningsservice.
 
-Bij het tonen van het Testbewijs wordt de nonce uit het bericht verborgen en wordt er een unieke handtekening getoond op basis van de CL-cryptografie.
+Bij het tonen van het toegangsbewijs wordt de nonce uit het bericht verborgen en wordt er een unieke handtekening getoond op basis van de CL-cryptografie.
 
-Ook zal de QR-code van het Testbewijs de datum/tijd van generatie van de QRcode bevatten.
+Ook zal de QR-code van het toegangsbewijs de datum/tijd van generatie van de QRcode bevatten.
 
 **Overwegingen**: Zodat het niet mogelijk is om screenshots te gebruiken is de QRcode slechts tijdelijk geldig. Hiermee wordt klein en grootschalige fraude tegengegaan. De nonce wordt niet gecommuniceerd zodat ook logging hiervan niet mogelijk is om tracking te doen tussen verschillende scans.
 Daarnaast zijn er andere maatregelen genomen om fraude tegen te gaan, animatie, interactie, reactie op de scan en alle niet-technische toegangscontrole maatregelen die bij toegangstesten uitgevoerd kunnen worden.
 
-## Het scannen van het Testbewijs
-Bij het scannen van het Testbewijs zal door de CL-ondertekening elke keer dat er een QR-code wordt getoond een testbewijs met andere handtekening worden getoond.
+## Het scannen van het toegangsbewijs
+Bij het scannen van het toegangsbewijs zal door de CL-ondertekening elke keer dat er een QR-code wordt getoond een toegangsbewijs met andere handtekening worden getoond.
 
-Elke paar minuten zal er een nieuwe QR-code worden getoond zodat tracering tussen de verschillende QR-codes niet mogelijk is.
+Elk minuut zal er een nieuwe QR-code worden getoond zodat tracering tussen de verschillende QR-codes niet mogelijk is.
 
 Daarnaast zal er een visuele indicatie worden getoond waarmee te zien is dat er geen screenshot maar een live beeld getoond wordt.
 
-Bij het scannen van een QR-code die om welke reden dan ook niet wordt herkend als een geldig testbewijs, wordt een rood scherm getoond.
+Bij het scannen van een QR-code die om welke reden dan ook niet wordt herkend als een geldig toegangsbewijs, wordt een rood scherm getoond.
 
 **Overwegingen**: Met een duidelijke kleur van het scherm is het voor de controleur direct duidelijk wat er aan de hand is en zal er daarover minder snel discussie ontstaan. Dat de scanner controleert op de tijd zorgt er wel voor dat de tijd op het device van de scanner en de aanbieder van de qrcode redelijk goed moet staan. Er is hier een marge ingebouwd om kleine fouten in tijd te mitigeren. Hiermee blijft het werkbaar terwijl er toch absolute waarden worden gecommuniceerd.
+
+### Inhoud van de toegangsbewijzen:
+
 
 ## HSM gebruik
 Ter beveiliging van het proces om borging dat na nodige vernietiging de data niet meer terug te vinden is, ook niet in backups, zal er gebruik gemaakt worden van een Hardware Security Module.
@@ -236,8 +235,8 @@ IOS: Voor IOS dient gebruik te worden gemaakt te worden gemaakt van Keychain
 Voor het verkleinen van de attack surface ten aanzien van het scanner-device, is het verstandig om alle niet-noodzakelijke communicatieprotocollen zoveel mogelijk uit te schakelen.
 
 **Overwegingen:** Het is niet de bedoeling dat er een logboek van controles ontstaat met de controle app. Door basismaatregelen in acht te nemen is de kans groter dat deze gegevens veilig blijven.
-## Offline verificatie Testbewijs
-**Overwegingen:** Met de voorafgaande beschreven technieken is het niet nodig, zelfs ongewenst, om online te zijn tijdens het tonen van een Testbewijs, dan wel het scannen en verifiëren van een QR-code Testbewijs. Dit om het mogelijk te maken Testbewijzen te controleren in een omgeving waar geen of slechte/langzame internettoegang is. Het voorkomt oponthoud en vertragingen in de doorstroom van gebruikers wanneer er infrastructuur-issues zijn, zoals trage responses, volledige onbeschikbaarheid door een DDoS-aanval, of zelfs dat de actie van het massaal tonen van Testbewijzen zorgt voor een potentiële DDoS op de infrastructuur.
+## Offline verificatie toegangsbewijs
+**Overwegingen:** Met de voorafgaande beschreven technieken is het niet nodig, zelfs ongewenst, om online te zijn tijdens het tonen van een toegangsbewijs, dan wel het scannen en verifiëren van een QR-code toegangsbewijs. Dit om het mogelijk te maken toegangsbewijzen te controleren in een omgeving waar geen of slechte/langzame internettoegang is. Het voorkomt oponthoud en vertragingen in de doorstroom van gebruikers wanneer er infrastructuur-issues zijn, zoals trage responses, volledige onbeschikbaarheid door een DDoS-aanval, of zelfs dat de actie van het massaal tonen van toegangsbewijzen zorgt voor een potentiële DDoS op de infrastructuur.
 
 Naast bovenstaande security-overwegingen is offline gebruik privacy-vriendelijker voor gebruikers. Er kunnen geen gegevens uitgewisseld worden met de achterliggende infrastructuur, er kan dus geen data gelogd worden buiten hetgeen in de Scanner-App en/of in de Holder-App eventueel wordt gedaan, en deze software is door het publiek te auditen.
 
