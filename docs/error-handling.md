@@ -238,6 +238,7 @@ voorzet, todo android/ios/web devs.
     * 070-11: Browser open
     * 070-12: Token refresh
     * 070-13: JSON serialization error
+    * 070-14: No browser found to handle Digid login
 * 071: OAuth authorization errors
     * 071-1000: invalid_request
     * 071-1001: unauthorized_client
