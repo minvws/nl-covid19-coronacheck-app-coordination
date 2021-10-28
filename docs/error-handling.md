@@ -264,3 +264,9 @@ voorzet, todo android/ios/web devs.
     * 074-4002: invalid_client_metadata
     * 074-4003: Client error
     * 074-4004: Unknown error
+
+## 08h - Provider failures
+ 
+  * 080: No providers for negative test available
+  * 081: No providers for recovery or positive test available
+  * 082: No providers for vaccination available
