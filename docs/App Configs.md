@@ -51,7 +51,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 
 ## Verifier app
 
-Setting | Example | Description | Deprecated
+Setting | Example | Description | Depre<br/>cated?
 -|-|-|-
 `androidMinimumVersion`| 2522|The mininum version (build number) that an Android user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-
 `androidRecommendedVersion`| 2522|The recommended version (build number) that an Android user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-
@@ -74,11 +74,11 @@ Setting | Example | Description | Deprecated
 `domesticVerificationRules.`<br/>`proofIdentifierDenylist`| `{ "JyoXN+LkbWEjqBvte11m8w==": true }`|A deny-list of QR codes that is deemed invalid (typically based on fraudulent distributrion).|-
 `europeanVerificationRules.`<br/>`testAllowedTypes`| `["LP217198-3"]`|List of DCC test types that are accepted|-
 `europeanVerificationRules.`<br/>`testValidityHours`| 25|The validity of DCC test results. AFter this amount of hours a DCC will no longer lead to a green checkmark|-
-`europeanVerificationRules.`<br/>`vaccinationValidityDelayBasedOnVaccinationDate`| true|Whether or not waiting times should be applied to vaccinations.|-
-`europeanVerificationRules.`<br/>`vaccinationValidityDelayIntoForceDate`| "2021-07-10"|The date that the previous setting goes into effect|-
+`europeanVerificationRules.`<br/>`vaccinationValidityDelay`<br/>`BasedOnVaccinationDate`| true|Whether or not waiting times should be applied to vaccinations.|-
+`europeanVerificationRules.`<br/>`vaccinationValidityDelay`<br/>`IntoForceDate`| "2021-07-10"|The date that the previous setting goes into effect|-
 `europeanVerificationRules.`<br/>`vaccinationValidityDelayDays`| 14|The amount of days ago that a vaccination must have been applied to get a green checkmark |-
-`europeanVerificationRules.`<br/>`vaccinationJanssenValidityDelayDays`| 28|The amount of days ago that a Janssen vaccination must have been applied to get a green checkmark.|-
-`europeanVerificationRules.`<br/>`vaccinationJanssenValidityDelayIntoForceDate`| "2021-08-14"|The date that the previous setting goes into effect|-
+`europeanVerificationRules.`<br/>`vaccinationJanssen`<br/>`ValidityDelayDays`| 28|The amount of days ago that a Janssen vaccination must have been applied to get a green checkmark.|-
+`europeanVerificationRules.`<br/>`vaccinationJanssen`<br/>`ValidityDelayIntoForceDate`| "2021-08-14"|The date that the previous setting goes into effect|-
 `europeanVerificationRules.`<br/>`vaccineAllowedProducts`| `["EU/1/20/1528"]`|A list of EU DCC vaccinations that lead to a green checkmark|-
 `europeanVerificationRules.`<br/>`recoveryValidFromDays`| 11|Recovery DCCs will only scan green if the sampledate is more than this amount of days ago|-
 `europeanVerificationRules.`<br/>`recoveryValidUntilDays`| 180|Recover DCCs will only scan green if the sampldate is no more than this amount of days ago|-
