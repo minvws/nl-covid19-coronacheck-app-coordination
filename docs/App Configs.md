@@ -4,7 +4,7 @@ This document provides an overview of the configuration values that the CoronaCh
 
 ## Holder app
 
-Setting | Example | Description | Android/iOS | Web | Deprecated?
+Setting | Example | Description | Apps | Web | Depre<br/>cated?
 -|-|-|-|-|-
 `androidMinimumVersion`| 2137 |The mininum version (build number) that an Android user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-|-|-
 `androidRecommendedVersion`| 2137 |The recommended version (build number) that an Android user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-|-|-
@@ -23,7 +23,7 @@ Setting | Example | Description | Android/iOS | Web | Deprecated?
 `requireUpdateBefore`| 1620781181 |If there's a required upgrade, this setting indicates by when the user should upgrade. If this is in the future, then the message telling the user their app is too old will be postponed until this moment, and they will only get a warning first|-|-|-
 `ggdEnabled`| true |This setting indicates whether the integration with GGD (for vaccination/test/recovery retrieval) is enabled. When turning this off, the app will not contact the GGD servers.|-|-|-
 `euLaunchDate`| "2021-06-30T22:00:00Z" |The date the EU DCC goes into effect. If the app is started before this date, a countdown to the EU Launch Date is shown|-|-|Yes
-`recoveryGreencardRevisedValidityLaunchDate`| "2021-11-04T22:00:00Z" |When recovery cards validity is changed, this date will tell the app when that change will go into effect.|-|-|-
+`recoveryGreencardRevised-`<br/>`ValidityLaunchDate`| "2021-11-04T22:00:00Z" |When recovery cards validity is changed, this date will tell the app when that change will go into effect.|-|-|-
 `temporarilyDisabled`| false |This setting can tenporarily disable the app. Unlinke the kill switch (`appDeactivated`) this is temporary and the message telling the user that the app is disabled will reflect that.|-|-|-
 `vaccinationEventValidity`| 14600 |How long (in hours) a vaccination event will be stored in the app. It will be deleted if it's older than this.|-|-|-
 `vaccinationEventValidityDays`| 730 |?|-|-|-
