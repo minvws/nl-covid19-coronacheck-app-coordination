@@ -38,7 +38,7 @@ Frank van Vonderen
 et. al.
 
 ## Introductie
-Bij het ontwerpen en opstellen van designeisen van de applicaties is vastgesteld dan privacy en security by design benodig waren. Het samenstelsel van applicaties en data verwerkt gevoelige persoonsgegevens.
+Bij het ontwerpen en opstellen van designeisen van de applicaties is vastgesteld dat privacy en security by design benodig waren. Het samenstelsel van applicaties en data verwerkt gevoelige persoonsgegevens.
 
 Om hierbij te voldoen aan de wettelijke eisen en de implementatie van de BIO-normen is dit document opgesteld.
 
@@ -51,6 +51,8 @@ Hierbij is per maatregel een overweging opgenomen waarom deze maatregel nodig bl
 <u>CTP</u>: Corona Test Provider, aanbieder van een coronatest
 
 <u>CTB</u>: Corona Toegangs Bewijs, geeft (indien geldig) een groen vinkje in de scanner.
+
+<u>CC-CL</u>: CoronaCheck Camenisch-Lysyanskaya, voorheen CT-CL(CoronaTester Camenisch-Lysyanskaya).
 
 <u>CoronaCheck Signing Service Ondertekend Testresultaat</u>
 Uitgegeven door CoronaCheck Signing Service. Een digitaal document met met daarin de gegevens verwerkt die nodig zijn om een Testbewijs te maken in de Holder-App. Het document bevat een CL signature van de sleutel die beschikbaar is gesteld door MinVWS.
@@ -77,25 +79,30 @@ Een aangesloten gegevensleverancier die test-, vaccinatie- of herstel-gegevens k
 
 Er bestaan de volgende datastromen voor de gebruikers:
 
-1. Inloggen met DigiD en ophalen identityhash
+1. Inloggen met DigiD voor ophalen BSN
+1. Gebruiken van BSN door middel van identityhash
 1. Ophalen van de ondertekende configuratiebestanden door Holder-App en Verifier-App.
 1. Opvragen Testresultaat-gegevens door de Holder-App bij de CTP.
 1. Opvragen Test- of Vaccinatiegegevens bij een aangesloten dataprovider.
 1. Opvragen en omzetten van ondertekende gegevens naar een Ondertekend Testresultaat door de Holder-App.
 1. Omzetten van een Ondertekend Testresultaat  naar een CTB, offline, in de Holder-App
-1. Presenteren Testbewijs door Holder-App aan de Verifier-App.
+1. Presenteren Toegangsbewijs door Holder-App aan de Verifier-App.
 
-**Datastroom 2** is het door de app ophalen van de huidige configuratie zoals door MinVWS gepubliceerd. Deze configuratiebestanden zijn voorzien van een controleerbare digitale handtekening waarvan in de App het certificaat van te voren bekend is bij uitlevering.
+**Datastroom 1** Het BSN van een gebruiker wordt opgehaald door middel van het inloggen bij DigiD. Dit is de nederlandse identiteitsportaal die gelinkt is aan de BSN van een nederlandse staats burger. De BSN wordt intern tijdelijk opgeslagen.
 
-**Datastroom 3** is vanuit de Holder-App naar de CTP en levert een Testresultaat op dat in de Holder-App nagekeken kan worden.
+**Datastrom 2** Zodra de BSN intern is opgeslagen, kan deze gebruikt worden om een identity hash te maken, en de aangesloten data providers een Unomi verzoek te versturen.
+
+**Datastroom 3** is het door de app ophalen van de huidige configuratie zoals door MinVWS gepubliceerd. Deze configuratiebestanden zijn voorzien van een controleerbare digitale handtekening waarvan in de App het certificaat van te voren bekend is bij uitlevering.
 
 **Datastroom 4** is vanuit de Holder-App naar de CTP en levert een Testresultaat op dat in de Holder-App nagekeken kan worden.
 
-**Datastroom 5** is het opsturen van het Testresultaat naar CoronaCheck Signing Service (CCSS) om dit om te zetten naar een Ondertekend Testresultaat. Deze wordt door de dienst eerst (nog een keer) gevalideerd.
+**Datastroom 5** is vanuit de Holder-App naar de CTP en levert een Testresultaat op dat in de Holder-App nagekeken kan worden.
 
-**Datastroom 6** is het omzetten van een Ondertekend Testresultaat naar een Testbewijs welke gepresenteerd wordt als QR.
+**Datastroom 6** is het opsturen van het Testresultaat naar CoronaCheck Signing Service (CCSS) om dit om te zetten naar een Ondertekend Testresultaat. Deze wordt door de dienst eerst (nog een keer) gevalideerd.
 
-**Datastroom 7** is het tonen van het Testbewijs door middel van een QR-code
+**Datastroom 7** is het omzetten van een Ondertekend Testresultaat naar een Testbewijs welke gepresenteerd wordt als QR.
+
+**Datastroom 8** is het tonen van het Testbewijs door middel van een QR-code
 ## Datatransport beveiliging
 1) Het datatransport dient versleuteld zijn met HTTPS TLS 1.3 met de juiste ciphers en PFS (of soortgelijk – dus dat een key compromise op dag 10 niet leidt tot confidentialiteit verlies van dag 1-9).
 1) Indien uit oogpunt van gebruikersacceptatie oudere OS versies ondersteund dienen te worden zal daar de TLS versie niet lager mogen zijn dan TLS 1.2. (Android < versie 6, iOS < 12.2). 
@@ -124,9 +131,9 @@ Waar: Ophalen configuratie (CDN) + ophalen handtekening (app en papier)
 
 Welke apps: Holder en Verifier app endpoints.
 
-Het HTTP verkeer dat versleuteld is met TLS gaat door meerdere systemen heen voor het bij de dienst komt. Het begint bij de firewall, daarna komt het op een door de hosting partij beheerde TCP-proxy waar het IP adres verwijderd wordt. Hierna komt het verkeer terecht op een een andere applicatieserver waar TLS-termination plaatsvindt.
+Het HTTP verkeer dat versleuteld is met TLS gaat door meerdere systemen heen voor het bij de dienst komt. Het begint bij de firewall, daarna komt het op een door de hosting partij beheerde TCP-proxy waar het IP adres wordt gestript. Voor het strippen geldt voor IPv4 een IPv4/24 subnet mask, voor IPv6 is dit IPv6/48. Hierna komt het verkeer terecht op een een andere applicatieserver waar TLS-termination plaatsvindt.
 
-Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekeningsservice niet vanaf welk IP adres het verkeer komt. Het is dus onmogelijk om te achterhalen vanaf welk IP-adres een ondertekening van een testresultaat wordt aangevraagd.
+Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekeningsservice niet exact vanaf welk IP adres het verkeer komt. Het is dus onmogelijk om te achterhalen vanaf welk IP-adres een ondertekening van een CTB wordt aangevraagd.
 
 **Overwegingen**: Gezien het voor het gebruik van de backend systemen en beveiligingen hiervoor niet nodig is om een relatie te kunnen leggen tussen de gebruiker (IP adres) en de data zal deze niet samen gebundeld moeten kunnen worden in logfiles en foutmeldingen. Door beheer gescheiden uit te voeren is dit ook organisatorisch efficient te borgen.
 
@@ -141,7 +148,7 @@ Dit is een goed beheerde en ondertekende lijst in beheer van MinVWS en beheerd v
 
 Het Testresultaat dient alleen te worden aangeleverd via een gecontroleerde methode waarbij er met redelijke mate van waarschijnlijkheid kan worden uitgegaan dat de gebruiker ook de bedoelde patiënt is. Dit zoals bedoeld in NEN7510.
 
-Hierbij is bijvoorbeeld acceptabel om DigiD midden te gebruiken of een bijna realtime controle via SMS indien er niet van DigiD gebruik gemaakt kan worden.
+Een van de manieren om aan een testresultaat te komen is dan ook door middel van DigiD. Dit authenticatie platform die is bedoeld om de identiteit van een nederlandse staatsburgers te controloren. Daarnaast ondersteund dit platform two-factor authenticatie. Dit geeft voldoende zekerheid dat de verstrekte informatie voor de bedoelde patiënt is.
 
 **Overwegingen**: Aangezien de burger zelf de data ontvangt en deze op eigen initiatief doorstuurt is het nodig dat er geverifieerd kan worden dat deze data niet is gemanipuleerd. Encryptie is niet nodig omdat de burger juist zelf moet kunnen controleren of de data correct is.
 
@@ -168,12 +175,10 @@ De Holder-App levert het toegangsbewijs aan aan de CoronaCheck backend. Deze zet
 ### Lengte van de sleutels
 Aangezien het mogelijk is om elke week een andere publieke sleutel te gebruiken voor ondertekening kan de lengte van de RSA sleutels in deze CL handtekening korter worden gehouden dan de standaard voorgeschreven 2048 bits.
 
-Gezien de lengte van de sleutel bepalend is voor de hoeveelheid tekens die getoond moeten worden met de QR-code, is het vanuit bruikbaarheids-oogpunt zaak deze zo kort als mogelijk te houden. Daarom is een lengte van 1024 bits hier toegestaan.
+Gezien de lengte van de sleutel bepalend is voor de hoeveelheid tekens die getoond moeten worden met de QR-code, is het vanuit bruikbaarheids-oogpunt zaak deze zo kort als mogelijk te houden. Daarom is een lengte van 1024 bits hier toegestaan. De (verkorte) lengte van de sleutel wordt gecompenseerd door elke 3 maanden nieuwe sleutels te activeren. Het activeren van een nieuwe sleutel dient op zijn vroegst 24 uur na publicatie van deze sleutel in de holder app te gebeuren. Dit om te voorkomen dat een nieuwe sleutel niet tijdig herkend wordt. Na het deactiveren van een sleutel, dient deze nog 365 dagen geaccepteerd te worden. Dit omdat het langste CTB 365 dagen geldig is, en deze zo lang geaccepteerd worden.
 
 ### Controle Testresultaat
 Bij het aanleveren van een Testresultaat zal de backend van CoronaCheck een controle doen of de handtekening geldig is en gezet is door een CTP in de toegestane lijst van CTP’s.
-
-Indien deze handtekening correct is zal er worden gecontroleerd of dit Testresultaat niet al eerder is uitgegeven. Dit wordt gedaan met een hashtabel, waarin de unieke combinatie van de unieke code van het Testresultaat en de CTP identifier wordt opgenomen samen met een verlooptijd. Periodiek worden testresultaten die verlopen zijn uit de tabel verwijder.
 
 
 ### Inhoud van de toegangsbewijzen:
@@ -190,12 +195,12 @@ Bij het tonen van het toegangsbewijs wordt de nonce uit het bericht verborgen en
 Ook zal de QR-code van het toegangsbewijs de datum/tijd van generatie van de QRcode bevatten.
 
 **Overwegingen**: Zodat het niet mogelijk is om screenshots te gebruiken is de QRcode slechts tijdelijk geldig. Hiermee wordt klein en grootschalige fraude tegengegaan. De nonce wordt niet gecommuniceerd zodat ook logging hiervan niet mogelijk is om tracking te doen tussen verschillende scans.
-Daarnaast zijn er andere maatregelen genomen om fraude tegen te gaan, animatie, interactie, reactie op de scan en alle niet-technische toegangscontrole maatregelen die bij toegangstesten uitgevoerd kunnen worden.
+Daarnaast zijn er andere maatregelen genomen om fraude tegen te gaan, animatie, interactie, reactie op de scan en alle niet-technische toegangscontrole maatregelen die bij toegangstesten uitgevoerd kunnen worden. Zie  #**Het scannen van het toegangsbewijs**.
 
 ## Het scannen van het toegangsbewijs
 Bij het scannen van het toegangsbewijs zal door de CL-ondertekening elke keer dat er een QR-code wordt getoond een toegangsbewijs met andere handtekening worden getoond.
 
-Elk minuut zal er een nieuwe QR-code worden getoond zodat tracering tussen de verschillende QR-codes niet mogelijk is.
+Omdat de QR code regelmatig ververst, is het ook niet mogelijk om een QR Code te traceren. Een malafide scanner app kan dus niet de privacy van de gebruikte QR code in gevaar kunnen brengen. De QR code wordt iedere 30 seconden ververst. Ook is in de scanner app een afwijking van 30 seconden toegestaan. Hierdoor is een maximale afwijking van 60 seconden mogelijk tussen Scanner en Holder applicatie.
 
 Daarnaast zal er een visuele indicatie worden getoond waarmee te zien is dat er geen screenshot maar een live beeld getoond wordt.
 
@@ -203,11 +208,13 @@ Bij het scannen van een QR-code die om welke reden dan ook niet wordt herkend al
 
 **Overwegingen**: Met een duidelijke kleur van het scherm is het voor de controleur direct duidelijk wat er aan de hand is en zal er daarover minder snel discussie ontstaan. Dat de scanner controleert op de tijd zorgt er wel voor dat de tijd op het device van de scanner en de aanbieder van de qrcode redelijk goed moet staan. Er is hier een marge ingebouwd om kleine fouten in tijd te mitigeren. Hiermee blijft het werkbaar terwijl er toch absolute waarden worden gecommuniceerd.
 
+
+
 ### Inhoud van de toegangsbewijzen:
 
 
 ## HSM gebruik
-Ter beveiliging van het proces om borging dat na nodige vernietiging de data niet meer terug te vinden is, ook niet in backups, zal er gebruik gemaakt worden van een Hardware Security Module.
+Ter beveiliging van het proces om borging dat na nodige vernietiging de data niet meer terug te vinden is, ook niet in backups, zal er gebruik gemaakt worden van een Hardware Security Module voor DCC. Voor de CTB gelden door RDO opgestelde beheermaatregelen.
 
 In deze HSM worden de sleutels opgeslagen op een niet exporteerbare manier. Hierdoor is de HSM de enige die een geldige ondertekening op de gevraagde data kan leveren.
 
@@ -216,6 +223,7 @@ Om dit mogelijk te maken wordt de HSM voorzien van een speciale software uitbrei
 De HSM modules zijn in beheer bij JustID PKI, daarmee is het beheer en zijn de operationele en organizatorische procedures zeer goed geregeld. 
 
 **Overwegingen**: Hiermee kunnen de sleutels niet gelekt worden en is misbruik alleen nog mogelijk terwijl er toegang is tot de HSM. Als deze is afgesloten is er geen misbruik meer mogelijk, als de sleutel te kopiëren is zou dit oncontroleerbaar en wel mogelijk zijn.
+
 ## Holder-Device
 Op het device zal de data veilig en alleen benaderbaar door de app worden opgeslagen. Hierdoor is het voor andere apps niet mogelijk om deze data uit te lezen.
 
@@ -235,6 +243,7 @@ IOS: Voor IOS dient gebruik te worden gemaakt te worden gemaakt van Keychain
 Voor het verkleinen van de attack surface ten aanzien van het scanner-device, is het verstandig om alle niet-noodzakelijke communicatieprotocollen zoveel mogelijk uit te schakelen.
 
 **Overwegingen:** Het is niet de bedoeling dat er een logboek van controles ontstaat met de controle app. Door basismaatregelen in acht te nemen is de kans groter dat deze gegevens veilig blijven.
+
 ## Offline verificatie toegangsbewijs
 **Overwegingen:** Met de voorafgaande beschreven technieken is het niet nodig, zelfs ongewenst, om online te zijn tijdens het tonen van een toegangsbewijs, dan wel het scannen en verifiëren van een QR-code toegangsbewijs. Dit om het mogelijk te maken toegangsbewijzen te controleren in een omgeving waar geen of slechte/langzame internettoegang is. Het voorkomt oponthoud en vertragingen in de doorstroom van gebruikers wanneer er infrastructuur-issues zijn, zoals trage responses, volledige onbeschikbaarheid door een DDoS-aanval, of zelfs dat de actie van het massaal tonen van toegangsbewijzen zorgt voor een potentiële DDoS op de infrastructuur.
 
