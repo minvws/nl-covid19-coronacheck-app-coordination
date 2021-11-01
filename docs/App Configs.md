@@ -12,8 +12,8 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `playStoreURL`| "https://play.google.com/store<br/>/apps/details?id=nl.rijksoverheid.ctr.holder" |The url of the app in the play store. The user will be directed here for upgrades.|-|-|-
 `iosMinimumVersion`| "2.3.1" |The mininum version that an iOS user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-|-|-
 `iosRecommendedVersion`| "2.3.1" |The recommended version that an iOS user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-|-|-
-`iosMinimumVersionMessage`| "Om de app te gebruiken heb<br/>je de laatste versie uit de store nodig." |The message that the user will see if they d on't have the minimum required version|-|-|-
-`iosAppStoreURL`| "https://apps.apple.com/nl/<br/>app/coronacheck/id1548269870" |The url of th app in the app store. The user will be directed here for upgrades.|-|-|-
+`iosMinimumVersionMessage`| "Om de app te gebruiken heb<br/>je de laatste versie uit de store nodig." |The message that the user will see if they don't have the minimum required version|-|-|-
+`iosAppStoreURL`| "https://apps.apple.com/nl/<br/>app/coronacheck/id1548269870" |The url of the app in the app store. The user will be directed here for upgrades.|-|-|-
 `appDeactivated`| false |The 'kill switch'. If this setting is set to true, the app will disable itself and not allow the user to use it.|-|-|-
 `configTTL`| 2419200 |The 'time to live' (in seconds) tells the app how old a configuration may be. If the app has no way to refresh the config and the config is older than this, the user will get a message telling them to go online first.|-|-|-
 `configMinimumIntervalSeconds`| 43200 |The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago.|-|-|-
@@ -53,34 +53,34 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 
 Setting | Example | Description | Deprecated
 -|-|-|-
-`androidMinimumVersion`| 2522|-|-
-`androidRecommendedVersion`| 2522|-|-
-`androidMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig."|-|-
-`playStoreURL`| "https://play.google.com/store/apps/details?id=nl.rijksoverheid.ctr.verifier"|-|-
-`iosMinimumVersion`| "2.4.1"|-|-
-`iosRecommendedVersion`| "2.4.1"|-|-
-`iosMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig."|-|-
-`iosAppStoreURL`| "https://apps.apple.com/nl/app/scanner-voor-coronacheck/id1549842661"|-|-
-`appDeactivated`| false|-|-
-`configTTL`| 86400|-|-
-`configMinimumIntervalSeconds`| 3600|-|-
-`upgradeRecommendationInterval`| 24|-|-
-`maxValidityHours`| 40|-|-
-`clockDeviationThresholdSeconds`| 30|-|-
-`informationURL`| "https://coronacheck.nl"|-|-
-`defaultEvent`| "cce4158f-582f-49c0-9d4d-611ce3866999"|-|-
-`universalLinkDomains`| `[{ "url": "coronacheck.nl", "name":"CoronaCheck app"}]`|-|-
-`domesticVerificationRules.qrValidForSeconds` | 60|-|-
-`domesticVerificationRules.proofIdentifierDenylist`| `{ "JyoXN+LkbWEjqBvte11m8w==": true }`|-|-
-`europeanVerificationRules.testAllowedTypes`| `["LP217198-3"]`|-|-
-`europeanVerificationRules.testValidityHours`| 25|-|-
-`europeanVerificationRules.vaccinationValidityDelayBasedOnVaccinationDate`| true|-|-
-`europeanVerificationRules.vaccinationValidityDelayIntoForceDate`| "2021-07-10"|-|-
-`europeanVerificationRules.vaccinationValidityDelayDays`| 14|-|-
-`europeanVerificationRules.vaccinationJanssenValidityDelayDays`| 28|-|-
-`europeanVerificationRules.vaccinationJanssenValidityDelayIntoForceDate`| "2021-08-14"|-|-
-`europeanVerificationRules.vaccineAllowedProducts`| `["EU/1/20/1528"]`|-|-
-`europeanVerificationRules.recoveryValidFromDays`| 11|-|-
-`europeanVerificationRules.recoveryValidUntilDays`| 180|-|-
-`europeanVerificationRules.proofIdentifierDenylist` | `{"q5TKp3sKMWlVjmMUGdhTtw==`| true}`|-|-
+`androidMinimumVersion`| 2522|The mininum version (build number) that an Android user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-
+`androidRecommendedVersion`| 2522|The recommended version (build number) that an Android user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-
+`androidMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig."|The message that the user will see if they don't have the minimum required version|-
+`playStoreURL`| "https://play.google.com/store/apps/<br/>details?id=nl.rijksoverheid.ctr.verifier"|The url of the app in the play store. The user will be directed here for upgrades.|-
+`iosMinimumVersion`| "2.4.1"|The mininum version that an iOS user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-
+`iosRecommendedVersion`| "2.4.1"|The recommended version that an iOS user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-
+`iosMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig."|The message that the user will see if they don't have the minimum required version|-
+`iosAppStoreURL`| "https://apps.apple.com/nl/app/<br/>scanner-voor-coronacheck/id1549842661"|The url of the app in the app store. The user will be directed here for upgrades.|-
+`appDeactivated`| false|The 'kill switch'. If this setting is set to true, the app will disable itself and not allow the user to use it.|-
+`configTTL`| 86400|The 'time to live' (in seconds) tells the app how old a configuration may be. If the app has no way to refresh the config and the config is older than this, the user will get a message telling them to go online first.|-
+`configMinimumIntervalSeconds`| 3600|The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago|-
+`upgradeRecommendationInterval`| 24|?|-
+`maxValidityHours`| 40|?|-
+`clockDeviationThresholdSeconds`| 30|The allowed amount of skew a device clock is allowed to have before showing a warning to the user that their time is wrong.|-
+`informationURL`| "https://coronacheck.nl"|The url of the CoronaCheck website. 'More info' buttons will link here.|-
+`defaultEvent`| "cce4158f-582f-49c0-9d4d-611ce3866999"|?|Yes
+`universalLinkDomains`| `[{ "url": "coronacheck.nl", "name":"CoronaCheck app"}]`|The allow-list of domains that universal links can use as valid return urls|-
+`domesticVerificationRules.`<br/>`qrValidForSeconds` | 60|The validity of an app QR. After this amount of seconds, a QR shown from the app is no longer valid.|-
+`domesticVerificationRules.`<br/>`proofIdentifierDenylist`| `{ "JyoXN+LkbWEjqBvte11m8w==": true }`|A deny-list of QR codes that is deemed invalid (typically based on fraudulent distributrion).|-
+`europeanVerificationRules.`<br/>`testAllowedTypes`| `["LP217198-3"]`|List of DCC test types that are accepted|-
+`europeanVerificationRules.`<br/>`testValidityHours`| 25|The validity of DCC test results. AFter this amount of hours a DCC will no longer lead to a green checkmark|-
+`europeanVerificationRules.`<br/>`vaccinationValidityDelayBasedOnVaccinationDate`| true|Whether or not waiting times should be applied to vaccinations.|-
+`europeanVerificationRules.`<br/>`vaccinationValidityDelayIntoForceDate`| "2021-07-10"|The date that the previous setting goes into effect|-
+`europeanVerificationRules.`<br/>`vaccinationValidityDelayDays`| 14|The amount of days ago that a vaccination must have been applied to get a green checkmark |-
+`europeanVerificationRules.`<br/>`vaccinationJanssenValidityDelayDays`| 28|The amount of days ago that a Janssen vaccination must have been applied to get a green checkmark.|-
+`europeanVerificationRules.`<br/>`vaccinationJanssenValidityDelayIntoForceDate`| "2021-08-14"|The date that the previous setting goes into effect|-
+`europeanVerificationRules.`<br/>`vaccineAllowedProducts`| `["EU/1/20/1528"]`|A list of EU DCC vaccinations that lead to a green checkmark|-
+`europeanVerificationRules.`<br/>`recoveryValidFromDays`| 11|Recovery DCCs will only scan green if the sampledate is more than this amount of days ago|-
+`europeanVerificationRules.`<br/>`recoveryValidUntilDays`| 180|Recover DCCs will only scan green if the sampldate is no more than this amount of days ago|-
+`europeanVerificationRules.`<br/>`proofIdentifierDenylist` | `{"q5TKp3sKMWlVjmMUGdhTtw==`| true}`|A deny-list of QR codes that is deemed invalid (typically based on fraudulent distributrion).|-
 
