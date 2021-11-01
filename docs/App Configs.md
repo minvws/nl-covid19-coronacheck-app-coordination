@@ -8,12 +8,12 @@ Setting | Example | Description | Android/iOS | Web | Deprecated?
 -|-|-|-|-|-
 `androidMinimumVersion`| 2137 |The mininum version (build number) that an Android user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-|-|-
 `androidRecommendedVersion`| 2137 |The recommended version (build number) that an Android user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-|-|-
-`androidMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig." |The message that the user will see if they don't have the minimum required version|-|-|-
-`playStoreURL`| "https://play.google.com/store/apps/details?id=nl.rijksoverheid.ctr.holder" |The url of the app in the play store. The user will be directed here for upgrades.|-|-|-
+`androidMinimumVersionMessage`| "Om de app te gebruiken heb<br/> je de laatste versie uit de store nodig." |The message that the user will see if they don't have the minimum required version|-|-|-
+`playStoreURL`| "https://play.google.com/store<br/>/apps/details?id=nl.rijksoverheid.ctr.holder" |The url of the app in the play store. The user will be directed here for upgrades.|-|-|-
 `iosMinimumVersion`| "2.3.1" |The mininum version that an iOS user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-|-|-
 `iosRecommendedVersion`| "2.3.1" |The recommended version that an iOS user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-|-|-
-`iosMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig." |The message that the user will see if they d on't have the minimum required version|-|-|-
-`iosAppStoreURL`| "https://apps.apple.com/nl/app/coronacheck/id1548269870" |The url of th app in the app store. The user will be directed here for upgrades.|-|-|-
+`iosMinimumVersionMessage`| "Om de app te gebruiken heb<br/>je de laatste versie uit de store nodig." |The message that the user will see if they d on't have the minimum required version|-|-|-
+`iosAppStoreURL`| "https://apps.apple.com/nl/<br/>app/coronacheck/id1548269870" |The url of th app in the app store. The user will be directed here for upgrades.|-|-|-
 `appDeactivated`| false |The 'kill switch'. If this setting is set to true, the app will disable itself and not allow the user to use it.|-|-|-
 `configTTL`| 2419200 |The 'time to live' (in seconds) tells the app how old a configuration may be. If the app has no way to refresh the config and the config is older than this, the user will get a message telling them to go online first.|-|-|-
 `configMinimumIntervalSeconds`| 43200 |The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago.|-|-|-
