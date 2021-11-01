@@ -6,46 +6,46 @@ This document provides an overview of the configuration values that the CoronaCh
 
 Setting | Example | Description | Android/iOS | Web | Deprecated?
 -|-|-|-|-|-
-`androidMinimumVersion`| 2137 |-|-|-|-
-`androidRecommendedVersion`| 2137 |-|-|-|-
-`androidMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig." |-|-|-|-
-`playStoreURL`| "https://play.google.com/store/apps/details?id=nl.rijksoverheid.ctr.holder" |-|-|-|-
-`iosMinimumVersion`| "2.3.1" |-|-|-|-
-`iosRecommendedVersion`| "2.3.1" |-|-|-|-
-`iosMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig." |-|-|-|-
-`iosAppStoreURL`| "https://apps.apple.com/nl/app/coronacheck/id1548269870" |-|-|-|-
-`appDeactivated`| false |-|-|-|-
-`configTTL`| 2419200 |-|-|-|-
-`configMinimumIntervalSeconds`| 43200 |-|-|-|-
-`upgradeRecommendationInterval`| 24 |-|-|-|-
-`maxValidityHours`| 24 |-|-|-|-
-`informationURL`| "https://coronacheck.nl" |-|-|-|-
-`requireUpdateBefore`| 1620781181 |-|-|-|-
-`ggdEnabled`| true |-|-|-|-
-`euLaunchDate`| "2021-06-30T22:00:00Z" |-|-|-|-
-`recoveryGreencardRevisedValidityLaunchDate`| "2021-11-04T22:00:00Z" |-|-|-|-
-`temporarilyDisabled`| false |-|-|-|-
-`vaccinationEventValidity`| 14600 |-|-|-|-
-`vaccinationEventValidityDays`| 730 |-|-|-|-
-`recoveryEventValidity`| 8760 |-|-|-|-
-`recoveryEventValidityDays`| 365 |-|-|-|-
-`recoveryExpirationDays`| 180 |-|-|-|-
-`testEventValidity`| 96 |-|-|-|-
-`testEventValidityHours`| 96 |-|-|-|-
-`domesticCredentialValidity`| 24 |-|-|-|-
-`credentialRenewalDays`| 8 |-|-|-|-
-`clockDeviationThresholdSeconds`| 30 |-|-|-|-
-`domesticQRRefreshSeconds`| 30 |-|-|-|-
-`internationalQRRelevancyDays`| 28 |-|-|-|-
-`luhnCheckEnabled`| false |-|-|-|-
-`euTestResults`| `[{ "code":"260415000", "name": "Negatief (geen corona)"} ]`|-|-|-|-
-`hpkCodes`| `[{"code": "2924528", "name": "Pfizer (Comirnaty)", "vp": "1119349007", "mp": "EU/1/20/1528", "ma": "ORG-100030215"}]` |-|-|-|-
-`euBrands`| `[{"code": "EU/1/20/1528", "name": "Pfizer (Comirnaty)"}]` |-|-|-|-
-`nlTestTypes`| `[{"code": "pcr", "name": "PCR Test"}]`|-|-|-|-
-`euVaccinations`| `[{"code": "1119349007", "name": "SARS-CoV-2 mRNA vaccine"}` |-|-|-|-
-`euManufacturers`| `[{"code": "ORG-100001699", "name": "AstraZeneca AB"}]` |-|-|-|-
-`providerIdentifiers`| `[{ "name": "CTP-TEST-MVWS", "code": "ZZZ"}]`|-|-|-|-
-`universalLinkDomains`| `[{"url": "downloadclose.com","name": "Close app"}]`|-|-|-|-
+`androidMinimumVersion`| 2137 |The mininum version (build number) that an Android user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-|-|-
+`androidRecommendedVersion`| 2137 |The recommended version (build number) that an Android user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-|-|-
+`androidMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig." |The message that the user will see if they don't have the minimum required version|-|-|-
+`playStoreURL`| "https://play.google.com/store/apps/details?id=nl.rijksoverheid.ctr.holder" |The url of the app in the play store. The user will be directed here for upgrades.|-|-|-
+`iosMinimumVersion`| "2.3.1" |The mininum version that an iOS user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|-|-|-
+`iosRecommendedVersion`| "2.3.1" |The recommended version that an iOS user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|-|-|-
+`iosMinimumVersionMessage`| "Om de app te gebruiken heb je de laatste versie uit de store nodig." |The message that the user will see if they d on't have the minimum required version|-|-|-
+`iosAppStoreURL`| "https://apps.apple.com/nl/app/coronacheck/id1548269870" |The url of th app in the app store. The user will be directed here for upgrades.|-|-|-
+`appDeactivated`| false |The 'kill switch'. If this setting is set to true, the app will disable itself and not allow the user to use it.|-|-|-
+`configTTL`| 2419200 |The 'time to live' (in seconds) tells the app how old a configuration may be. If the app has no way to refresh the config and the config is older than this, the user will get a message telling them to go online first.|-|-|-
+`configMinimumIntervalSeconds`| 43200 |The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago.|-|-|-
+`upgradeRecommendationInterval`| 24 |?|-|-|-
+`maxValidityHours`| 24 |?|-|-|-
+`informationURL`| "https://coronacheck.nl" |The url of the CoronaCheck website. 'More info' buttons will link here.|-|-|-
+`requireUpdateBefore`| 1620781181 |If there's a required upgrade, this setting indicates by when the user should upgrade. If this is in the future, then the message telling the user their app is too old will be postponed until this moment, and they will only get a warning first|-|-|-
+`ggdEnabled`| true |This setting indicates whether the integration with GGD (for vaccination/test/recovery retrieval) is enabled. When turning this off, the app will not contact the GGD servers.|-|-|-
+`euLaunchDate`| "2021-06-30T22:00:00Z" |The date the EU DCC goes into effect. If the app is started before this date, a countdown to the EU Launch Date is shown|-|-|Yes
+`recoveryGreencardRevisedValidityLaunchDate`| "2021-11-04T22:00:00Z" |When recovery cards validity is changed, this date will tell the app when that change will go into effect.|-|-|-
+`temporarilyDisabled`| false |This setting can tenporarily disable the app. Unlinke the kill switch (`appDeactivated`) this is temporary and the message telling the user that the app is disabled will reflect that.|-|-|-
+`vaccinationEventValidity`| 14600 |How long (in hours) a vaccination event will be stored in the app. It will be deleted if it's older than this.|-|-|-
+`vaccinationEventValidityDays`| 730 |?|-|-|-
+`recoveryEventValidity`| 8760 |How long (in hours) a recovery event will be stored in the app. It will be deleted if it's older than this.|-|-|-
+`recoveryEventValidityDays`| 365 |?|-|-|-
+`recoveryExpirationDays`| 180 |How long (in days) a recovery QR will remain valid. The app will show the user when their recovery expires, based on this.|-|-|-
+`testEventValidity`| 96 |How long (in hours) a test event will be stores in the app. It will be deleted if it's older than this|-|-|Yes
+`testEventValidityHours`| 96 |How long (in hours) a test event will be stores in the app. It will be deleted if it's older than this|-|-|-
+`domesticCredentialValidity`| 24 |How long a domestic QR will be valid. (Strippenkaart model strip size)|-|-|-
+`credentialRenewalDays`| 8 |The amount of days that the app will try to proactively refresh strippen, before the last 'strip' expires.|-|-|-
+`clockDeviationThresholdSeconds`| 30 |The allowed amount of skew a device clock is allowed to have before showing a warning to the user that their time is wrong.|-|-|-
+`domesticQRRefreshSeconds`| 30 |How often a QR code in the app is refreshed |Yes|No|-
+`internationalQRRelevancyDays`| 28 |This amount of days after a vaccination was applied, a DCC becomes the most relevant (default)card. If a vaccination (e.g. the final in a series) was applied more recent than this, the app will promote the previous DCC as the most relevant (as it will be valid in more countries)|-|-|-
+`luhnCheckEnabled`| false |Whether or not a client side LUHN check is applied to test result retrieval tokens to have early warning of copy/paste/typo errors by the user.|-|-|-
+`euTestResults`| `[{ "code":"260415000", "name": "Negatief (geen corona)"} ]`|A mapping of EU valueset codes to a human readable string for test results.|-|-|-
+`hpkCodes`| `[{"code": "2924528", "name": "Pfizer (Comirnaty)", "vp": "1119349007", "mp": "EU/1/20/1528", "ma": "ORG-100030215"}]` |A mapping of NL vaccination codes to a human readable string for vaccinations |-|-|-
+`euBrands`| `[{"code": "EU/1/20/1528", "name": "Pfizer (Comirnaty)"}]` |A mapping of EU valueset codes to a human readable string for vaccination brands|-|-|-
+`nlTestTypes`| `[{"code": "pcr", "name": "PCR Test"}]`|A mapping of test provider 2.0 test types to a human readable string |-|-|Yes
+`euVaccinations`| `[{"code": "1119349007", "name": "SARS-CoV-2 mRNA vaccine"}` |A mapping of EU valueset codes to a human readable string for vaccination prophylaxis|-|-|-
+`euManufacturers`| `[{"code": "ORG-100001699", "name": "AstraZeneca AB"}]` |A mapping of EU valueset codes to a human readable string for vaccine manufacturers|-|-|-
+`providerIdentifiers`| `[{ "name": "CTP-TEST-MVWS", "code": "ZZZ"}]`|A mapping of provider prefix codes for test results to a name|-|-|-
+`universalLinkDomains`| `[{"url": "downloadclose.com","name": "Close app"}]`|The allow-list of domains that universal links can use as valid return urls|-|-|-
 
  
 
