@@ -40,40 +40,44 @@ Max Vasterd
 et. al.
 
 ## Introductie
-Bij het ontwerpen en opstellen van designeisen van de applicaties is vastgesteld dat privacy en security by design benodig waren. Het samenstelsel van applicaties en data verwerkt gevoelige persoonsgegevens.
+Het doel van de applicaties omtrent de CoronaCheck app is om de burger weer de vrijheid te kunnen geven die we gewend zijn en daarbij het risico op een COVID-19 besmetting te minimaliseren. Om dit te kunnen bereiken is het verwerken van gevoelige persoonsgegevens niet te voorkomen. Het is daarom van uiterst belang dat alle applicaties op een verantwoorde en veilig manier omgaan bij het verwerken van deze gevoelige persoonsgegevens.
 
-Om hierbij te voldoen aan de wettelijke eisen en de implementatie van de BIO-normen is dit document opgesteld.
+Dit document is bedoeld om de privacy en security implementatie toe te lichten die zijn voortgekomen uit de designeisen. Hierbij wordt toegelicht hoe is voldaan aan de wettelijke eisen en de implementatie van de BIO-normen. 
+
+Dit document bedraagt deze keuzes voor de ontworpen applicaties binnen het ministerie van Volksgezondheid, Welzijn & Sport
 
 Hierbij is per maatregel een overweging opgenomen waarom deze maatregel nodig blijkt en waarom dit het gewenste niveau is. Hierbij zijn beheersmogelijkheden, gebruiksvriendelijkheid ook meegewogen naast privacy en security.
+
 ## Definities
-<u>CL ondertekenen</u>: cryptografische methode genaamd Camenisch-Lysyanskaya om digitale handtekening (of: signature) te zetten.
 
-<u>CMS</u>: PKCS#7 Cryptographic Message Syntax (RFC 5652, 8933), standaard om data/digitale documenten cryptografisch controleerbaar te ondertekenen.
-
-<u>CGL</u>: Corona Gegevens Leverancier, aanbieder van een coronatestinformatie of vaccinatieinformatie.
-
-<u>CTB</u>: Corona Toegangs Bewijs, geeft (indien geldig) een groen vinkje in de scanner.
-
-<u>CC-CL</u>: CoronaCheck Camenisch-Lysyanskaya, voorheen CT-CL(CoronaTester Camenisch-Lysyanskaya).
-
-<u>CoronaCheck Signing Service Ondertekend toegangsbewijs</u>
-Uitgegeven door CoronaCheck Signing Service. Een digitaal document met met daarin de gegevens verwerkt die nodig zijn om een toegangsbewijs te maken in de Holder-App. Het document bevat een CL signature van de sleutel die beschikbaar is gesteld door MinVWS.
-
-<u>Holder-App (CoronaCheck)</u> De burger die een test heeft ondergaan en deze app wil gebruiken om aan te tonen dat hij of zij in het bezit is van een CTB
-
-<u>Verifier-App (CoronaCheck Scanner)</u> De app die gebruikt kan worden om digitaal de authenticiteit van het een ondertekend toegangsbewijs te verifiëren
-
-<u>toegangsbewijs als QR</u>: Gegenereerd door de Holder-App op basis van CL disclosure. Een digitaal document om een CTB te tonen aan de Verifier-App.
+<u>CGL</u>: Corona Gegevens Leverancier, Een aangesloten aanbieder die test-, vaccinatie- of herstel-gegevens kan leveren. Voor meer informatie zie: https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/data-structures-overview.md
 
 <u>Gegevensleverancier Ondertekende Gegevens</u>:
 Uitgegeven door de CGL. Digitaal document met vaccinatie of testgegevens. Het document bevat een CMS signature van de CGL over deze data.
 
-<u>Identityhash</u>:
+<u>CL ondertekenen</u>: Cryptografische methode genaamd Camenisch-Lysyanskaya om digitale handtekening (of: signature) te zetten. Een methode die wordt gebruikt in het Idemix protocol, waarin het doel is om unlinkable signatures te genereren. Waarin niet te achterhalen is door wie de signature is gezet, en daarnaast slechts een beperkte set aan attributen vrij geeft in de handtekening. Hierdoor kan de privacy van gebruikers gehandhaafd worden.
+
+<u>CC-CL</u>: CoronaCheck Camenisch-Lysyanskaya, voorheen CT-CL(CoronaTester Camenisch-Lysyanskaya). Dit is de implementatie van het Idemix protocol (source code: https://github.com/privacybydesign/gabi)
+
+<u>CMS</u>: PKCS#7 Cryptographic Message Syntax (RFC 5652, 8933), standaard om data/digitale documenten cryptografisch controleerbaar te ondertekenen.
+
+<u>CTG</u> Corona Toegangs Gegevens, alle informatie die benodigd is voor een Corona Toegangs Bewijs. Deze gegevens zijn echter nog niet ondertekend door de CoronaCheck Signing Service. Deze gegevens zijn op dit punt wel ondertekend door een CGL
+
+<u>CTB</u> Corona Toegangs Bewijs, CoronaCheck Signing Service Ondertekend toegangsbewijs.
+Uitgegeven door CoronaCheck Signing Service. Een digitaal document met daarin de gegevens verwerkt die nodig zijn om een toegangsbewijs te maken in de Holder-App. Het document bevat een CL signature van de sleutel die beschikbaar is gesteld door MinVWS.
+
+<u>CTB als QR</u>: Gegenereerd door de Holder-App op basis van CL disclosure. Een digitaal document om een CTB te tonen aan de Verifier-App. Deze gegevens zijn dan ASN.1 encoded.
+
+<u>DCC</u>: Digital Covid Certificate, vergelijkbaar met de CTB: Echter is deze ondertekend door een Europees goedgekeurd certificaat, en bevat extra informatie met betrekking tot het Bewijs.
+
+<u>CCSS</u>: CoronaCheck Signing Service, gebruikt om CTG mee te ondertekenen. Het resultaat van deze service is een CTB of DCC.
+
+<u>Holder-App (CoronaCheck)</u>: De burger die een test heeft ondergaan en deze app wil gebruiken om aan te tonen dat hij of zij in het bezit is van een CTB
+
+<u>Verifier-App (CoronaCheck Scanner)</u>: De app die gebruikt kan worden om digitaal de authenticiteit van het een ondertekend toegangsbewijs te verifiëren
+
+<u>Identity-hash</u>:
 Een (redelijk) anonieme hash die de burger kan gebruiken om uit te vinden of de burger bekend is bij de opvragende instantie.
-
-<u>Dataprovider</u>:
-Een aangesloten gegevensleverancier die test-, vaccinatie- of herstel-gegevens kan leveren via de identityhash route.
-
 
 
 
@@ -85,31 +89,35 @@ Er bestaan de volgende datastromen voor de gebruikers:
 1. Gebruiken van BSN voor ophalen extra gegevens bij RVIG
 1. Het maken van een Identity Hash met gegevens RVIG en versturen naar de test en gegevens leveranciers.
 1. Ophalen van de ondertekende configuratiebestanden door Holder-App en Verifier-App.
-1. Opvragen Testresultaat-gegevens door de Holder-App bij een aangesloten coronatest leverancier met behulp van een ophaalcode.
-1. Opvragen Test- of Vaccinatiegegevens bij een aangesloten dataprovider met behulp van de bovengenoemde identityhash
+1. Opvragen gegevens bij de CGL's
+    * Opvragen Testresultaat-gegevens door de Holder-App bij een aangesloten coronatest leverancier met behulp van een ophaalcode.
+    * Opvragen Test- of Vaccinatiegegevens bij een aangesloten dataprovider met behulp van de bovengenoemde identity-hash
 1. Opvragen en omzetten van ondertekende gegevens naar een Ondertekend CTB/DCC door de Holder-App.
 1. Omzetten van een Ondertekende gegevens  naar een CTB, offline, in de Holder-App
 1. Presenteren Toegangsbewijs door Holder-App aan de Verifier-App.
 
-**Datastroom 1** Het BSN van een gebruiker wordt opgehaald door middel van het inloggen bij DigiD. Dit is de nederlandse identiteitsportaal die gelinkt is aan de BSN van een nederlandse staats burger. De BSN wordt intern tijdelijk opgeslagen.
+**Datastroom 1** Het BSN van een gebruiker wordt opgehaald door middel van het inloggen bij DigiD. Dit is de Nederlandse identiteitsportaal die gelinkt is aan de BSN van een Nederlandse staatsburger. De BSN die verstuurd wordt door DigiD wordt gedecrypt met de private key behorende bij het PKI overheid certificaat gebruikt om de BSN te encrypten. Dit wordt vervolgens door middel van symmetrische encryptie voor een periode van 15 minuten intern opgeslagen. De sleutel voor deze encryptie dient elke XX maand vervangen te worden.
 
-**Datastroom 2** Zodra de BSN intern is opgeslagen, kan deze gebruikt worden om een identity hash te maken, om een veilige hash te kunnen maken wordt extra informatie opgehaald bij het RVIG.
+**Datastroom 2** Zodra de BSN intern is opgeslagen, kan deze gebruikt worden om een identity-hash te maken, om een veilige hash te kunnen berekenen wordt extra informatie opgehaald bij het RVIG.
 
-**Datastroom 3** De verkregen gegevens van het RVIG worden gebruikt om aan de aangesloten data providers een Unomi verzoek te versturen. Indien de identity hash bekent is bij de data providers, worden vervolgens de bijbehorende gegevens opgehaald.
+**Datastroom 3** De verkregen gegevens van het RVIG worden gebruikt een identity-hash te genereren en deze terug te sturen naar de app. Dit wordt vervolgens door de app gebruikt om een Unomi verzoek te versturen naar de CGL's.
 
 **Datastroom 4** is het door de app ophalen van de huidige configuratie zoals door MinVWS gepubliceerd. Deze configuratiebestanden zijn voorzien van een controleerbare digitale handtekening waarvan in de App het certificaat van te voren bekend is bij uitlevering.
 
-**Datastroom 5** is vanuit de Holder-App naar de CGL met behulp van ophaalcode en levert ondertekende gegevens op dat in de Holder-App nagekeken kan worden.
+**Datastroom 5** vanuit de Holder-App wordt aan de CGL's een gegevens verzoek gedaan. Dit kan op 2 verschillende manieren. Beschreven in 5a en 5b.
 
-**Datastroom 6** is vanuit de Holder-App naar de CGL met behulp van identityhash en levert ondertekende gegevens op dat in de Holder-App nagekeken kan worden.
+**Datastroom 5a** is vanuit de Holder-App naar de CGL met behulp van ophaalcode en levert ondertekende gegevens op dat in de Holder-App nagekeken kan worden.
 
-**Datastroom 7** is het opsturen van ondertekende gegevens naar CoronaCheck Signing Service (CCSS) om dit om te zetten naar een CTB en DCC. Deze wordt door de dienst eerst (nog een keer) gevalideerd.
+**Datastroom 5b** is vanuit de Holder-App naar de CGL met behulp van identity-hash en een Unomi verzoek. Indien de identity-hash bekent is bij de CGL levert de CGL de ondertekende gegevens op dat in de Holder-App nagekeken kan worden.
 
-**Datastroom 8** is het omzetten van een ondertekende gegevens naar een toegangsbewijs welke gepresenteerd wordt als QR.
+**Datastroom 6** is het opsturen van ondertekende gegevens vanuit de CGL's en naar de CoronaCheck Signing Service (CCSS) sturen om dit om te zetten naar een CTB en DCC. Dit bewijs wordt door de dienst eerst gevalideerd middels het certificaat dat is meegeleverd bij de installatie van de app.
 
-**Datastroom 9** is het tonen van het toegangsbewijs door middel van een QR-code
+**Datastroom 7** is het omzetten van ondertekende gegevens (CTB of DCC) naar een CTB gepresenteerd als QR. Hierbij wordt gebruik gemaakt van CL disclosure en ASN.1 geëncodeerd.
+
+**Datastroom 8** is het tonen van het toegangsbewijs door middel van een QR-code. Hierbij is het van belang dat de getoonde gegevens niet traceerbaar zijn. 
+
 ## Datatransport beveiliging
-1) Het datatransport dient versleuteld zijn met HTTPS TLS 1.3 met de juiste ciphers en PFS (of soortgelijk – dus dat een key compromise op dag 10 niet leidt tot confidentialiteit verlies van dag 1-9).
+1) Het datatransport dient versleuteld te zijn met HTTPS TLS 1.3 met de juiste ciphers en PFS (of soortgelijk – dus dat een key compromise op dag 10 niet leidt tot confidentialiteit verlies van dag 1-9).
 1) Indien uit oogpunt van gebruikersacceptatie oudere OS versies ondersteund dienen te worden zal daar de TLS versie niet lager mogen zijn dan TLS 1.2. (Android < versie 6, iOS < 12.2). 
 1) Op de test van Qualys SSL Lab zal een A+ gehaald dienen te worden. 
 1) Hiernaast zal aan de eisen van de BIO voldaan moeten worden.
@@ -124,46 +132,48 @@ ECDHE-RSA-AES128-SHA256
 ECDHE-RSA-AES256-GCM-SHA384
 ECDHE-RSA-AES256-SHA384*
 
-Deze chiphers zijn aangeraden door o.a. mozilla https://ssl-config.mozilla.org/ voor Intermeditia security configuratie. In Modern wordt alleen TLS1.3 geaccepteerd.
+Deze chiphers zijn aangeraden door o.a. Mozilla https://ssl-config.mozilla.org/ voor Intermeditia security configuratie. In Modern wordt alleen TLS1.3 geaccepteerd.
 
 **Waar**: Configuratie + ophalen gegevens bij dataprovider + ophalen CoronaCheck handtekening
 
-**Overwegingen**: Gezien de data door de App zelf wordt opgehaald bij de dataprovider en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Geen beveiliging is geen optie hier. Dit geldt ook voor de aanbieders van testresultaten.
-Datauitwisseling met de overheid zal op hoog niveau beveiligd dienen te zijn. Door ondertekening, en transportencryptie is dit ruimschoots geborgd.
+**Overwegingen**: Geen beveiliging is geen optie hier. Datauitwisseling met de overheid zal op hoog niveau beveiligd dienen te zijn. Gezien de data door de App zelf wordt opgehaald bij de dataprovider en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Dit geldt ook voor transport vanuit de verschillende CGL's. Door ondertekening, en transportencryptie zijn de hoge beveiligingseisen ruimschoots geborgd.
 
 ## Strippen IP adressen
 Waar: Ophalen configuratie (CDN) + ophalen handtekening (app en papier)
 
-Welke apps: Holder en Verifier app endpoints.
+Wat: Alle communicatie van Holder en Verifier app endpoints (indien beheert door ministerie van Volksgezondheid, Welzijn en Sport).
 
 Het HTTP verkeer dat versleuteld is met TLS gaat door meerdere systemen heen voor het bij de dienst komt. Het begint bij de firewall, daarna komt het op een door de hosting partij beheerde TCP-proxy waar het IP adres wordt gestript. Voor het strippen geldt voor IPv4 een IPv4/24 subnet mask, voor IPv6 is dit IPv6/48. Hierna komt het verkeer terecht op een een andere applicatieserver waar TLS-termination plaatsvindt.
 
-Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekeningsservice niet exact vanaf welk IP adres het verkeer komt. Het is dus onmogelijk om te achterhalen vanaf welk IP-adres een ondertekening van een CTB wordt aangevraagd.
+Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekeningsservice niet exact vanaf welk IP adres het verkeer komt. Het is dus niet langer triviaal om te achterhalen vanaf welk IP-adres een ondertekening voor een CTB wordt aangevraagd.
 
 **Overwegingen**: Gezien het voor het gebruik van de backend systemen en beveiligingen hiervoor niet nodig is om een relatie te kunnen leggen tussen de gebruiker (IP adres) en de data zal deze niet samen gebundeld moeten kunnen worden in logfiles en foutmeldingen. Door beheer gescheiden uit te voeren is dit ook organisatorisch efficient te borgen.
 
 Het gebruik van IP-adressen is nog steeds nodig om te communiceren over het internet, dus ze moeten wel gebruikt worden.
 
-## Aanleveren test provider en dataprovider ondertekende gegevens
+## Aanleveren ondertekende gegevens door Corona Gegevens Leveranciers
 De gegevens dienen te worden aangeleverd door de CGL voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding. SHA256 voldoet ook aan de SOGIS Agreed Cryptographic Mechanisms.
 
 In de app zal de door MinVWS gepubliceerde lijst publieke sleutels bekend zijn waarmee gecontroleerd kan worden of deze ondertekende gegevens door MinVWS geaccepteerd zal worden voor het omzetten naar een toegangsbewijs.
 
 Dit is een goed beheerde en ondertekende lijst in beheer van MinVWS en beheerd volgens de geldende BIO normen. De sleutel van deze ondertekening zal in de HSM opgeslagen zijn.
 
-### met behulp van ophaalcode
+### Met behulp van ophaalcode
 Het Testresultaat dient alleen te worden aangeleverd via een gecontroleerde methode waarbij er met redelijke mate van waarschijnlijkheid kan worden uitgegaan dat de gebruiker ook de bedoelde patiënt is. Dit zoals bedoeld in NEN7510.
 
-### met behulp van identityhash
-Een van de manieren om aan ondertekende gegevens te komen is dan ook door middel van DigiD. Dit authenticatie platform die is bedoeld om de identiteit van een nederlandse staatsburgers te controloren. Daarnaast ondersteund dit platform two-factor authenticatie. Dit geeft voldoende zekerheid dat de verstrekte informatie voor de bedoelde patiënt is. Dit BSN wordt vervolgens omgezet in een Identityhash, dit is mogelijk door gegevens op te vragen uit de RVIG en gegevens te combineren met behulp van het HMAC algoritme. Deze extra gegevens zijn nodig om de privacy van de gebruiker te waarborgen bij het opvragen van test en vaccinatie gegevens bij de betreffende leveranciers. De gegevens die worden gebruikt voor de Identity hash zijn de volgende:
+### Met behulp van identity-hash
+Een van de manieren om aan ondertekende gegevens te komen is ook door middel van DigiD. Dit authenticatie platform is bedoeld om de identiteit van een Nederlands staatsburgers te controloren. Daarnaast ondersteund dit platform two-factor authenticatie. Dit geeft voldoende zekerheid dat de verstrekte informatie voor de bedoelde patiënt is. Dit BSN wordt vervolgens omgezet in een Identityhash, dit is mogelijk door gegevens op te vragen uit de RVIG en gegevens te combineren met behulp van het HMAC algoritme. Deze extra gegevens zijn nodig om de privacy van de gebruiker te waarborgen bij het opvragen van test en vaccinatie gegevens bij de betreffende leveranciers. De gegevens die worden gebruikt voor de Identity hash zijn de volgende:
     - bsn
     - voornaam
     - achternaam
     - geboortedag
     
-Deze combinatie van gegevens in de hash levert genoeg entropy op om het voor een kwaadwillende niet mogelijk te maken om te achterhalen om welke persoon het informatie verzoek gaat. Deze hash wordt vervolgens gebruikt om bij de data providers gegevens op te halen van de juiste persoon zonder bekend te maken wie de burger is als er geen gegevens bekend zijn. Dit gebeurt in 2 stappen, eerst wordt een Unomi verzoek verstuurd waarin wordt gevraagd of de betreffende persoon bekent is in het systeem. En als deze persoon bekent is, wordt een tweede verzoek vestuurd om de test en vaccinatie gegevens op te vragen. 
+Deze combinatie van gegevens in de hash levert genoeg entropy op om het voor een kwaadwillende niet langer triviaal te maken om te achterhalen om welke persoon het informatie verzoek gaat. Deze hash wordt vervolgens gebruikt om bij de data providers gegevens op te halen van de juiste persoon zonder bekend te maken wie de burger is indien er geen gegevens bekend zijn. Dit gebeurt in 2 stappen, eerst wordt een Unomi verzoek verstuurd waarin wordt gevraagd of de betreffende persoon bekent is in het systeem. En als deze persoon bekent is, wordt een tweede verzoek vestuurd om de test en vaccinatie gegevens op te vragen. Deze twee verzoeken gebeuren beide vanuit de Holder-app. 
 
 Meer informatie over Unomi en de daarbij behorende privacy handhaving staat beschreven in: https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/providing-events-by-digid.md 
+
+### Met behulp van inscannen bestaande DCC
+Daarnaast is het mogelijk om een bestaande DCC in te scannen in de app, met als doel om via de huisarts een digitaal bewijs te kunnen ontvangen. Om dit mogelijk te maken heeft deze persoon ook een koppel code nodig, uitgegeven door diezelfde huisarts die het DCC heeft goedgekeurd. Deze koppelcode is gekoppeld aan de UCI, het documentnummer van de DCC. Op het moment van het inscannen van de DCC wordt om deze koppelcode gevraagd. Zowel het DCC als de koppelcode worden uitgegeven door de huisarts in de vorm een PDF.
 
 **Overwegingen**: Aangezien de burger zelf de data ontvangt en deze op eigen initiatief doorstuurt is het nodig dat er geverifieerd kan worden dat deze data niet is gemanipuleerd. Encryptie is niet nodig omdat de burger juist zelf moet kunnen controleren of de data correct is.
 
@@ -173,15 +183,12 @@ De ondertekende gegevens bevatten uitsluitend de gegevens zoals nodig voor DCC e
 De vaccinatiegegevens bevatten uitsluiten de gegevens zoals nodig voor DCC en CTB certificaat zoals gedocumenteerd in https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/data-structures-overview.md
 
 De applicatie stuurt op verzoek van de burger alle gegevens door naar de ondertekeningsservice van VWS zodat er op basis van de gegevens een of meerdere DCC's en/of een CTB uitgegeven kan worden.
-De backend service van VWS geeft in de data ten bate van de QRcodes maximaal de gegevens terug zoals gedefineerd de europese verordening 2021/931 voor DCC's en zoals hieronder gedefineerd voor CTB onder inhoud van de toegangsbewijzen.
-
-
+De backend service van VWS geeft in de data, ten bate van de QR codes, maximaal de gegevens terug zoals gedefineerd in de europese verordening 2021/931 voor DCC's en zoals hieronder gedefineerd voor CTB onder inhoud van de toegangsbewijzen.
 
 **Overwegingen**: Dit is de minimale set om aan de vereisten te voldoen zodat de app-set op grote schaal gebruikt kan worden. Minder gegevens levert op vele vlakken mogelijkheden tot fraude. Meer gegevens levert minder privacy en niet een substantiële fraude-reductie.
 
 ## Aanleveren datagegevens
-De Holder-App levert de datagegevens aan de CoronaCheck backend. Deze zet de ondertekende gegevens om naar een CTB door het te voorzien van een niet-herleidbare Camenisch-Lysyanskaya handtekening ten bate van het CTB. De gebruiker kan op basis van deze handtekening aan de Scanner-App elke keer een andere handtekening op het toegangsbewijs leveren waarmee er geen unieke traceerbaarheid van de gebruiker van de Holder-App meer mogelijk is.
-
+De Holder-App levert de datagegevens aan de CoronaCheck backend. Deze zet de ondertekende gegevens om naar een CTB door het te voorzien van een niet-herleidbare Camenisch-Lysyanskaya handtekening ten bate van het CTB. De gebruiker kan op basis van dit type handtekening aan de Scanner-App elke keer een andere handtekening op het toegangsbewijs leveren waarmee er geen unieke traceerbaarheid van de gebruiker van de Holder-App meer mogelijk is.
 
 Ook zet de CoronaCheck backend deze gegevens om in een of meerdere DCC's voorzien van de gegevens zoals aangeleverd en/of te deduceren uit de aangeleverde gegevens.
 
@@ -191,7 +198,7 @@ Aangezien het mogelijk is om elke week een andere publieke sleutel te gebruiken 
 Gezien de lengte van de sleutel bepalend is voor de hoeveelheid tekens die getoond moeten worden met de QR-code, is het vanuit bruikbaarheids-oogpunt zaak deze zo kort als mogelijk te houden. Daarom is een lengte van 1024 bits hier toegestaan. De (verkorte) lengte van de sleutel wordt gecompenseerd door elke 3 maanden nieuwe sleutels te activeren. Het activeren van een nieuwe sleutel dient op zijn vroegst 24 uur na publicatie van deze sleutel in de holder app te gebeuren. Dit om te voorkomen dat een nieuwe sleutel niet tijdig herkend wordt. Na het deactiveren van een sleutel, dient deze nog 365 dagen geaccepteerd te worden. Dit omdat het langste CTB 365 dagen geldig is, en deze zo lang geaccepteerd worden.
 
 ### Controle ondertekende gegevens
-Bij het aanleveren van ondertekende gegevens zal de backend van CoronaCheck een controle doen of de handtekening geldig is en gezet is door een CGL in de toegestane lijst van CGL’s.
+Bij het aanleveren van ondertekende gegevens zal de backend van CoronaCheck een controle doen of de handtekening geldig is en gezet is door een CGL in de toegestane lijst van Corona Gegevens Leveranciers.
 
 
 ### Inhoud van de toegangsbewijzen:
@@ -208,7 +215,7 @@ Een toegangsbewijs bevat maximaal:
 - Een ondertekening over de bovenstaande data
 
 **Overwegingen**: Voor zover ze nog niet genoemd zijn in de beschrijving: er is niet meer informatie beschikbaar dan er verzonden wordt door de burger, dus meer informatie kan niet. Het gebruik van CC-CL cryptografie levert een flinke bijdrage in de privacy omdat er geen relatie gelegd kan worden tussen de verschillende scans bij dezelfde burger en omdat dit 100% offline kan gebeuren waardoor er geen tracering en logging van bestaat.
-Door deze ondertekening is het niet meer mogelijk om te bewijzen dat een burger deze ondertekening heeft getoond is het verleden. Hierdoor is er ook in het geval van (illegale) logging geen methode om correlaties tussen scans te leggen.
+Door deze ondertekening is het niet meer mogelijk om te bewijzen dat een burger deze ondertekening heeft getoond in het verleden. Hierdoor is er ook in het geval van (illegale) logging geen methode om correlaties tussen scans te leggen.
 
 ## Tonen van het toegangsbewijs
 Om elke keer een uniek toegangsbewijs te hebben zonder dat er echte data zoals tijd, delen van de naam en tijdstip uniek horen te zijn wordt er bij het CTB een zogeheten nonce toegevoegd. Een meer dan 96 bits groot arbitrair getal per toegangsbewijs. Hiermee wordt geborgd dat een toegangsbewijs uniek te identificeren is voor de ondertekeningsservice.
