@@ -238,6 +238,7 @@ voorzet, todo android/ios/web devs.
     * 070-11: Browser open
     * 070-12: Token refresh
     * 070-13: JSON serialization error
+    * 070-14: No browser found to handle Digid login
 * 071: OAuth authorization errors
     * 071-1000: invalid_request
     * 071-1001: unauthorized_client
@@ -264,3 +265,42 @@ voorzet, todo android/ios/web devs.
     * 074-4002: invalid_client_metadata
     * 074-4003: Client error
     * 074-4004: Unknown error
+
+## 08h - Provider failures
+ 
+  * 080: No providers for negative test available
+  * 081: No providers for recovery or positive test available
+  * 082: No providers for vaccination available
+
+# Appendix C
+
+CoronaCheck server side error codes
+
+* 99701: Connection error to business rule engine
+* 99702: Server Exception from business rule engine
+* 99702: Emtpy response from business rule engine
+* 99704: Bad Request to business rule engine
+* 99705: Unexpected response from business rule engine
+* 99706: Incomplete response from business rule engine
+* 99707: Attributes missing in request to business rule engine
+* 99708: Session expired
+* 99709: Holder Data inconsistencies found
+* 99781: No Tokens available
+* 99782: BSN not found
+* 99783: DCC could not be verified, key not found
+* 99784: DCC could not be verified
+* 99789: Connection error to business rule engine
+* 99799: General business rule engine error
+* 99931: Provider Identifier incorrect
+* 99932: Provider not allowlisted
+* 99933: Payload does not match Signature or incorrect certificate
+* 99939: CMS error
+* 99551: Got an unknown event
+* 99552: Holders first/last names do not match
+* 99553: Holders birthDays do not match
+* 99554: Holders birthMonths do not match
+* 99557: Content should be json
+* 99558: Content should contain a events
+* 99559: Event format incorrect
+
+(List copied from https://github.com/minvws/nl-covid19-coronacheck-app-bff)
