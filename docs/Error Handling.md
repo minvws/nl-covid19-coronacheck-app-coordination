@@ -36,6 +36,7 @@ Holder:
 * hkvi scan flow: 5
 * QR flow: 6
 * upgradeEUVaccination: 7
+* positive test: 8
 
 Verifier:
 * launch / startup flow: 0
