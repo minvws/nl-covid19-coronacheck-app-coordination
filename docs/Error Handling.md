@@ -40,6 +40,7 @@ Holder:
 
 Verifier:
 * launch / startup flow: 0
+* scan flow: 1
 
 Print portal: 
 * onboarding flow: 0
@@ -173,6 +174,7 @@ Known step lists
 * public keys: 20
 
 ### Scan flow (flow 1)
+* scan log: 30
 
 # Appendix B
 
@@ -220,7 +222,7 @@ voorzet, todo android/ios/web devs.
  
 * 060: Integrity constraint violation
 * 061: No greenCards available
-* 062: Error fetching greenCards from CoreData
+* 062: Error fetching objects from CoreData
 
 ## 07h - TVS/DigiD failures
 
