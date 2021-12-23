@@ -37,6 +37,7 @@ Holder:
 * QR flow: 6
 * upgradeEUVaccination: 7
 * positive test: 8
+* tourist pass: 9
 
 Verifier:
 * launch / startup flow: 0
