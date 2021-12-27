@@ -120,8 +120,8 @@ Er bestaan de volgende datastromen voor de gebruikers:
 1) Het datatransport dient versleuteld te zijn met HTTPS TLS 1.3 met de juiste ciphers en PFS (of soortgelijk – dus dat een key compromise op dag 10 niet leidt tot confidentialiteit verlies van dag 1-9).
 1) Indien uit oogpunt van gebruikersacceptatie oudere OS versies ondersteund dienen te worden zal daar de TLS versie niet lager mogen zijn dan TLS 1.2. (Android < versie 6, iOS < 12.2). 
 1) Op de test van Qualys SSL Lab zal een A+ gehaald dienen te worden. 
-1) Hiernaast zal aan de eisen van de BIO voldaan moeten worden.
-1) SSL pinning: om zeker te stellen dat er alleen met vertrouwde uitgegeven certificaten wordt omgegaan zal er CA (PKI-Overheid EV) en leaf-node pinning worden toegepast. Dit om onder andere Machine In The Middle aanvallen tegen te gaan.
+1) Er zal aan de eisen van de BIO voldaan moeten worden.
+1) SSL OV/EV Controle: Er wordt zeker gesteld dat er voldaan is aan de organisatie verificatieeisen door te controleren op OID 2.23.140.1.2.2 of 2.23.140.1.1
 
 Toegestane TLS ciphers:
 
