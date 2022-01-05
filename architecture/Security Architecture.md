@@ -122,7 +122,8 @@ Er bestaan de volgende datastromen voor de gebruikers:
 1) Op de test van Qualys SSL Lab zal een A+ gehaald dienen te worden. 
 1) Er zal aan de eisen van de BIO voldaan moeten worden.
 1) SSL OV/EV Controle: Er wordt zeker gesteld dat er voldaan is aan de organisatie verificatieeisen door te controleren op OID 2.23.140.1.2.2 of 2.23.140.1.1
-1) SSL pinning: om zeker te stellen dat er alleen met vertrouwde uitgegeven certificaten wordt omgegaan zal er leaf-node pinning worden toegepast. Dit om onder andere Machine In The Middle aanvallen tegen te gaan. De app zelf zal een leafnode pinning doen tegen de configuratie aan en andere leafnode pinning kan via de configuratie worden geleverd.
+1) SSL Pinning (App config endpoints): Er gebeurt geen TLS/HTTPS pinning op de endpoints. De authenticiteit word gewaarborgd door de CMS signature op de configuratie(s).
+1) SSL Pinning (Andere endpoints): Pinning zal gebeuren tegen de in de app config meegeleverde leaf certificaten. 
 
 Toegestane TLS ciphers:
 
