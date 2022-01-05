@@ -153,6 +153,10 @@ Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekening
 
 Het gebruik van IP-adressen is nog steeds nodig om te communiceren over het internet, dus ze moeten wel gebruikt worden.
 
+## CMS Signature toegestane certificaten
+
+Voor het ondertekenen van CMS berichten (configuratie, ondertekende gegevens van CGL, etc..) zal gebruik gemaakt worden van een certificaat dat valt binnen de PKI-Overheid chain.
+
 ## Aanleveren ondertekende gegevens door Corona Gegevens Leveranciers
 De gegevens dienen te worden aangeleverd door de CGL voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding. SHA256 voldoet ook aan de SOGIS Agreed Cryptographic Mechanisms.
 
