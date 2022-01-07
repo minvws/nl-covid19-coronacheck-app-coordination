@@ -41,6 +41,7 @@ Holder:
 
 Verifier:
 * launch / startup flow: 0
+* scan flow: 1
 
 Print portal: 
 * onboarding flow: 0
@@ -174,6 +175,7 @@ Known step lists
 * public keys: 20
 
 ### Scan flow (flow 1)
+* scan log: 30
 
 # Appendix B
 
@@ -216,12 +218,13 @@ voorzet, todo android/ios/web devs.
 * 055: error saving greenCards / origins / credentials
 * 056: error saving events
 * 057: failed to initialize the Go crypto library
+* 058: origin mismatch, the signer did not return the expected origins.
 
 ## 06h - SQL failures
  
 * 060: Integrity constraint violation
 * 061: No greenCards available
-* 062: Error fetching greenCards from CoreData
+* 062: Error fetching objects from CoreData
 
 ## 07h - TVS/DigiD failures
 
