@@ -38,6 +38,7 @@ Holder:
 * upgradeEUVaccination: 7
 * positive test: 8
 * tourist pass: 9
+* vaccination BES islands: 10
 
 Verifier:
 * launch / startup flow: 0
