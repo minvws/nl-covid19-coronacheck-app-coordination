@@ -309,3 +309,17 @@ CoronaCheck server side error codes
 * 99559: Event format incorrect
 
 (List copied from https://github.com/minvws/nl-covid19-coronacheck-app-bff)
+
+Mijn CN server side error codes
+
+* 777706: Birth date is unknownn
+* 777707: First name is unknown
+* 777708: Last name is unknown
+* 777709: HPK-code is unknown
+* 777710: Unique vacination number is unknown
+* 777711: Dose is unknown or invalid
+* 777712: Totaldoses is unknown or invalid
+* 777713: Vaccinationdate is unknown
+* 777714: Country is unknown
+* 777715: Medicalstatement is unknown
+* 777716: Personalstatement is unknown
