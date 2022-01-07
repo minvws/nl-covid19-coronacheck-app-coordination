@@ -217,6 +217,7 @@ voorzet, todo android/ios/web devs.
 * 055: error saving greenCards / origins / credentials
 * 056: error saving events
 * 057: failed to initialize the Go crypto library
+* 058: origin mismatch, the signer did not return the expected origins.
 
 ## 06h - SQL failures
  
