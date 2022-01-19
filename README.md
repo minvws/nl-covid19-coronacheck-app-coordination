@@ -11,7 +11,7 @@ This repository contains the technical documentation of the Dutch COVID-19 Coron
 * [Android app](https://github.com/minvws/nl-covid19-coronacheck-app-android)
 * [BFF API for the apps](https://github.com/minvws/nl-covid19-coronacheck-app-bff)
 * [Website and print portal](https://github.com/minvws/nl-covid19-coronacheck-website)
-* [Reference impementation of a dummy test provider](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-example)
+* [Reference implementation of a dummy test provider](https://github.com/minvws/nl-covid19-coronacheck-app-coronatestprovider-example)
 * [EU DGCG Integration](https://github.com/minvws/nl-covid19-coronacheck-app-dgcg-integration)
 * [CL Signing library](https://github.com/minvws/nl-covid19-coronacheck-idemix)
 * [Mobile Core library](https://github.com/minvws/nl-covid19-coronacheck-mobile-core)
