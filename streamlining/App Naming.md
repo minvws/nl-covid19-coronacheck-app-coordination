@@ -59,7 +59,7 @@ Remote Event Details |
 ![Remote Event Details ](images/remote-event-details.png)| 
 
 ## Add GGD Negative Test / Vaccination / Recovery
-All of the non commercial flows for negative test / vaccination / recovery, start with the **ChooseProofType**, followed by **StartRemoteEvent**. The events are fetched in **FetchRemoteEvents** The rest of the flow is identical to the commercial flow with *ListRemoteEvents** and **RemoteEventDetails**
+All of the non commercial flows for negative test / vaccination / recovery, start with the **ChooseProofType**, followed by **StartRemoteEvent**. The events are fetched in **FetchRemoteEvents** The rest of the flow is identical to the commercial flow with **ListRemoteEvents** and **RemoteEventDetails**
 Choose Proof Type | Remote Event Start
 --|--
 ![Choose Proof Type](images/choose-proof-type.png)| ![Remote Event Start](images/remote-event-start.png)
