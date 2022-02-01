@@ -75,6 +75,19 @@ Visitor Pass Start | Choose Test Location
 --|--
 ![Visitor Pass Start](images/visitor-pass-start.png)| ![Input Retrieval Code](images/input-retrieval-code-visitor-pass.png)
  List Remote Events| LRemote Event Details 
-![List Remote Events](images/list-remote-events-visitor-pass.png)|![Remote Event Details ](images/remote-event-details-visitor-pass.png)
+![List Remote Events](images/list-remote-events-visitor-pass.png)|![Remote Event Details](images/remote-event-details-visitor-pass.png)
 Visitor Pass Complete Certificate |
-![Visitor Pass Complete Certificate ](images/visitor-pass-complete-certificate.png)| 
+![Visitor Pass Complete Certificate](images/visitor-pass-complete-certificate.png)
+
+## Add Paper Proof
+Through the menu you can start the paper proof flow: **PaperProofStart**, **PaperProofInputCouplingCode**, **PaperProofStartScanning**, **PaperProofScan**, **PaperProofCheck**, to end up with the normal flow: **ListRemoteEvents** and the **RemoteEventDetails**.
+
+Paper Proof Start | Paper Proof Input Coupling Code
+--|--
+![Paper Proof Start](images/paper-proof-start.png) | ![Paper Proof Input Coupling Code](images/paper-proof-input-coupling-code.png)
+Paper Proof Start Scanning | Paper Proof Scan
+![Paper Proof Start Scanning](images/paper-proof-start-scanning.png) | ![Paper Proof Scan](images/paper-proof-scan.png)
+Paper Proof Check | List Remote Events
+![Paper Proof Check ](images/paper-proof-check.png)| ![List Remote Events](images/list-remote-events-paper-proof.png)
+Remote Event Details | 
+![Remote Event Details ](images/remote-event-details-paper-proof.png)| 
