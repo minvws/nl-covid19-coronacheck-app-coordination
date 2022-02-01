@@ -18,3 +18,23 @@ First time users are treated with an onboarding: **OnboardingItem** and **Privac
 OnboardingItem | PrivacyConsent
 --|--
 ![OnboardingItem](images/onboarding-item.png)| ![PrivacyConsent](images/privacy-consent.png)
+
+## NewFeatures
+New features in the app are displayed once to the user: **NewFeature** and **NewConsent**
+
+NewFeature | NewConsent
+--|--
+![NewFeature](images/onboarding-item.png)| n/a
+
+## Dashboard
+The **Dashboard** is the place for the domestic and international GreenCards.
+
+Dashboard (Empty) | Dashboard (With Card)
+--|--
+![Dashboard (Empty)](images/dashboard-empty.png)| ![Dashboard (With Card)](images/dashboard-greencard.png)|
+
+## ShowQR
+
+## Menu
+
+## AboutThisApp
