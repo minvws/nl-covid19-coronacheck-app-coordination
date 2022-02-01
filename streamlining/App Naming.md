@@ -46,15 +46,35 @@ Menu | About This App
 --|--
 ![Menu](images/menu.png)| ![About this app](images/about-this-app.png)
 
-## Add Negative Test
+## Add Commercial Negative Test
 When adding a negative test QR, the first scene will be **ChooseProofType**, followed by **ChooseTestLocation**.
 A token and a verification code can be entered in the **InputRetrievalCode**, the negative test is displayed in the **ListRemoteEvents** with details in the **RemoteEventDetails**
 
 Choose Proof Type | Choose Test Location
 --|--
 ![Choose Proof Type](images/choose-proof-type.png)| ![Choose Test Location](images/choose-test-location.png)
-Input Retrieval Code| Choose Test Location
+Input Retrieval Code| List Remote Events
 ![Input Retrieval Code](images/input-retrieval-code.png)| ![List Remote Events](images/list-remote-events.png)
 Remote Event Details | 
 ![Remote Event Details ](images/remote-event-details.png)| 
 
+## Add GGD Negative Test / Vaccination / Recovery
+All of the non commercial flows for negative test / vaccination / recovery, start with the **ChooseProofType**, followed by **StartRemoteEvent**. The events are fetched in **FetchRemoteEvents** The rest of the flow is identical to the commercial flow with *ListRemoteEvents** and **RemoteEventDetails**
+Choose Proof Type | Remote Event Start
+--|--
+![Choose Proof Type](images/choose-proof-type.png)| ![Remote Event Start](images/remote-event-start.png)
+Fetch Remote Events| List Remote Events
+![Fetch Remote Events](images/fetch-remote-events.png)| ![List Remote Events](images/list-remote-events-vaccination.png)
+Remote Event Details | 
+![Remote Event Details ](images/remote-event-details-vaccination.png)| 
+
+## Add Visitor Pass
+Through the menu you start the application for a visitor pass **VisitorPassStart**. This is the same flow as the commercial negative test with the **InputRetrievalCode**, **ListRemoteEvents** and the **RemoteEventDetails**. When only the assessment part is finished, a banner on the dashboard will lead to **VisitorPassCompleteCertificate** to complete the visitor pass.
+
+Visitor Pass Start | Choose Test Location
+--|--
+![Visitor Pass Start](images/visitor-pass-start.png)| ![Input Retrieval Code](images/input-retrieval-code-visitor-pass.png)
+ List Remote Events| LRemote Event Details 
+![List Remote Events](images/list-remote-events-visitor-pass.png)|![Remote Event Details ](images/remote-event-details-visitor-pass.png)
+Visitor Pass Complete Certificate |
+![Visitor Pass Complete Certificate ](images/visitor-pass-complete-certificate.png)| 
