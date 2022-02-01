@@ -3,7 +3,19 @@
 ## Introduction
 To streamline development of both the iOS and the Android app, we came up with a naming convention for each scene.
 
-## Launch
+## Holder
+1. [Launch](#launch)
+2. [Onboarding](#onboarding)
+3. [New Features](#new-features)
+4. [Dashboard](#dashboard)
+5. [Show QR](#show-qr)
+6. [Menu](#Menu)
+7. [Add Commercial Negative Test](#add-commercial-negative-test)
+8. [Add GGD Negative Test / Vaccination / Recovery](#add-ggd-negative-test--vaccination--recovery)
+9. [Add Visitor Pass](#add-visitor-pass)
+10. [Add Paper Proof](#add-paper-proof)
+
+### Launch
 During **Launch** the remote configuration is fetched. This can result in various states: **AppStatus**
 
 Launch | App Status (End Of Life)
@@ -12,41 +24,41 @@ Launch | App Status (End Of Life)
 App Status (No Internet) | App Status (Required Update)
 ![AppStatus (No Internet)](images/no-internet.png)| ![AppStatus (Required Update)](images/required-update.png)
 
-## Onboarding
+### Onboarding
 First time users are treated with an onboarding: **OnboardingItem** and **PrivacyConsent**
 
 Onboarding Item | Privacy Consent
 --|--
 ![OnboardingItem](images/onboarding-item.png)| ![PrivacyConsent](images/privacy-consent.png)
 
-## NewFeatures
+### New Features
 New features in the app are displayed once to the user: **NewFeature** and **NewConsent**
 
 New Feature | NewConsent
 --|--
 ![NewFeature](images/onboarding-item.png)| n/a
 
-## Dashboard
+### Dashboard
 The **Dashboard** is the place for the domestic and international GreenCards.
 
 Dashboard (Empty) | Dashboard (With Card)
 --|--
 ![Dashboard (Empty)](images/dashboard-empty.png)| ![Dashboard (With Card)](images/dashboard-greencard.png)
 
-## ShowQR
+### Show QR
 The QR from the greencards will be shown on **ShowQR**, the details of the international QR are handled by the **DCCQRDetails**
 
 Show QR | DCC QR Details
 --|--
 ![ShowQR](images/show-qr.png)| ![DCCQRDetails](images/dcc-qr-details.png)
 
-## Menu
+### Menu
 The **Menu** is the main navigation router. You can also find the **AboutThisApp** here. 
 Menu | About This App
 --|--
 ![Menu](images/menu.png)| ![About this app](images/about-this-app.png)
 
-## Add Commercial Negative Test
+### Add Commercial Negative Test
 When adding a negative test QR, the first scene will be **ChooseProofType**, followed by **ChooseTestLocation**.
 A token and a verification code can be entered in the **InputRetrievalCode**, the negative test is displayed in the **ListRemoteEvents** with details in the **RemoteEventDetails**
 
@@ -58,7 +70,7 @@ Input Retrieval Code| List Remote Events
 Remote Event Details | 
 ![Remote Event Details ](images/remote-event-details.png)| 
 
-## Add GGD Negative Test / Vaccination / Recovery
+### Add GGD Negative Test / Vaccination / Recovery
 All of the non commercial flows for negative test / vaccination / recovery, start with the **ChooseProofType**, followed by **StartRemoteEvent**. The events are fetched in **FetchRemoteEvents** The rest of the flow is identical to the commercial flow with **ListRemoteEvents** and **RemoteEventDetails**
 Choose Proof Type | Remote Event Start
 --|--
@@ -68,7 +80,7 @@ Fetch Remote Events| List Remote Events
 Remote Event Details | 
 ![Remote Event Details ](images/remote-event-details-vaccination.png)| 
 
-## Add Visitor Pass
+### Add Visitor Pass
 Through the menu you start the application for a visitor pass **VisitorPassStart**. This is the same flow as the commercial negative test with the **InputRetrievalCode**, **ListRemoteEvents** and the **RemoteEventDetails**. When only the assessment part is finished, a banner on the dashboard will lead to **VisitorPassCompleteCertificate** to complete the visitor pass.
 
 Visitor Pass Start | Choose Test Location
@@ -79,7 +91,7 @@ Visitor Pass Start | Choose Test Location
 Visitor Pass Complete Certificate |
 ![Visitor Pass Complete Certificate](images/visitor-pass-complete-certificate.png)
 
-## Add Paper Proof
+### Add Paper Proof
 Through the menu you can start the paper proof flow: **PaperProofStart**, **PaperProofInputCouplingCode**, **PaperProofStartScanning**, **PaperProofScan**, **PaperProofCheck**, to end up with the normal flow: **ListRemoteEvents** and the **RemoteEventDetails**.
 
 Paper Proof Start | Paper Proof Input Coupling Code
