@@ -109,7 +109,7 @@ Remote Event Details |
 
 1. [Start Scanning](#start-scanning)
 2. [Scan Instructions](#scan-instructions)
-3. [Risk Settings](#risk-settings)
+3. [Risk Setting](#risk-setting)
 4. [Verifier Scan](#verifier-scan)
 5. [Verifier Result](#verifier-result)
 6. [Scan Log](#scan-log)
@@ -143,6 +143,7 @@ Verifier Scan | -
 ![Verifier Scan](images/scan.png) |
 
 ### Verifier Result
+todo
 
 ### Scan Log
 An overview of the scans can be found in **ScanLog**
