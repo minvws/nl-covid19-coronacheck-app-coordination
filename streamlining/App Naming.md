@@ -137,7 +137,10 @@ Risk Settings Start | Risk Setting
 ![Risk Settings Start](images/risk-setting-start.png) | ![Risk Setting](images/risk-setting.png)
 
 #### VerifierScan
-
+Scanning in the verifier is handled by the **VerifierScan**
+Scan Log Empty | 
+--|--
+![Verifier Scan](images/scan.png) |
 
 ### VerifierResult
 
