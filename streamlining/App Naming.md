@@ -114,7 +114,7 @@ Remote Event Details |
 5. [Verifier Result](#verifier-result)
 6. [Scan Log](#scan-log)
 
-### StartScanning
+### Start Scanning
 The verifier start scene is **StartScanning** 
 Start Scanning | Start Scanning (3G)
 --|--
@@ -124,27 +124,27 @@ Start Scanning (Switch to 1G) | Start Scanning (Switch to 3G)
 Start Scanning (1G) | 
 ![Start Scanning 1G](images/start-scanning-1G.png) |
 
-### ScanInstructions
+### Scan Instructions
 All the instructions are **ScanInstructions** and **PolicyInformation**
 Scan Instructions | Policy Information
 --|--
 ![Start Scanning](images/scan-instructions.png) | ![Policy Information](images/policy-information.png)
 
-#### RiskSetting
+#### Risk Setting
 To select a policy, use **RiskSetting**
 Risk Settings Start | Risk Setting
 --|--
 ![Risk Settings Start](images/risk-setting-start.png) | ![Risk Setting](images/risk-setting.png)
 
-#### VerifierScan
+#### Verifier Scan
 Scanning in the verifier is handled by the **VerifierScan**
-Scan Log Empty | 
+Verifier Scan | -
 --|--
 ![Verifier Scan](images/scan.png) |
 
-### VerifierResult
+### Verifier Result
 
-### ScanLog
+### Scan Log
 An overview of the scans can be found in **ScanLog**
 Scan Log Empty | Scan Log
 --|--
