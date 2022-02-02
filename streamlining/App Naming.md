@@ -103,3 +103,46 @@ Paper Proof Check | List Remote Events
 ![Paper Proof Check ](images/paper-proof-check.png)| ![List Remote Events](images/list-remote-events-paper-proof.png)
 Remote Event Details | 
 ![Remote Event Details ](images/remote-event-details-paper-proof.png)| 
+
+
+## Verifier
+
+1. [Start Scanning](#start-scanning)
+2. [Scan Instructions](#scan-instructions)
+3. [Risk Settings](#risk-settings)
+4. [Verifier Scan](#verifier-scan)
+5. [Verifier Result](#verifier-result)
+6. [Scan Log](#scan-log)
+
+### StartScanning
+The verifier start scene is **StartScanning** 
+Start Scanning | Start Scanning (3G)
+--|--
+![Start Scanning](images/start-scanning.png) | ![Start Scanning 3G](images/start-scanning-3G.png)
+Start Scanning (Switch to 1G) | Start Scanning (Switch to 3G)
+![Start Scanning (Switch to 1G)](images/start-scanning-to-1G.png) | ![Start Scanning (Switch to 3G)](images/start-scanning-to-3G.png)
+Start Scanning (1G) | 
+![Start Scanning 1G](images/start-scanning-1G.png) |
+
+### ScanInstructions
+All the instructions are **ScanInstructions** and **PolicyInformation**
+Scan Instructions | Policy Information
+--|--
+![Start Scanning](images/scan-instructions.png) | ![Policy Information](images/policy-information.png)
+
+#### RiskSetting
+To select a policy, use **RiskSetting**
+Risk Settings Start | Risk Setting
+--|--
+![Risk Settings Start](images/risk-setting-start.png) | ![Risk Setting](images/risk-setting.png)
+
+#### VerifierScan
+
+
+### VerifierResult
+
+### ScanLog
+An overview of the scans can be found in **ScanLog**
+Scan Log Empty | Scan Log
+--|--
+![Scan Log Empty](images/scan-log-empty.png) | ![Scan Log](images/scan-log.png)
