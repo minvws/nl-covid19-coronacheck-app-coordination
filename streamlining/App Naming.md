@@ -2,6 +2,9 @@
 
 ## Introduction
 To streamline development of both the iOS and the Android app, we came up with a naming convention for each scene.
+1. [Holder](#holder)
+2. [Verifier](#verifier)
+
 
 ## Holder
 1. [Launch](#launch)
