@@ -143,7 +143,12 @@ Verifier Scan | -
 ![Verifier Scan](images/scan.png) |
 
 ### Verifier Result
-todo
+The results are split into **CheckIdentity**. **DeniedAccess** and **VerifiedAccess**
+Check Identity | Denied Access
+--|--
+![Check Identity](images/check-identity.png) | ![Denied Access](images/denied-access.png)
+Verified Access | 
+![Verified Access](images/verified-access.png) |
 
 ### Scan Log
 An overview of the scans can be found in **ScanLog**
