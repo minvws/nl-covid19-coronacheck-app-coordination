@@ -127,18 +127,33 @@ Er bestaan de volgende datastromen voor de gebruikers:
 
 Toegestane TLS ciphers:
 
-*TLS\_AES\_128\_GCM\_SHA256
-TLS\_AES\_256\_GCM\_SHA384
-ECDHE-RSA-AES128-GCM-SHA256
-ECDHE-RSA-AES128-SHA256
-ECDHE-RSA-AES256-GCM-SHA384
-ECDHE-RSA-AES256-SHA384*
+* TLS\_AES\_128\_GCM\_SHA256
+* TLS\_AES\_256\_GCM\_SHA384
+* ECDHE-RSA-AES128-GCM-SHA256
+* ECDHE-RSA-AES128-SHA256
+* ECDHE-RSA-AES256-GCM-SHA384
+* ECDHE-RSA-AES256-SHA384
 
 Deze chiphers zijn aangeraden door o.a. Mozilla https://ssl-config.mozilla.org/ voor Intermeditia security configuratie. In Modern wordt alleen TLS1.3 geaccepteerd.
 
 **Waar**: Configuratie + ophalen gegevens bij dataprovider + ophalen CoronaCheck handtekening
 
 **Overwegingen**: Geen beveiliging is geen optie hier. Datauitwisseling met de overheid zal op hoog niveau beveiligd dienen te zijn. Gezien de data door de App zelf wordt opgehaald bij de dataprovider en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Dit geldt ook voor transport vanuit de verschillende CGL's. Door ondertekening, en transportencryptie zijn de hoge beveiligingseisen ruimschoots geborgd.
+
+Conclusie:
+
+* Configuratie TLS
+: Standaard controle van OS wat betreft TLS. Controle tegen CAA records in DNS (beveiligd met DNSSec)
+
+* Configuratie CMS
+: Controle dat het certificaat binnen PKI-O (private of public) en volledige controle van CommonName
+
+* Endpoint (provider/signer) TLS
+: Controle van het certificaat tegen 1 van de aanwezig certificaten voor dit endpoint in de configuratie
+
+* Endpoint (provider) CMS
+: Controle van het certificaat tegen 1 van de aanwezig certificaten voor deze dataleverancier.
+
 
 ## Strippen IP adressen
 Waar: Ophalen configuratie (CDN) + ophalen handtekening (app en papier)
@@ -173,7 +188,7 @@ Een van de manieren om aan ondertekende gegevens te komen is ook door middel van
     - voornaam
     - achternaam
     - geboortedag
-    
+
 Deze combinatie van gegevens in de hash levert genoeg entropy op om het voor een kwaadwillende niet langer triviaal te maken om te achterhalen om welke persoon het informatie verzoek gaat. Deze hash wordt vervolgens gebruikt om bij de data providers gegevens op te halen van de juiste persoon zonder bekend te maken wie de burger is indien er geen gegevens bekend zijn. Dit gebeurt in 2 stappen, eerst wordt een Unomi verzoek verstuurd waarin wordt gevraagd of de betreffende persoon bekent is in het systeem. En als deze persoon bekent is, wordt een tweede verzoek vestuurd om de test en vaccinatie gegevens op te vragen. Deze twee verzoeken gebeuren beide vanuit de Holder-app. 
 
 Meer informatie over Unomi en de daarbij behorende privacy handhaving staat beschreven in: https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/providing-events-by-digid.md 
