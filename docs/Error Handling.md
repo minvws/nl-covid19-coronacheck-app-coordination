@@ -324,3 +324,9 @@ Mijn CN server side error codes
 * 777714: Country is unknown
 * 777715: Medicalstatement is unknown
 * 777716: Personalstatement is unknown
+
+General http error codes: 
+* 500: internal server error 
+* 429: server too busy
+* 404: resource not found
+* 400: invalid request sent to server 
