@@ -169,6 +169,10 @@ Known step lists
 
 * show: 10
 
+### Wallet Debug (flow 11)
+
+* removing event group: 10
+
 ## Verifier app
 
 ### Startup / Onboarding (flow 0)
