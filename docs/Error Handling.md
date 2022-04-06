@@ -39,6 +39,7 @@ Holder:
 * positive test: 8
 * tourist pass: 9
 * vaccination BES islands: 10
+* wallet debug flow: 11
 
 Verifier:
 * launch / startup flow: 0
@@ -167,6 +168,10 @@ Known step lists
 ### QRs (flow 6)
 
 * show: 10
+
+### Wallet Debug (flow 11)
+
+* removing event group: 10
 
 ## Verifier app
 
