@@ -182,6 +182,7 @@ Known step lists
 
 ### Scan flow (flow 1)
 * scan log: 30
+* parsing QR: 40
 
 # Appendix B
 
@@ -282,6 +283,14 @@ voorzet, todo android/ios/web devs.
   * 080: No providers for negative test available
   * 081: No providers for recovery or positive test available
   * 082: No providers for vaccination available
+
+## 09h - MobileCore scan failures
+ 
+  * 090: No public keys provided to MobileCore library
+  * 091: No risk setting provided to MobileCore library
+  * 092: No default verification policy in configuration
+  * 093: MobileCore library did not return a verification result
+
 
 # Appendix C
 
