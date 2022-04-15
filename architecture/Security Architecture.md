@@ -120,23 +120,40 @@ Er bestaan de volgende datastromen voor de gebruikers:
 1) Het datatransport dient versleuteld te zijn met HTTPS TLS 1.3 met de juiste ciphers en PFS (of soortgelijk – dus dat een key compromise op dag 10 niet leidt tot confidentialiteit verlies van dag 1-9).
 1) Indien uit oogpunt van gebruikersacceptatie oudere OS versies ondersteund dienen te worden zal daar de TLS versie niet lager mogen zijn dan TLS 1.2. (Android < versie 6, iOS < 12.2). 
 1) Op de test van Qualys SSL Lab zal een A+ gehaald dienen te worden. 
-1) Hiernaast zal aan de eisen van de BIO voldaan moeten worden.
-1) SSL pinning: om zeker te stellen dat er alleen met vertrouwde uitgegeven certificaten wordt omgegaan zal er CA (PKI-Overheid EV) en leaf-node pinning worden toegepast. Dit om onder andere Machine In The Middle aanvallen tegen te gaan.
+1) Er zal aan de eisen van de BIO voldaan moeten worden.
+1) SSL OV/EV Controle: Er wordt zeker gesteld dat er voldaan is aan de organisatie verificatieeisen door te controleren op OID 2.23.140.1.2.2 of 2.23.140.1.1
+1) SSL Pinning (App config endpoints): Er gebeurt geen TLS/HTTPS pinning op de endpoints. De authenticiteit word gewaarborgd door de CMS signature op de configuratie(s).
+1) SSL Pinning (Andere endpoints): Pinning zal gebeuren tegen de in de app config meegeleverde leaf certificaten. 
 
 Toegestane TLS ciphers:
 
-*TLS\_AES\_128\_GCM\_SHA256
-TLS\_AES\_256\_GCM\_SHA384
-ECDHE-RSA-AES128-GCM-SHA256
-ECDHE-RSA-AES128-SHA256
-ECDHE-RSA-AES256-GCM-SHA384
-ECDHE-RSA-AES256-SHA384*
+* TLS\_AES\_128\_GCM\_SHA256
+* TLS\_AES\_256\_GCM\_SHA384
+* ECDHE-RSA-AES128-GCM-SHA256
+* ECDHE-RSA-AES128-SHA256
+* ECDHE-RSA-AES256-GCM-SHA384
+* ECDHE-RSA-AES256-SHA384
 
 Deze chiphers zijn aangeraden door o.a. Mozilla https://ssl-config.mozilla.org/ voor Intermeditia security configuratie. In Modern wordt alleen TLS1.3 geaccepteerd.
 
 **Waar**: Configuratie + ophalen gegevens bij dataprovider + ophalen CoronaCheck handtekening
 
 **Overwegingen**: Geen beveiliging is geen optie hier. Datauitwisseling met de overheid zal op hoog niveau beveiligd dienen te zijn. Gezien de data door de App zelf wordt opgehaald bij de dataprovider en de data minimale persoonsgegevens bevat is het niet verplicht om end-to-end te versleutelen maar kan volstaan worden met data-transport beveiliging. Dit geldt ook voor transport vanuit de verschillende CGL's. Door ondertekening, en transportencryptie zijn de hoge beveiligingseisen ruimschoots geborgd.
+
+Conclusie:
+
+* Configuratie TLS
+: Standaard controle van OS wat betreft TLS. Controle tegen CAA records in DNS (beveiligd met DNSSec)
+
+* Configuratie CMS
+: Controle dat het certificaat binnen PKI-O (private of public) en volledige controle van CommonName
+
+* Endpoint (provider/signer) TLS
+: Controle van het certificaat tegen 1 van de aanwezig certificaten voor dit endpoint in de configuratie
+
+* Endpoint (provider) CMS
+: Controle van het certificaat tegen 1 van de aanwezig certificaten voor deze dataleverancier.
+
 
 ## Strippen IP adressen
 Waar: Ophalen configuratie (CDN) + ophalen handtekening (app en papier)
@@ -150,6 +167,10 @@ Zo kan de hoster niet zien wat voor data er verzonden wordt, en de ondertekening
 **Overwegingen**: Gezien het voor het gebruik van de backend systemen en beveiligingen hiervoor niet nodig is om een relatie te kunnen leggen tussen de gebruiker (IP adres) en de data zal deze niet samen gebundeld moeten kunnen worden in logfiles en foutmeldingen. Door beheer gescheiden uit te voeren is dit ook organisatorisch efficient te borgen.
 
 Het gebruik van IP-adressen is nog steeds nodig om te communiceren over het internet, dus ze moeten wel gebruikt worden.
+
+## CMS Signature toegestane certificaten
+
+Voor het ondertekenen van CMS berichten (configuratie, ondertekende gegevens van CGL, etc..) zal gebruik gemaakt worden van een certificaat dat valt binnen de PKI-Overheid chain.
 
 ## Aanleveren ondertekende gegevens door Corona Gegevens Leveranciers
 De gegevens dienen te worden aangeleverd door de CGL voorzien van een PKCS#7 / CMS signature op basis van een PKI-Overheid certificaat met minimaal een SHA256 hash en RSA-PSS padding. SHA256 voldoet ook aan de SOGIS Agreed Cryptographic Mechanisms.
@@ -167,7 +188,7 @@ Een van de manieren om aan ondertekende gegevens te komen is ook door middel van
     - voornaam
     - achternaam
     - geboortedag
-    
+
 Deze combinatie van gegevens in de hash levert genoeg entropy op om het voor een kwaadwillende niet langer triviaal te maken om te achterhalen om welke persoon het informatie verzoek gaat. Deze hash wordt vervolgens gebruikt om bij de data providers gegevens op te halen van de juiste persoon zonder bekend te maken wie de burger is indien er geen gegevens bekend zijn. Dit gebeurt in 2 stappen, eerst wordt een Unomi verzoek verstuurd waarin wordt gevraagd of de betreffende persoon bekent is in het systeem. En als deze persoon bekent is, wordt een tweede verzoek vestuurd om de test en vaccinatie gegevens op te vragen. Deze twee verzoeken gebeuren beide vanuit de Holder-app. 
 
 Meer informatie over Unomi en de daarbij behorende privacy handhaving staat beschreven in: https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/providing-events-by-digid.md 
