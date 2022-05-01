@@ -76,7 +76,7 @@ In addition to the requirements, we have defined a number of guiding principles 
 * [Tijdelijke wet Coronatoegangsbewijzen](https://www.eerstekamer.nl/wetsvoorstel/35807_tijdelijke_wet)
 * [Gezondheidsraad - Testbewijzen voor SARS-CoV-2: ethische en juridische voorwaarden](https://www.gezondheidsraad.nl/documenten/adviezen/2021/01/14/testbewijzen-voor-sars-cov-2-ethische-en-juridische-voorwaarden)
 * [Gezondheidsraad - Ethische en juridische afwegingen COVID-19-vaccinatie](https://www.gezondheidsraad.nl/documenten/adviezen/2021/02/04/ethische-en-juridische-afwegingen-covid-19-vaccinatie)
-* [Baseline Informatiebeveiliging Overheid 1.04](https://bio-overheid.nl/media/1400/70463-rapport-bio-versie-104_digi.pdf)
+* [Baseline Informatiebeveiliging Overheid 1.04](https://bio-overheid.nl/category/producten#BIO)
 * [Algemene Verordening Gegevensbescherming (AVG)](https://autoriteitpersoonsgegevens.nl/sites/default/files/atoms/files/verordening_2016_-_679_definitief.pdf) 
 * [Handreiking Mobiele App Ontwikkeling en Beheer 3.0](https://www.noraonline.nl/images/noraonline/a/a5/Handreiking_Mobiele_App_3.0.pdf) 
 * [Web Content Accessibility Guidelines 2.1](https://www.w3.org/TR/WCAG21/)

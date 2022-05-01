@@ -37,9 +37,13 @@ Holder:
 * QR flow: 6
 * upgradeEUVaccination: 7
 * positive test: 8
+* tourist pass: 9
+* vaccination BES islands: 10
+* clear events flow: 11
 
 Verifier:
 * launch / startup flow: 0
+* scan flow: 1
 
 Print portal: 
 * onboarding flow: 0
@@ -165,6 +169,10 @@ Known step lists
 
 * show: 10
 
+### Clear Events (flow 11)
+
+* removing event group: 10
+
 ## Verifier app
 
 ### Startup / Onboarding (flow 0)
@@ -173,6 +181,8 @@ Known step lists
 * public keys: 20
 
 ### Scan flow (flow 1)
+* scan log: 30
+* parsing QR: 40
 
 # Appendix B
 
@@ -215,12 +225,13 @@ voorzet, todo android/ios/web devs.
 * 055: error saving greenCards / origins / credentials
 * 056: error saving events
 * 057: failed to initialize the Go crypto library
+* 058: origin mismatch, the signer did not return the expected origins.
 
 ## 06h - SQL failures
  
 * 060: Integrity constraint violation
 * 061: No greenCards available
-* 062: Error fetching greenCards from CoreData
+* 062: Error fetching objects from CoreData
 
 ## 07h - TVS/DigiD failures
 
@@ -273,6 +284,14 @@ voorzet, todo android/ios/web devs.
   * 081: No providers for recovery or positive test available
   * 082: No providers for vaccination available
 
+## 09h - MobileCore scan failures
+ 
+  * 090: No public keys provided to MobileCore library
+  * 091: No risk setting provided to MobileCore library
+  * 092: No default verification policy in configuration
+  * 093: MobileCore library did not return a verification result
+
+
 # Appendix C
 
 CoronaCheck server side error codes
@@ -305,3 +324,23 @@ CoronaCheck server side error codes
 * 99559: Event format incorrect
 
 (List copied from https://github.com/minvws/nl-covid19-coronacheck-app-bff)
+
+Mijn CN server side error codes
+
+* 777706: Birth date is unknownn
+* 777707: First name is unknown
+* 777708: Last name is unknown
+* 777709: HPK-code is unknown
+* 777710: Unique vacination number is unknown
+* 777711: Dose is unknown or invalid
+* 777712: Totaldoses is unknown or invalid
+* 777713: Vaccinationdate is unknown
+* 777714: Country is unknown
+* 777715: Medicalstatement is unknown
+* 777716: Personalstatement is unknown
+
+General http error codes: 
+* 500: internal server error 
+* 429: server too busy
+* 404: resource not found
+* 400: invalid request sent to server 
