@@ -21,7 +21,7 @@ The following systems are involved in the GGD PatientID Authentication Provider:
 
 * The CoronaCheck apps, these are used by the user to retrieve their details and generate a Digital Covid Certificate (DCC).
 * The CoronaCheck website, used if the user wants to retrieve a paper version of the certificate. Since for the purposes of this feature the website and app are similar, we will only mention the apps in this document and its diagrams.
-* The GGD 'dataverse', this is the unofficial name of the collection of database that the GGD has. For this feature we rely on the patient info in that database (birthdate, patientnumber, phonenumber, e-mail)
+* The GGD 'dataverse', this is the unofficial name of the collection of databases that the GGD has. For this feature we rely on the patient info in that database (birthdate, patientnumber, phonenumber, e-mail)
 * The GGD ESB, which is middleware that exposes elements from the GGD dataverse tot the outside world.
 * The GGD PatientID Authentication Provider, this is the component that implements this alternative login flow.
 
