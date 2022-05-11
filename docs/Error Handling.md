@@ -309,6 +309,7 @@ CoronaCheck server side error codes
 * 99782: BSN not found
 * 99783: DCC could not be verified, key not found
 * 99784: DCC could not be verified
+* 99785: Specimen and non-specimen events found
 * 99789: Connection error to business rule engine
 * 99799: General business rule engine error
 * 99931: Provider Identifier incorrect
