@@ -8,7 +8,8 @@ The CoronaCheck apps that are submitted to the app store are created using an au
 * After QA processes are complete, the version that gets submitted to the store gets tagged and marked as a release in GitHub, in the private repository
 * The code gets synced to the public repository and the tags are set in the public repository as well.
 * Our notary process triggers upon release and let's the escrow party know that a validation can be started.
-* The escrow party produces a report that indicates that the version that was tagged in Github and the version that is in the store are a match
+* The escrow party produces a report that indicates that the version that was tagged in Github and the version that is in the store are a match. This statement is uploaded to the provenance repository.
+* The notary verifies the report and signs a statement. The statement is also uploaded to the provenance repository.
 
 ## Key management
 
