@@ -169,6 +169,22 @@ Known step lists
 
 * show: 10
 
+### UpgradeEUVaccination (flow 7)
+
+* tbd
+
+### Positive test (flow 8)
+
+* tbd
+
+### Tourist pass (flow 9)
+
+* tbd
+
+### Vaccination using MijnCN (flow 10)
+
+* tbd
+
 ### Clear Events (flow 11)
 
 * removing event group: 10
