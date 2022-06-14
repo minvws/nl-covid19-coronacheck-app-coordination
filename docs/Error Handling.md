@@ -36,9 +36,9 @@ Holder:
 * hkvi scan flow: 5
 * QR flow: 6
 * upgradeEUVaccination: 7
-* positive test: 8
+* positive test (during vaccination flow): 8
 * tourist pass: 9
-* vaccination BES islands: 10
+* vaccination using MijnCN: 10
 * clear events flow: 11
 
 Verifier:
@@ -173,7 +173,7 @@ Known step lists
 
 * tbd
 
-### Positive test (flow 8)
+### Positive test (during vaccination) (flow 8)
 
 * tbd
 
