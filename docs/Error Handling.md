@@ -33,7 +33,7 @@ Holder:
 * vaccination flow: 2
 * recovery flow: 3
 * digid test flow: 4
-* hkvi scan flow: 5
+* hkvi / dcc scan flow: 5
 * QR flow: 6
 * upgradeEUVaccination: 7
 * positive test: 8
@@ -57,6 +57,7 @@ Print portal:
 yy identifies the step/call (within the flow, in 2 digits with 10-step increments so that later other steps can be injected), e.g for the vaccination flow:
 
 * tvs / digid: 10
+* pap: 15
 * event_providers: 20
 * access_tokens: 30
 * unomi: 40
@@ -121,9 +122,8 @@ Known step lists
 
 ### Vaccination (flow 2)
 
-(voorzet, todo ios/android/web devs)
-
 * tvs / digid: 10
+* pap: 15
 * event_providers: 20
 * access_tokens: 30
 * unomi: 40
@@ -136,6 +136,7 @@ Known step lists
 ### Recovery (flow 3)
 
 * tvs / digid: 10
+* pap: 15
 * event_providers: 20
 * access_tokens: 30
 * unomi: 40
@@ -148,6 +149,7 @@ Known step lists
 ### Digid test results (flow 4)
 
 * tvs / digid: 10
+* pap: 15
 * event_providers: 20
 * access_tokens: 30
 * unomi: 40
@@ -157,7 +159,7 @@ Known step lists
 * signer call: 80
 * storing credentials: 90
 
-### Paper scan (flow 5)
+### HKVI / DCC / Paper scan (flow 5)
 
 * coupling: 10
 * storing events: 60
@@ -200,7 +202,7 @@ voorzet, todo android/ios/web devs.
 
 ## 01h - ssl pinning failures
 
-* 010: ...
+* 010: invalid tls
 
 ## 02h - cms signature failures
 
