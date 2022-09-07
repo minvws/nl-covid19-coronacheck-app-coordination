@@ -40,6 +40,7 @@ Holder:
 * tourist pass: 9
 * vaccination BES islands: 10
 * clear events flow: 11
+* dashboard: 12
 
 Verifier:
 * launch / startup flow: 0
@@ -228,6 +229,7 @@ voorzet, todo android/ios/web devs.
 * 056: error saving events
 * 057: failed to initialize the Go crypto library
 * 058: origin mismatch, the signer did not return the expected origins.
+* 059: blocked qr 
 
 ## 06h - SQL failures
  
