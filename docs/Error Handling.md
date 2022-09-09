@@ -229,7 +229,11 @@ voorzet, todo android/ios/web devs.
 * 056: error saving events
 * 057: failed to initialize the Go crypto library
 * 058: origin mismatch, the signer did not return the expected origins.
-* 059: blocked qr 
+* 059: couldn't create certificate because of Domestic_vaccination_rejected, International_vaccination_rejected hints
+* 0510: couldn't create certificate because of Domestic_Vaccination_rejected, International_vaccination_rejected, Vaccination_dose_correction_not_applied, Domestic_recovery_rejected, International_recovery_rejected hints
+* 0511: couldn't create certificate because of Domestic_recovery_rejected, International_recovery_rejected hints
+* 0512: couldn't create certificate because of Domestic_negativetest_rejected, International_negativetest_rejected hints
+* 0513: couldn't create certificate because of Domestic_vaccinationassessment_rejected hint
 
 ## 06h - SQL failures
  
