@@ -40,6 +40,7 @@ Holder:
 * tourist pass: 9
 * vaccination BES islands: 10
 * clear events flow: 11
+* dashboard: 12
 
 Verifier:
 * launch / startup flow: 0
@@ -233,6 +234,7 @@ voorzet, todo android/ios/web devs.
 * 0511: couldn't create certificate because of Domestic_recovery_rejected, International_recovery_rejected hints
 * 0512: couldn't create certificate because of Domestic_negativetest_rejected, International_negativetest_rejected hints
 * 0513: couldn't create certificate because of Domestic_vaccinationassessment_rejected hint
+* 0514: signer returned blocked event
 
 ## 06h - SQL failures
  
