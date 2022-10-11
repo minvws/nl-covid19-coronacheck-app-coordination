@@ -41,6 +41,7 @@ Holder:
 * vaccination BES islands: 10
 * clear events flow: 11
 * dashboard: 12
+* fuzzy matching: 13
 
 Verifier:
 * launch / startup flow: 0
@@ -176,6 +177,13 @@ Known step lists
 
 * removing event group: 10
 
+### Fuzzy Matching (flow 13)
+
+* removing event group: 10
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
+
 ## Verifier app
 
 ### Startup / Onboarding (flow 0)
@@ -300,6 +308,12 @@ voorzet, todo android/ios/web devs.
   * 092: No default verification policy in configuration
   * 093: MobileCore library did not return a verification result
 
+## 10h - Fuzzy Matching Errors
+
+  * 100: no events available to send to the signer
+  * 101: no identity was selected
+  * 102: failed to persist identity
+  * 103: failed to remove event groups
 
 # Appendix C
 
@@ -350,7 +364,7 @@ Mijn CN server side error codes
 * 777716: Personalstatement is unknown
 
 General http error codes: 
-* 500: internal server error 
-* 429: server too busy
-* 404: resource not found
 * 400: invalid request sent to server 
+* 404: resource not found
+* 429: server too busy
+* 500: internal server error 
