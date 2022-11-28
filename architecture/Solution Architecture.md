@@ -307,10 +307,10 @@ To avoid test proofs from being handed out more than once, the `unique` field fr
 
 The CoronaCheck apps retrieve their event data from third party backends. Although each party is responsible for their own architecture, we defined a set of protocols that these parties must implement in order for the apps to be able to retrieve data.
 
-There are currently 2 protocol documents, documented in the docs/ directory and written towards these third parties:
+There are currently 2 protocol documents, documented in the provider docs repository and written towards these third parties:
 
-* [Retrieving events by DigiD](../docs/providing-events-by-digid.md)
-* [Retrieving events by Token](../docs/providing-events-by-token.md)
+* [Retrieving events by DigiD](https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/providing-events-by-digid.md))
+* [Retrieving events by Token](https://github.com/minvws/nl-covid19-coronacheck-provider-docs/blob/main/docs/providing-events-by-token.md)
 
 ## Workers
 

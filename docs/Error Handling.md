@@ -40,6 +40,8 @@ Holder:
 * tourist pass: 9
 * vaccination BES islands: 10
 * clear events flow: 11
+* dashboard: 12
+* fuzzy matching: 13
 
 Verifier:
 * launch / startup flow: 0
@@ -175,6 +177,13 @@ Known step lists
 
 * removing event group: 10
 
+### Fuzzy Matching (flow 13)
+
+* removing event group: 10
+* prepare issue call: 70
+* signer call: 80
+* storing credentials: 90
+
 ## Verifier app
 
 ### Startup / Onboarding (flow 0)
@@ -228,6 +237,12 @@ voorzet, todo android/ios/web devs.
 * 056: error saving events
 * 057: failed to initialize the Go crypto library
 * 058: origin mismatch, the signer did not return the expected origins.
+* 059: couldn't create certificate because of Domestic_vaccination_rejected, International_vaccination_rejected hints
+* 0510: couldn't create certificate because of Domestic_Vaccination_rejected, International_vaccination_rejected, Vaccination_dose_correction_not_applied, Domestic_recovery_rejected, International_recovery_rejected hints
+* 0511: couldn't create certificate because of Domestic_recovery_rejected, International_recovery_rejected hints
+* 0512: couldn't create certificate because of Domestic_negativetest_rejected, International_negativetest_rejected hints
+* 0513: couldn't create certificate because of Domestic_vaccinationassessment_rejected hint
+* 0514: signer returned blocked event
 
 ## 06h - SQL failures
  
@@ -293,6 +308,12 @@ voorzet, todo android/ios/web devs.
   * 092: No default verification policy in configuration
   * 093: MobileCore library did not return a verification result
 
+## 10h - Fuzzy Matching Errors
+
+  * 100: no events available to send to the signer
+  * 101: no identity was selected
+  * 102: failed to persist identity
+  * 103: failed to remove event groups
 
 # Appendix C
 
@@ -343,7 +364,7 @@ Mijn CN server side error codes
 * 777716: Personalstatement is unknown
 
 General http error codes: 
-* 500: internal server error 
-* 429: server too busy
-* 404: resource not found
 * 400: invalid request sent to server 
+* 404: resource not found
+* 429: server too busy
+* 500: internal server error 
