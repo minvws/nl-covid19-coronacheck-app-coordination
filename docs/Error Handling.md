@@ -35,10 +35,10 @@ Holder:
 * digid test flow: 4
 * hkvi / dcc scan flow: 5
 * QR flow: 6
-* ~~upgradeEUVaccination: 7~~
+* upgradeEUVaccination: 7
 * positive test: 8
-* ~~tourist pass: 9~~
-* ~~vaccination BES islands: 10~~
+* tourist pass: 9
+* vaccination BES islands: 10
 * clear events flow: 11
 * dashboard: 12
 * fuzzy matching: 13
