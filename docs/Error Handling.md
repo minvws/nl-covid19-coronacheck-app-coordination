@@ -188,10 +188,13 @@ Known step lists
 ### Migration (flow 14)
 
 * import (to this device): 10
-
 * export (to other device): 20
 
-  
+### PDF Export (flow 15)
+
+* creating PDF: 10
+
+
 
 ## Verifier app
 
@@ -331,6 +334,14 @@ voorzet, todo android/ios/web devs.
   * 112: invalid version of data
   * 113: invalid number of packages
   * 114: decoding error
+
+## 11h - PDF Export Errors
+
+  * 120: wrong file path
+  * 121: failed to load file
+  * 122: failed to create PDF
+  * 123: failed to save PDF
+  * 124: No DDC to export
 
 
 
