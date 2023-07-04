@@ -20,7 +20,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `maxValidityHours`| 24 |Deprecated way to specify validity in hours. Is no longer used.|No|No|Yes
 `informationURL`| "https://coronacheck.nl" |Deprecated, used to indicate the url of the CoronaCheck website. This info is now taken from the translation tool.|No|No|Yes
 `requireUpdateBefore`| 1620781181 |This value was added for future use but was never actually implemented. The idea was: If there's a required upgrade, this setting indicates by when the user should upgrade. If this is in the future, then the message telling the user their app is too old will be postponed until this moment, and they will only get a warning first|No|No|Yes
-`ggdEnabled`| true |This setting indicates whether the integration with GGD (for vaccination/test/recovery retrieval) is enabled. When turning this off, the app will not contact the GGD servers.|Yes|?|
+`ggdEnabled`| true |When this is enabled, the user is presented with a selection screen to select testing GGD or other locations. When this is disabled, the user is directly taken to the other locations|Yes|No|No
 `euLaunchDate`| "2021-06-30T22:00:00Z" |The date the EU DCC goes into effect. If the app is started before this date, a countdown to the EU Launch Date is shown|?|?|Yes
 `recoveryGreencardRevised-`<br/>`ValidityLaunchDate`| "2021-11-04T22:00:00Z" |When recovery cards validity is changed, this date will tell the app when that change will go into effect.|Yes|?|
 `temporarilyDisabled`| false |This setting can tenporarily disable the app. Unlinke the kill switch (`appDeactivated`) this is temporary and the message telling the user that the app is disabled will reflect that.|Yes|?|
