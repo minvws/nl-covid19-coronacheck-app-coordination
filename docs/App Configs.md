@@ -18,7 +18,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `configMinimumIntervalSeconds`| 43200 |The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago.|Yes|?|
 `upgradeRecommendationInterval`| 24 |This one is used to only show the recommended upgrade popup once every upgradeRecommendationInterval hours|Yes|No|No
 `maxValidityHours`| 24 |Deprecated way to specify validity in hours. Is no longer used.|No|No|Yes
-`informationURL`| "https://coronacheck.nl" |The url of the CoronaCheck website. 'More info' buttons will link here.|Yes|Yes|
+`informationURL`| "https://coronacheck.nl" |Deprecated, used to indicate the url of the CoronaCheck website. This info is now taken from the translation tool.|No|No|Yes
 `requireUpdateBefore`| 1620781181 |If there's a required upgrade, this setting indicates by when the user should upgrade. If this is in the future, then the message telling the user their app is too old will be postponed until this moment, and they will only get a warning first|Yes|No|
 `ggdEnabled`| true |This setting indicates whether the integration with GGD (for vaccination/test/recovery retrieval) is enabled. When turning this off, the app will not contact the GGD servers.|Yes|?|
 `euLaunchDate`| "2021-06-30T22:00:00Z" |The date the EU DCC goes into effect. If the app is started before this date, a countdown to the EU Launch Date is shown|?|?|Yes
