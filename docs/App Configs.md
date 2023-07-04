@@ -43,7 +43,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `nlTestTypes`| `[{"code": "pcr", "name": "PCR Test"}]`|A mapping of test provider 2.0 test types to a human readable string |?|?|Yes
 `euVaccinations`| `[{"code": "1119349007", "name": "SARS-CoV-2 mRNA vaccine"}` |A mapping of EU valueset codes to a human readable string for vaccination prophylaxis|Yes|Yes|
 `euManufacturers`| `[{"code": "ORG-100001699", "name": "AstraZeneca AB"}]` |A mapping of EU valueset codes to a human readable string for vaccine manufacturers|Yes|Yes|
-`providerIdentifiers`| `[{ "name": "CTP-TEST-MVWS", "code": "ZZZ"}]`|A mapping of provider prefix codes for test results to a name|?|?|
+`providerIdentifiers`| `[{ "name": "CTP-TEST-MVWS", "code": "ZZZ"}]`|A mapping of provider prefix codes for test results to a name. Is not used anymore.|No|No|Yes
 `universalLinkDomains`| `[{"url": "downloadclose.com","name": "Close app"}]`|The allow-list of domains that universal links can use as valid return urls|Yes|No|
 
  
