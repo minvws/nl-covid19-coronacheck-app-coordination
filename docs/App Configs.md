@@ -16,7 +16,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `appDeactivated`| false |The 'kill switch'. If this setting is set to true, the app will disable itself and not allow the user to use it.|Yes|?|
 `configTTL`| 2419200 |The 'time to live' (in seconds) tells the app how old a configuration may be. If the app has no way to refresh the config and the config is older than this, the user will get a message telling them to go online first.|Yes|?|
 `configMinimumIntervalSeconds`| 43200 |The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago.|Yes|?|
-`upgradeRecommendationInterval`| 24 |?|?|?|?
+`upgradeRecommendationInterval`| 24 |This one is used to only show the recommended upgrade popup once every upgradeRecommendationInterval hours|Yes|No|No
 `maxValidityHours`| 24 |?|?|?|?
 `informationURL`| "https://coronacheck.nl" |The url of the CoronaCheck website. 'More info' buttons will link here.|Yes|Yes|
 `requireUpdateBefore`| 1620781181 |If there's a required upgrade, this setting indicates by when the user should upgrade. If this is in the future, then the message telling the user their app is too old will be postponed until this moment, and they will only get a warning first|Yes|No|
