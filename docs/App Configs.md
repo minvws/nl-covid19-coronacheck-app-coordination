@@ -23,7 +23,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `ggdEnabled`| true |When this is enabled, the user is presented with a selection screen to select testing GGD or other locations. When this is disabled, the user is directly taken to the other locations|Yes|No|No
 `euLaunchDate`| "2021-06-30T22:00:00Z" |The date the EU DCC goes into effect. If the app is started before this date, a countdown to the EU Launch Date is shown|No|No|Yes
 `recoveryGreencardRevised-`<br/>`ValidityLaunchDate`| "2021-11-04T22:00:00Z" |When recovery cards validity is changed, this date will tell the app when that change will go into effect.|Yes|?|
-`temporarilyDisabled`| false |This setting can tenporarily disable the app. Unlinke the kill switch (`appDeactivated`) this is temporary and the message telling the user that the app is disabled will reflect that.|Yes|?|
+`temporarilyDisabled`| false |This was intended for future use but was not yet implemented. The idea was that the setting can tenporarily disable the app. Unlinke the kill switch (`appDeactivated`) this is temporary and the message telling the user that the app is disabled will reflect that.|No|No|Yes
 `vaccinationEventValidity`| 14600 |How long (in hours) a vaccination event will be stored in the app. It will be deleted if it's older than this.|Yes|No|?
 `vaccinationEventValidityDays`| 730 |?|?|?|?
 `recoveryEventValidity`| 8760 |How long (in hours) a recovery event will be stored in the app. It will be deleted if it's older than this.|Yes|?|?
