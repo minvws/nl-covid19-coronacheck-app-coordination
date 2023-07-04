@@ -36,9 +36,9 @@ Holder:
 * hkvi / dcc scan flow: 5
 * QR flow: 6
 * upgradeEUVaccination: 7
-* positive test: 8
+* positive test (during vaccination flow): 8
 * tourist pass: 9
-* vaccination BES islands: 10
+* vaccination using MijnCN: 10
 * clear events flow: 11
 * dashboard: 12
 * fuzzy matching: 13
@@ -173,6 +173,22 @@ Known step lists
 ### QRs (flow 6)
 
 * show: 10
+
+### UpgradeEUVaccination (flow 7)
+
+* tbd
+
+### Positive test (during vaccination) (flow 8)
+
+* tbd
+
+### Tourist pass (flow 9)
+
+* tbd
+
+### Vaccination using MijnCN (flow 10)
+
+* tbd
 
 ### Clear Events (flow 11)
 
