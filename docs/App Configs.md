@@ -18,18 +18,18 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `appDeactivated`| false |The 'kill switch'. If this setting is set to true, the app will disable itself and not allow the user to use it.|Yes|?|
 `configTTL`| 2419200 |The 'time to live' (in seconds) tells the app how old a configuration may be. If the app has no way to refresh the config and the config is older than this, the user will get a message telling them to go online first.|Yes|?|
 `configMinimumIntervalSeconds`| 43200 |The minimum amount of seconds that must be between two config fetches. The app will opportunistically refresh its config when you open it and there's a connection, unless the config was fetched less than this amount of seconds ago.|Yes|?|
-`upgradeRecommendationInterval`| 24 |This one is used to only show the recommended upgrade popup once every upgradeRecommendationInterval hours|Yes|No|No
+`upgradeRecommendationInterval`| 24 |This one is used to only show the recommended upgrade popup once every upgradeRecommendationInterval hours|Yes|No|
 `maxValidityHours`| 24 |Deprecated way to specify validity in hours. Is no longer used.|No|No|Yes
 `informationURL`| "https://coronacheck.nl" |Deprecated, used to indicate the url of the CoronaCheck website. This info is now taken from the translation tool.|No|No|Yes
 `requireUpdateBefore`| 1620781181 |This value was added for future use but was never actually implemented. The idea was: If there's a required upgrade, this setting indicates by when the user should upgrade. If this is in the future, then the message telling the user their app is too old will be postponed until this moment, and they will only get a warning first|No|No|Yes
-`ggdEnabled`| true |When this is enabled, the user is presented with a selection screen to select testing GGD or other locations. When this is disabled, the user is directly taken to the other locations|Yes|No|No
+`ggdEnabled`| true |When this is enabled, the user is presented with a selection screen to select testing GGD or other locations. When this is disabled, the user is directly taken to the other locations|Yes|No|
 `euLaunchDate`| "2021-06-30T22:00:00Z" |The date the EU DCC goes into effect. If the app is started before this date, a countdown to the EU Launch Date is shown|No|No|Yes
 `recoveryGreencardRevised-`<br/>`ValidityLaunchDate`| "2021-11-04T22:00:00Z" |When recovery cards validity is changed, this date will tell the app when that change will go into effect.|Yes|?|
 `temporarilyDisabled`| false |This was intended for future use but was not yet implemented. The idea was that the setting can tenporarily disable the app. Unlinke the kill switch (`appDeactivated`) this is temporary and the message telling the user that the app is disabled will reflect that.|No|No|Yes
 `vaccinationEventValidity`| 14600 |How long (in hours) a vaccination event will be stored in the app. This is deprecated, the apps now use vaccinationEventValidityDays instead.|No|No|Yes
-`vaccinationEventValidityDays`| 730 |How long (in days) a vaccination event will be stored in the app.|Yes|No|No
+`vaccinationEventValidityDays`| 730 |How long (in days) a vaccination event will be stored in the app.|Yes|No|
 `recoveryEventValidity`| 8760 |How long (in hours) a recovery event will be stored in the app. This is deprecated, the apps now use recoveryEventValidityDays instead.|Yes|No|No
-`recoveryEventValidityDays`| 365 |How long (in days) a recovery event will be stored in the app.|Yes|No|No
+`recoveryEventValidityDays`| 365 |How long (in days) a recovery event will be stored in the app.|Yes|No|
 `recoveryExpirationDays`| 180 |How long (in days) a recovery QR will remain valid. This is deprecated, the apps now use recoveryEventValidityDays.|No|No|Yes
 `testEventValidity`| 96 |How long (in hours) a test event will be stores in the app. It will be deleted if it's older than this|?|?|Yes
 `testEventValidityHours`| 96 |How long (in hours) a test event will be stores in the app. It will be deleted if it's older than this|?|?|
