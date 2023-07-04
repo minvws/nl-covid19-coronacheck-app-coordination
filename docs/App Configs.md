@@ -2,6 +2,8 @@
 
 This document provides an overview of the configuration values that the CoronaCheck apps use.
 
+NOTE: Most of these configuration values have only been used up to the 4.x releases of the app. In release 5.0, we introduced an archive mode and adding new certificates is no longer possible. This makes most of the config values here obsolete, but we keep the documentation in case the code will be used in the future.
+
 ## Holder app
 
 Setting | Example | Description | Apps | Web | Depre<br/>cated?
