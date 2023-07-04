@@ -28,7 +28,7 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `vaccinationEventValidityDays`| 730 |How long (in days) a vaccination event will be stored in the app.|Yes|No|No
 `recoveryEventValidity`| 8760 |How long (in hours) a recovery event will be stored in the app. This is deprecated, the apps now use recoveryEventValidityDays instead.|Yes|No|No
 `recoveryEventValidityDays`| 365 |How long (in days) a recovery event will be stored in the app.|Yes|No|No
-`recoveryExpirationDays`| 180 |How long (in days) a recovery QR will remain valid. The app will show the user when their recovery expires, based on this.|Yes|?|
+`recoveryExpirationDays`| 180 |How long (in days) a recovery QR will remain valid. This is deprecated, the apps now use recoveryEventValidityDays.|No|No|Yes
 `testEventValidity`| 96 |How long (in hours) a test event will be stores in the app. It will be deleted if it's older than this|?|?|Yes
 `testEventValidityHours`| 96 |How long (in hours) a test event will be stores in the app. It will be deleted if it's older than this|?|?|
 `domesticCredentialValidity`| 24 |How long a domestic QR will be valid. (Strippenkaart model strip size)|Yes|No|
