@@ -9,7 +9,6 @@ Setting | Example | Description | Apps | Web | Depre<br/>cated?
 `androidMinimumVersion`| 2137 |The mininum version (build number) that an Android user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|Yes|No|
 `androidRecommendedVersion`| 2137 |The recommended version (build number) that an Android user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|Yes|No|
 `androidMinimumVersionMessage`| "Om de app te gebruiken heb<br/> je de laatste versie uit de store nodig." |The message that the user will see if they don't have the minimum required version|Yes|No|
-`playStoreURL`| "https://play.google.com/store<br/>/apps/details?id=nl.rijksoverheid.ctr.holder" |The url of the app in the play store. The user will be directed here for upgrades.|Yes|No|
 `iosMinimumVersion`| "2.3.1" |The mininum version that an iOS user should have. If the user has a version smaller than this, they can't use the app until they upgrade.|Yes|No|
 `iosRecommendedVersion`| "2.3.1" |The recommended version that an iOS user should have. If the user has a version smaller than this, they get a pop-up telling them they can upgrade via the store.|Yes|No|
 `iosMinimumVersionMessage`| "Om de app te gebruiken heb<br/>je de laatste versie uit de store nodig." |The message that the user will see if they don't have the minimum required version|Yes|No|
