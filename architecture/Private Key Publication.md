@@ -116,10 +116,6 @@ For medical certificates where repudiation at a later date is important, one mig
 [5]		I.B. Mobach. [CoronaCheck Security Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Security%20Architecture.md), 2021
 [6]		K.J. Wu. [People are keeping their vaccines secret](https://www.theatlantic.com/health/archive/2021/03/covid-vaccine-secrecy/618253/), 2021
 
-[^1]: A CMS (Cryptographic Message Syntax) signature is an IETF standard for digitally signing a message in such a way that a recipient can verify that it originated from a particular sender and was not tampered with after applying the signature., 
-
- 						
-					 				
-			
+[^1]: A CMS (Cryptographic Message Syntax) signature is an IETF standard for digitally signing a message in such a way that a recipient can verify that it originated from a particular sender and was not tampered with after applying the signature.		
 		
 
