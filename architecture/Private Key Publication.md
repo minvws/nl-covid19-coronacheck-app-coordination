@@ -59,7 +59,7 @@ The CL signature scheme supports multiple key types and key sizes. For the CTB a
 
 The process of obtaining a CTB was as follows:
 A provider of medical services (vaccinations and/or COVID tests) would generate a 'record' which proved that a person was either tested negatively, had COVID in the past, or was vaccinated. This record contained only the details that were necessary to establish if a person was eligible for a CTB.
-This record was digitally signed using a CMS signature by the provider.
+This record was digitally signed using a CMS[^1] signature by the provider.
 The Ministry of Health, Welfare and Sports ran a 'signer' service which evaluated the record against a set of business rules that established eligibility. 
 If eligible, the Ministry would issue a CTB using the current 1024 bit RSA private key to sign the CTB.
 A verifier would check the signature against the public key of the key pair, which was published as part of the verifier configuration. The verifier configuration itself was signed with a CMS signature so that a root of trust was established and the verifier knew that the public key was authentic. 
@@ -116,6 +116,7 @@ For medical certificates where repudiation at a later date is important, one mig
 [5]		I.B. Mobach. [CoronaCheck Security Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Security%20Architecture.md), 2021
 [6]		K.J. Wu. [People are keeping their vaccines secret](https://www.theatlantic.com/health/archive/2021/03/covid-vaccine-secrecy/618253/), 2021
 
+[^1]: A CMS (Cryptographic Message Syntax) signature is an IETF standard for digitally signing a message in such a way that a recipient can verify that it originated from a particular sender and was not tampered with after applying the signature., 
 
  						
 					 				
