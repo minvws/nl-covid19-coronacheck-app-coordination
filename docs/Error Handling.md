@@ -36,12 +36,13 @@ Holder:
 * hkvi / dcc scan flow: 5
 * QR flow: 6
 * upgradeEUVaccination: 7
-* positive test: 8
+* positive test (during vaccination flow): 8
 * tourist pass: 9
-* vaccination BES islands: 10
+* vaccination using MijnCN: 10
 * clear events flow: 11
 * dashboard: 12
 * fuzzy matching: 13
+* migration: 14
 
 Verifier:
 * launch / startup flow: 0
@@ -173,6 +174,22 @@ Known step lists
 
 * show: 10
 
+### UpgradeEUVaccination (flow 7)
+
+* tbd
+
+### Positive test (during vaccination) (flow 8)
+
+* tbd
+
+### Tourist pass (flow 9)
+
+* tbd
+
+### Vaccination using MijnCN (flow 10)
+
+* tbd
+
 ### Clear Events (flow 11)
 
 * removing event group: 10
@@ -183,6 +200,17 @@ Known step lists
 * prepare issue call: 70
 * signer call: 80
 * storing credentials: 90
+
+### Migration (flow 14)
+
+* import (to this device): 10
+* export (to other device): 20
+
+### PDF Export (flow 15)
+
+* creating PDF: 10
+
+
 
 ## Verifier app
 
@@ -245,7 +273,7 @@ voorzet, todo android/ios/web devs.
 * 0514: signer returned blocked event
 
 ## 06h - SQL failures
- 
+
 * 060: Integrity constraint violation
 * 061: No greenCards available
 * 062: Error fetching objects from CoreData
@@ -296,13 +324,13 @@ voorzet, todo android/ios/web devs.
     * 074-4004: Unknown error
 
 ## 08h - Provider failures
- 
+
   * 080: No providers for negative test available
   * 081: No providers for recovery or positive test available
   * 082: No providers for vaccination available
 
 ## 09h - MobileCore scan failures
- 
+
   * 090: No public keys provided to MobileCore library
   * 091: No risk setting provided to MobileCore library
   * 092: No default verification policy in configuration
@@ -315,13 +343,31 @@ voorzet, todo android/ios/web devs.
   * 102: failed to persist identity
   * 103: failed to remove event groups
 
+## 11h - Migration Errors
+
+  * 110: compression (GZIP) error
+  * 111: other error
+  * 112: invalid version of data
+  * 113: invalid number of packages
+  * 114: decoding error
+
+## 11h - PDF Export Errors
+
+  * 120: wrong file path
+  * 121: failed to load file
+  * 122: failed to create PDF
+  * 123: failed to save PDF
+  * 124: No DDC to export
+
+
+
 # Appendix C
 
 CoronaCheck server side error codes
 
 * 99701: Connection error to business rule engine
 * 99702: Server Exception from business rule engine
-* 99702: Emtpy response from business rule engine
+* 99703: Emtpy response from business rule engine
 * 99704: Bad Request to business rule engine
 * 99705: Unexpected response from business rule engine
 * 99706: Incomplete response from business rule engine
