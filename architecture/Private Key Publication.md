@@ -29,7 +29,8 @@ In this paper we make the case that the use of non-refutable signatures for medi
     + [2.1 Lifting non-repudiation](#21-lifting-non-repudiation)
     + [2.2 Proof of key quality](#22-proof-of-key-quality)
   * [3. Thoughts on the use of Hardware Security Modules](#3-thoughts-on-the-use-of-hardware-security-modules)
-  * [4. References](#4-references)
+  * [4. Publication of the keys](#4-publication-of-the-keys)
+  * [5. References](#5-references)
 
 <!-- TOC end -->	
 
@@ -49,7 +50,7 @@ For reasons of inclusivity, the QR codes of the CTB were also available on paper
 
 ### 1.2 Why did the CTB use CL signatures?
 
-To allow the scanner to validate whether a QR code was authentic, it was digitally signed. The CTB used Camenisch-Lysyanskaya [4] signatures, which provided 'multishow unlinkability' to the CTB: the digital signature was randomized in such a way that multiple scans of the same proof would yield different signatures, which could all be verified for authenticity, while not being linkable [5].
+To allow the scanner to validate whether a QR code was authentic, it was digitally signed. The CTB used Camenisch-Lysyanskaya [5] signatures, which provided 'multishow unlinkability' to the CTB: the digital signature was randomized in such a way that multiple scans of the same proof would yield different signatures, which could all be verified for authenticity, while not being linkable [5].
 
 ### 1.3 Key types and sizes
 
@@ -107,7 +108,11 @@ To make certificates repudiable that were signed using keys that are stored in a
 
 For medical certificates where repudiation at a later date is important, one might consider ensuring that the keys are exportable. This requires alternative security measures to be put in place to ensure the security of the private key.  
 
-## 4. References
+## 4. Publication of the Keys
+
+The published keys can be found in the [key_transparency](../key_transparency/) folder of this repository.
+
+## 5. References
 
 [1]		I. Jansch. [CoronaCheck Solution Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Solution%20Architecture.md), 2021
 [2]		T. Harreveld & I. Jansch. [Privacy Preserving Green Card](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Privacy%20Preserving%20Green%20Card.md), 2021
