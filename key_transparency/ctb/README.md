@@ -4,7 +4,7 @@ This folder contains the public and private keys that were used to create CTB QR
 
 An explanation of the CoronaCheck eco system can be found in the [Solution Architecture](../../architecture/Solution%20Architecture.md) document.
 
-The keys can be created using standard idemix tooling, such as the [IRMA (now Yivi)](https://irma.app/docs/irma-cli/)  command line interface:
+The keys can be created using standard idemix tooling. These keys were created using the [IRMA (now Yivi)](https://irma.app/docs/irma-cli/)  command line interface:
 ```bash
 irma issuer keygen --keylength 1024
 ```
