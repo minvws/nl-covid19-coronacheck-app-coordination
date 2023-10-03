@@ -1,6 +1,6 @@
 # Corona Access Pass (CTB) Idemix Keys
 
-This folder contains the public and private keys that were used to create CTB QR codes. An explanation of why these are published can be found in the architecture folder under ['Private Key Publication'](../../architecture/Private%20Key%20Publication.md)
+This folder contains the public and private keys that were used to create (production) CTB QR codes. An explanation of why these are published can be found in the architecture folder under ['Private Key Publication'](../../architecture/Private%20Key%20Publication.md)
 
 An explanation of the CoronaCheck eco system can be found in the [Solution Architecture](../../architecture/Solution%20Architecture.md) document.
 

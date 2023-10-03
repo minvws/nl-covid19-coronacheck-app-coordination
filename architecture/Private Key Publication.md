@@ -50,7 +50,7 @@ For reasons of inclusivity, the QR codes of the CTB were also available on paper
 
 ### 1.2 Why did the CTB use CL signatures?
 
-To allow the scanner to validate whether a QR code was authentic, it was digitally signed. The CTB used Camenisch-Lysyanskaya [4] signatures, which provided 'multishow unlinkability' to the CTB: the digital signature was randomized in such a way that multiple scans of the same proof would yield different signatures, which could all be verified for authenticity, while not being linkable [5].
+To allow the scanner to validate whether a QR code was authentic, it was digitally signed. The CTB used Camenisch-Lysyanskaya [5] signatures, which provided 'multishow unlinkability' to the CTB: the digital signature was randomized in such a way that multiple scans of the same proof would yield different signatures, which could all be verified for authenticity, while not being linkable [5].
 
 ### 1.3 Key types and sizes
 
