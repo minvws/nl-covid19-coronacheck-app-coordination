@@ -29,7 +29,8 @@ In this paper we make the case that the use of non-refutable signatures for medi
     + [2.1 Lifting non-repudiation](#21-lifting-non-repudiation)
     + [2.2 Proof of key quality](#22-proof-of-key-quality)
   * [3. Thoughts on the use of Hardware Security Modules](#3-thoughts-on-the-use-of-hardware-security-modules)
-  * [4. References](#4-references)
+  * [4. Publication of the keys](#4-publication-of-the-keys)
+  * [5. References](#5-references)
 
 <!-- TOC end -->	
 
@@ -107,7 +108,11 @@ To make certificates repudiable that were signed using keys that are stored in a
 
 For medical certificates where repudiation at a later date is important, one might consider ensuring that the keys are exportable. This requires alternative security measures to be put in place to ensure the security of the private key.  
 
-## 4. References
+## 4. Publication of the Keys
+
+The published keys can be found in the [key_transparency](../key_transparency/) folder of this repository.
+
+## 5. References
 
 [1]		I. Jansch. [CoronaCheck Solution Architecture](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Solution%20Architecture.md), 2021
 [2]		T. Harreveld & I. Jansch. [Privacy Preserving Green Card](https://github.com/minvws/nl-covid19-coronacheck-app-coordination/blob/main/architecture/Privacy%20Preserving%20Green%20Card.md), 2021
